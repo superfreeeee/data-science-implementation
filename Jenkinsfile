@@ -43,10 +43,10 @@ pipeline {
             }
         }
 
-        stage('Test'){
-            steps{
-            }
-        }
+        //stage('Test'){
+          //  steps{
+            //}
+        //}
 
         stage('Deliver'){
             steps{
