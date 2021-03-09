@@ -47,10 +47,12 @@ pipeline {
         }
 
         stage('Deliver'){
-            sh 'cp -r ./dist /usr/share/nginx/html'
-            sh 'tar -czf dist.tar.gz ./dist'
-            stash 'dist.tar.gz'
-            archiveArtifacts artifacts: 'dist.tar.gz', fingerprint: true
+            steps{
+                sh 'cp -r ./dist /usr/share/nginx/html'
+                    sh 'tar -czf dist.tar.gz ./dist'
+                    stash 'dist.tar.gz'
+                    archiveArtifacts artifacts: 'dist.tar.gz', fingerprint: true
+            }
         }
     }
 }
