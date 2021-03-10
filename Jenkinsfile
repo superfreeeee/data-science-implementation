@@ -38,7 +38,7 @@ pipeline {
 
         stage('Deliver'){
             steps{
-                sh 'cp -r ./dist /usr/share/nginx/html'
+                sh 'sudo cp -r ./dist /usr/share/nginx/html'
                 //sh 'tar -czf dist.tar.gz ./dist'
                 //stash 'dist.tar.gz'
                 //archiveArtifacts artifacts: 'dist.tar.gz', fingerprint: true
