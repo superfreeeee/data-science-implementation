@@ -1,4 +1,7 @@
 pipeline {
+    agent {
+        label 'master'
+    }
 
     environment {
         JOB_NAME = 'frontend-trillioncoin'
