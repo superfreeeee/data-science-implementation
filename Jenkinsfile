@@ -17,7 +17,6 @@ pipeline {
               //  git credentialsId: '3cb4c817-d3b4-41d6-b573-1f352480ebb2', url: 'http://212.129.149.40/181250094_trillioncoin/frontend-trillioncoin.git'
 
             //}
-
         //}
 
         stage('Build') {
