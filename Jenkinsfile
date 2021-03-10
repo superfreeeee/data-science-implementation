@@ -20,12 +20,12 @@ pipeline {
                     sh "echo BUILD_NUMBER : ${env.BUILD_NUMBER}"
                     sh "echo JOB_NAME : ${env.JOB_NAME}"
                     sh "cd $WORKSPACE; rm -rf node_modules ; rm -f package-lock.json"
-                    sh 'npm cache clear --force'
+                    sh 'cnpm cache clear --force'
 
                     echo 'NPM Install...'
 
-                    sh 'npm i --legacy-peer-deps'
-                    sh 'npm run build'
+                    sh 'cnpm install'
+                    sh 'cnpm run build'
                 }
             }
         }
