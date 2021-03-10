@@ -7,7 +7,6 @@ pipeline {
 
     stages {
         //stage('Pull code'){
-
           //  steps {
                 // Get branch lastest code from a GitHub repository
             //    echo 'pull code start: get latest code'
