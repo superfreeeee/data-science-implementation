@@ -7,7 +7,6 @@ pipeline {
 
     stages {
         stage('Build') {
-
             steps {
                 script {
                     echo "开始构建"
