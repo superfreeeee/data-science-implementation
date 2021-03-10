@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        label 'master'
-    }
+    agent any
 
     environment {
         JOB_NAME = 'frontend-trillioncoin'
@@ -32,7 +30,7 @@ pipeline {
                     sh "echo GIT_BRANCH : ${env.GIT_BRANCH}"
                     sh "echo BUILD_NUMBER : ${env.BUILD_NUMBER}"
                     sh "echo JOB_NAME : ${env.JOB_NAME}"
-                    sh "cd $WORKSPACE; rm -rf node_modules ; rm -f package-lock.json'"
+                    sh "cd $WORKSPACE; rm -rf node_modules ; rm -f package-lock.json"
                     sh 'npm cache clear --force'
 
                     echo 'NPM Install...'
