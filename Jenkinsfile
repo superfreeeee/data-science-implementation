@@ -48,7 +48,6 @@ pipeline {
             //}
         //}
 
-
         stage('Deliver'){
             steps{
                 sh 'cp -r ./dist /usr/share/nginx/html'
