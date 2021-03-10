@@ -6,7 +6,6 @@ pipeline {
     }
 
     stages {
-
         stage('Build') {
 
             steps {
@@ -38,7 +37,8 @@ pipeline {
 
         stage('Deliver'){
             steps{
-                sh 'sudo cp -r ./dist /usr/share/nginx/html'
+                sh 'sudo cp -r ./dist/* /usr/share/nginx/html'
+                sh 'sudo service nginx restart'
                 //sh 'tar -czf dist.tar.gz ./dist'
                 //stash 'dist.tar.gz'
                 //archiveArtifacts artifacts: 'dist.tar.gz', fingerprint: true
