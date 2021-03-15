@@ -1,12 +1,17 @@
-import Vue from 'vue'
+import Vue from 'vue/dist/vue.esm.js'
+
 import App from './App.vue'
-import router from './router'
-import store from './store'
+import router from './router/index'
+
+import iView from 'iview'
+import 'iview/dist/styles/iview.css'
+
+import Router from 'vue-router'
 
 Vue.config.productionTip = false
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+Vue.use(iView)
+
+Vue.use(Router)
+
+new Vue({ router: router, render: h => h(App) }).$mount('#app')
