@@ -12,17 +12,12 @@
     "ant-design-vue": "^1.7.4",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
-<<<<<<< HEAD
-    "cytoscape": "^3.18.1",
-    "html2canvas": "^1.0.0-rc.7",
-=======
     "cytoscape": "^3.8.2",
     "cytoscape-avsdf": "^1.0.0",
     "cytoscape-cola": "^2.4.0",
     "cytoscape-cose-bilkent": "^4.1.0",
     "cytoscape-cxtmenu": "^3.4.0",
     "iview": "^3.5.4",
->>>>>>> dcc602531b62f5e3d37433263d98fb822736e39c
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vuex": "^3.4.0"
