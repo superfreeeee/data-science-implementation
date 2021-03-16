@@ -24,12 +24,18 @@
 <template>
   <div id="box">
     <h1>demo</h1>
-    <div id="cy"></div>
+    <div id="cy"  ref="capture" ></div>
+    <div>
+    <a-button type="primary"  @click="test">Button</a-button>
+    <a-button type="primary"  @click="generatorImage" >save</a-button>
+    </div>
   </div>
 </template>
 
 <script>
 import cytoscape from 'cytoscape'
+import {getListAPI, postFormAPI} from './api/api'
+import html2canvas from 'html2canvas'
 
 export default {
   name: 'cytoscape',
@@ -148,7 +154,25 @@ export default {
           edges: this.edges
         }
       })
-    }
+    },
+    test(){
+      getListAPI().then(res => console.log(res)).catch(err => console.log(err))
+    },
+    generatorImage() {
+      html2canvas(this.$refs.capture).then(canvas => {
+        // this.$refs.addImage.append(canvas);//在下面添加canvas节点
+        let link = document.createElement("a");
+        link.href = canvas.toDataURL();//下载链接
+        link.setAttribute("download","test.png");
+        link.style.display = "none";//a标签隐藏
+        document.body.appendChild(link);
+        link.click();
+      });
+    },
+    postForm(formData) {
+      let data = formData
+      postFormAPI(data).then(res => console.log(res)).catch(err => console.log(err))
+    },
   },
   mounted () {
     this.createCytoscape()
