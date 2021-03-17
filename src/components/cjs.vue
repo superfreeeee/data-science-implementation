@@ -26,8 +26,8 @@
     list-style-type: none;
     margin: 0;
     padding: 0;
-    width: 10%;
-    background-color: #efefef;
+    width: 5%;
+    background-color: #8B8386;
     position: fixed;
     height: 100%;
     overflow: auto;
@@ -42,52 +42,52 @@
       <!--    顶部导航栏-->
       <div class="tools">
         <div class="center-center">
-          <Icon style="font-size: 32px; cursor: pointer;" title="放大" type="ios-add-circle-outline" @click="magnifying()"/>
+          <Icon style="font-size: 32px; cursor: pointer;" title="放大" type="ios-add-circle-outline" color="white" @click="magnifying()"/>
         </div>
       </div>
       <div class="tools">
         <div class="center-center">
-          <Icon style="font-size: 32px; cursor: pointer;" title="缩小" type="ios-remove-circle-outline" @click="contractible()"/>
+          <Icon style="font-size: 32px; cursor: pointer;" title="缩小" type="ios-remove-circle-outline" color="white" @click="contractible()"/>
         </div>
       </div>
       <div class="tools">
         <div class="center-center">
-          <Icon style="font-size: 32px; cursor: pointer;" title="合适大小" type="ios-resize" @click="resize()"/>
+          <Icon style="font-size: 32px; cursor: pointer;" title="合适大小" type="ios-resize" color="white" @click="resize()"/>
         </div>
       </div>
       <div class="tools">
         <div class="center-center">
-          <Icon style="font-size: 32px; cursor: pointer;" title="高亮邻居" type="ios-color-wand-outline" @click="highlight()"/>
+          <Icon style="font-size: 32px; cursor: pointer;" title="高亮邻居" type="ios-color-wand-outline" color="white" @click="highlight()"/>
         </div>
       </div>
       <div class="tools">
         <div class="center-center">
-          <Icon style="font-size: 32px; cursor: pointer;" title="刷新布局" type="ios-sync" @click="refresh({name: 'cola'})"/>
+          <Icon style="font-size: 32px; cursor: pointer;" title="刷新布局" type="ios-sync" color="white" @click="refresh({name: 'cola'})"/>
         </div>
       </div>
       <div class="tools">
         <div class="center-center">
-          <Icon style="font-size: 32px; cursor: pointer;" title="网格布局" type="ios-apps-outline" @click="refresh({name: 'grid'})"/>
+          <Icon style="font-size: 32px; cursor: pointer;" title="网格布局" type="ios-apps-outline" color="white" @click="refresh({name: 'grid'})"/>
         </div>
       </div>
       <div class="tools">
         <div class="center-center">
-          <Icon style="font-size: 32px; cursor: pointer;" title="环形布局" type="ios-globe-outline" @click="refresh({name: 'circle'})"/>
+          <Icon style="font-size: 32px; cursor: pointer;" title="环形布局" type="ios-globe-outline" color="white" @click="refresh({name: 'circle'})"/>
         </div>
       </div>
       <div class="tools">
         <div class="center-center">
-          <Icon style="font-size: 32px; cursor: pointer;" title="局部导出" type="ios-crop-outline" @click="exportCutPngAndWatermark()"/>
+          <Icon style="font-size: 32px; cursor: pointer;" title="局部导出" type="ios-crop-outline" color="white" @click="exportCutPngAndWatermark()"/>
         </div>
       </div>
       <div class="tools">
         <div class="center-center">
-          <Icon style="font-size: 32px; cursor: pointer;" title="全图导出" type="ios-reverse-camera-outline" @click="exportPngAndWatermark()"/>
+          <Icon style="font-size: 32px; cursor: pointer;" title="全图导出" type="ios-reverse-camera-outline" color="white" @click="exportPngAndWatermark()"/>
         </div>
       </div>
     </div>
     <!--    知识图谱-->
-    <div id="cytoscape_id" style="height: 100%; margin-left: 10%; z-index: 1;"></div>
+    <div id="cytoscape_id" style="height: 100%; margin-left: 8%; z-index: 1;background-color: white;;"></div>
 
   </div>
 </template>
@@ -170,22 +170,22 @@ export default {
 
     })
 
-    // Cxtmenu圆形菜单--开始
+    // Cxtmenu圆形菜单--节点
     this.$cy.cxtmenu({
       menuRadius: 80, // the radius of the circular menu in pixels
       selector: 'node', // elements matching this Cytoscape.js selector will trigger cxtmenus
       // eslint-disable-next-line no-unused-vars
       commands: (element) => {
         return [
-          {
-            fillColor: 'rgba(200, 200, 200, 0.75)', // optional: custom background color for item
-            content: '<span class="fa fa-flash fa-2x">导出图片</span>', // html/text content to be displayed in the menu
-            contentStyle: {}, // css key:value pairs to set the command's css in js if you want
-            select: function (ele) { // a function to execute when the command is selected
-              alert(ele.id()) // `ele` holds the reference to the active element
-            },
-            enabled: true // whether the command is selectable
-          },
+          // {
+          //   fillColor: 'rgba(200, 200, 200, 0.75)', // optional: custom background color for item
+          //   content: '<span class="fa fa-flash fa-2x">导出图片</span>', // html/text content to be displayed in the menu
+          //   contentStyle: {}, // css key:value pairs to set the command's css in js if you want
+          //   select: function (ele) { // a function to execute when the command is selected
+          //     alert(ele.id()) // `ele` holds the reference to the active element
+          //   },
+          //   enabled: true // whether the command is selectable
+          // },
           {
             fillColor: 'rgba(200, 200, 200, 0.75)', // optional: custom background color for item
             content: '<span class="fa fa-flash fa-2x">删除节点</span>', // html/text content to be displayed in the menu
@@ -209,13 +209,55 @@ export default {
             // contentStyle: {}, // css key:value pairs to set the command's css in js if you want
             select: (ele) => this.changeData([ele.id()]), // a function to execute when the command is selected
             enabled: true // whether the command is selectable
+          }
+          // {
+          //   // fillColor: 'rgba(200, 200, 200, 0.75)', // optional: custom background color for item
+          //   content: '禁用', // html/text content to be displayed in the menu
+          //   // contentStyle: {}, // css key:value pairs to set the command's css in js if you want
+          //   select: (ele) => alert(ele.id()), // a function to execute when the command is selected
+          //   enabled: false // whether the command is selectable
+          // }
+        ]
+      },
+      fillColor: 'rgba(0, 0, 0, 0.75)', // 指令默认颜色(the background colour of the menu)
+      activeFillColor: 'rgba(1, 105, 217, 0.75)', // 所选指令的颜色(the colour used to indicate the selected command)
+      activePadding: 10, // additional size in pixels for the active command
+      indicatorSize: 14, // the size in pixels of the pointer to the active command
+      separatorWidth: 4, // 连续命令之间的空白间隔(以像素为单位)
+      spotlightPadding: 10, // 元素和聚光灯之间的额外间距(以像素为单位)
+      minSpotlightRadius: 10, // the minimum radius in pixels of the spotlight
+      maxSpotlightRadius: 14, // the maximum radius in pixels of the spotlight
+      openMenuEvents: 'cxttapstart taphold', // space-separated cytoscape events that will open the menu; only `cxttapstart` and/or `taphold` work here
+      itemColor: 'white', // 各指令元素内字体颜色
+      itemTextShadowColor: 'red', // 各指令元素内字体阴影颜色
+      zIndex: 9999, // the z-index of the ui div
+      atMouse: true // draw menu at mouse position
+    })
+    // 边删除、修改
+    this.$cy.cxtmenu({
+      menuRadius: 40, // the radius of the circular menu in pixels
+      selector: 'edge', // elements matching this Cytoscape.js selector will trigger cxtmenus
+      // eslint-disable-next-line no-unused-vars
+      commands: (element) => {
+        return [
+          {
+            fillColor: 'rgba(200, 200, 200, 0.75)', // optional: custom background color for item
+            content: '<span class="fa fa-flash fa-2x">删除</span>', // html/text content to be displayed in the menu
+            contentStyle: {}, // css key:value pairs to set the command's css in js if you want
+            select: function (ele) { // a function to execute when the command is selected
+              console.log(ele)
+              ele.remove() // `ele` holds the reference to the active element
+            },
+            enabled: true // whether the command is selectable
           },
           {
-            // fillColor: 'rgba(200, 200, 200, 0.75)', // optional: custom background color for item
-            content: '禁用', // html/text content to be displayed in the menu
-            // contentStyle: {}, // css key:value pairs to set the command's css in js if you want
-            select: (ele) => alert(ele.id()), // a function to execute when the command is selected
-            enabled: false // whether the command is selectable
+            fillColor: 'rgba(200, 200, 200, 0.75)', // optional: custom background color for item
+            content: '<span class="fa fa-flash fa-2x">修改</span>', // html/text content to be displayed in the menu
+            contentStyle: {}, // css key:value pairs to set the command's css in js if you want
+            select: function (ele) { // a function to execute when the command is selected
+              console.log(ele.data().name)
+            },
+            enabled: true // whether the command is selectable
           }
         ]
       },
@@ -233,24 +275,20 @@ export default {
       zIndex: 9999, // the z-index of the ui div
       atMouse: true // draw menu at mouse position
     })
-    // Cxtmenu圆形菜单--结束
     // 通用的样式
     this.$cy.style()
     /* 未选择节点样式 */
       .selector('node')
       .style({
         // content: 'data(id)',
-        // 'text-opacity': 0.5,
-        // height: 40,
-        // width: 40,
         'pie-size': '100%',
         'text-valign': 'center',
-        'text-halign': 'left',
-        'pie-color': '#9dbaea',
+        'text-halign': 'center',
         label: 'data(name)',
         'font-size': '10pt',
-        width: '12pt',
-        height: '12pt'
+        width: '40pt',
+        height: '40pt',
+        'background-color': '#fce9cc'
       })
     /* 已选择节点样式 */
       .selector('node:selected')
@@ -259,16 +297,16 @@ export default {
       .selector('edge')
       .style({
         label: 'data(name)',
-        'target-arrow-shape': 'triangle-backcurve', /* 箭头样式 */
+        'target-arrow-shape': 'triangle', /* 箭头样式 */
         'target-arrow-size': '1px', /* 箭头大小 */
-        'target-arrow-color': '#999999', /* 箭头颜色 */
+        'target-arrow-color': 'rgba(230,230,250,0.9)', /* 箭头颜色 */
         'curve-style': 'bezier', /* 线条样式曲线 */
-        'line-color': '#999999', /* 线条颜色 */
-        width: '3px', /* 线条宽度 */
+        'line-color': 'rgba(230,230,250,0.9)', /* 线条颜色 */
+        width: '1px', /* 线条宽度 */
         'font-size': '10px', /* 标签字体大小 */
         color: '#000000', /* 标签字体大小 */
-        'text-outline-color': 'white', /* 文本轮廓颜色 */
-        'text-outline-width': '1px', /* 文本轮廓宽度 */
+        // 'text-outline-color': 'white', /* 文本轮廓颜色 */
+        // 'text-outline-width': '0.5px', /* 文本轮廓宽度 */
         'text-rotation': 'autorotate' /* 标签方向 */
       })
     /* 已选择节点样式 */

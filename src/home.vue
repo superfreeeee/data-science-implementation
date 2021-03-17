@@ -1,10 +1,12 @@
-<template>
-  <div style="height: 100%; width: 100%">
+<template xmlns:a-form="http://www.w3.org/1999/xhtml">
+  <div style="height: 100%; width: 100%;">
     <div style="position: fixed; right: 40pt;bottom: 30pt; z-index: 99999;">
-      <Button size="middle" @click="addEles">添加</Button>
+      <Button size="middle" @click="addNodes">添加节点</Button>
+      <Button size="middle" @click="addEdges">添加边</Button>
       <Button size="middle" @click="delEles">删除</Button>
       <Button size="middle" @click="test_api">测试接口</Button>
-      <div class="change_form">
+      <div class="change_form" >
+        <a-modal :visible="addNodeFormVisible" title="增加节点" @cancel="cancelAddNode" @ok="addNode">
         <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }" @submit="addNode" >
           <a-form-item label="name">
             <a-input
@@ -16,13 +18,36 @@
               v-decorator="['property', { rules: [{ required: false, message: 'choose to input property of the node!' }] }]"
             />
           </a-form-item>
-          <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
-            <a-button type="primary" html-type="submit">
-              增加node
-            </a-button>
+<!--          <a-form-item :wrapper-col="{ span: 12, offset: 5 }">-->
+<!--            <a-button type="primary" html-type="submit">-->
+<!--              增加node-->
+<!--            </a-button>-->
+<!--          </a-form-item>-->
+        </a-form>
+        </a-modal>
+      </div>
+      <a-modal :visible="addEdgeFormVisible" title="增加边" @cancel="cancelAddEdge" @ok="addEdge">
+        <a-form :form="edgeForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
+          <a-form-item label="name">
+            <a-input
+              v-decorator="['name', { rules: [{ required: true, message: 'Please input name of the node!' }] }]"
+            />
+          </a-form-item>
+          <a-form-item label="property">
+            <a-input
+              v-decorator="['property', { rules: [{ required: false, message: 'choose to input property of the node!' }] }]"
+            />
+          </a-form-item>
+          <a-form-item label="sourceNode">
+            <a-input
+              v-decorator="['sourceNode',{rules:[{required:true,message:'please input the sourceNode!'}]}]"></a-input>
+          </a-form-item>
+          <a-form-item label="endNode">
+            <a-input
+              v-decorator="['endNode',{rules:[{required:true,message:'please input the endNode!'}]}]"></a-input>
           </a-form-item>
         </a-form>
-      </div>
+      </a-modal>
     </div>
     <CJS ref="ref_CJS"></CJS>
   </div>
@@ -42,7 +67,10 @@ export default {
   data () {
     return {
       formLayout: 'horizontal',
-      form: this.$form.createForm(this, { name: 'coordinated' })
+      form: this.$form.createForm(this, { name: 'coordinated' }),
+      addNodeFormVisible: false,
+      addEdgeFormVisible: false,
+      edgeForm: this.$form.createForm(this, { name: 'coordinated' })
     }
   },
   methods: {
@@ -74,6 +102,7 @@ export default {
       getListAPI('').then(res => console.log(res)).catch(err => console.log(err))
     },
     addNode (e) {
+      console.log(e)
       e.preventDefault()
       this.form.validateFields((err, values) => {
         if (!err) {
@@ -101,6 +130,55 @@ export default {
           ele
         ])
       })
+      this.addNodeFormVisible = false
+      this.form.resetFields()
+    },
+    addEdge (e) {
+      console.log(e)
+      e.preventDefault()
+      this.edgeForm.validateFields((err, values) => {
+        if (!err) {
+          console.log('Received values of form: ', values)
+        }
+        const edgeData = {
+          name: values.name,
+          property: values.property,
+          sourceNode: values.sourceNode,
+          endNode: values.endNode
+        }
+        const ele = {
+          group: 'edges',
+          data: {
+            id: '9',
+            name: edgeData.name,
+            source: edgeData.sourceNode,
+            target: edgeData.endNode
+          }
+        }
+        this.$refs.ref_CJS.addEles([
+          ele
+        ])
+      })
+      this.addEdgeFormVisible = false
+      this.edgeForm.resetFields()
+    },
+    // 点击添加节点跳出表单
+    addNodes () {
+      this.addNodeFormVisible = true
+    },
+    // 点击添加边跳出表单
+    addEdges () {
+      this.addEdgeFormVisible = true
+    },
+    // 取消添加节点
+    cancelAddNode () {
+      this.addNodeFormVisible = false
+      this.form.resetFields()
+    },
+    // 取消添加边
+    cancelAddEdge () {
+      this.addEdgeFormVisible = false
+      this.edgeForm.resetFields()
     }
   }
 }

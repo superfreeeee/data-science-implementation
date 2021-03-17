@@ -22,6 +22,7 @@
     /*height:1000px;*/
     height: 100%;
     width: 100%;
+    background-color: #8B8386;
   }
 
   #app {
