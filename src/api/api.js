@@ -1,13 +1,11 @@
 import http from '../utils/http'
 
-let request = '/api'
+const request = '/coin'
 
-export default{
-    getListAPI(params){
-        return http.get(`${request}`, params)
-    },
+export function getListAPI (params) {
+  return http.get(`${request}/test`, params)
+}
 
-    postFormAPI(params){
-        return http.post(`${request}`, params)
-    }
+export function AddNodeAPI (params) {
+  return http.post(`${request}/addNode`, params)
 }

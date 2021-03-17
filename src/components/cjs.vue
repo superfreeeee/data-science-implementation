@@ -205,6 +205,13 @@ export default {
           },
           {
             // fillColor: 'rgba(200, 200, 200, 0.75)', // optional: custom background color for item
+            content: '修改', // html/text content to be displayed in the menu
+            // contentStyle: {}, // css key:value pairs to set the command's css in js if you want
+            select: (ele) => this.changeData([ele.id()]), // a function to execute when the command is selected
+            enabled: true // whether the command is selectable
+          },
+          {
+            // fillColor: 'rgba(200, 200, 200, 0.75)', // optional: custom background color for item
             content: '禁用', // html/text content to be displayed in the menu
             // contentStyle: {}, // css key:value pairs to set the command's css in js if you want
             select: (ele) => alert(ele.id()), // a function to execute when the command is selected
@@ -383,6 +390,10 @@ export default {
       /** 获取已选择内容中得第一个, 没有选择为null */
       const selectedEle = selectedEles && selectedEles.length ? selectedEles[0] : null;
       (selectedEle) && (this.lightOn(selectedEle.id()))
+    },
+    /** 修改结点名称或属性 */
+    changeData (ele) {
+      console.log(ele)
     },
     /**
        * 刷新布局.

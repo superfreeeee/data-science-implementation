@@ -3,6 +3,26 @@
     <div style="position: fixed; right: 40pt;bottom: 30pt; z-index: 99999;">
       <Button size="middle" @click="addEles">添加</Button>
       <Button size="middle" @click="delEles">删除</Button>
+      <Button size="middle" @click="test_api">测试接口</Button>
+      <div class="change_form">
+        <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }" @submit="addNode" >
+          <a-form-item label="name">
+            <a-input
+              v-decorator="['name', { rules: [{ required: true, message: 'Please input name of the node!' }] }]"
+            />
+          </a-form-item>
+          <a-form-item label="property">
+            <a-input
+              v-decorator="['property', { rules: [{ required: false, message: 'choose to input property of the node!' }] }]"
+            />
+          </a-form-item>
+          <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
+            <a-button type="primary" html-type="submit">
+              增加node
+            </a-button>
+          </a-form-item>
+        </a-form>
+      </div>
     </div>
     <CJS ref="ref_CJS"></CJS>
   </div>
@@ -10,6 +30,7 @@
 
 <script>
 import CJS from './components/cjs'
+import { getListAPI } from '@/api/api'
 
 export default {
   name: 'Test',
@@ -17,6 +38,12 @@ export default {
   watch: {},
   mounted () {
     this.addEles()
+  },
+  data () {
+    return {
+      formLayout: 'horizontal',
+      form: this.$form.createForm(this, { name: 'coordinated' })
+    }
   },
   methods: {
     addEles () {
@@ -42,10 +69,45 @@ export default {
     },
     delEles () {
       this.$refs.ref_CJS.delEles()
+    },
+    test_api () {
+      getListAPI('').then(res => console.log(res)).catch(err => console.log(err))
+    },
+    addNode (e) {
+      e.preventDefault()
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          console.log('Received values of form: ', values)
+        }
+        // const node_data = {
+        //   name: values.name,
+        //   property: values.property
+        // }
+        const ele = {
+          group: 'nodes',
+          data: {
+            id: '12',
+            name: values.name
+          },
+          position: {
+            x: 300,
+            y: 300
+          }
+        }
+        // AddNodeAPI(node_data).then(res => {
+        //   ele.data.id = res.id
+        // }).catch(err => console.log(err))
+        this.$refs.ref_CJS.addEles([
+          ele
+        ])
+      })
     }
   }
 }
 </script>
 
 <style scoped>
+.change_form {
+  padding-top: 30px
+}
 </style>
