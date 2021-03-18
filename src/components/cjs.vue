@@ -26,20 +26,31 @@
     list-style-type: none;
     margin: 0;
     padding: 0;
-    width: 5%;
-    background-color: #8B8386;
+    width: 5.5%;
+    background-color: rgba(104, 104, 103, 0.6);
     position: fixed;
     height: 100%;
     overflow: auto;
     z-index: 2;
+  }
+  #cytoscape_id{
+    height: 100%;
+    margin-left: 7.5%;
+    margin-right: 1%;
+    z-index: 1;
+    background-color: white;
+    border: 1.5px solid ;
+    border-radius: 15px;
+    border-style: outset;
+    padding: 1px;
   }
 </style>
 
 <template>
   <!--  整体-->
   <div style="position: relative; height: 100%; width: 100%; z-index: 0;">
+    <!--    顶部导航栏-->
     <div class="cytoolbar_id" >
-      <!--    顶部导航栏-->
       <div class="tools">
         <div class="center-center">
           <Icon style="font-size: 32px; cursor: pointer;" title="放大" type="ios-add-circle-outline" color="white" @click="magnifying()"/>
@@ -87,8 +98,24 @@
       </div>
     </div>
     <!--    知识图谱-->
-    <div id="cytoscape_id" style="height: 100%; margin-left: 8%; z-index: 1;background-color: white;;"></div>
-
+    <div id="cytoscape_id"></div>
+    <a-modal :visible="modifyEdgeFormVisible" title="修改边" @cancel="cancelModifyEdge" @ok="modifyEdge">
+      <a-form :form="modifyEdgeForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
+        <a-form-item label="name">
+          <a-input
+            v-decorator="['name', { rules: [{ required: true, message: 'Please input name of the node!' }] }]"
+          />
+        </a-form-item>
+        <a-form-item label="sourceNode">
+          <a-input
+            v-decorator="['sourceNode',{rules:[{required:true,message:'please input the sourceNode!'}]}]"></a-input>
+        </a-form-item>
+        <a-form-item label="endNode">
+          <a-input
+            v-decorator="['endNode',{rules:[{required:true,message:'please input the endNode!'}]}]"></a-input>
+        </a-form-item>
+      </a-form>
+    </a-modal>
   </div>
 </template>
 
@@ -254,9 +281,7 @@ export default {
             fillColor: 'rgba(200, 200, 200, 0.75)', // optional: custom background color for item
             content: '<span class="fa fa-flash fa-2x">修改</span>', // html/text content to be displayed in the menu
             contentStyle: {}, // css key:value pairs to set the command's css in js if you want
-            select: function (ele) { // a function to execute when the command is selected
-              console.log(ele.data().name)
-            },
+            select: (ele) => this.setModifyEdgeFormVisible([ele.data().id]),
             enabled: true // whether the command is selectable
           }
         ]
@@ -321,7 +346,11 @@ export default {
       .style({ opacity: '0.1' })
   },
   data () {
-    return {}
+    return {
+      modifyEdgeFormVisible: false,
+      modifyEdgeForm: this.$form.createForm(this, { name: 'coordinated' }),
+      edgeId: ''
+    }
   },
   methods: {
     /**
@@ -339,6 +368,7 @@ export default {
        * @param eles 元素集合.
        */
     addEles (eles) {
+      console.log(eles)
       if (eles) {
         this.$cy.startBatch()
         this.$cy.batch(() => {
@@ -535,8 +565,55 @@ export default {
        */
     exportCutPngAndWatermark () {
       this.exportCutPng({ watermark: true })
-    }
+    },
     /** *************************工具栏************************/
+
+    setModifyEdgeFormVisible (id) {
+      this.modifyEdgeFormVisible = true
+      this.edgeId = id
+    },
+    cancelModifyEdge () {
+      this.modifyEdgeFormVisible = false
+      this.modifyEdgeForm.resetFields()
+      this.edgeId = ''
+    },
+    modifyEdge (e) {
+      console.log(e)
+      e.preventDefault()
+      this.modifyEdgeForm.validateFields((err, values) => {
+        if (!err) {
+          console.log('the value of the form: ', values)
+        } else {
+          console.log(err)
+        }
+        const edgeData = {
+          name: values.name,
+          sourceNode: values.sourceNode,
+          endNode: values.endNode
+        }
+        const ele = {
+          group: 'edges',
+          data: {
+            id: this.edgeId[0],
+            name: edgeData.name,
+            source: edgeData.sourceNode,
+            target: edgeData.endNode
+          }
+        }
+        // console.log(ele.data.id)
+        // console.log(this.$cy)
+        // console.log(this.$cy.getElementById(ele.data.id).data())
+        this.$cy.getElementById(ele.data.id).data().name = ele.data.name
+        this.$cy.getElementById(ele.data.id).data().source = ele.data.source
+        this.$cy.getElementById(ele.data.id).data().target = ele.data.target
+        // console.log(this.$cy.getElementById(ele.data.id).data())
+        this.$cy.getElementById(ele.data.id).remove()
+        this.addEles([ele])
+        this.modifyEdgeFormVisible = false
+        this.modifyEdgeForm.resetFields()
+        this.edgeId = ''
+      })
+    }
   }
 }
 </script>

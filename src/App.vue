@@ -22,11 +22,13 @@
     /*height:1000px;*/
     height: 100%;
     width: 100%;
-    background-color: #8B8386;
+    background-color: rgba(156, 151, 151, 0.07);
+
   }
 
   #app {
     width: 100%;
     height: 100%;
+    background-color: rgb(220, 220, 220);
   }
 </style>

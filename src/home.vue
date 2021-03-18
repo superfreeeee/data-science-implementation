@@ -1,4 +1,4 @@
-<template xmlns:a-form="http://www.w3.org/1999/xhtml">
+<template>
   <div style="height: 100%; width: 100%;">
     <div style="position: fixed; right: 40pt;bottom: 30pt; z-index: 99999;">
       <Button size="middle" @click="addNodes">添加节点</Button>
