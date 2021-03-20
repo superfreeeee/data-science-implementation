@@ -17,3 +17,7 @@ export function DeleteNodeAPI (params) {
 export function UpdataNodeAPI (params) {
   return http.post(`${request}/node/updateNode`, params)
 }
+
+export function DownloadXmlAPI (params) {
+  return http.get(`${request}/graph/exportXml`, params)
+}

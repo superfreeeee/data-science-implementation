@@ -88,7 +88,7 @@
       </div>
       <div class="tools">
         <div class="center-center">
-          <Icon style="font-size: 32px; cursor: pointer;" title="局部导出" type="ios-crop-outline" color="white" @click="exportCutPngAndWatermark()"/>
+          <a-icon type="download"  style="font-size: 32px; cursor: pointer; color: white" title="xml下载" color="white" @click="downloadXml()"/>
         </div>
       </div>
       <div class="tools">
@@ -126,6 +126,21 @@
         <a-form-item label="label">
           <a-input
             v-decorator="['label',{rules:[{required:false,message:'please input the label!'}]}]"></a-input>
+        </a-form-item>
+        <a-button @click="addNodeProperty" style="margin: 20px 0px 10px 100px">增加属性</a-button>
+      </a-form>
+    </a-modal>
+    <a-modal :visible="addNodePropertyFormVisible" title="增加属性" @cancel="cancelAddNodeProperty" @ok="addNodeProperties">
+      <a-form :form="NodePropertyForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
+        <a-form-item label="key">
+          <a-input
+            v-decorator="['key', { rules: [{ required: true, message: 'Please input key of the property!' }] }]"
+          />
+        </a-form-item>
+        <a-form-item label="value">
+          <a-input
+            v-decorator="['value', { rules: [{ required: false, message: 'choose to input value of the property!' }] }]"
+          />
         </a-form-item>
       </a-form>
     </a-modal>
@@ -367,7 +382,17 @@ export default {
       edgeId: '',
       modifyNodeFormVisible: false,
       modifyNodeForm: this.$form.createForm(this, { name: 'coordinated' }),
-      nodeId: ''
+      nodeId: '',
+      addNodePropertyFormVisible: false,
+      NodePropertyForm: this.$form.createForm(this, { name: 'coordinated' }),
+      nodeData: {
+        identity: '',
+        labels: [], // 标签
+        properties: {
+          name: ''
+          // 属性（键值对）
+        }
+      }
     }
   },
   methods: {
@@ -580,6 +605,51 @@ export default {
     exportCutPngAndWatermark () {
       this.exportCutPng({ watermark: true })
     },
+    downloadXml () {
+      // DownloadXmlAPI().then(res => {
+      //   console.log(res)
+      // }).catch(err => console.log(err))
+      const url = 'https://sec123.oss-cn-shanghai.aliyuncs.com/export.xml'
+      // const params = '前端xml下载'
+      // const xhr = new XMLHttpRequest()
+      // xhr.open('POST', url, true)
+      // xhr.setRequestHeader('Content-Type', 'application/json;charset=utf-8')
+      // xhr.responseType = 'blob'
+      // xhr.onload = function (e) {
+      //   if (this.status === 200) {
+      //     if (navigator.msSaveBlob) {
+      //       return navigator.msSaveBlob(this.response, params.originalName ? params.originalName : '错误提示文档.xlsx')
+      //     }
+      //     const blob = this.response
+      //     const a = document.createElement('a')
+      //     const url = window.URL.createObjectURL(blob)
+      //     a.href = url
+      //     // 获取后端文件名称
+      //     const fileName = decodeURI(xhr.getResponseHeader('content-disposition'))
+      //     // 截取=字符串后面的内容
+      //     const str = fileName.substring(21, fileName.length)
+      //     const utfStr = decodeURI(escape(str)) // 是ISO_8859_1格式->改成utf-8
+      //     a.download = utfStr
+      //     a.click()
+      //     window.URL.revokeObjectURL(url)
+      //   }
+      // }
+      // // 参数是json格式
+      // xhr.send(JSON.stringify(params))
+      //
+      const x = new XMLHttpRequest()
+      const fileName = 'xml导出'
+      x.open('GET', url, true)
+      x.responseType = 'blob'
+      x.onload = function (e) {
+        const url = window.URL.createObjectURL(x.response)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = fileName
+        a.click()
+      }
+      x.send()
+    },
     /** *************************工具栏************************/
 
     setModifyEdgeFormVisible (id) {
@@ -647,14 +717,18 @@ export default {
         } else {
           console.log(err)
         }
-        const nodeData = {
-          identity: this.nodeId[0],
-          labels: [values.label],
-          properties: {
-            name: values.name
-          }
-        }
-        console.log(nodeData)
+        this.nodeData.identity = this.nodeId[0]
+        this.nodeData.labels = [values.label]
+        this.nodeData.properties.name = values.name
+        // const nodeData = {
+        //   identity: this.nodeId[0],
+        //   // identity: '26626',
+        //   labels: [values.label],
+        //   properties: {
+        //     name: values.name
+        //   }
+        // }
+        console.log(this.nodeData)
         const ele = {
           group: 'nodes',
           data: {
@@ -670,7 +744,7 @@ export default {
         this.$cy.getElementById(ele.data.id).label = ele.data.label
         // console.log(this.$cy.getElementById(ele.data.id).data())
         // this.lightOn(ele.data.id)
-        UpdataNodeAPI(nodeData).then(res => {
+        UpdataNodeAPI(this.nodeData).then(res => {
           console.log(res)
         }).catch(err => console.log(err))
         this.modifyNodeFormVisible = false
@@ -684,6 +758,34 @@ export default {
         console.log(res)
       }).catch(err => console.log(err))
       this.$cy.getElementById(e).remove()
+    },
+    // 点击跳出增加结点
+    addNodeProperty () {
+      this.addNodePropertyFormVisible = true
+    },
+    // 点击增加结点属性
+    addNodeProperties (e) {
+      e.preventDefault()
+      this.NodePropertyForm.validateFields((err, values) => {
+        if (!err) {
+          console.log('Received values of form: ', values)
+        }
+        var test1 = /^[0-9]+[\s\S]*$/
+        if (test1.test(values.key)) {
+          alert('开头是数字')
+        } else {
+          this.nodeData.properties[values.key] = values.value
+        }
+      })
+      console.log('first')
+      console.log(this.nodeData)
+      this.addNodePropertyFormVisible = false
+      this.NodePropertyForm.resetFields()
+    },
+    // 取消增加结点属性
+    cancelAddNodeProperty () {
+      this.addNodePropertyFormVisible = false
+      this.NodePropertyForm.resetFields()
     }
   }
 }

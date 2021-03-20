@@ -18,6 +18,7 @@
                 v-decorator="['label', { rules: [{ required: false, message: 'choose to input label of the node!' }] }]"
               />
             </a-form-item>
+            <a-button @click="addNodeProperty" style="margin: 20px 0px 10px 100px">增加属性</a-button>
 <!--          <a-form-item :wrapper-col="{ span: 12, offset: 5 }">-->
 <!--            <a-button type="primary" html-type="submit">-->
 <!--              增加node-->
@@ -48,6 +49,20 @@
           </a-form-item>
         </a-form>
       </a-modal>
+      <a-modal :visible="addNodePropertyFormVisible" title="增加属性" @cancel="cancelAddNodeProperty" @ok="addNodeProperties">
+        <a-form :form="NodePropertyForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
+          <a-form-item label="key">
+            <a-input
+              v-decorator="['key', { rules: [{ required: true, message: 'Please input key of the property!' }] }]"
+            />
+          </a-form-item>
+          <a-form-item label="value">
+            <a-input
+              v-decorator="['value', { rules: [{ required: false, message: 'choose to input value of the property!' }] }]"
+            />
+          </a-form-item>
+        </a-form>
+      </a-modal>
     </div>
     <CJS ref="ref_CJS"></CJS>
   </div>
@@ -70,7 +85,17 @@ export default {
       form: this.$form.createForm(this, { name: 'coordinated' }),
       addNodeFormVisible: false,
       addEdgeFormVisible: false,
-      edgeForm: this.$form.createForm(this, { name: 'coordinated' })
+      addNodePropertyFormVisible: false,
+      edgeForm: this.$form.createForm(this, { name: 'coordinated' }),
+      NodePropertyForm: this.$form.createForm(this, { name: 'coordinated' }),
+      nodeData: {
+        identity: '',
+        labels: [], // 标签
+        properties: {
+          name: ''
+          // 属性（键值对）
+        }
+      }
     }
   },
   methods: {
@@ -108,14 +133,16 @@ export default {
         if (!err) {
           console.log('Received values of form: ', values)
         }
-        const nodeData = {
-          identity: '',
-          labels: [values.label], // 标签
-          properties: {
-            name: values.name
-            // 属性（键值对）
-          }
-        }
+        this.nodeData.labels = [values.label]
+        this.nodeData.properties.name = values.name
+        // const nodeData = {
+        //   identity: '',
+        //   labels: [values.label], // 标签
+        //   properties: {
+        //     name: values.name
+        //     // 属性（键值对）
+        //   }
+        // }
         const ele = {
           group: 'nodes',
           data: {
@@ -128,14 +155,18 @@ export default {
             y: 400
           }
         }
-        AddNodeAPI(nodeData).then(res => {
-          ele.data.id = res.content
-          console.log(ele)
+        AddNodeAPI(this.nodeData).then(res => {
+          ele.data.id = res.content + ''
         }).catch(err => console.log(err))
         this.$refs.ref_CJS.addEles([
           ele
         ])
       })
+      // console.log('second')
+      // console.log(this.nodeData)
+      this.nodeData.properties = {
+        name: ''
+      }
       this.addNodeFormVisible = false
       this.form.resetFields()
     },
@@ -185,6 +216,34 @@ export default {
     cancelAddEdge () {
       this.addEdgeFormVisible = false
       this.edgeForm.resetFields()
+    },
+    // 点击跳出增加结点
+    addNodeProperty () {
+      this.addNodePropertyFormVisible = true
+    },
+    // 点击增加结点属性
+    addNodeProperties (e) {
+      e.preventDefault()
+      this.NodePropertyForm.validateFields((err, values) => {
+        if (!err) {
+          console.log('Received values of form: ', values)
+        }
+        var test1 = /^[0-9]+[\s\S]*$/
+        if (test1.test(values.key)) {
+          alert('开头是数字')
+        } else {
+          this.nodeData.properties[values.key] = values.value
+        }
+      })
+      console.log('first')
+      console.log(this.nodeData)
+      this.addNodePropertyFormVisible = false
+      this.NodePropertyForm.resetFields()
+    },
+    // 取消增加结点属性
+    cancelAddNodeProperty () {
+      this.addNodePropertyFormVisible = false
+      this.NodePropertyForm.resetFields()
     }
   }
 }
