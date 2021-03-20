@@ -153,7 +153,7 @@ import cxtmenu from 'cytoscape-cxtmenu'
 import cola from 'cytoscape-cola'
 import avsdf from 'cytoscape-avsdf'
 import coseBilkent from 'cytoscape-cose-bilkent'
-import { UpdataNodeAPI, DeleteNodeAPI } from '@/api/api'
+import { UpdataNodeAPI, DeleteNodeAPI, DownloadXmlAPI } from '@/api/api'
 
 export default {
   name: 'CJS',
@@ -606,9 +606,9 @@ export default {
       this.exportCutPng({ watermark: true })
     },
     downloadXml () {
-      // DownloadXmlAPI().then(res => {
-      //   console.log(res)
-      // }).catch(err => console.log(err))
+      DownloadXmlAPI().then(res => {
+        console.log(res)
+      }).catch(err => console.log(err))
       const url = 'https://sec123.oss-cn-shanghai.aliyuncs.com/export.xml'
       // const params = '前端xml下载'
       // const xhr = new XMLHttpRequest()
