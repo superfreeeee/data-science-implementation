@@ -34,7 +34,7 @@
     z-index: 2;
   }
   #cytoscape_id{
-    height: 100%;
+    height: 90%;
     margin-left: 7.5%;
     margin-right: 1%;
     z-index: 1;
@@ -106,14 +106,14 @@
             v-decorator="['name', { rules: [{ required: true, message: 'Please input name of the node!' }] }]"
           />
         </a-form-item>
-        <a-form-item label="sourceNode">
-          <a-input
-            v-decorator="['sourceNode',{rules:[{required:true,message:'please input the sourceNode!'}]}]"></a-input>
-        </a-form-item>
-        <a-form-item label="endNode">
-          <a-input
-            v-decorator="['endNode',{rules:[{required:true,message:'please input the endNode!'}]}]"></a-input>
-        </a-form-item>
+        <!--        <a-form-item label="sourceNode">-->
+        <!--          <a-input-->
+        <!--            v-decorator="['sourceNode',{rules:[{required:true,message:'please input the sourceNode!'}]}]"></a-input>-->
+        <!--        </a-form-item>-->
+        <!--        <a-form-item label="endNode">-->
+        <!--          <a-input-->
+        <!--            v-decorator="['endNode',{rules:[{required:true,message:'please input the endNode!'}]}]"></a-input>-->
+        <!--        </a-form-item>-->
       </a-form>
     </a-modal>
     <a-modal :visible="modifyNodeFormVisible" title="修改结点" @cancel="cancelModifyNode" @ok="modifyNode">
@@ -144,6 +144,28 @@
         </a-form-item>
       </a-form>
     </a-modal>
+    <a-modal :visible="addEdgeFormVisible" title="增加边" @cancel="cancelAddEdge" @ok="addEdge">
+      <a-form :form="edgeForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
+        <a-form-item label="name">
+          <a-input
+            v-decorator="['name', { rules: [{ required: true, message: 'Please input name of the Edge!' }] }]"
+          />
+        </a-form-item>
+        <a-form-item label="property name">
+          <a-input
+            v-decorator="['propertyName', { rules: [{ required: false, message: 'choose to input property of the edge!' }] }]"
+          />
+        </a-form-item>
+        <a-form-item label="property value ">
+          <a-input
+            v-decorator="['propertyValue', { rules: [{ required: false, message: 'choose to input property of the edge!' }] }]"
+          />
+        </a-form-item>
+        <!--        <a-form-item :wrapper-col="{ span: 12, offset: 5 }">-->
+        <!--          <a-button type="primary" @click="addItem"><E5><A2><9E><E5><8A><A0><E5><B1><9E><E6><80><A7></a-button>-->
+        <!--        </a-form-item>-->
+      </a-form>
+    </a-modal>
   </div>
 </template>
 
@@ -153,7 +175,9 @@ import cxtmenu from 'cytoscape-cxtmenu'
 import cola from 'cytoscape-cola'
 import avsdf from 'cytoscape-avsdf'
 import coseBilkent from 'cytoscape-cose-bilkent'
-import { UpdataNodeAPI, DeleteNodeAPI, DownloadXmlAPI } from '@/api/api'
+import { UpdataNodeAPI, DeleteNodeAPI, DownloadXmlAPI, DeleteEdgeAPI, updateEdgeAPI } from '@/api/api'
+// import { UpdataNodeAPI, DeleteNodeAPI, DeleteEdgeAPI, updateEdgeAPI, AddEdgeAPI } from '@/api/api'
+import edgehandles from 'cytoscape-edgehandles'
 
 export default {
   name: 'CJS',
@@ -174,6 +198,7 @@ export default {
       cytoscape.use(cola)
       cytoscape.use(avsdf)
       cytoscape.use(coseBilkent)
+      cytoscape.use(edgehandles)
     }
 
     this.$cy = cytoscape({
@@ -224,6 +249,96 @@ export default {
         // transform: function (node, position ){ return position; } // transform a given node position. Useful for changing flow direction in discrete layouts
       }
 
+    })
+    const defaults = {
+
+      preview: true, // whether to show added edges preview before releasing selection
+      hoverDelay: 150, // time spent hovering over a target node before it is considered selected
+      handleNodes: 'node', // selector/filter function for whether edges can be made from a given node
+      snap: false, // when enabled, the edge can be drawn by just moving close to a target node
+      snapThreshold: 50, // the target node must be less than or equal to this many pixels away from the cursor/finger
+      snapFrequency: 15, // the number of times per second (Hz) that snap checks done (lower is less expensive)
+      noEdgeEventsInDraw: false, // set events:no to edges during draws, prevents mouseouts on compounds
+      disableBrowserGestures: true, // during an edge drawing gesture, disable browser gestures such as two-finger trackpad swipe and pinch-to-zoom
+      handlePosition: function (node) {
+        return 'middle top' // sets the position of the handle in the format of "X-AXIS Y-AXIS" such as "left top", "middle top"
+      },
+      handleInDrawMode: false, // whether to show the handle in draw mode
+      edgeType: function (sourceNode, targetNode) {
+        // can return 'flat' for flat edges between nodes or 'node' for intermediate node between them
+        // returning null/undefined means an edge can't be added between the two nodes
+        return 'flat'
+      },
+      loopAllowed: function (node) {
+        // for the specified node, return whether edges from itself to itself are allowed
+        return false
+      },
+      nodeLoopOffset: -50, // offset for edgeType: 'node' loops
+      // nodeParams: function (sourceNode, targetNode) {
+      //   // for edges between the specified source and target
+      //   // return element object to be passed to cy.add() for intermediary node
+      //   return {}
+      // },
+      // edgeParams: function (sourceNode, targetNode, i) {
+      //   // for edges between the specified source and target
+      //   // return element object to be passed to cy.add() for edge
+      //   // NB: i indicates edge index in case of edgeType: 'node'
+      //   return {}
+      // },
+      // ghostEdgeParams: function () {
+      //   // return element object to be passed to cy.add() for the ghost edge
+      //   // (default classes are always added for you)
+      //   return {}
+      // },
+      // show: function (sourceNode) {
+      //   // fired when handle is shown
+      // },
+      // hide: function (sourceNode) {
+      //   // fired when the handle is hidden
+      // },
+      // start: function (sourceNode) {
+      //   console.log(sourceNode)
+      // },
+      complete: function (sourceNode, targetNode, addedEles) {
+        console.log(sourceNode.data().id)
+        console.log(targetNode.data().id)
+        // this.addEdgeFormVisible = true
+        // this.$cy.addEdges([sourceNode.data().id], [targetNode.data().id])
+      }
+      // stop: function (sourceNode) {
+      //   // fired when edgehandles interaction is stopped (either complete with added edges or incomplete)
+      // },
+      // cancel: function (sourceNode, cancelledTargets) {
+      //   // fired when edgehandles are cancelled (incomplete gesture)
+      // },
+      // hoverover: function (sourceNode, targetNode) {
+      //   // fired when a target is hovered
+      // },
+      // hoverout: function (sourceNode, targetNode) {
+      //   // fired when a target isn't hovered anymore
+      // },
+      // previewon: function (sourceNode, targetNode, previewEles) {
+      //   // fired when preview is shown
+      // },
+      // previewoff: function (sourceNode, targetNode, previewEles) {
+      //   // fired when preview is hidden
+      // },
+      // drawon: function () {
+      //   // fired when draw mode enabled
+      // },
+      // drawoff: function () {
+      //   // fired when draw mode disabled
+      // }
+    }
+    const eh = this.$cy.edgehandles(defaults)
+    eh.enable()
+    var that = this
+    this.$cy.on('ehcomplete', (event, sourceNode, targetNode, addedEles) => {
+      // console.log(sourceNode.data().id)
+      // that.addEdgeFormVisible = true
+      console.log(addedEles.data())
+      that.$cy.getElementById(addedEles.data().id).remove()
+      that.addEdges([sourceNode.data().id], [targetNode.data().id])
     })
 
     // Cxtmenu圆形菜单--节点
@@ -311,7 +426,7 @@ export default {
             fillColor: 'rgba(200, 200, 200, 0.75)', // optional: custom background color for item
             content: '<span class="fa fa-flash fa-2x">修改</span>', // html/text content to be displayed in the menu
             contentStyle: {}, // css key:value pairs to set the command's css in js if you want
-            select: (ele) => this.setModifyEdgeFormVisible([ele.data().id]),
+            select: (ele) => this.setModifyEdgeFormVisible([ele.data().id, ele.data().source, ele.data().target]),
             enabled: true // whether the command is selectable
           }
         ]
@@ -374,15 +489,32 @@ export default {
     /* 高亮样式 */
       .selector('.light-off')
       .style({ opacity: '0.1' })
+      .selector('.eh-handle')
+
+      .style({
+        'background-color': '#fce9cc',
+        width: 12,
+        height: 12,
+        shape: 'ellipse',
+        'overlay-opacity': 0,
+        'border-width': 12, // makes the handle easier to hit
+        'border-opacity': 0
+      })
   },
   data () {
     return {
       modifyEdgeFormVisible: false,
       modifyEdgeForm: this.$form.createForm(this, { name: 'coordinated' }),
       edgeId: '',
+      sourceNode: '',
+      endNode: '',
       modifyNodeFormVisible: false,
       modifyNodeForm: this.$form.createForm(this, { name: 'coordinated' }),
       nodeId: '',
+      from: '',
+      to: '',
+      addEdgeFormVisible: false,
+      edgeForm: this.$form.createForm(this, { name: 'coordinated' }),
       addNodePropertyFormVisible: false,
       NodePropertyForm: this.$form.createForm(this, { name: 'coordinated' }),
       nodeData: {
@@ -537,13 +669,13 @@ export default {
 
       let [wordsArr, index, s] = [[], 0, '']
       for (const code of words) {
-        s += code
-        code.codePointAt(0) > 255 ? index += 2 : index += 1;
+        s = code
+        code.codePointAt(0) > 255 ? index = 2 : index = 1;
         (index > tempCanvas.width / 11.25) && (wordsArr.push(s)) && ([index, s] = [0, ''])
       }
       wordsArr.push(s)
 
-      for (let i = 0; i < wordsArr.length; i++) {
+      for (let i = 0; i < wordsArr.length; i) {
         tempCtx.fillText(wordsArr[i], positionX, positionY + i * 20, tempCanvas.width - positionX)
       }
 
@@ -651,16 +783,6 @@ export default {
       x.send()
     },
     /** *************************工具栏************************/
-
-    setModifyEdgeFormVisible (id) {
-      this.modifyEdgeFormVisible = true
-      this.edgeId = id
-    },
-    cancelModifyEdge () {
-      this.modifyEdgeFormVisible = false
-      this.modifyEdgeForm.resetFields()
-      this.edgeId = ''
-    },
     modifyEdge (e) {
       console.log(e)
       e.preventDefault()
@@ -671,31 +793,39 @@ export default {
           console.log(err)
         }
         const edgeData = {
-          name: values.name,
-          sourceNode: values.sourceNode,
-          endNode: values.endNode
+          identity: this.edgeId,
+          start: this.sourceNode,
+          end: this.endNode,
+          type: values.name,
+          properties: {}
         }
         const ele = {
           group: 'edges',
           data: {
-            id: this.edgeId[0],
-            name: edgeData.name,
-            source: edgeData.sourceNode,
-            target: edgeData.endNode
+            id: this.edgeId,
+            name: edgeData.type,
+            source: edgeData.start,
+            target: edgeData.end
           }
         }
-        // console.log(ele.data.id)
-        // console.log(this.$cy)
-        // console.log(this.$cy.getElementById(ele.data.id).data())
+        console.log(ele.data)
+        console.log(this.$cy)
+        console.log(this.$cy.getElementById(ele.data.id).data())
         this.$cy.getElementById(ele.data.id).data().name = ele.data.name
-        this.$cy.getElementById(ele.data.id).data().source = ele.data.source
-        this.$cy.getElementById(ele.data.id).data().target = ele.data.target
+        // this.$cy.getElementById(ele.data.id).data().source = ele.data.source
+        // this.$cy.getElementById(ele.data.id).data().target = ele.data.target
         // console.log(this.$cy.getElementById(ele.data.id).data())
         this.$cy.getElementById(ele.data.id).remove()
+        // console.log(ele)
         this.addEles([ele])
+        updateEdgeAPI(edgeData).then(res => {
+          console.log(res)
+        }).catch(err => console.log(err))
         this.modifyEdgeFormVisible = false
         this.modifyEdgeForm.resetFields()
         this.edgeId = ''
+        this.sourceNode = ''
+        this.endNode = ''
       })
     },
     /** 修改结点名称或属性 */
@@ -770,7 +900,7 @@ export default {
         if (!err) {
           console.log('Received values of form: ', values)
         }
-        var test1 = /^[0-9]+[\s\S]*$/
+        var test1 = /^[0-9][\s\S]*$/
         if (test1.test(values.key)) {
           alert('开头是数字')
         } else {
@@ -786,6 +916,77 @@ export default {
     cancelAddNodeProperty () {
       this.addNodePropertyFormVisible = false
       this.NodePropertyForm.resetFields()
+    },
+
+    setModifyEdgeFormVisible (ele) {
+      this.modifyEdgeFormVisible = true
+
+      this.edgeId = ele[0]
+      this.sourceNode = ele[1]
+      this.endNode = ele[2]
+    },
+    cancelModifyEdge () {
+      this.modifyEdgeFormVisible = false
+      this.modifyEdgeForm.resetFields()
+      this.edgeId = ''
+
+      this.sourceNode = ''
+      this.endNode = ''
+    },
+    removeEdge (e) {
+      console.log(e)
+      DeleteEdgeAPI({ identity: e }).then(res => {
+        console.log(res)
+      }).catch(err => console.log(err))
+      this.$cy.getElementById(e).remove()
+    },
+    addEdge (e) {
+      console.log(e)
+      e.preventDefault()
+      this.edgeForm.validateFields((err, values) => {
+        if (!err) {
+          console.log('Received values of form: ', values)
+        }
+        const edgeData = {
+          identity: '',
+          start: this.from[0],
+          end: this.to[0],
+          type: values.name,
+          property: {}
+        }
+        edgeData.property[values.propertyName] = values.propertyValue
+        console.log(edgeData)
+        const ele = {
+          group: 'edges',
+          data: {
+            id: '20',
+            name: edgeData.type,
+            source: edgeData.start,
+            target: edgeData.end
+          }
+        }
+        console.log(ele)
+        this.addEles([ele])
+        console.log('TRUE')
+        // this.$cy.getElementById(ele.data.id).data().name = ele.data.name
+        // AddEdgeAPI(edgeData).then(res => {
+        //   ele.data.id = res.content
+        //   console.log(ele)
+        // }).catch(err => console.log(err))
+      })
+      this.addEdgeFormVisible = false
+      this.edgeForm.resetFields()
+      this.from = ''
+      this.to = ''
+    }, // <E7><82><B9><E5><87><BB><E6><B7><BB><E5><8A><A0><E8><BE><B9><E8><B7><B3><E5><87><BA><E8><A1><A8><E5><8D><95>
+    addEdges (source, target) {
+      this.addEdgeFormVisible = true
+      this.from = source
+      this.to = target
+    }, // <E5><8F><96><E6><B6><88><E6><B7><BB><E5><8A><A0><E8><BE><B9>
+    cancelAddEdge () {
+      this.addEdgeFormVisible = false
+      this.edgeForm.resetFields()
     }
   }
 }

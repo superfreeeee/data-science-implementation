@@ -1,10 +1,9 @@
 <template>
   <div style="height: 100%; width: 100%;">
-    <div style="position: fixed; right: 40pt;bottom: 30pt; z-index: 99999;">
-      <Button size="middle" @click="addNodes">添加节点</Button>
-      <Button size="middle" @click="addEdges">添加边</Button>
-      <Button size="middle" @click="delEles">删除</Button>
-      <Button size="middle" @click="test_api">测试接口</Button>
+    <div style="position: fixed; right: 20pt;bottom: 0pt; z-index: 2;">
+      <Button size="middle" style="background-color: #000000;color: white" @click="addNodes">添加节点</Button>
+      <Button size="middle" style="background-color: #000000;color: white" @click="delEles">删除</Button>
+      <Button size="middle" style="background-color: #000000;color: white" @click="test_api">测试</Button>
       <div class="change_form" >
         <a-modal :visible="addNodeFormVisible" title="增加节点" @cancel="cancelAddNode" @ok="addNode">
           <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }" @submit="addNode" >
@@ -19,11 +18,11 @@
               />
             </a-form-item>
             <a-button @click="addNodeProperty" style="margin: 20px 0px 10px 100px">增加属性</a-button>
-<!--          <a-form-item :wrapper-col="{ span: 12, offset: 5 }">-->
-<!--            <a-button type="primary" html-type="submit">-->
-<!--              增加node-->
-<!--            </a-button>-->
-<!--          </a-form-item>-->
+            <!--          <a-form-item :wrapper-col="{ span: 12, offset: 5 }">-->
+            <!--            <a-button type="primary" html-type="submit">-->
+            <!--              增加node-->
+            <!--            </a-button>-->
+            <!--          </a-form-item>-->
           </a-form>
         </a-modal>
       </div>
@@ -70,7 +69,7 @@
 
 <script>
 import CJS from './components/cjs'
-import { getListAPI, AddNodeAPI } from '@/api/api'
+import { getListAPI } from '@/api/api'
 
 export default {
   name: 'Test',
@@ -101,23 +100,23 @@ export default {
   methods: {
     addEles () {
       this.$refs.ref_CJS.addEles([
-        { group: 'nodes', data: { id: 'n0', name: 'n0' }, position: { x: 200, y: 50 } },
-        { group: 'nodes', data: { id: 'n1', name: 'n1' }, position: { x: 500, y: 50 } },
-        { group: 'nodes', data: { id: 'n2', name: 'n2' }, display: 'hide', position: { x: 200, y: 150 } },
-        { group: 'nodes', data: { id: 'n3', name: 'n3' }, position: { x: 500, y: 150 } },
-        { group: 'nodes', data: { id: 'n4', name: 'n4' }, position: { x: 100, y: 100 } },
-        { group: 'nodes', data: { id: 'n5', name: 'n5' }, position: { x: 400, y: 100 } },
-        { group: 'nodes', data: { id: 'n6', name: 'n6' }, display: 'hide', position: { x: 300, y: 100 } },
-        { group: 'nodes', data: { id: 'n7', name: 'n7' }, position: { x: 300, y: 200 } },
-        { group: 'edges', data: { id: 'e0', name: '属于', source: 'n0', target: 'n1' } },
-        { group: 'edges', data: { id: 'e1', name: '属于', source: 'n1', target: 'n6' } },
-        { group: 'edges', data: { id: 'e2', name: '属于', source: 'n4', target: 'n0' } },
-        { group: 'edges', data: { id: 'e3', name: '属于', source: 'n3', target: 'n4' } },
-        { group: 'edges', data: { id: 'e4', name: '属于', source: 'n2', target: 'n7' } },
-        { group: 'edges', data: { id: 'e5', name: '属于', source: 'n5', target: 'n3' } },
-        { group: 'edges', data: { id: 'e6', name: '属于', source: 'n3', target: 'n2' } },
-        { group: 'edges', data: { id: 'e7', name: '属于', source: 'n6', target: 'n1' } },
-        { group: 'edges', data: { id: 'e8', name: '属于', source: 'n7', target: 'n2' } }
+        { group: 'nodes', data: { id: '0', name: 'n0' }, position: { x: 200, y: 50 } },
+        { group: 'nodes', data: { id: '1', name: 'n1' }, position: { x: 500, y: 50 } },
+        { group: 'nodes', data: { id: '2', name: 'n2' }, display: 'hide', position: { x: 200, y: 150 } },
+        { group: 'nodes', data: { id: '3', name: 'n3' }, position: { x: 500, y: 150 } },
+        { group: 'nodes', data: { id: '4', name: 'n4' }, position: { x: 100, y: 100 } },
+        { group: 'nodes', data: { id: '5', name: 'n5' }, position: { x: 400, y: 100 } },
+        { group: 'nodes', data: { id: '6', name: 'n6' }, display: 'hide', position: { x: 300, y: 100 } },
+        { group: 'nodes', data: { id: '7', name: 'n7' }, position: { x: 300, y: 200 } },
+        { group: 'edges', data: { id: '8', name: '属于', source: '0', target: '1' } },
+        { group: 'edges', data: { id: '9', name: '属于', source: '1', target: '6' } },
+        { group: 'edges', data: { id: '10', name: '属于', source: '4', target: '0' } },
+        { group: 'edges', data: { id: '11', name: '属于', source: '3', target: '4' } },
+        { group: 'edges', data: { id: '12', name: '属于', source: '2', target: '7' } },
+        { group: 'edges', data: { id: '13', name: '属于', source: '5', target: '3' } },
+        { group: 'edges', data: { id: '14', name: '属于', source: '3', target: '2' } },
+        { group: 'edges', data: { id: '15', name: '属于', source: '6', target: '1' } },
+        { group: 'edges', data: { id: '16', name: '属于', source: '7', target: '2' } }
       ])
     },
     delEles () {
@@ -146,7 +145,7 @@ export default {
         const ele = {
           group: 'nodes',
           data: {
-            id: 0,
+            id: '30',
             name: values.name,
             label: values.label
           },
@@ -155,9 +154,9 @@ export default {
             y: 400
           }
         }
-        AddNodeAPI(this.nodeData).then(res => {
-          ele.data.id = res.content + ''
-        }).catch(err => console.log(err))
+        // AddNodeAPI(this.nodeData).then(res => {
+        //   ele.data.id = res.content + ''
+        // }).catch(err => console.log(err))
         this.$refs.ref_CJS.addEles([
           ele
         ])
@@ -250,7 +249,7 @@ export default {
 </script>
 
 <style scoped>
-.change_form {
-  padding-top: 30px
-}
+  .change_form {
+    padding-top: 30px
+  }
 </style>
