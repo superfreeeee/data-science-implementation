@@ -7,23 +7,23 @@
       <Button size="middle" @click="test_api">测试接口</Button>
       <div class="change_form" >
         <a-modal :visible="addNodeFormVisible" title="增加节点" @cancel="cancelAddNode" @ok="addNode">
-        <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }" @submit="addNode" >
-          <a-form-item label="name">
-            <a-input
-              v-decorator="['name', { rules: [{ required: true, message: 'Please input name of the node!' }] }]"
-            />
-          </a-form-item>
-          <a-form-item label="property">
-            <a-input
-              v-decorator="['property', { rules: [{ required: false, message: 'choose to input property of the node!' }] }]"
-            />
-          </a-form-item>
+          <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }" @submit="addNode" >
+            <a-form-item label="name">
+              <a-input
+                v-decorator="['name', { rules: [{ required: true, message: 'Please input name of the node!' }] }]"
+              />
+            </a-form-item>
+            <a-form-item label="label">
+              <a-input
+                v-decorator="['label', { rules: [{ required: false, message: 'choose to input label of the node!' }] }]"
+              />
+            </a-form-item>
 <!--          <a-form-item :wrapper-col="{ span: 12, offset: 5 }">-->
 <!--            <a-button type="primary" html-type="submit">-->
 <!--              增加node-->
 <!--            </a-button>-->
 <!--          </a-form-item>-->
-        </a-form>
+          </a-form>
         </a-modal>
       </div>
       <a-modal :visible="addEdgeFormVisible" title="增加边" @cancel="cancelAddEdge" @ok="addEdge">
@@ -55,7 +55,7 @@
 
 <script>
 import CJS from './components/cjs'
-import { getListAPI } from '@/api/api'
+import { getListAPI, AddNodeAPI } from '@/api/api'
 
 export default {
   name: 'Test',
@@ -108,24 +108,30 @@ export default {
         if (!err) {
           console.log('Received values of form: ', values)
         }
-        // const node_data = {
-        //   name: values.name,
-        //   property: values.property
-        // }
+        const nodeData = {
+          identity: '',
+          labels: [values.label], // 标签
+          properties: {
+            name: values.name
+            // 属性（键值对）
+          }
+        }
         const ele = {
           group: 'nodes',
           data: {
-            id: '12',
-            name: values.name
+            id: 0,
+            name: values.name,
+            label: values.label
           },
           position: {
-            x: 300,
-            y: 300
+            x: 600,
+            y: 400
           }
         }
-        // AddNodeAPI(node_data).then(res => {
-        //   ele.data.id = res.id
-        // }).catch(err => console.log(err))
+        AddNodeAPI(nodeData).then(res => {
+          ele.data.id = res.content
+          console.log(ele)
+        }).catch(err => console.log(err))
         this.$refs.ref_CJS.addEles([
           ele
         ])

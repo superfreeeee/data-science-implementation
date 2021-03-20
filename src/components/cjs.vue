@@ -116,6 +116,19 @@
         </a-form-item>
       </a-form>
     </a-modal>
+    <a-modal :visible="modifyNodeFormVisible" title="修改结点" @cancel="cancelModifyNode" @ok="modifyNode">
+      <a-form :form="modifyNodeForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
+        <a-form-item label="name">
+          <a-input
+            v-decorator="['name', { rules: [{ required: true, message: 'Please input name of the node!' }] }]"
+          />
+        </a-form-item>
+        <a-form-item label="label">
+          <a-input
+            v-decorator="['label',{rules:[{required:false,message:'please input the label!'}]}]"></a-input>
+        </a-form-item>
+      </a-form>
+    </a-modal>
   </div>
 </template>
 
@@ -125,6 +138,7 @@ import cxtmenu from 'cytoscape-cxtmenu'
 import cola from 'cytoscape-cola'
 import avsdf from 'cytoscape-avsdf'
 import coseBilkent from 'cytoscape-cose-bilkent'
+import { UpdataNodeAPI, DeleteNodeAPI } from '@/api/api'
 
 export default {
   name: 'CJS',
@@ -217,10 +231,11 @@ export default {
             fillColor: 'rgba(200, 200, 200, 0.75)', // optional: custom background color for item
             content: '<span class="fa fa-flash fa-2x">删除节点</span>', // html/text content to be displayed in the menu
             contentStyle: {}, // css key:value pairs to set the command's css in js if you want
-            select: function (ele) { // a function to execute when the command is selected
-              console.log(ele)
-              ele.remove()
-            },
+            select: (ele) => this.removeNode([ele.id()]),
+            // select: function (ele) { // a function to execute when the command is selected
+
+            //   ele.remove()
+            // },
             enabled: true // whether the command is selectable
           },
           {
@@ -234,7 +249,7 @@ export default {
             // fillColor: 'rgba(200, 200, 200, 0.75)', // optional: custom background color for item
             content: '修改', // html/text content to be displayed in the menu
             // contentStyle: {}, // css key:value pairs to set the command's css in js if you want
-            select: (ele) => this.changeData([ele.id()]), // a function to execute when the command is selected
+            select: (ele) => this.changeNode([ele.id()]), // a function to execute when the command is selected
             enabled: true // whether the command is selectable
           }
           // {
@@ -349,7 +364,10 @@ export default {
     return {
       modifyEdgeFormVisible: false,
       modifyEdgeForm: this.$form.createForm(this, { name: 'coordinated' }),
-      edgeId: ''
+      edgeId: '',
+      modifyNodeFormVisible: false,
+      modifyNodeForm: this.$form.createForm(this, { name: 'coordinated' }),
+      nodeId: ''
     }
   },
   methods: {
@@ -458,10 +476,6 @@ export default {
       /** 获取已选择内容中得第一个, 没有选择为null */
       const selectedEle = selectedEles && selectedEles.length ? selectedEles[0] : null;
       (selectedEle) && (this.lightOn(selectedEle.id()))
-    },
-    /** 修改结点名称或属性 */
-    changeData (ele) {
-      console.log(ele)
     },
     /**
        * 刷新布局.
@@ -613,6 +627,63 @@ export default {
         this.modifyEdgeForm.resetFields()
         this.edgeId = ''
       })
+    },
+    /** 修改结点名称或属性 */
+    changeNode (ele) {
+      console.log(ele)
+      this.modifyNodeFormVisible = true
+      this.nodeId = ele
+    },
+    cancelModifyNode () {
+      this.modifyNodeFormVisible = false
+      this.modifyNodeForm.resetFields()
+      this.nodeId = ''
+    },
+    modifyNode (e) {
+      e.preventDefault()
+      this.modifyNodeForm.validateFields((err, values) => {
+        if (!err) {
+          console.log('the value of the form: ', values)
+        } else {
+          console.log(err)
+        }
+        const nodeData = {
+          identity: this.nodeId[0],
+          labels: [values.label],
+          properties: {
+            name: values.name
+          }
+        }
+        console.log(nodeData)
+        const ele = {
+          group: 'nodes',
+          data: {
+            id: this.nodeId[0],
+            name: values.name,
+            label: values.label
+          }
+        }
+        // console.log(ele.data.id)
+        // console.log(this.$cy)
+        // console.log(this.$cy.getElementById(ele.data.id).data())
+        this.$cy.getElementById(ele.data.id).data().name = ele.data.name
+        this.$cy.getElementById(ele.data.id).label = ele.data.label
+        // console.log(this.$cy.getElementById(ele.data.id).data())
+        // this.lightOn(ele.data.id)
+        UpdataNodeAPI(nodeData).then(res => {
+          console.log(res)
+        }).catch(err => console.log(err))
+        this.modifyNodeFormVisible = false
+        this.modifyNodeForm.resetFields()
+        this.nodeId = ''
+      })
+    },
+    removeNode (e) {
+      console.log(e)
+      DeleteNodeAPI({ identity: e }).then(res => {
+        console.log(res)
+      }).catch(err => console.log(err))
+      this.$cy.getElementById(e).remove()
     }
   }
 }
