@@ -93,7 +93,7 @@
       </div>
       <div class="tools">
         <div class="center-center">
-          <Icon style="font-size: 32px; cursor: pointer;" title="全图导出" type="ios-reverse-camera-outline" color="white" @click="exportPngAndWatermark()"/>
+          <Icon style="font-size: 32px; cursor: pointer;" title="全图导出" type="ios-reverse-camera-outline" color="white" @click="exportPng()"/>
         </div>
       </div>
     </div>
@@ -128,6 +128,34 @@
             v-decorator="['label',{rules:[{required:false,message:'please input the label!'}]}]"></a-input>
         </a-form-item>
         <a-button @click="addNodeProperty" style="margin: 20px 0px 10px 100px">增加属性</a-button>
+        <div style = "margin-left:50px; margin-top:30px">
+          <h4 style="margin-bottom: 16px">
+            颜色:
+          </h4>
+          <div>
+            <a-checkable-tag color="pink"  v-model="checkedPink" @change="handleChangeColor">
+              pink
+            </a-checkable-tag>
+            <a-checkable-tag color="red"   v-model="checkedRed" @change="handleChangeColor">
+              red
+            </a-checkable-tag>
+            <a-checkable-tag color="orange"  v-model="checkedOrange" @change="handleChangeColor">
+              orange
+            </a-checkable-tag>
+            <a-checkable-tag color="green"  v-model="checkedGreen" @change="handleChangeColor">
+              green
+            </a-checkable-tag>
+            <a-checkable-tag color="cyan"  v-model="checkedCyan" @change="handleChangeColor">
+              cyan
+            </a-checkable-tag>
+            <a-checkable-tag color="blue"  v-model="checkedBlue" @change="handleChangeColor">
+              blue
+            </a-checkable-tag>
+            <a-checkable-tag color="purple"  v-model="checkedPurple" @change="handleChangeColor">
+              purple
+            </a-checkable-tag>
+          </div>
+        </div>
       </a-form>
     </a-modal>
     <a-modal :visible="addNodePropertyFormVisible" title="增加属性" @cancel="cancelAddNodeProperty" @ok="addNodeProperties">
@@ -524,7 +552,14 @@ export default {
           name: ''
           // 属性（键值对）
         }
-      }
+      },
+      checkedPink: false,
+      checkedRed: false,
+      checkedOrange: false,
+      checkedGreen: false,
+      checkedCyan: false,
+      checkedBlue: false,
+      checkedPurple: false
     }
   },
   methods: {
@@ -987,6 +1022,32 @@ export default {
     cancelAddEdge () {
       this.addEdgeFormVisible = false
       this.edgeForm.resetFields()
+    },
+    handleChangeColor (checked) {
+      const selectedEles = this.$cy.getElementById(this.nodeId)
+      console.log(this.nodeId)
+      if (this.checkedPink) {
+        selectedEles.style({ 'background-color': '#E7919C' })
+      } else if (this.checkedBlue) {
+        selectedEles.style({ 'background-color': '#91CBE7' })
+      } else if (this.checkedCyan) {
+        selectedEles.style({ 'background-color': '#91E1E7' })
+      } else if (this.checkedGreen) {
+        selectedEles.style({ 'background-color': '#3E9A33' })
+      } else if (this.checkedOrange) {
+        selectedEles.style({ 'background-color': '#ECA95A' })
+      } else if (this.checkedPurple) {
+        selectedEles.style({ 'background-color': '#D56DB4' })
+      } else if (this.checkedRed) {
+        selectedEles.style({ 'background-color': '#E93D4A' })
+      }
+      this.checkedRed = false
+      this.checkedCyan = false
+      this.checkedOrange = false
+      this.checkedBlue = false
+      this.checkedPurple = false
+      this.checkedPink = false
+      this.checkedGreen = false
     }
   }
 }
