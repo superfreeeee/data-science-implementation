@@ -38,7 +38,6 @@
     height: 90%;
     margin-left: 7.5%;
     margin-right: 1%;
-    padding-top: 30px;
     z-index: 1;
     background-color: white;
     border: 1.5px solid ;
@@ -47,7 +46,8 @@
     padding: 1px;
   }
   .selectDisplay{
-    margin: 10px 20px 0 0;
+    padding-top: 5px;
+    margin: 0px 20px 5px 0;
     text-align:right;
   }
 </style>
@@ -89,28 +89,28 @@
       </div>
     </div>
     <!--    知识图谱-->
+    <div class = "selectDisplay">
+      <a-dropdown>
+        <a class="ant-dropdown-link" @click="e => e.preventDefault()" style="font-size: 16px; color: #67758D;">
+          调整布局 <a-icon type="down" />
+        </a>
+        <a-menu slot="overlay" @click="onClick">
+          <a-menu-item key="1" @click="refresh({name: 'cola'})">
+            刷新布局
+            <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px" title="刷新布局" type="ios-sync" />
+          </a-menu-item>
+          <a-menu-item key="2"  @click="refresh({name: 'grid'})">
+            网格布局
+            <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px" title="网格布局" type="ios-apps-outline" />
+          </a-menu-item>
+          <a-menu-item key="3" @click="refresh({name: 'circle'})">
+            环型布局
+            <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px" title="环型布局" type="ios-globe-outline" />
+          </a-menu-item>
+        </a-menu>
+      </a-dropdown>
+    </div>
     <div id="cytoscape_id">
-      <div class = "selectDisplay">
-        <a-dropdown>
-          <a class="ant-dropdown-link" @click="e => e.preventDefault()" style="font-size: 16px; color: #67758D;">
-           调整布局 <a-icon type="down" />
-          </a>
-          <a-menu slot="overlay" @click="onClick">
-            <a-menu-item key="1" @click="refresh({name: 'cola'})">
-              刷新布局
-              <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px" title="刷新布局" type="ios-sync" />
-            </a-menu-item>
-            <a-menu-item key="2"  @click="refresh({name: 'grid'})">
-              网格布局
-              <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px" title="网格布局" type="ios-apps-outline" />
-            </a-menu-item>
-            <a-menu-item key="3" @click="refresh({name: 'circle'})">
-              环型布局
-              <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px" title="环型布局" type="ios-globe-outline" />
-            </a-menu-item>
-          </a-menu>
-        </a-dropdown>
-      </div>
     </div>
     <a-modal :visible="modifyEdgeFormVisible" title="修改边" @cancel="cancelModifyEdge" @ok="modifyEdge">
       <a-form :form="modifyEdgeForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">

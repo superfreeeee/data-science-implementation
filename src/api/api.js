@@ -31,6 +31,6 @@ export function AddEdgeAPI (params) {
   return http.post(`${request}/relation/addRelation`, params)
 }
 
-export function getGraphAPI () {
-  return http.get(`${request}/graph/getGraph/`)
+export function getGraphAPI (params) {
+  return http.get(`${request}/graph/getGraph`, params)
 }
