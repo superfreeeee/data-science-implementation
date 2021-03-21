@@ -1,4 +1,5 @@
 <style scoped>
+  a{TEXT-DECORATION:none}
   .tools {
     /*display: inline-block;*/
     /*height: 45px;*/
@@ -6,7 +7,7 @@
     /*vertical-align: middle;*/
     display: block;
     color: #000;
-    padding: 8px 16px;
+    padding: 25px 16px;
     text-decoration: none;
   }
   .tools:hover{
@@ -27,7 +28,7 @@
     margin: 0;
     padding: 0;
     width: 5.5%;
-    background-color: rgba(104, 104, 103, 0.6);
+    background-color: #67758D;
     position: fixed;
     height: 100%;
     overflow: auto;
@@ -37,12 +38,17 @@
     height: 90%;
     margin-left: 7.5%;
     margin-right: 1%;
+    padding-top: 30px;
     z-index: 1;
     background-color: white;
     border: 1.5px solid ;
     border-radius: 15px;
     border-style: outset;
     padding: 1px;
+  }
+  .selectDisplay{
+    margin: 10px 20px 0 0;
+    text-align:right;
   }
 </style>
 
@@ -73,21 +79,6 @@
       </div>
       <div class="tools">
         <div class="center-center">
-          <Icon style="font-size: 32px; cursor: pointer;" title="刷新布局" type="ios-sync" color="white" @click="refresh({name: 'cola'})"/>
-        </div>
-      </div>
-      <div class="tools">
-        <div class="center-center">
-          <Icon style="font-size: 32px; cursor: pointer;" title="网格布局" type="ios-apps-outline" color="white" @click="refresh({name: 'grid'})"/>
-        </div>
-      </div>
-      <div class="tools">
-        <div class="center-center">
-          <Icon style="font-size: 32px; cursor: pointer;" title="环形布局" type="ios-globe-outline" color="white" @click="refresh({name: 'circle'})"/>
-        </div>
-      </div>
-      <div class="tools">
-        <div class="center-center">
           <a-icon type="download"  style="font-size: 32px; cursor: pointer; color: white" title="xml下载" color="white" @click="downloadXml()"/>
         </div>
       </div>
@@ -98,7 +89,29 @@
       </div>
     </div>
     <!--    知识图谱-->
-    <div id="cytoscape_id"></div>
+    <div id="cytoscape_id">
+      <div class = "selectDisplay">
+        <a-dropdown>
+          <a class="ant-dropdown-link" @click="e => e.preventDefault()" style="font-size: 16px; color: #67758D;">
+           调整布局 <a-icon type="down" />
+          </a>
+          <a-menu slot="overlay" @click="onClick">
+            <a-menu-item key="1" @click="refresh({name: 'cola'})">
+              刷新布局
+              <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px" title="刷新布局" type="ios-sync" />
+            </a-menu-item>
+            <a-menu-item key="2"  @click="refresh({name: 'grid'})">
+              网格布局
+              <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px" title="网格布局" type="ios-apps-outline" />
+            </a-menu-item>
+            <a-menu-item key="3" @click="refresh({name: 'circle'})">
+              环型布局
+              <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px" title="环型布局" type="ios-globe-outline" />
+            </a-menu-item>
+          </a-menu>
+        </a-dropdown>
+      </div>
+    </div>
     <a-modal :visible="modifyEdgeFormVisible" title="修改边" @cancel="cancelModifyEdge" @ok="modifyEdge">
       <a-form :form="modifyEdgeForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
         <a-form-item label="name">
@@ -133,25 +146,25 @@
             颜色:
           </h4>
           <div>
-            <a-checkable-tag color="pink"  v-model="checkedPink" @change="handleChangeColor">
+            <a-checkable-tag style="background-color: #E7919C"  v-model="checkedPink" @change="handleChangeColor">
               pink
             </a-checkable-tag>
-            <a-checkable-tag color="red"   v-model="checkedRed" @change="handleChangeColor">
+            <a-checkable-tag style="background-color: #E93D4A"   v-model="checkedRed" @change="handleChangeColor">
               red
             </a-checkable-tag>
-            <a-checkable-tag color="orange"  v-model="checkedOrange" @change="handleChangeColor">
+            <a-checkable-tag style="background-color: #ECA95A"  v-model="checkedOrange" @change="handleChangeColor">
               orange
             </a-checkable-tag>
-            <a-checkable-tag color="green"  v-model="checkedGreen" @change="handleChangeColor">
+            <a-checkable-tag style="background-color: #3E9A33"  v-model="checkedGreen" @change="handleChangeColor">
               green
             </a-checkable-tag>
-            <a-checkable-tag color="cyan"  v-model="checkedCyan" @change="handleChangeColor">
+            <a-checkable-tag style="background-color: #91E1E7"  v-model="checkedCyan" @change="handleChangeColor">
               cyan
             </a-checkable-tag>
-            <a-checkable-tag color="blue"  v-model="checkedBlue" @change="handleChangeColor">
+            <a-checkable-tag style="background-color: #91CBE7"  v-model="checkedBlue" @change="handleChangeColor">
               blue
             </a-checkable-tag>
-            <a-checkable-tag color="purple"  v-model="checkedPurple" @change="handleChangeColor">
+            <a-checkable-tag style="background-color: #D56DB4"  v-model="checkedPurple" @change="handleChangeColor">
               purple
             </a-checkable-tag>
           </div>
@@ -816,6 +829,9 @@ export default {
         a.click()
       }
       x.send()
+    },
+    onClick ({ key }) {
+      console.log(`Click on item ${key}`)
     },
     /** *************************工具栏************************/
     modifyEdge (e) {
