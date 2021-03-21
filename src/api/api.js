@@ -1,6 +1,6 @@
 import http from '../utils/http'
 
-const request = '/coin/api'
+const request = '/api'
 
 export function getListAPI (params) {
   return http.get(`${request}/test`, params)
@@ -31,6 +31,6 @@ export function AddEdgeAPI (params) {
   return http.post(`${request}/relation/addRelation`, params)
 }
 
-export function getGraphAPI (params) {
-  return http.get(`${request}/graph/getGraph`, params)
+export function getGraphAPI () {
+  return http.get(`${request}/graph/getGraph`)
 }
