@@ -69,7 +69,7 @@
 
 <script>
 import CJS from './components/cjs'
-import { getListAPI, getGraphAPI } from '@/api/api'
+import { getListAPI, getGraphAPI, AddNodeAPI } from '@/api/api'
 
 export default {
   name: 'Test',
@@ -184,18 +184,18 @@ export default {
         const ele = {
           group: 'nodes',
           data: {
-            id: '30',
+            id: '',
             name: values.name,
             label: values.label
           },
           position: {
-            x: 800,
+            x: 600,
             y: 400
           }
         }
-        // AddNodeAPI(this.nodeData).then(res => {
-        //   ele.data.id = res.content + ''
-        // }).catch(err => console.log(err))
+        AddNodeAPI(this.nodeData).then(res => {
+          ele.data.id = res.content + ''
+        }).catch(err => console.log(err))
         this.$refs.ref_CJS.addEles([
           ele
         ])
