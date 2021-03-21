@@ -1,8 +1,8 @@
 <template>
   <div style="height: 100%; width: 100%;">
     <div style="position: fixed; right: 20pt;bottom: 0pt; z-index: 2;">
-      <Button size="middle" style="background-color: #000000;color: white" @click="addNodes">添加节点</Button>
-      <Button size="middle" style="background-color: #000000;color: white" @click="delEles">删除</Button>
+      <Button size="middle" style="background-color: #67758D;color: white; margin-right: 30px" @click="addNodes">添加节点</Button>
+      <Button size="middle" style="background-color: #67758D;color: white" @click="delEles">删除</Button>
       <div class="change_form" >
         <a-modal :visible="addNodeFormVisible" title="增加节点" @cancel="cancelAddNode" @ok="addNode">
           <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }" @submit="addNode" >
@@ -249,6 +249,6 @@ export default {
 
 <style scoped>
   .change_form {
-    padding-top: 30px
+    padding-top: 30px;
   }
 </style>
