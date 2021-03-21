@@ -190,7 +190,7 @@ export default {
             label: values.label
           },
           position: {
-            x: 600,
+            x: 800,
             y: 400
           }
         }
