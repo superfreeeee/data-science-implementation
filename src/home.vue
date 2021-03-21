@@ -3,8 +3,7 @@
     <div style="position: fixed; right: 20pt;bottom: 0pt; z-index: 2;">
       <Button size="middle" style="background-color: #000000;color: white" @click="addNodes">添加节点</Button>
       <Button size="middle" style="background-color: #000000;color: white" @click="delEles">删除</Button>
-      <Button size="middle" style="background-color: #000000;color: white" @click="test_api">测试</Button>
-      <div class="change_form">
+      <div class="change_form" >
         <a-modal :visible="addNodeFormVisible" title="增加节点" @cancel="cancelAddNode" @ok="addNode">
           <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }" @submit="addNode">
             <a-form-item label="name">
