@@ -94,7 +94,8 @@ export default {
           name: ''
           // 属性（键值对）
         }
-      }
+      },
+      nodeId: ''
     }
   },
   methods: {
@@ -167,7 +168,7 @@ export default {
     addNode (e) {
       console.log(e)
       e.preventDefault()
-      this.form.validateFields((err, values) => {
+      this.form.validateFields(async (err, values) => {
         if (!err) {
           console.log('Received values of form: ', values)
         }
@@ -193,18 +194,18 @@ export default {
             y: 400
           }
         }
-        AddNodeAPI(this.nodeData).then(res => {
+        await AddNodeAPI(this.nodeData).then(res => {
           ele.data.id = res.content + ''
         }).catch(err => console.log(err))
         this.$refs.ref_CJS.addEles([
           ele
         ])
       })
-      // console.log('second')
       // console.log(this.nodeData)
       this.nodeData.properties = {
         name: ''
       }
+      console.log('second')
       this.addNodeFormVisible = false
       this.form.resetFields()
     },
