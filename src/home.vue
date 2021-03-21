@@ -4,9 +4,9 @@
       <Button size="middle" style="background-color: #000000;color: white" @click="addNodes">添加节点</Button>
       <Button size="middle" style="background-color: #000000;color: white" @click="delEles">删除</Button>
       <Button size="middle" style="background-color: #000000;color: white" @click="test_api">测试</Button>
-      <div class="change_form" >
+      <div class="change_form">
         <a-modal :visible="addNodeFormVisible" title="增加节点" @cancel="cancelAddNode" @ok="addNode">
-          <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }" @submit="addNode" >
+          <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }" @submit="addNode">
             <a-form-item label="name">
               <a-input
                 v-decorator="['name', { rules: [{ required: true, message: 'Please input name of the node!' }] }]"
@@ -48,7 +48,8 @@
           </a-form-item>
         </a-form>
       </a-modal>
-      <a-modal :visible="addNodePropertyFormVisible" title="增加属性" @cancel="cancelAddNodeProperty" @ok="addNodeProperties">
+      <a-modal :visible="addNodePropertyFormVisible" title="增加属性" @cancel="cancelAddNodeProperty"
+               @ok="addNodeProperties">
         <a-form :form="NodePropertyForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
           <a-form-item label="key">
             <a-input
@@ -69,7 +70,7 @@
 
 <script>
 import CJS from './components/cjs'
-import { getListAPI } from '@/api/api'
+import { getListAPI, getGraphAPI } from '@/api/api'
 
 export default {
   name: 'Test',
@@ -98,26 +99,65 @@ export default {
     }
   },
   methods: {
-    addEles () {
-      this.$refs.ref_CJS.addEles([
-        { group: 'nodes', data: { id: '0', name: 'n0' }, position: { x: 200, y: 50 } },
-        { group: 'nodes', data: { id: '1', name: 'n1' }, position: { x: 500, y: 50 } },
-        { group: 'nodes', data: { id: '2', name: 'n2' }, display: 'hide', position: { x: 200, y: 150 } },
-        { group: 'nodes', data: { id: '3', name: 'n3' }, position: { x: 500, y: 150 } },
-        { group: 'nodes', data: { id: '4', name: 'n4' }, position: { x: 100, y: 100 } },
-        { group: 'nodes', data: { id: '5', name: 'n5' }, position: { x: 400, y: 100 } },
-        { group: 'nodes', data: { id: '6', name: 'n6' }, display: 'hide', position: { x: 300, y: 100 } },
-        { group: 'nodes', data: { id: '7', name: 'n7' }, position: { x: 300, y: 200 } },
-        { group: 'edges', data: { id: '8', name: '属于', source: '0', target: '1' } },
-        { group: 'edges', data: { id: '9', name: '属于', source: '1', target: '6' } },
-        { group: 'edges', data: { id: '10', name: '属于', source: '4', target: '0' } },
-        { group: 'edges', data: { id: '11', name: '属于', source: '3', target: '4' } },
-        { group: 'edges', data: { id: '12', name: '属于', source: '2', target: '7' } },
-        { group: 'edges', data: { id: '13', name: '属于', source: '5', target: '3' } },
-        { group: 'edges', data: { id: '14', name: '属于', source: '3', target: '2' } },
-        { group: 'edges', data: { id: '15', name: '属于', source: '6', target: '1' } },
-        { group: 'edges', data: { id: '16', name: '属于', source: '7', target: '2' } }
-      ])
+    async addEles () {
+      var graph
+      await getGraphAPI().then(res => {
+        graph = res.content
+        console.log(res)
+      }).catch(err => console.log(err))
+
+      console.log(graph)
+      var nodes = graph.nodes
+      var edges = graph.edges
+
+      console.log(this.$refs.ref_CJS)
+      for (var n in nodes) {
+        var node = nodes[n]
+        this.$refs.ref_CJS.addEles([{
+          group: 'nodes',
+          data: {
+            id: node.identity,
+            name: node.properties ? node.properties.name : ''
+          },
+          position: {
+            x: Math.ceil(Math.random() * 10) * 100,
+            y: Math.ceil(Math.random() * 10) * 100
+          }
+        }])
+      }
+
+      for (var e in edges) {
+        var edge = edges[e]
+        this.$refs.ref_CJS.addEles([{
+          group: 'edges',
+          data: {
+            id: edge.identity,
+            name: edge.type,
+            source: edge.start,
+            target: edge.end
+          }
+        }])
+      }
+      // this.$refs.ref_CJS.addEles([
+
+      // { group: 'nodes', data: { id: '0', name: 'n0' }, position: { x: 200, y: 50 } },
+      // { group: 'nodes', data: { id: '1', name: 'n1' }, position: { x: 500, y: 50 } },
+      // { group: 'nodes', data: { id: '2', name: 'n2' }, display: 'hide', position: { x: 200, y: 150 } },
+      // { group: 'nodes', data: { id: '3', name: 'n3' }, position: { x: 500, y: 150 } },
+      // { group: 'nodes', data: { id: '4', name: 'n4' }, position: { x: 100, y: 100 } },
+      // { group: 'nodes', data: { id: '5', name: 'n5' }, position: { x: 400, y: 100 } },
+      // { group: 'nodes', data: { id: '6', name: 'n6' }, display: 'hide', position: { x: 300, y: 100 } },
+      // { group: 'nodes', data: { id: '7', name: 'n7' }, position: { x: 300, y: 200 } },
+      // { group: 'edges', data: { id: '8', name: '属于', source: '0', target: '1' } },
+      // { group: 'edges', data: { id: '9', name: '属于', source: '1', target: '6' } },
+      // { group: 'edges', data: { id: '10', name: '属于', source: '4', target: '0' } },
+      // { group: 'edges', data: { id: '11', name: '属于', source: '3', target: '4' } },
+      // { group: 'edges', data: { id: '12', name: '属于', source: '2', target: '7' } },
+      // { group: 'edges', data: { id: '13', name: '属于', source: '5', target: '3' } },
+      // { group: 'edges', data: { id: '14', name: '属于', source: '3', target: '2' } },
+      // { group: 'edges', data: { id: '15', name: '属于', source: '6', target: '1' } },
+      // { group: 'edges', data: { id: '16', name: '属于', source: '7', target: '2' } }
+      // ])
     },
     delEles () {
       this.$refs.ref_CJS.delEles()
@@ -249,7 +289,7 @@ export default {
 </script>
 
 <style scoped>
-  .change_form {
-    padding-top: 30px
-  }
+.change_form {
+  padding-top: 30px
+}
 </style>
