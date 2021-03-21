@@ -120,8 +120,8 @@ export default {
             name: node.properties ? node.properties.name : ''
           },
           position: {
-            x: Math.ceil(Math.random() * 10) * 100,
-            y: Math.ceil(Math.random() * 10) * 100
+            x: Math.ceil(Math.random() * 10) * 90,
+            y: Math.ceil(Math.random() * 10) * 90
           }
         }])
       }
