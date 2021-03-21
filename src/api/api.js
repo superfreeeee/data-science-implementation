@@ -32,5 +32,5 @@ export function AddEdgeAPI (params) {
 }
 
 export function getGraphAPI () {
-  return http.get(`${request}/graph/getGraph`)
+  return http.get(`${request}/graph/getGraph/`)
 }
