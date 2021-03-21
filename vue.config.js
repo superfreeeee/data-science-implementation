@@ -11,16 +11,7 @@ module.exports = {
           pathRewrite: {
               "^/api": "/"
           }
-      },
-      "/coin/api": {
-        target: "http://42.192.9.211:9090",
-        changeOrigin: true,
-        ws: true,//websocket支持
-        secure: false,
-        pathRewrite: {
-          "^/api": "/"
-        }
-      },
+      }
     }
   }
 }
