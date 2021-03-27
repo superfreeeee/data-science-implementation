@@ -1,8 +1,11 @@
 <template>
   <div style="height: 100%; width: 100%;">
-    <div style="position: fixed; right: 20pt;bottom: 0pt; z-index: 2;">
-      <Button size="middle" style="background-color: #67758D;color: white; margin-right: 30px" @click="addNodes">添加节点</Button>
-      <Button size="middle" style="background-color: #67758D;color: white" @click="delEles">删除</Button>
+    <CJS ref="ref_CJS"></CJS>
+    <div class="buttonBar" style="background-color: rgb(220, 220, 220)">
+      <div class="button" style="margin-left: 80%">
+        <Button size="middle" style="background-color: #67758D;color: white; margin-right: 30px" @click="addNodes">添加节点</Button>
+        <Button size="middle" style="background-color: #67758D;color: white" @click="delEles">删除</Button>
+      </div>
       <div class="change_form" >
         <a-modal :visible="addNodeFormVisible" title="增加节点" @cancel="cancelAddNode" @ok="addNode">
           <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }" @submit="addNode">
@@ -63,13 +66,12 @@
         </a-form>
       </a-modal>
     </div>
-    <CJS ref="ref_CJS"></CJS>
   </div>
 </template>
 
 <script>
 import CJS from './components/cjs'
-import { getListAPI, getGraphAPI, AddNodeAPI } from '@/api/api'
+import { getListAPI, getGraphAPI } from '@/api/api'
 
 export default {
   name: 'Test',
@@ -94,8 +96,7 @@ export default {
           name: ''
           // 属性（键值对）
         }
-      },
-      nodeId: ''
+      }
     }
   },
   methods: {
@@ -117,7 +118,8 @@ export default {
           group: 'nodes',
           data: {
             id: node.identity,
-            name: node.properties ? node.properties.name : ''
+            name: node.properties ? node.properties.name : '',
+            properties: node.properties
           },
           position: {
             x: Math.ceil(Math.random() * 10) * 90,
@@ -134,7 +136,8 @@ export default {
             id: edge.identity,
             name: edge.type,
             source: edge.start,
-            target: edge.end
+            target: edge.end,
+            properties: edge.properties
           }
         }])
       }
@@ -168,7 +171,7 @@ export default {
     addNode (e) {
       console.log(e)
       e.preventDefault()
-      this.form.validateFields(async (err, values) => {
+      this.form.validateFields((err, values) => {
         if (!err) {
           console.log('Received values of form: ', values)
         }
@@ -185,27 +188,27 @@ export default {
         const ele = {
           group: 'nodes',
           data: {
-            id: '',
+            id: '30',
             name: values.name,
             label: values.label
           },
           position: {
-            x: 600,
+            x: 800,
             y: 400
           }
         }
-        await AddNodeAPI(this.nodeData).then(res => {
-          ele.data.id = res.content + ''
-        }).catch(err => console.log(err))
+        // AddNodeAPI(this.nodeData).then(res => {
+        //   ele.data.id = res.content + ''
+        // }).catch(err => console.log(err))
         this.$refs.ref_CJS.addEles([
           ele
         ])
       })
+      // console.log('second')
       // console.log(this.nodeData)
       this.nodeData.properties = {
         name: ''
       }
-      console.log('second')
       this.addNodeFormVisible = false
       this.form.resetFields()
     },

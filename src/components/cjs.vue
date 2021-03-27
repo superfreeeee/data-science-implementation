@@ -35,9 +35,10 @@
     z-index: 2;
   }
   #cytoscape_id{
-    height: 90%;
+    height: 85%;
     margin-left: 7.5%;
     margin-right: 1%;
+    padding-top: 30px;
     z-index: 1;
     background-color: white;
     border: 1.5px solid ;
@@ -46,9 +47,23 @@
     padding: 1px;
   }
   .selectDisplay{
-    padding-top: 5px;
-    margin: 0px 20px 5px 0;
+    margin: 10px 20px 0 0;
     text-align:right;
+  }
+  .propertyDisplay{
+    height:38px;
+    margin-left: 7.5%;
+    margin-right: 1%;
+    margin-top: 10px;
+    background-color: white;
+    overflow: hidden;
+    overflow-y: scroll;
+  }
+  #labels{
+    background-color: rgb(248, 182, 138);
+    border-radius: 10px;
+    box-shadow: 0px 1px 2px rgb(253, 146, 84), 0px 1px 2px rgba(0, 0, 0, .7);
+    font-weight:bold;
   }
 </style>
 
@@ -111,6 +126,10 @@
       </a-dropdown>
     </div>
     <div id="cytoscape_id">
+    </div>
+    <div class="propertyDisplay">
+      <span id="labels"></span>
+      <p id="properties"> click on the node or edge to display more infomation!</p>
     </div>
     <a-modal :visible="modifyEdgeFormVisible" title="修改边" @cancel="cancelModifyEdge" @ok="modifyEdge">
       <a-form :form="modifyEdgeForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
@@ -374,6 +393,7 @@ export default {
     const eh = this.$cy.edgehandles(defaults)
     eh.enable()
     var that = this
+    // 拖动添加边
     this.$cy.on('ehcomplete', (event, sourceNode, targetNode, addedEles) => {
       // console.log(sourceNode.data().id)
       // that.addEdgeFormVisible = true
@@ -382,6 +402,53 @@ export default {
       that.addEdges([sourceNode.data().id], [targetNode.data().id])
     })
 
+    // 鼠标移动到节点上显示属性
+    this.$cy.on('mousemove', 'node', function (e) {
+      console.log(e)
+      // this.data().isClick = false
+      var list = e.target.data()
+      var listStr = JSON.stringify(list)
+      document.getElementById('labels').innerHTML = '\xa0\xa0' + list.name + '\xa0\xa0'
+      document.getElementById('properties').innerHTML = listStr
+    })
+    // 鼠标移动到边上显示属性
+    this.$cy.on('mouseover', 'edge', function (e) {
+      console.log(e)
+      // this.data().isClick = false
+      var list = e.target.data()
+      var listStr = JSON.stringify(list)
+      document.getElementById('labels').innerHTML = '\xa0\xa0' + list.name + '\xa0\xa0'
+      document.getElementById('properties').innerHTML = listStr
+    })
+    // 鼠标点击节点或边显示属性
+    this.$cy.on('click', function (e) {
+      console.log(JSON.stringify(e.target.data()))
+      if (JSON.stringify(e.target.data()) === '{}') {
+        that._data.labels = ''
+        that._data.properties = ' click on the node or edge to display more infomation!'
+        document.getElementById('labels').innerHTML = ''
+        document.getElementById('properties').innerHTML = ' click on the node or edge to display more infomation!'
+      } else {
+        that._data.isClick = true
+        var list = e.target.data()
+        var listStr = JSON.stringify(list)
+        document.getElementById('labels').innerHTML = '\xa0\xa0' + list.name + '\xa0\xa0'
+        document.getElementById('properties').innerHTML = listStr
+        that._data.labels = '\xa0\xa0' + list.name + '\xa0\xa0'
+        that._data.properties = listStr
+      }
+    })
+    // 鼠标移开不显示
+    this.$cy.on('mouseout', function () {
+      // console.log(this.data().isClick)
+      if (!that._data.isClick) {
+        document.getElementById('labels').innerHTML = ''
+        document.getElementById('properties').innerHTML = ' click on the node or edge to display more infomation!'
+      } else {
+        document.getElementById('labels').innerHTML = that._data.labels
+        document.getElementById('properties').innerHTML = that._data.properties
+      }
+    })
     // Cxtmenu圆形菜单--节点
     this.$cy.cxtmenu({
       menuRadius: 80, // the radius of the circular menu in pixels
@@ -572,7 +639,10 @@ export default {
       checkedGreen: false,
       checkedCyan: false,
       checkedBlue: false,
-      checkedPurple: false
+      checkedPurple: false,
+      isClick: false,
+      labels: '',
+      properties: ''
     }
   },
   methods: {
@@ -1029,12 +1099,12 @@ export default {
       this.edgeForm.resetFields()
       this.from = ''
       this.to = ''
-    }, // <E7><82><B9><E5><87><BB><E6><B7><BB><E5><8A><A0><E8><BE><B9><E8><B7><B3><E5><87><BA><E8><A1><A8><E5><8D><95>
+    },
     addEdges (source, target) {
       this.addEdgeFormVisible = true
       this.from = source
       this.to = target
-    }, // <E5><8F><96><E6><B6><88><E6><B7><BB><E5><8A><A0><E8><BE><B9>
+    },
     cancelAddEdge () {
       this.addEdgeFormVisible = false
       this.edgeForm.resetFields()
