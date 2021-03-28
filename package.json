@@ -18,6 +18,7 @@
     "cytoscape-cose-bilkent": "^4.1.0",
     "cytoscape-cxtmenu": "^3.4.0",
     "cytoscape-edgehandles": "^3.6.0",
+    "cytoscape-fcose": "^2.0.0",
     "iview": "^3.5.4",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",

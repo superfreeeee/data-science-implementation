@@ -145,11 +145,11 @@ export default {
         // console.log(data)
         this.$refs.ref_CJS.addEles([{
           group: 'nodes',
-          data,
-          position: {
-            x: Math.ceil(Math.random() * 10) * 90,
-            y: Math.ceil(Math.random() * 10) * 90
-          }
+          data
+          // position: {
+          //   x: Math.ceil(Math.random() * 10) * 90,
+          //   y: Math.ceil(Math.random() * 10) * 90
+          // }
         }])
       }
 
@@ -172,6 +172,7 @@ export default {
           data
         }])
       }
+      this.$refs.ref_CJS.$cy.layout({ name: 'cose', randomize: false, animate: true }).run()
       // this.$refs.ref_CJS.addEles([
 
       // { group: 'nodes', data: { id: '0', name: 'n0' }, position: { x: 200, y: 50 } },
@@ -245,52 +246,14 @@ export default {
         }
       })
     },
-    addEdge (e) {
-      console.log(e)
-      e.preventDefault()
-      this.edgeForm.validateFields((err, values) => {
-        if (!err) {
-          console.log('Received values of form: ', values)
-          const edgeData = {
-            name: values.name,
-            property: values.property,
-            sourceNode: values.sourceNode,
-            endNode: values.endNode
-          }
-          const ele = {
-            group: 'edges',
-            data: {
-              id: '9',
-              name: edgeData.name,
-              source: edgeData.sourceNode,
-              target: edgeData.endNode
-            }
-          }
-          this.$refs.ref_CJS.addEles([
-            ele
-          ])
-          this.addEdgeFormVisible = false
-          this.edgeForm.resetFields()
-        }
-      })
-    },
     // 点击添加节点跳出表单
     addNodes () {
       this.addNodeFormVisible = true
-    },
-    // 点击添加边跳出表单
-    addEdges () {
-      this.addEdgeFormVisible = true
     },
     // 取消添加节点
     cancelAddNode () {
       this.addNodeFormVisible = false
       this.form.resetFields()
-    },
-    // 取消添加边
-    cancelAddEdge () {
-      this.addEdgeFormVisible = false
-      this.edgeForm.resetFields()
     },
     // 点击跳出增加结点属性表单
     addNodeProperty () {

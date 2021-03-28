@@ -114,11 +114,11 @@
             刷新布局
             <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px" title="刷新布局" type="ios-sync" />
           </a-menu-item>
-          <a-menu-item key="2"  @click="refresh({name: 'grid'})">
-            网格布局
-            <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px" title="网格布局" type="ios-apps-outline" />
+          <a-menu-item key="2"  @click="refresh({name: 'fcose'})">
+            力导图模式
+            <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px" title="力导图模式" type="ios-apps-outline" />
           </a-menu-item>
-          <a-menu-item key="3" @click="refresh({name: 'circle'})">
+          <a-menu-item key="3" @click="refresh({name: 'avsdf'})">
             环型布局
             <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px" title="环型布局" type="ios-globe-outline" />
           </a-menu-item>
@@ -277,10 +277,11 @@ import cytoscape from 'cytoscape'
 import cxtmenu from 'cytoscape-cxtmenu'
 import cola from 'cytoscape-cola'
 import avsdf from 'cytoscape-avsdf'
-import coseBilkent from 'cytoscape-cose-bilkent'
+// import coseBilkent from 'cytoscape-cose-bilkent'
 import { UpdataNodeAPI, DeleteNodeAPI, DownloadXmlAPI, DeleteEdgeAPI, updateEdgeAPI } from '@/api/api'
 // import { UpdataNodeAPI, DeleteNodeAPI, DeleteEdgeAPI, updateEdgeAPI, AddEdgeAPI } from '@/api/api'
 import edgehandles from 'cytoscape-edgehandles'
+import fcose from 'cytoscape-fcose'
 
 export default {
   name: 'CJS',
@@ -300,8 +301,9 @@ export default {
       cytoscape.use(cxtmenu)
       cytoscape.use(cola)
       cytoscape.use(avsdf)
-      cytoscape.use(coseBilkent)
+      // cytoscape.use(coseBilkent)
       cytoscape.use(edgehandles)
+      cytoscape.use(fcose)
     }
 
     this.$cy = cytoscape({
@@ -339,101 +341,11 @@ export default {
       container: document.getElementById('cytoscape_id'),
       // 一个指定布局选项的普通对象.
       layout: {
-        name: 'random'
-        // fit: true, // whether to fit to viewport
-        // padding: 30, // fit padding
-        // boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
-        // animate: false, // whether to transition the node positions
-        // animationDuration: 500, // duration of animation in ms if enabled
-        // animationEasing: undefined, // easing of animation if enabled
-        // // animateFilter: function ( node, i ){ return true; }, // a function that determines whether the node should be animated.  All nodes animated by default on animate enabled.  Non-animated nodes are positioned immediately when the layout starts
-        // ready: undefined, // callback on layoutready
-        // stop: undefined, // callback on layoutstop
-        // transform: function (node, position ){ return position; } // transform a given node position. Useful for changing flow direction in discrete layouts
+        name: 'cose'
       }
 
     })
-    const defaults = {
-
-      preview: true, // whether to show added edges preview before releasing selection
-      hoverDelay: 150, // time spent hovering over a target node before it is considered selected
-      handleNodes: 'node', // selector/filter function for whether edges can be made from a given node
-      snap: false, // when enabled, the edge can be drawn by just moving close to a target node
-      snapThreshold: 50, // the target node must be less than or equal to this many pixels away from the cursor/finger
-      snapFrequency: 15, // the number of times per second (Hz) that snap checks done (lower is less expensive)
-      noEdgeEventsInDraw: false, // set events:no to edges during draws, prevents mouseouts on compounds
-      disableBrowserGestures: true, // during an edge drawing gesture, disable browser gestures such as two-finger trackpad swipe and pinch-to-zoom
-      handlePosition: function (node) {
-        return 'middle top' // sets the position of the handle in the format of "X-AXIS Y-AXIS" such as "left top", "middle top"
-      },
-      handleInDrawMode: false, // whether to show the handle in draw mode
-      edgeType: function (sourceNode, targetNode) {
-        // can return 'flat' for flat edges between nodes or 'node' for intermediate node between them
-        // returning null/undefined means an edge can't be added between the two nodes
-        return 'flat'
-      },
-      loopAllowed: function (node) {
-        // for the specified node, return whether edges from itself to itself are allowed
-        return false
-      },
-      nodeLoopOffset: -50, // offset for edgeType: 'node' loops
-      // nodeParams: function (sourceNode, targetNode) {
-      //   // for edges between the specified source and target
-      //   // return element object to be passed to cy.add() for intermediary node
-      //   return {}
-      // },
-      // edgeParams: function (sourceNode, targetNode, i) {
-      //   // for edges between the specified source and target
-      //   // return element object to be passed to cy.add() for edge
-      //   // NB: i indicates edge index in case of edgeType: 'node'
-      //   return {}
-      // },
-      // ghostEdgeParams: function () {
-      //   // return element object to be passed to cy.add() for the ghost edge
-      //   // (default classes are always added for you)
-      //   return {}
-      // },
-      // show: function (sourceNode) {
-      //   // fired when handle is shown
-      // },
-      // hide: function (sourceNode) {
-      //   // fired when the handle is hidden
-      // },
-      // start: function (sourceNode) {
-      //   console.log(sourceNode)
-      // },
-      complete: function (sourceNode, targetNode, addedEles) {
-        // console.log(sourceNode.data().id)
-        // console.log(targetNode.data().id)
-        // this.addEdgeFormVisible = true
-        // this.$cy.addEdges([sourceNode.data().id], [targetNode.data().id])
-      }
-      // stop: function (sourceNode) {
-      //   // fired when edgehandles interaction is stopped (either complete with added edges or incomplete)
-      // },
-      // cancel: function (sourceNode, cancelledTargets) {
-      //   // fired when edgehandles are cancelled (incomplete gesture)
-      // },
-      // hoverover: function (sourceNode, targetNode) {
-      //   // fired when a target is hovered
-      // },
-      // hoverout: function (sourceNode, targetNode) {
-      //   // fired when a target isn't hovered anymore
-      // },
-      // previewon: function (sourceNode, targetNode, previewEles) {
-      //   // fired when preview is shown
-      // },
-      // previewoff: function (sourceNode, targetNode, previewEles) {
-      //   // fired when preview is hidden
-      // },
-      // drawon: function () {
-      //   // fired when draw mode enabled
-      // },
-      // drawoff: function () {
-      //   // fired when draw mode disabled
-      // }
-    }
-    const eh = this.$cy.edgehandles(defaults)
+    const eh = this.$cy.edgehandles({ preview: false })
     eh.enable()
     var that = this
     // 拖动添加边
@@ -455,14 +367,14 @@ export default {
       document.getElementById('properties').innerHTML = listStr
     })
     // 鼠标移动到边上显示属性
-    // this.$cy.on('mouseover', 'edge', function (e) {
-    //   console.log(e)
-    //   // this.data().isClick = false
-    //   var list = e.target.data()
-    //   var listStr = JSON.stringify(list)
-    //   document.getElementById('labels').innerHTML = '\xa0\xa0' + list.name + '\xa0\xa0'
-    //   document.getElementById('properties').innerHTML = listStr
-    // })
+    this.$cy.on('mouseover', 'edge', function (e) {
+      console.log(e)
+      // this.data().isClick = false
+      var list = e.target.data()
+      var listStr = JSON.stringify(list)
+      document.getElementById('labels').innerHTML = '\xa0\xa0' + list.name + '\xa0\xa0'
+      document.getElementById('properties').innerHTML = listStr
+    })
     // 鼠标点击节点或边显示属性
     this.$cy.on('click', function (e) {
       console.log(JSON.stringify(e.target.data()))
@@ -482,16 +394,16 @@ export default {
       }
     })
     // 鼠标移开不显示
-    // this.$cy.on('mouseout', function () {
-    //   // console.log(this.data().isClick)
-    //   if (!that._data.isClick) {
-    //     document.getElementById('labels').innerHTML = ''
-    //     document.getElementById('properties').innerHTML = ' click on the node or edge to display more infomation!'
-    //   } else {
-    //     document.getElementById('labels').innerHTML = that._data.labels
-    //     document.getElementById('properties').innerHTML = that._data.properties
-    //   }
-    // })
+    this.$cy.on('mouseout', function () {
+      // console.log(this.data().isClick)
+      if (!that._data.isClick) {
+        document.getElementById('labels').innerHTML = ''
+        document.getElementById('properties').innerHTML = ' click on the node or edge to display more infomation!'
+      } else {
+        document.getElementById('labels').innerHTML = that._data.labels
+        document.getElementById('properties').innerHTML = that._data.properties
+      }
+    })
     // Cxtmenu圆形菜单--节点
     this.$cy.cxtmenu({
       menuRadius: 80, // the radius of the circular menu in pixels
