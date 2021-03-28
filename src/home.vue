@@ -9,14 +9,28 @@
             <a-form-item label="name">
               <a-input
                 v-decorator="['name', { rules: [{ required: true, message: 'Please input name of the node!' }] }]"
+                placeholder="input name here"
               />
             </a-form-item>
             <a-form-item label="label">
               <a-input
                 v-decorator="['label', { rules: [{ required: false, message: 'choose to input label of the node!' }] }]"
+                placeholder="input label here!"
               />
             </a-form-item>
-            <a-button @click="addNodeProperty" style="margin: 20px 0px 10px 100px">增加属性</a-button>
+            <div style = "margin-left:50px; margin-top:30px">
+              <h4 style="margin-bottom: 16px">
+              属性:
+              </h4>
+              <a-list item-layout="horizontal" :data-source="all_property">
+              <a-list-item slot="renderItem" slot-scope="item">
+                  <a-list-item-meta>
+                  <a slot="title" >{{ item.title }}:&nbsp;{{item.value}}</a>
+                  </a-list-item-meta>
+              </a-list-item>
+              </a-list>
+              <a-button @click="addNodeProperty" style="margin: 20px 0px 10px 100px">增加属性</a-button>
+            </div>
             <!--          <a-form-item :wrapper-col="{ span: 12, offset: 5 }">-->
             <!--            <a-button type="primary" html-type="submit">-->
             <!--              增加node-->
@@ -25,39 +39,19 @@
           </a-form>
         </a-modal>
       </div>
-      <a-modal :visible="addEdgeFormVisible" title="增加边" @cancel="cancelAddEdge" @ok="addEdge">
-        <a-form :form="edgeForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
-          <a-form-item label="name">
-            <a-input
-              v-decorator="['name', { rules: [{ required: true, message: 'Please input name of the node!' }] }]"
-            />
-          </a-form-item>
-          <a-form-item label="property">
-            <a-input
-              v-decorator="['property', { rules: [{ required: false, message: 'choose to input property of the node!' }] }]"
-            />
-          </a-form-item>
-          <a-form-item label="sourceNode">
-            <a-input
-              v-decorator="['sourceNode',{rules:[{required:true,message:'please input the sourceNode!'}]}]"></a-input>
-          </a-form-item>
-          <a-form-item label="endNode">
-            <a-input
-              v-decorator="['endNode',{rules:[{required:true,message:'please input the endNode!'}]}]"></a-input>
-          </a-form-item>
-        </a-form>
-      </a-modal>
       <a-modal :visible="addNodePropertyFormVisible" title="增加属性" @cancel="cancelAddNodeProperty"
                @ok="addNodeProperties">
         <a-form :form="NodePropertyForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
           <a-form-item label="key">
             <a-input
               v-decorator="['key', { rules: [{ required: true, message: 'Please input key of the property!' }] }]"
+              placeholder="input key here"
             />
           </a-form-item>
           <a-form-item label="value">
             <a-input
-              v-decorator="['value', { rules: [{ required: false, message: 'choose to input value of the property!' }] }]"
+              v-decorator="['value', { rules: [{ required: true, message: 'choose to input value of the property!' }] }]"
+              placeholder="input value here"
             />
           </a-form-item>
         </a-form>
@@ -83,9 +77,7 @@ export default {
       formLayout: 'horizontal',
       form: this.$form.createForm(this, { name: 'coordinated' }),
       addNodeFormVisible: false,
-      addEdgeFormVisible: false,
       addNodePropertyFormVisible: false,
-      edgeForm: this.$form.createForm(this, { name: 'coordinated' }),
       NodePropertyForm: this.$form.createForm(this, { name: 'coordinated' }),
       nodeData: {
         identity: '',
@@ -95,7 +87,8 @@ export default {
           // 属性（键值对）
         }
       },
-      nodeId: ''
+      nodeId: '',
+      all_property: []
     }
   },
   methods: {
@@ -103,22 +96,29 @@ export default {
       var graph
       await getGraphAPI().then(res => {
         graph = res.content
-        console.log(res)
+        // console.log(res)
       }).catch(err => console.log(err))
 
-      console.log(graph)
+      // console.log(graph)
       var nodes = graph.nodes
       var edges = graph.edges
 
-      console.log(this.$refs.ref_CJS)
+      // console.log(this.$refs.ref_CJS)
       for (var n in nodes) {
         var node = nodes[n]
+        const data = {}
+        if (node.properties) {
+          for (var key in node.properties) {
+            data[key] = node.properties[key]
+          }
+        } else {
+          data.name = ''
+        }
+        data.id = node.identity
+        // console.log(data)
         this.$refs.ref_CJS.addEles([{
           group: 'nodes',
-          data: {
-            id: node.identity,
-            name: node.properties ? node.properties.name : ''
-          },
+          data,
           position: {
             x: Math.ceil(Math.random() * 10) * 90,
             y: Math.ceil(Math.random() * 10) * 90
@@ -128,14 +128,21 @@ export default {
 
       for (var e in edges) {
         var edge = edges[e]
+        const data = {}
+        if (edge.properties) {
+          for (var keyE in edge.properties) {
+            if (keyE !== 'type') {
+              data[keyE] = edge.properties[keyE]
+            }
+          }
+        }
+        data.id = edge.identity
+        data.source = edge.start
+        data.target = edge.end
+        data.name = edge.type
         this.$refs.ref_CJS.addEles([{
           group: 'edges',
-          data: {
-            id: edge.identity,
-            name: edge.type,
-            source: edge.start,
-            target: edge.end
-          }
+          data
         }])
       }
       // this.$refs.ref_CJS.addEles([
@@ -171,43 +178,45 @@ export default {
       this.form.validateFields(async (err, values) => {
         if (!err) {
           console.log('Received values of form: ', values)
-        }
-        this.nodeData.labels = [values.label]
-        this.nodeData.properties.name = values.name
-        // const nodeData = {
-        //   identity: '',
-        //   labels: [values.label], // 标签
-        //   properties: {
-        //     name: values.name
-        //     // 属性（键值对）
-        //   }
-        // }
-        const ele = {
-          group: 'nodes',
-          data: {
-            id: '',
-            name: values.name,
-            label: values.label
-          },
-          position: {
-            x: 600,
-            y: 400
+          this.nodeData.labels = [values.label]
+          this.nodeData.properties.name = values.name
+          // const nodeData = {
+          //   identity: '',
+          //   labels: [values.label], // 标签
+          //   properties: {
+          //     name: values.name
+          //     // 属性（键值对）
+          //   }
+          // }
+          const ele = {
+            group: 'nodes',
+            data: {
+              id: '',
+              name: values.name,
+              label: values.label
+            },
+            position: {
+              x: 600,
+              y: 400
+            }
           }
+          for (var key in this.nodeData.properties) {
+            ele.data[key] = this.nodeData.properties[key]
+          }
+          await AddNodeAPI(this.nodeData).then(res => {
+            ele.data.id = res.content + ''
+          }).catch(err => console.log(err))
+          this.$refs.ref_CJS.addEles([
+            ele
+          ])
+          this.nodeData.properties = {
+            name: ''
+          }
+          this.addNodeFormVisible = false
+          this.form.resetFields()
+          this.all_property = []
         }
-        await AddNodeAPI(this.nodeData).then(res => {
-          ele.data.id = res.content + ''
-        }).catch(err => console.log(err))
-        this.$refs.ref_CJS.addEles([
-          ele
-        ])
       })
-      // console.log(this.nodeData)
-      this.nodeData.properties = {
-        name: ''
-      }
-      console.log('second')
-      this.addNodeFormVisible = false
-      this.form.resetFields()
     },
     addEdge (e) {
       console.log(e)
@@ -215,28 +224,28 @@ export default {
       this.edgeForm.validateFields((err, values) => {
         if (!err) {
           console.log('Received values of form: ', values)
-        }
-        const edgeData = {
-          name: values.name,
-          property: values.property,
-          sourceNode: values.sourceNode,
-          endNode: values.endNode
-        }
-        const ele = {
-          group: 'edges',
-          data: {
-            id: '9',
-            name: edgeData.name,
-            source: edgeData.sourceNode,
-            target: edgeData.endNode
+          const edgeData = {
+            name: values.name,
+            property: values.property,
+            sourceNode: values.sourceNode,
+            endNode: values.endNode
           }
+          const ele = {
+            group: 'edges',
+            data: {
+              id: '9',
+              name: edgeData.name,
+              source: edgeData.sourceNode,
+              target: edgeData.endNode
+            }
+          }
+          this.$refs.ref_CJS.addEles([
+            ele
+          ])
+          this.addEdgeFormVisible = false
+          this.edgeForm.resetFields()
         }
-        this.$refs.ref_CJS.addEles([
-          ele
-        ])
       })
-      this.addEdgeFormVisible = false
-      this.edgeForm.resetFields()
     },
     // 点击添加节点跳出表单
     addNodes () {
@@ -256,7 +265,7 @@ export default {
       this.addEdgeFormVisible = false
       this.edgeForm.resetFields()
     },
-    // 点击跳出增加结点
+    // 点击跳出增加结点属性表单
     addNodeProperty () {
       this.addNodePropertyFormVisible = true
     },
@@ -266,23 +275,26 @@ export default {
       this.NodePropertyForm.validateFields((err, values) => {
         if (!err) {
           console.log('Received values of form: ', values)
-        }
-        var test1 = /^[0-9]+[\s\S]*$/
-        if (test1.test(values.key)) {
-          alert('开头是数字')
-        } else {
-          this.nodeData.properties[values.key] = values.value
+          var test1 = /^[0-9]+[\s\S]*$/
+          if (test1.test(values.key)) {
+            alert('开头是数字')
+          } else {
+            this.nodeData.properties[values.key] = values.value
+          }
+          this.all_property.push({
+            title: values.key,
+            value: values.value
+          })
+          this.addNodePropertyFormVisible = false
+          this.NodePropertyForm.resetFields()
         }
       })
-      console.log('first')
-      console.log(this.nodeData)
-      this.addNodePropertyFormVisible = false
-      this.NodePropertyForm.resetFields()
     },
     // 取消增加结点属性
     cancelAddNodeProperty () {
       this.addNodePropertyFormVisible = false
       this.NodePropertyForm.resetFields()
+      this.all_property = []
     }
   }
 }
