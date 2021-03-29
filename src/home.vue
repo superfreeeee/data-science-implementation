@@ -174,24 +174,7 @@ export default {
       }
       this.$refs.ref_CJS.$cy.layout({ name: 'cose', randomize: false, animate: true }).run()
       // this.$refs.ref_CJS.addEles([
-
       // { group: 'nodes', data: { id: '0', name: 'n0' }, position: { x: 200, y: 50 } },
-      // { group: 'nodes', data: { id: '1', name: 'n1' }, position: { x: 500, y: 50 } },
-      // { group: 'nodes', data: { id: '2', name: 'n2' }, display: 'hide', position: { x: 200, y: 150 } },
-      // { group: 'nodes', data: { id: '3', name: 'n3' }, position: { x: 500, y: 150 } },
-      // { group: 'nodes', data: { id: '4', name: 'n4' }, position: { x: 100, y: 100 } },
-      // { group: 'nodes', data: { id: '5', name: 'n5' }, position: { x: 400, y: 100 } },
-      // { group: 'nodes', data: { id: '6', name: 'n6' }, display: 'hide', position: { x: 300, y: 100 } },
-      // { group: 'nodes', data: { id: '7', name: 'n7' }, position: { x: 300, y: 200 } },
-      // { group: 'edges', data: { id: '8', name: '属于', source: '0', target: '1' } },
-      // { group: 'edges', data: { id: '9', name: '属于', source: '1', target: '6' } },
-      // { group: 'edges', data: { id: '10', name: '属于', source: '4', target: '0' } },
-      // { group: 'edges', data: { id: '11', name: '属于', source: '3', target: '4' } },
-      // { group: 'edges', data: { id: '12', name: '属于', source: '2', target: '7' } },
-      // { group: 'edges', data: { id: '13', name: '属于', source: '5', target: '3' } },
-      // { group: 'edges', data: { id: '14', name: '属于', source: '3', target: '2' } },
-      // { group: 'edges', data: { id: '15', name: '属于', source: '6', target: '1' } },
-      // { group: 'edges', data: { id: '16', name: '属于', source: '7', target: '2' } }
       // ])
     },
     delEles () {

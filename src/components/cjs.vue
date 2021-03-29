@@ -25,6 +25,7 @@
   }
   .cytoolbar_id{
     list-style-type: none;
+
     margin: 0;
     padding: 0;
     width: 5.5%;
@@ -100,6 +101,11 @@
       <div class="tools">
         <div class="center-center">
           <Icon style="font-size: 32px; cursor: pointer;" title="全图导出" type="ios-reverse-camera-outline" color="white" @click="exportPng()"/>
+        </div>
+      </div>
+      <div class="tools">
+        <div class="center-center">
+          <a-icon type="history" style="font-size: 28px;cursor: pointer; color: white;font-weight: lighter" title="历史记录" @click="showHistory()"/>
         </div>
       </div>
     </div>
@@ -269,6 +275,7 @@
         <!--        </a-form-item>-->
       </a-form>
     </a-modal>
+    <History></History>
   </div>
 </template>
 
@@ -282,6 +289,8 @@ import { UpdataNodeAPI, DeleteNodeAPI, DownloadXmlAPI, DeleteEdgeAPI, updateEdge
 // import { UpdataNodeAPI, DeleteNodeAPI, DeleteEdgeAPI, updateEdgeAPI, AddEdgeAPI } from '@/api/api'
 import edgehandles from 'cytoscape-edgehandles'
 import fcose from 'cytoscape-fcose'
+import History from '@/views/history'
+import {mapGetters,mapActions,mapMutations} from 'vuex'
 
 export default {
   name: 'CJS',
@@ -295,6 +304,14 @@ export default {
   },
   watch: {},
   props: {},
+  components:{
+    History
+  },
+  computed:{
+    ...mapGetters([
+      'historyVisible'
+    ])
+  },
   mounted () {
     // Cxtmenu圆形菜单主要依赖组件
     if (!cytoscape().cxtmenu) {
@@ -1150,6 +1167,16 @@ export default {
     cancelAddEdgeProperty () {
       this.addEdgePropertyFormVisible = false
       this.EdgePropertyForm.resetFields()
+    },
+    ...mapMutations([
+      'set_historyVisible'
+    ]),
+    ...mapActions([
+        'getHistoryList'
+    ]),
+    showHistory(){
+      this.getHistoryList()
+      this.set_historyVisible(true)
     }
   }
 }
