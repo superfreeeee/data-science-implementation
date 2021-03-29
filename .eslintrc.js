@@ -5,6 +5,11 @@ module.exports = {
     node: true
   },
 
+  use: [
+    {
+      loader: "babel-loader"}
+      ],
+
   extends: [
     'plugin:vue/essential'
   ]
