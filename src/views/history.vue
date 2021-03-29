@@ -77,8 +77,6 @@
         console.log(this.historyList)
       },
       handleInfiniteOnload(){
-        const data=this.historyList;
-
       }
     }
   }
