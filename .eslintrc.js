@@ -9,12 +9,19 @@ module.exports = {
     ],
     "parserOptions": {
         "ecmaVersion": 2018,
-        "sourceType": "module"
+        "sourceType": "module",
+        "parser":"babel-eslint"
     },
     "plugins": [
         "vue"
     ],
     "rules": {
-      'no-undef': 'off'
+      'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+      'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+      'no-undef': 'off',
+      'vue/no-unused-vars': 'off',
+      'vue/require-v-for-key': 'off',
+      'no-unused-vars': 'off',
+      'vue/no-unused-components': 'off'
     }
 };
