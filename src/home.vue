@@ -3,15 +3,15 @@
     <CJS ref="ref_CJS"></CJS>
     <div class="buttonBar" style="background-color: rgb(220, 220, 220)">
       <div class="button" style="margin-left: 70%">
-        <Button size="middle" style="background-color: #67758D;color: white; margin-right: 30px" @click="uploading" >上传文件</Button>
-        <Button size="middle" style="background-color: #67758D;color: white; margin-right: 30px" @click="addNodes">添加节点</Button>
-        <Button size="middle" style="background-color: #67758D;color: white" @click="delEles">删除</Button>
+        <Button style="background-color: #67758D;color: white; margin-right: 30px" @click="uploading" >上传文件</Button>
+        <Button style="background-color: #67758D;color: white; margin-right: 30px" @click="addNodes">添加节点</Button>
+        <Button style="background-color: #67758D;color: white" @click="delEles">删除</Button>
       </div>
       <div class="upload_form">
         <a-modal
           title="上传文件" :footer="null" :visible="uploadFormVisible" :confirmLoading="confirmLoading" @cancel="cancelUpload">
-          <a-upload-dragger name="file" ref="majorUpload" :multiple="true" :action="majorAction" :remove="handleRemove"
-                            :headers="majorHeaders" :before-upload="beforeUpload" @change="handleChange" :file-list="fileList">
+          <a-upload-dragger name="mFile" :multiple="false" :showUploadList="true" action="http://localhost:9090/api/file/uploadFile" :remove="handleRemove"
+                            :before-upload="beforeUpload" @change="handleChange" :file-list="fileList">
             <p class="ant-upload-drag-icon">
               <a-icon style="color:#437FFF;font-size: 32px " type="vertical-align-top" />
             </p>
@@ -22,10 +22,7 @@
               支持扩展名：.csv .json
             </p>
           </a-upload-dragger>
-          <!--      <a-upload-->
-          <!--        :fileList="fileList" :remove="handleRemove" show-upload-list="true" :beforeUpload="beforeUpload">-->
-          <!--      <a-button><a-icon type="upload" />选择文件</a-button>-->
-          <!--      </a-upload>-->
+          <a-button @click="handleSure" type="primary" style="margin: 20px 0px 10px 400px">确认</a-button>
         </a-modal>
       </div>
       <div class="change_form" >
@@ -172,7 +169,11 @@ export default {
           data
         }])
       }
-      this.$refs.ref_CJS.$cy.layout({ name: 'cose', randomize: false, animate: true }).run()
+      this.$refs.ref_CJS.$cy.layout({
+        name: 'cose',
+        randomize: false,
+        animate: true
+      }).run()
       // this.$refs.ref_CJS.addEles([
       // { group: 'nodes', data: { id: '0', name: 'n0' }, position: { x: 200, y: 50 } },
       // ])
@@ -286,6 +287,7 @@ export default {
     },
     // 显示上传文件内容
     beforeUpload (file) {
+      console.log('before upload')
       this.spinning = true
       var that = this
       that.visible = false
@@ -304,7 +306,8 @@ export default {
       const file = info.file
       const name = file.name
       const suffix = name.substr(name.lastIndexOf('.'))
-      if (suffix !== '.csv' || suffix !== '.json') {
+      if (suffix !== '.csv' && suffix !== '.json') {
+        console.log(suffix)
         return false
       }
       let fileList = [...info.fileList]
@@ -315,12 +318,14 @@ export default {
         }
         return file
       })
+      console.log('111')
       this.fileList = fileList
-      // console.log("this.fileList==",this.fileList);
+      console.log("this.fileList==", this.fileList);
       if (this.fileList && this.fileList.length > 0 && this.fileList[0].response && this.fileList[0].response.code === 0) {
         // this.fileList[0].response 执行的回调信息
         const arr = this.fileList[0].response.list || []
         if (arr.length > 0) {
+          console.log('222')
           let majorNames = ''
           arr.forEach(item => {
             if (majorNames) {
@@ -348,6 +353,9 @@ export default {
         }
       }
       this.all_property = []
+    },
+    handleSure () {
+      this.uploadFormVisible = false
     }
   }
 }
