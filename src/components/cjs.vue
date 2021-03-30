@@ -285,7 +285,7 @@ import cxtmenu from 'cytoscape-cxtmenu'
 import cola from 'cytoscape-cola'
 import avsdf from 'cytoscape-avsdf'
 // import coseBilkent from 'cytoscape-cose-bilkent'
-import { UpdataNodeAPI, DeleteNodeAPI, DownloadXmlAPI, DeleteEdgeAPI, updateEdgeAPI } from '@/api/api'
+import { UpdataNodeAPI, DeleteNodeAPI, DownloadXmlAPI, DeleteEdgeAPI, updateEdgeAPI, AddEdgeAPI } from '@/api/api'
 // import { UpdataNodeAPI, DeleteNodeAPI, DeleteEdgeAPI, updateEdgeAPI, AddEdgeAPI } from '@/api/api'
 import edgehandles from 'cytoscape-edgehandles'
 import fcose from 'cytoscape-fcose'
@@ -607,6 +607,14 @@ export default {
           // 属性（键值对）
         }
       },
+      edgeData: {
+        identity: '',
+        start: '',
+        end: '',
+        type: '',
+        properties: {
+        }
+      },
       checkedPink: false,
       checkedRed: false,
       checkedOrange: false,
@@ -879,31 +887,37 @@ export default {
       console.log(`Click on item ${key}`)
     },
     /** *************************工具栏************************/
+    //修改边
     modifyEdge (e) {
       // console.log(e)
       e.preventDefault()
-      this.modifyEdgeForm.validateFields((err, values) => {
+      this.modifyEdgeForm.validateFields(async (err, values) => {
         if (!err) {
           console.log('the value of the form: ', values)
-          const edgeData = {
-            identity: this.edgeId,
-            start: this.sourceNode,
-            end: this.endNode,
-            type: values.name,
-            properties: {}
-          }
+          this.edgeData.identity = this.edgeId
+          this.edgeData.start = this.sourceNode
+          this.edgeData.end = this.endNode
+          this.edgeData.type = values.name
+          // const edgeData = {
+          //   identity: this.edgeId,
+          //   start: this.sourceNode,
+          //   end: this.endNode,
+          //   type: values.name,
+          //   properties: {}
+          // }
           const ele = {
             group: 'edges',
             data: {
               id: this.edgeId,
-              name: edgeData.type,
-              source: edgeData.start,
-              target: edgeData.end
-            }
+              name: this.edgeData.type,
+              source: this.edgeData.start,
+              target: this.edgeData.end
+            },
+            properties: {}
           }
-          // console.log(ele.data)
-          // console.log(this.$cy)
-          // console.log(this.$cy.getElementById(ele.data.id).data())
+          for (var key in this.edgeData.properties) {
+            ele.properties[key] = this.edgeData.properties[key]
+          }
           this.$cy.getElementById(ele.data.id).data().name = ele.data.name
           // this.$cy.getElementById(ele.data.id).data().source = ele.data.source
           // this.$cy.getElementById(ele.data.id).data().target = ele.data.target
@@ -911,7 +925,7 @@ export default {
           this.$cy.getElementById(ele.data.id).remove()
           // console.log(ele)
           this.addEles([ele])
-          updateEdgeAPI(edgeData).then(res => {
+          await updateEdgeAPI(this.edgeData).then(res => {
             // console.log(res)
           }).catch(err => console.log(err))
           this.modifyEdgeFormVisible = false
@@ -919,6 +933,7 @@ export default {
           this.edgeId = ''
           this.sourceNode = ''
           this.endNode = ''
+          this.all_property = []
         } else {
           console.log(err)
         }
@@ -928,6 +943,7 @@ export default {
     changeNode (ele) {
       // console.log(ele)
       const nodePro = this.$cy.getElementById(ele).data()
+      console.log('nodepro: ',nodePro)
       for (var key in nodePro) {
         console.log(key)
         if (key !== 'name' && key !== 'id') {
@@ -1041,9 +1057,25 @@ export default {
       this.addNodePropertyFormVisible = false
       this.NodePropertyForm.resetFields()
     },
+    //点击跳出表单
     setModifyEdgeFormVisible (ele) {
-      this.modifyEdgeFormVisible = true
 
+      this.modifyEdgeFormVisible = true
+      const edgePro=this.$cy.getElementById(ele[0]).data()
+      console.log(edgePro)
+      for (var key in edgePro) {
+        console.log(key)
+        if (key !=='id' && key!=='name' && key!=='source' && key!=='target'){
+          this.all_property.push({
+            title: key,
+            value: edgePro[key]
+          })
+
+        }
+      }
+      if (this.all_property.length >= 5) {
+        this.all_property.splice(5)
+      }
       this.edgeId = ele[0]
       this.sourceNode = ele[1]
       this.endNode = ele[2]
@@ -1056,6 +1088,7 @@ export default {
       this.sourceNode = ''
       this.endNode = ''
     },
+    //删除边
     removeEdge (e) {
       // console.log(e)
       DeleteEdgeAPI({ identity: e }).then(res => {
@@ -1063,46 +1096,51 @@ export default {
       }).catch(err => console.log(err))
       this.$cy.getElementById(e).remove()
     },
+    //增加边
     addEdge (e) {
       // console.log(e)
       e.preventDefault()
-      this.edgeForm.validateFields((err, values) => {
+      this.edgeForm.validateFields(async (err, values) => {
         if (!err) {
           console.log('Received values of form: ', values)
-          const edgeData = {
-            identity: '',
-            start: this.from[0],
-            end: this.to[0],
-            type: values.name,
-            property: {}
-          }
-          edgeData.property[values.propertyName] = values.propertyValue
-          // console.log(edgeData)
+          this.edgeData.start=this.from[0]
+          this.edgeData.end=this.to[0]
+          this.edgeData.type=values.name
           const ele = {
             group: 'edges',
             data: {
-              id: '20',
-              name: edgeData.type,
-              source: edgeData.start,
-              target: edgeData.end
-            }
+              id: '',
+              name: this.edgeData.type,
+              source: this.edgeData.start,
+              target: this.edgeData.end
+            },
+            properties: {}
           }
+          // console.log(this.edgeData)
+          for (var key in this.edgeData.properties) {
+            ele.properties[key] = this.edgeData.properties[key]
+          }
+          await AddEdgeAPI(this.edgeData).then(res => {
+            // console.log(res.content)
+            ele.data.id = res.content + ''
+            // console.log(ele)
+          }).catch(err => console.log(err))
           this.addEles([ele])
-          // console.log(ele)
-          // console.log('TRUE')
-          // this.$cy.getElementById(ele.data.id).data().name = ele.data.name
-          // AddEdgeAPI(edgeData).then(res => {
-          //   ele.data.id = res.content
-          //   console.log(ele)
-          // }).catch(err => console.log(err))
+
           this.addEdgeFormVisible = false
           this.edgeForm.resetFields()
           this.from = ''
           this.to = ''
           this.all_property = []
+          this.edgeData.start = ''
+          this.edgeData.end = ''
+          this.edgeData.type = ''
+          this.edgeData.properties = {}
+          this.edgeData.identity = ''
         }
       })
-    }, // <E7><82><B9><E5><87><BB><E6><B7><BB><E5><8A><A0><E8><BE><B9><E8><B7><B3><E5><87><BA><E8><A1><A8><E5><8D><95>
+    },
+    //点击跳出增加边表单
     addEdges (source, target) {
       this.addEdgeFormVisible = true
       this.from = source
@@ -1112,6 +1150,11 @@ export default {
       this.addEdgeFormVisible = false
       this.edgeForm.resetFields()
       this.all_property = []
+      this.edgeData.start = ''
+      this.edgeData.end = ''
+      this.edgeData.type = ''
+      this.edgeData.properties = {}
+      this.edgeData.identity = ''
     },
     handleChangeColor (checked) {
       const selectedEles = this.$cy.getElementById(this.nodeId)
@@ -1153,13 +1196,15 @@ export default {
           if (test1.test(values.key)) {
             alert('开头是数字')
           } else {
+            this.edgeData.properties[values.key] = values.value
             this.all_property.push({
               title: values.key,
               value: values.value
             })
-            this.addEdgePropertyFormVisible = false
-            this.EdgePropertyForm.resetFields()
           }
+          console.log(this.edgeData)
+          this.addEdgePropertyFormVisible = false
+          this.EdgePropertyForm.resetFields()
         }
       })
     },
@@ -1167,6 +1212,7 @@ export default {
     cancelAddEdgeProperty () {
       this.addEdgePropertyFormVisible = false
       this.EdgePropertyForm.resetFields()
+      this.all_property = []
     },
     ...mapMutations([
       'set_historyVisible'
