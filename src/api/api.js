@@ -34,3 +34,7 @@ export function AddEdgeAPI (params) {
 export function getGraphAPI () {
   return http.get(`${request}/graph/getGraph`)
 }
+
+export function uploadFileAPI(params){
+  return http.post(`${request}/graph/uploadFile`,params)
+}

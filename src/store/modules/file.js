@@ -1,6 +1,6 @@
 import {
   uploadFileAPI
-} from '@/api/file'
+} from '@/api/graph'
 
 const file = {
 
