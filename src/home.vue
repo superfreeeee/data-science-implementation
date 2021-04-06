@@ -5,7 +5,8 @@
       <div class="button" style="margin-left: 70%">
         <Button style="background-color: #67758D;color: white; margin-right: 30px" @click="uploading" >上传文件</Button>
         <Button style="background-color: #67758D;color: white; margin-right: 30px" @click="addNodes">添加节点</Button>
-        <Button style="background-color: #67758D;color: white" @click="delEles">删除</Button>
+        <Button style="background-color: #67758D;color: white; margin-right: 30px" @click="delEles">删除</Button>
+        <Button style="background-color: #67758D;color: white" @click="saveGraph">保存</Button>
       </div>
       <div class="upload_form">
         <a-modal
@@ -85,6 +86,7 @@
 <script>
 import CJS from './components/cjs'
 import { getListAPI, getGraphAPI, AddNodeAPI } from '@/api/api'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'Test',
@@ -116,6 +118,11 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([
+    ]),
+    ...mapActions([
+      'saveGraphToEnd'
+    ]),
     async addEles () {
       var graph
       await getGraphAPI().then(res => {
@@ -185,7 +192,6 @@ export default {
       getListAPI('').then(res => console.log(res)).catch(err => console.log(err))
     },
     addNode (e) {
-      console.log(e)
       e.preventDefault()
       this.form.validateFields(async (err, values) => {
         if (!err) {
@@ -356,6 +362,10 @@ export default {
     },
     handleSure () {
       this.uploadFormVisible = false
+    },
+    saveGraph () {
+      console.log("here")
+      this.saveGraphToEnd()
     }
   }
 }

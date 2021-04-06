@@ -3,7 +3,9 @@ const getters={
   historyList:state=>state.history.historyList,
   //file
   uploadFormVisible:state=>state.file.uploadFormVisible,
-  fileList:state=>state.file.fileList
+  fileList:state=>state.file.fileList,
+  //setting
+  settingVisible: state=>state.setting.settingVisible
 }
 
 export default getters

@@ -7,7 +7,7 @@
     /*vertical-align: middle;*/
     display: block;
     color: #000;
-    padding: 25px 16px;
+    padding: 18px 16px;
     text-decoration: none;
   }
   .tools:hover{
@@ -95,7 +95,7 @@
       </div>
       <div class="tools">
         <div class="center-center">
-          <a-icon type="download"  style="font-size: 32px; cursor: pointer; color: white" title="xml下载" color="white" @click="downloadXml()"/>
+          <a-icon type="download"  style="font-size: 26px; cursor: pointer; color: white" title="xml下载"  @click="downloadXml()"/>
         </div>
       </div>
       <div class="tools">
@@ -105,7 +105,12 @@
       </div>
       <div class="tools">
         <div class="center-center">
-          <a-icon type="history" style="font-size: 28px;cursor: pointer; color: white;font-weight: lighter" title="历史记录" @click="showHistory()"/>
+          <a-icon type="history" style="font-size: 26px;cursor: pointer; color: white;font-weight: lighter" title="历史记录" @click="showHistory()"/>
+        </div>
+      </div>
+      <div class="tools">
+        <div class="center-center">
+          <a-icon type="setting" style="font-size: 26px;cursor: pointer; color: white;font-weight: lighter" title="设置" @click="setting()"/>
         </div>
       </div>
     </div>
@@ -115,18 +120,18 @@
         <a class="ant-dropdown-link" @click="e => e.preventDefault()" style="font-size: 16px; color: #67758D;">
           调整布局 <a-icon type="down" />
         </a>
-        <a-menu slot="overlay" @click="onClick">
+        <a-menu slot="overlay" @click="onClick" style="width: 120px">
           <a-menu-item key="1" @click="refresh({name: 'cola'})">
             刷新布局
-            <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px" title="刷新布局" type="ios-sync" />
+            <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px; position: absolute; right: 0px;" title="刷新布局" type="ios-sync" />
           </a-menu-item>
           <a-menu-item key="2"  @click="refresh({name: 'fcose'})">
             力导图模式
-            <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px" title="力导图模式" type="ios-apps-outline" />
+            <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px; position: absolute; right: 0px;" title="力导图模式" type="ios-apps-outline" />
           </a-menu-item>
-          <a-menu-item key="3" @click="refresh({name: 'avsdf'})">
-            环型布局
-            <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px" title="环型布局" type="ios-globe-outline" />
+          <a-menu-item key="3" @click="refresh({name: 'grid'})">
+            排版模式
+            <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px; position: absolute; right: 0px;" title="排版布局" type="ios-globe-outline" />
           </a-menu-item>
         </a-menu>
       </a-dropdown>
@@ -276,6 +281,7 @@
       </a-form>
     </a-modal>
     <History></History>
+    <Setting></Setting>
   </div>
 </template>
 
@@ -290,6 +296,7 @@ import { UpdataNodeAPI, DeleteNodeAPI, DownloadXmlAPI, DeleteEdgeAPI, updateEdge
 import edgehandles from 'cytoscape-edgehandles'
 import fcose from 'cytoscape-fcose'
 import History from '@/views/history'
+import Setting from '@/views/setting'
 import {mapGetters,mapActions,mapMutations} from 'vuex'
 
 export default {
@@ -305,11 +312,13 @@ export default {
   watch: {},
   props: {},
   components:{
-    History
+    History,
+    Setting
   },
   computed:{
     ...mapGetters([
-      'historyVisible'
+      'historyVisible',
+      'settingVisible'
     ])
   },
   mounted () {
@@ -1215,14 +1224,19 @@ export default {
       this.all_property = []
     },
     ...mapMutations([
-      'set_historyVisible'
+      'set_historyVisible',
+      'set_settingVisible'
     ]),
     ...mapActions([
         'getHistoryList'
     ]),
-    showHistory(){
+    showHistory () {
       this.getHistoryList()
       this.set_historyVisible(true)
+    },
+    // 设置节点属性
+    setting () {
+      this.set_settingVisible(true)
     }
   }
 }
