@@ -111,6 +111,8 @@
     </div>
     <!--    知识图谱-->
     <div class = "selectDisplay">
+      <!--搜索框-->
+      <my-search></my-search>
       <a-dropdown>
         <a class="ant-dropdown-link" @click="e => e.preventDefault()" style="font-size: 16px; color: #67758D;">
           调整布局 <a-icon type="down" />
@@ -290,7 +292,9 @@ import { UpdataNodeAPI, DeleteNodeAPI, DownloadXmlAPI, DeleteEdgeAPI, updateEdge
 import edgehandles from 'cytoscape-edgehandles'
 import fcose from 'cytoscape-fcose'
 import History from '@/views/history'
+import mySearch from '@/views/mySearch'
 import {mapGetters,mapActions,mapMutations} from 'vuex'
+import MySearch from '@/views/mySearch'
 
 export default {
   name: 'CJS',
@@ -305,6 +309,7 @@ export default {
   watch: {},
   props: {},
   components:{
+    MySearch,
     History
   },
   computed:{
