@@ -9,7 +9,6 @@
         <a-col :md="5" :sm="24" :lg="5">
           <a-form-item label="搜索类型">
             <a-select
-              v-model="searchParams.type_id"
               placeholder="请选择"
               style="width: 100px"
               v-decorator="['searchType',
@@ -46,6 +45,7 @@
 <script>
 
 import {mapGetters,mapMutations,mapActions} from 'vuex'
+import cytoscape from 'cytoscape'
 
 export default {
   name: 'mySearch',
@@ -55,9 +55,35 @@ export default {
       form: this.$form.createForm(this, { name: 'coordinated' }),
       searchParams: {
         type_id: undefined
-      }
+      },
+      searchValue: '',
+      // 高级搜索 展开/关闭
+      advanced: false,
+      searchType: '',
+      // 查询参数
+      queryParam: {}
     }
   },
+  methods:{
+    reset () {
+      this.form.resetFields()
+    },
+    handleChange (value) {
+      this.searchType = value
+    },
+    search(e) {
+      e.preventDefault();
+      this.form.validateFields((err, values) => {
+        if(!err) {
+          this.queryParam = {
+            searchType: values.searchType,
+            searchValue: values.searchValue
+          }
+        }
+        this.$refs.stable.refresh()
+      })
+    }
+  }
 }
 </script>
 
