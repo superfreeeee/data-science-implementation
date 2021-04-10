@@ -698,19 +698,19 @@ export default {
   },
   methods: {
     /**
-       * eles : Array or Map.
-       * node_eg: {group: 'nodes', data: {id: 'nid1', name: 'name1', label: 'l1 l2', others: 'others'}, classes: 'like label', position: {x: 100, y: 100}};
-       * edge_eg: {group: 'edges', data: {id: 'eid1', name: 'name1', source: 'A', target: 'B', label: 'l1 l2', others: 'others'}, classes: 'like label', position: {x: 100, y: 100}};
-       * node_eg: [
-       *   {group: 'nodes', data: {id: 'nid1', name: 'name1', label: 'l1 l2', others: 'others'}, classes: 'like label', position: {x: 100, y: 100}};
-       *   {group: 'nodes', data: {id: 'nid2', name: 'name2', label: 'l1 l2', others: 'others'}, classes: 'like label', position: {x: 100, y: 100}};
-       * ];
-       * edge_eg: [
-       *   {group: 'edges', data: {id: 'eid1', name: 'name1', source: 'nid1', target: 'nid2', label: 'l1 l2', others: 'others'}, classes: 'like label', position: {x: 100, y: 100}};
-       *   {group: 'edges', data: {id: 'eid2', name: 'name1', source: 'nid2', target: 'nid3', label: 'l1 l2', others: 'others'}, classes: 'like label', position: {x: 100, y: 100}};
-       * ];
-       * @param eles 元素集合.
-       */
+     * eles : Array or Map.
+     * node_eg: {group: 'nodes', data: {id: 'nid1', name: 'name1', label: 'l1 l2', others: 'others'}, classes: 'like label', position: {x: 100, y: 100}};
+     * edge_eg: {group: 'edges', data: {id: 'eid1', name: 'name1', source: 'A', target: 'B', label: 'l1 l2', others: 'others'}, classes: 'like label', position: {x: 100, y: 100}};
+     * node_eg: [
+     *   {group: 'nodes', data: {id: 'nid1', name: 'name1', label: 'l1 l2', others: 'others'}, classes: 'like label', position: {x: 100, y: 100}};
+     *   {group: 'nodes', data: {id: 'nid2', name: 'name2', label: 'l1 l2', others: 'others'}, classes: 'like label', position: {x: 100, y: 100}};
+     * ];
+     * edge_eg: [
+     *   {group: 'edges', data: {id: 'eid1', name: 'name1', source: 'nid1', target: 'nid2', label: 'l1 l2', others: 'others'}, classes: 'like label', position: {x: 100, y: 100}};
+     *   {group: 'edges', data: {id: 'eid2', name: 'name1', source: 'nid2', target: 'nid3', label: 'l1 l2', others: 'others'}, classes: 'like label', position: {x: 100, y: 100}};
+     * ];
+     * @param eles 元素集合.
+     */
     addEles (eles) {
       // console.log(eles)
       if (eles) {
@@ -724,8 +724,8 @@ export default {
       }
     },
     /**
-       * 删除选择的内容(可能是顶点, 也可能是关系)
-       */
+     * 删除选择的内容(可能是顶点, 也可能是关系)
+     */
     delEles () {
       this.$cy.startBatch()
       this.$cy.batch(() => {
@@ -741,9 +741,9 @@ export default {
     },
     /** *************************工具栏************************/
     /**
-       * 缩放大小.
-       * @param zoom 增减幅度.
-       */
+     * 缩放大小.
+     * @param zoom 增减幅度.
+     */
     zoom (zoom) {
       /** 获取已选择内容 */
       const selectedEles = this.$cy.elements('node:selected')
@@ -756,7 +756,13 @@ export default {
       let level = this.$cy.zoom() + zoom;
       (level > this.$cy.maxZoom) && (level = this.$cy.maxZoom);
       (level < this.$cy.minZoom) && (level = this.$cy.minZoom)
-      this.$cy.zoom({ level: level, renderedPosition: { x: x, y: y } })
+      this.$cy.zoom({
+        level: level,
+        renderedPosition: {
+          x: x,
+          y: y
+        }
+      })
     },
     /** 放大 */
     magnifying () {
@@ -771,9 +777,9 @@ export default {
       this.$cy.fit()
     },
     /**
-       * 高亮.
-       * @param ele 某元素ID
-       */
+     * 高亮.
+     * @param ele 某元素ID
+     */
     lightOn (ele) {
       this.$cy.startBatch()
       this.$cy.batch(() => {
@@ -788,8 +794,8 @@ export default {
       this.$cy.endBatch()
     },
     /**
-       * 取消高亮.
-       */
+     * 取消高亮.
+     */
     lightOff () {
       this.$cy.startBatch()
       this.$cy.batch(() => this.$cy.elements().removeClass('light-off') /* 移除样式 */)
@@ -804,17 +810,21 @@ export default {
       (selectedEle) && (this.lightOn(selectedEle.id()))
     },
     /**
-       * 刷新布局.
-       * name取值范围:
-       * ['grid', 'circle', 'cola', 'avsdf', 'cose-bilkent', ]
-       * @param {name = 'cola......', randomize = true | false, animate = true | false}
-       */
+     * 刷新布局.
+     * name取值范围:
+     * ['grid', 'circle', 'cola', 'avsdf', 'cose-bilkent', ]
+     * @param {name = 'cola......', randomize = true | false, animate = true | false}
+     */
     refresh ({ name = 'cola', randomize = false, animate = true } = {}) {
-      this.$cy.layout({ name: name, randomize: randomize, animate: animate }).run()
+      this.$cy.layout({
+        name: name,
+        randomize: randomize,
+        animate: animate
+      }).run()
     },
     /**
-       * 绘制水印.
-       */
+     * 绘制水印.
+     */
     drawWatermark ({
       canvas = null,
       words = `请勿外传 时间: ${new Date().toTimeString()}`,
@@ -853,10 +863,16 @@ export default {
       ctx.fillRect(0, 0, canvas.width, canvas.height)
     },
     /**
-       * 导出全局图片.
-       */
+     * 导出全局图片.
+     */
     exportPng () {
-      const blob = this.$cy.png({ output: 'blob', bg: 'transparent', full: true, scale: 4, quality: 1 })
+      const blob = this.$cy.png({
+        output: 'blob',
+        bg: 'transparent',
+        full: true,
+        scale: 4,
+        quality: 1
+      })
       const [aLink, evt] = [document.createElement('a'), document.createEvent('HTMLEvents')]
       evt.initEvent('click', true, true);
       [aLink.download, aLink.href] = [`${new Date().getTime()}.png`, URL.createObjectURL(blob)]
@@ -864,11 +880,17 @@ export default {
       aLink.click()
     },
     /**
-       * 导出全局图片带有水印.
-       */
+     * 导出全局图片带有水印.
+     */
     exportPngAndWatermark () {
       const time = new Date().getTime()
-      const blob = this.$cy.png({ output: 'blob', bg: 'transparent', full: true, scale: 4, quality: 1 })
+      const blob = this.$cy.png({
+        output: 'blob',
+        bg: 'transparent',
+        full: true,
+        scale: 4,
+        quality: 1
+      })
 
       const image = new Image();
       [image.id, image.crossOrigin, image.src] = [time, 'anonymous', window.URL.createObjectURL(blob)]
@@ -877,7 +899,10 @@ export default {
         [canvas.width, canvas.height] = [image.width, image.height]
         const ctx = canvas.getContext('2d')
         /** 绘制水印 */
-        this.drawWatermark({ canvas: canvas, words: `请勿外传! 时间: ${new Date().toTimeString()}` })
+        this.drawWatermark({
+          canvas: canvas,
+          words: `请勿外传! 时间: ${new Date().toTimeString()}`
+        })
         /** 绘制原图 */
         ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, image.width, image.height)
         ctx.save()
@@ -889,8 +914,8 @@ export default {
       }
     },
     /**
-       * 导出局部图片.
-       */
+     * 导出局部图片.
+     */
     exportCutPng ({ watermark = false } = {}) {
       const unselectedVertexes = this.$cy.elements('node:unselected')
       if (!unselectedVertexes || unselectedVertexes.length === 0) {
@@ -901,8 +926,8 @@ export default {
       (remove && remove.length) && (remove.restore()) // 恢复删除内容
     },
     /**
-       * 导出局部图片.
-       */
+     * 导出局部图片.
+     */
     exportCutPngAndWatermark () {
       this.exportCutPng({ watermark: true })
     },
@@ -1011,7 +1036,7 @@ export default {
     changeNode (ele) {
       // console.log(ele)
       const nodePro = this.$cy.getElementById(ele).data()
-      console.log('nodepro: ',nodePro)
+      console.log('nodepro: ', nodePro)
       for (var key in nodePro) {
         console.log(key)
         if (key !== 'name' && key !== 'id') {
@@ -1129,11 +1154,11 @@ export default {
     setModifyEdgeFormVisible (ele) {
 
       this.modifyEdgeFormVisible = true
-      const edgePro=this.$cy.getElementById(ele[0]).data()
+      const edgePro = this.$cy.getElementById(ele[0]).data()
       console.log(edgePro)
       for (var key in edgePro) {
         console.log(key)
-        if (key !=='id' && key!=='name' && key!=='source' && key!=='target'){
+        if (key !== 'id' && key !== 'name' && key !== 'source' && key !== 'target') {
           this.all_property.push({
             title: key,
             value: edgePro[key]
@@ -1171,9 +1196,9 @@ export default {
       this.edgeForm.validateFields(async (err, values) => {
         if (!err) {
           console.log('Received values of form: ', values)
-          this.edgeData.start=this.from[0]
-          this.edgeData.end=this.to[0]
-          this.edgeData.type=values.name
+          this.edgeData.start = this.from[0]
+          this.edgeData.end = this.to[0]
+          this.edgeData.type = values.name
           const ele = {
             group: 'edges',
             data: {
@@ -1286,9 +1311,9 @@ export default {
       'set_historyVisible'
     ]),
     ...mapActions([
-        'getHistoryList'
+      'getHistoryList'
     ]),
-    showHistory(){
+    showHistory () {
       this.getHistoryList()
       this.set_historyVisible(true)
     },
@@ -1298,10 +1323,10 @@ export default {
     handleChange (value) {
       this.searchType = value
     },
-    search(e) {
+    search (e) {
       e.preventDefault();
       this.searchForm.validateFields((err, values) => {
-        if(!err) {
+        if (!err) {
           this.queryParam = {
             searchType: values.searchType,
             searchValue: values.searchValue
@@ -1312,8 +1337,30 @@ export default {
         console.log(this.searchValue)
         console.log("hhhhhh")
         // 模糊搜索
-        //var collection = this.$cy.collection()
-        //cy.nodes().on()
+
+        // 获取所有节点
+        var nodesCollection = this.$cy.filter(function (e, i) {
+          return e.isNode()
+        })
+        console.log("testList")
+        console.log(nodesCollection)
+
+        var i = 0
+        //var len = nodesCollection.length()
+        // 应该是SearchValue
+        var reg = new RegExp("血");
+        while (i < 50) {
+          var node = nodesCollection[i]
+          i = i + 1
+          var nodeInfo = node.data()
+          console.log(i)
+          console.log(nodeInfo)
+          var nodeName = nodeInfo.name
+          console.log(nodeName)
+          if(nodeName.match(reg)){
+            this.lightOn(nodeInfo.id)
+          }
+        }
       })
     }
   }
