@@ -4,12 +4,21 @@ import {
   
   const graph = {
     state: {
+      graphList:{
+      },
+      cyinfo:{}
     },
-    mutations: {  
+    mutations: {
+      set_graphList: function (state, data) {
+        state.graphList = data
+      },
+      set_cyinfo: function (state, data) {
+        state.cyinfo = data
+      }  
     },
     actions:{
-      setGraphToEnd: async ({})=>{
-          console.log('here')
+      saveGraphToEnd: async ({state})=>{
+          console.log(this.cyinfo.nodes())
         // const res = await getHistoryAPI()
         // console.log(res)
         // if(res){

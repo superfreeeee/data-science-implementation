@@ -371,6 +371,7 @@ export default {
       }
 
     })
+    this.set_cyinfo(this.$cy)
     const eh = this.$cy.edgehandles({ preview: false })
     eh.enable()
     var that = this
@@ -1225,7 +1226,8 @@ export default {
     },
     ...mapMutations([
       'set_historyVisible',
-      'set_settingVisible'
+      'set_settingVisible',
+      'set_cyinfo'
     ]),
     ...mapActions([
         'getHistoryList'

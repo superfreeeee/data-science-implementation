@@ -114,11 +114,13 @@ export default {
       all_property: [],
       uploadFormVisible: false,
       fileList: [],
-      confirmLoading: false
+      confirmLoading: false,
+      graphAll: {}
     }
   },
   methods: {
     ...mapMutations([
+      'set_graphList'                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
     ]),
     ...mapActions([
       'saveGraphToEnd'
@@ -133,7 +135,7 @@ export default {
       // console.log(graph)
       var nodes = graph.nodes
       var edges = graph.edges
-
+      this.set_graphList(graph)
       // console.log(this.$refs.ref_CJS)
       for (var n in nodes) {
         var node = nodes[n]
@@ -187,9 +189,6 @@ export default {
     },
     delEles () {
       this.$refs.ref_CJS.delEles()
-    },
-    test_api () {
-      getListAPI('').then(res => console.log(res)).catch(err => console.log(err))
     },
     addNode (e) {
       e.preventDefault()
@@ -364,7 +363,6 @@ export default {
       this.uploadFormVisible = false
     },
     saveGraph () {
-      console.log("here")
       this.saveGraphToEnd()
     }
   }

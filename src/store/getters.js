@@ -5,7 +5,9 @@ const getters={
   uploadFormVisible:state=>state.file.uploadFormVisible,
   fileList:state=>state.file.fileList,
   //setting
-  settingVisible: state=>state.setting.settingVisible
+  settingVisible: state=>state.setting.settingVisible,
+  graphList:state=>state.graph.graphList,
+  cyinfo:state=>state.graph.cyinfo
 }
 
 export default getters
