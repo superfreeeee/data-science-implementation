@@ -120,14 +120,10 @@ export default {
       var graph
       await getGraphAPI().then(res => {
         graph = res.content
-        // console.log(res)
       }).catch(err => console.log(err))
-
-      // console.log(graph)
+      var ele=[]
       var nodes = graph.nodes
       var edges = graph.edges
-
-      // console.log(this.$refs.ref_CJS)
       for (var n in nodes) {
         var node = nodes[n]
         const data = {}
