@@ -126,7 +126,7 @@ export default {
       'saveGraphToEnd'
     ]),
     async addEles () {
-      var graph
+      var graph = {}
       await getGraphAPI().then(res => {
         graph = res.content
         // console.log(res)
@@ -135,7 +135,7 @@ export default {
       // console.log(graph)
       var nodes = graph.nodes
       var edges = graph.edges
-      this.set_graphList(graph)
+      // this.set_graphList(graph)
       // console.log(this.$refs.ref_CJS)
       for (var n in nodes) {
         var node = nodes[n]
@@ -363,7 +363,7 @@ export default {
       this.uploadFormVisible = false
     },
     saveGraph () {
-      this.saveGraphToEnd()
+      // this.saveGraphToEnd()
     }
   }
 }

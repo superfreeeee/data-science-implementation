@@ -54,11 +54,6 @@
   import infiniteScroll from 'vue-infinite-scroll';
   export default {
     name: "Setting",
-    // props:{
-    //   histories:{
-    //     type:Array
-    //   }
-    // },
     directives:{
       infiniteScroll
     },
@@ -77,14 +72,19 @@
     },
     computed:{
       ...mapGetters([
-        'settingVisible'
+        'settingVisible',
+        'settingList'
       ])
     },
     methods:{
       ...mapMutations([
-        'set_settingVisible'
+        'set_settingVisible',
+        'set_settingList'
       ]),
       ...mapActions([
+      ]),
+      ...mapGetters([
+        'cyinfo'
       ]),
       onClose(){
         this.set_settingVisible(false)
@@ -96,6 +96,14 @@
             console.log('Received values of form: ', values)
           }
         })
+        if (e.sliderNodeSize == undefined) {
+          e.sliderNodeSize = 0
+        }
+        if (!e.sliderNode == undefined) {
+          e.sliderNode = 0
+        }
+        console.log(e.sliderNode)
+        this.set_settingList(e)
         this.set_settingVisible(false)
       },
     }

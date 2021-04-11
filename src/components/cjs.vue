@@ -116,25 +116,69 @@
     </div>
     <!--    知识图谱-->
     <div class = "selectDisplay">
-      <a-dropdown>
-        <a class="ant-dropdown-link" @click="e => e.preventDefault()" style="font-size: 16px; color: #67758D;">
-          调整布局 <a-icon type="down" />
-        </a>
-        <a-menu slot="overlay" @click="onClick" style="width: 120px">
-          <a-menu-item key="1" @click="refresh({name: 'cola'})">
-            刷新布局
-            <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px; position: absolute; right: 0px;" title="刷新布局" type="ios-sync" />
-          </a-menu-item>
-          <a-menu-item key="2"  @click="refresh({name: 'fcose'})">
-            力导图模式
-            <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px; position: absolute; right: 0px;" title="力导图模式" type="ios-apps-outline" />
-          </a-menu-item>
-          <a-menu-item key="3" @click="refresh({name: 'grid'})">
-            排版模式
-            <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px; position: absolute; right: 0px;" title="排版布局" type="ios-globe-outline" />
-          </a-menu-item>
-        </a-menu>
-      </a-dropdown>
+      <!--搜索框-->
+      <div class="table-page-search-wrapper" style="margin-left: 200px">
+        <a-form
+          layout="inline"
+          :form="searchForm"
+          @submit="search"
+        >
+          <a-row :gutter="24">
+            <a-col :md="5" :sm="24" :lg="5"></a-col>
+            <a-col :md="5" :sm="24" :lg="5">
+              <a-form-item label="搜索类型">
+                <a-select
+                  placeholder="请选择"
+                  style="width: 100px"
+                  v-decorator="['searchType',
+                        {rules: [{ required: false, message: '请选择搜索类型' }]}
+                        ]"
+                  allowClear
+                  name="searchType">
+                  <a-select-option value="1">所有</a-select-option>
+                  <a-select-option value="2">节点</a-select-option>
+                  <a-select-option value="3">关系</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+            <a-col :md="9" :sm="24" :lg="9">
+              <a-form-item>
+                <a-input
+                  v-decorator="['searchValue',
+                {rules: [{ required: false, message: '请输入搜索值' }]}
+                ]"
+                  placeholder="请输入"/>
+              </a-form-item>
+              <span class="table-page-search-submitButtons">
+                <a-button type="primary" html-type="submit" style="margin-top: 3px">查询</a-button>
+                <a-button style="margin-left: 10px" @click="reset">重置</a-button>
+              </span>
+            </a-col>
+            <a-col :md="4" :sm="24" :lg="4">
+              <a-dropdown>
+                <a class="ant-dropdown-link" @click="e => e.preventDefault()"
+                   style="font-size: 16px; color: #67758D; margin-top: 20px">
+                  调整布局 <a-icon type="down" />
+                </a>
+                <a-menu slot="overlay" @click="onClick">
+                  <a-menu-item key="1" @click="refresh({name: 'cola'})">
+                    刷新布局
+                    <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px" title="刷新布局" type="ios-sync" />
+                  </a-menu-item>
+                  <a-menu-item key="2"  @click="refresh({name: 'fcose'})">
+                    力导图模式
+                    <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px" title="力导图模式" type="ios-apps-outline" />
+                  </a-menu-item>
+                  <a-menu-item key="3" @click="refresh({name: 'grid'})">
+                    排版模式
+                    <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px; position: absolute; right: 0px;" title="排版布局" type="ios-globe-outline" />
+                  </a-menu-item>
+                </a-menu>
+              </a-dropdown>
+            </a-col>
+          </a-row>
+        </a-form>
+      </div>
     </div>
     <div id="cytoscape_id">
     </div>
@@ -297,7 +341,9 @@ import edgehandles from 'cytoscape-edgehandles'
 import fcose from 'cytoscape-fcose'
 import History from '@/views/history'
 import Setting from '@/views/setting'
+import mySearch from '@/views/mySearch'
 import {mapGetters,mapActions,mapMutations} from 'vuex'
+import MySearch from '@/views/mySearch'
 
 export default {
   name: 'CJS',
@@ -313,12 +359,14 @@ export default {
   props: {},
   components:{
     History,
-    Setting
+    Setting,
+    MySearch
   },
   computed:{
     ...mapGetters([
       'historyVisible',
-      'settingVisible'
+      'settingVisible',
+      'settingList'
     ])
   },
   mounted () {
@@ -635,24 +683,36 @@ export default {
       all_property: [],
       isClick: false,
       labels: '',
-      properties: ''
+      properties: '',
+      // 搜索相关参数
+      formLayout: 'horizontal',
+      searchForm: this.$form.createForm(this, { name: 'coordinated' }),
+      searchParams: {
+        type_id: undefined
+      },
+      searchValue: '',
+      // 高级搜索 展开/关闭
+      advanced: false,
+      searchType: '',
+      // 查询参数
+      queryParam: {}
     }
   },
   methods: {
     /**
-       * eles : Array or Map.
-       * node_eg: {group: 'nodes', data: {id: 'nid1', name: 'name1', label: 'l1 l2', others: 'others'}, classes: 'like label', position: {x: 100, y: 100}};
-       * edge_eg: {group: 'edges', data: {id: 'eid1', name: 'name1', source: 'A', target: 'B', label: 'l1 l2', others: 'others'}, classes: 'like label', position: {x: 100, y: 100}};
-       * node_eg: [
-       *   {group: 'nodes', data: {id: 'nid1', name: 'name1', label: 'l1 l2', others: 'others'}, classes: 'like label', position: {x: 100, y: 100}};
-       *   {group: 'nodes', data: {id: 'nid2', name: 'name2', label: 'l1 l2', others: 'others'}, classes: 'like label', position: {x: 100, y: 100}};
-       * ];
-       * edge_eg: [
-       *   {group: 'edges', data: {id: 'eid1', name: 'name1', source: 'nid1', target: 'nid2', label: 'l1 l2', others: 'others'}, classes: 'like label', position: {x: 100, y: 100}};
-       *   {group: 'edges', data: {id: 'eid2', name: 'name1', source: 'nid2', target: 'nid3', label: 'l1 l2', others: 'others'}, classes: 'like label', position: {x: 100, y: 100}};
-       * ];
-       * @param eles 元素集合.
-       */
+     * eles : Array or Map.
+     * node_eg: {group: 'nodes', data: {id: 'nid1', name: 'name1', label: 'l1 l2', others: 'others'}, classes: 'like label', position: {x: 100, y: 100}};
+     * edge_eg: {group: 'edges', data: {id: 'eid1', name: 'name1', source: 'A', target: 'B', label: 'l1 l2', others: 'others'}, classes: 'like label', position: {x: 100, y: 100}};
+     * node_eg: [
+     *   {group: 'nodes', data: {id: 'nid1', name: 'name1', label: 'l1 l2', others: 'others'}, classes: 'like label', position: {x: 100, y: 100}};
+     *   {group: 'nodes', data: {id: 'nid2', name: 'name2', label: 'l1 l2', others: 'others'}, classes: 'like label', position: {x: 100, y: 100}};
+     * ];
+     * edge_eg: [
+     *   {group: 'edges', data: {id: 'eid1', name: 'name1', source: 'nid1', target: 'nid2', label: 'l1 l2', others: 'others'}, classes: 'like label', position: {x: 100, y: 100}};
+     *   {group: 'edges', data: {id: 'eid2', name: 'name1', source: 'nid2', target: 'nid3', label: 'l1 l2', others: 'others'}, classes: 'like label', position: {x: 100, y: 100}};
+     * ];
+     * @param eles 元素集合.
+     */
     addEles (eles) {
       // console.log(eles)
       if (eles) {
@@ -666,8 +726,8 @@ export default {
       }
     },
     /**
-       * 删除选择的内容(可能是顶点, 也可能是关系)
-       */
+     * 删除选择的内容(可能是顶点, 也可能是关系)
+     */
     delEles () {
       this.$cy.startBatch()
       this.$cy.batch(() => {
@@ -683,9 +743,9 @@ export default {
     },
     /** *************************工具栏************************/
     /**
-       * 缩放大小.
-       * @param zoom 增减幅度.
-       */
+     * 缩放大小.
+     * @param zoom 增减幅度.
+     */
     zoom (zoom) {
       /** 获取已选择内容 */
       const selectedEles = this.$cy.elements('node:selected')
@@ -698,7 +758,13 @@ export default {
       let level = this.$cy.zoom() + zoom;
       (level > this.$cy.maxZoom) && (level = this.$cy.maxZoom);
       (level < this.$cy.minZoom) && (level = this.$cy.minZoom)
-      this.$cy.zoom({ level: level, renderedPosition: { x: x, y: y } })
+      this.$cy.zoom({
+        level: level,
+        renderedPosition: {
+          x: x,
+          y: y
+        }
+      })
     },
     /** 放大 */
     magnifying () {
@@ -713,9 +779,9 @@ export default {
       this.$cy.fit()
     },
     /**
-       * 高亮.
-       * @param ele 某元素ID
-       */
+     * 高亮.
+     * @param ele 某元素ID
+     */
     lightOn (ele) {
       this.$cy.startBatch()
       this.$cy.batch(() => {
@@ -730,8 +796,8 @@ export default {
       this.$cy.endBatch()
     },
     /**
-       * 取消高亮.
-       */
+     * 取消高亮.
+     */
     lightOff () {
       this.$cy.startBatch()
       this.$cy.batch(() => this.$cy.elements().removeClass('light-off') /* 移除样式 */)
@@ -746,17 +812,21 @@ export default {
       (selectedEle) && (this.lightOn(selectedEle.id()))
     },
     /**
-       * 刷新布局.
-       * name取值范围:
-       * ['grid', 'circle', 'cola', 'avsdf', 'cose-bilkent', ]
-       * @param {name = 'cola......', randomize = true | false, animate = true | false}
-       */
+     * 刷新布局.
+     * name取值范围:
+     * ['grid', 'circle', 'cola', 'avsdf', 'cose-bilkent', ]
+     * @param {name = 'cola......', randomize = true | false, animate = true | false}
+     */
     refresh ({ name = 'cola', randomize = false, animate = true } = {}) {
-      this.$cy.layout({ name: name, randomize: randomize, animate: animate }).run()
+      this.$cy.layout({
+        name: name,
+        randomize: randomize,
+        animate: animate
+      }).run()
     },
     /**
-       * 绘制水印.
-       */
+     * 绘制水印.
+     */
     drawWatermark ({
       canvas = null,
       words = `请勿外传 时间: ${new Date().toTimeString()}`,
@@ -795,10 +865,16 @@ export default {
       ctx.fillRect(0, 0, canvas.width, canvas.height)
     },
     /**
-       * 导出全局图片.
-       */
+     * 导出全局图片.
+     */
     exportPng () {
-      const blob = this.$cy.png({ output: 'blob', bg: 'transparent', full: true, scale: 4, quality: 1 })
+      const blob = this.$cy.png({
+        output: 'blob',
+        bg: 'transparent',
+        full: true,
+        scale: 4,
+        quality: 1
+      })
       const [aLink, evt] = [document.createElement('a'), document.createEvent('HTMLEvents')]
       evt.initEvent('click', true, true);
       [aLink.download, aLink.href] = [`${new Date().getTime()}.png`, URL.createObjectURL(blob)]
@@ -806,11 +882,17 @@ export default {
       aLink.click()
     },
     /**
-       * 导出全局图片带有水印.
-       */
+     * 导出全局图片带有水印.
+     */
     exportPngAndWatermark () {
       const time = new Date().getTime()
-      const blob = this.$cy.png({ output: 'blob', bg: 'transparent', full: true, scale: 4, quality: 1 })
+      const blob = this.$cy.png({
+        output: 'blob',
+        bg: 'transparent',
+        full: true,
+        scale: 4,
+        quality: 1
+      })
 
       const image = new Image();
       [image.id, image.crossOrigin, image.src] = [time, 'anonymous', window.URL.createObjectURL(blob)]
@@ -819,7 +901,10 @@ export default {
         [canvas.width, canvas.height] = [image.width, image.height]
         const ctx = canvas.getContext('2d')
         /** 绘制水印 */
-        this.drawWatermark({ canvas: canvas, words: `请勿外传! 时间: ${new Date().toTimeString()}` })
+        this.drawWatermark({
+          canvas: canvas,
+          words: `请勿外传! 时间: ${new Date().toTimeString()}`
+        })
         /** 绘制原图 */
         ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, image.width, image.height)
         ctx.save()
@@ -831,8 +916,8 @@ export default {
       }
     },
     /**
-       * 导出局部图片.
-       */
+     * 导出局部图片.
+     */
     exportCutPng ({ watermark = false } = {}) {
       const unselectedVertexes = this.$cy.elements('node:unselected')
       if (!unselectedVertexes || unselectedVertexes.length === 0) {
@@ -843,8 +928,8 @@ export default {
       (remove && remove.length) && (remove.restore()) // 恢复删除内容
     },
     /**
-       * 导出局部图片.
-       */
+     * 导出局部图片.
+     */
     exportCutPngAndWatermark () {
       this.exportCutPng({ watermark: true })
     },
@@ -953,7 +1038,7 @@ export default {
     changeNode (ele) {
       // console.log(ele)
       const nodePro = this.$cy.getElementById(ele).data()
-      console.log('nodepro: ',nodePro)
+      console.log('nodepro: ', nodePro)
       for (var key in nodePro) {
         console.log(key)
         if (key !== 'name' && key !== 'id') {
@@ -1071,11 +1156,11 @@ export default {
     setModifyEdgeFormVisible (ele) {
 
       this.modifyEdgeFormVisible = true
-      const edgePro=this.$cy.getElementById(ele[0]).data()
+      const edgePro = this.$cy.getElementById(ele[0]).data()
       console.log(edgePro)
       for (var key in edgePro) {
         console.log(key)
-        if (key !=='id' && key!=='name' && key!=='source' && key!=='target'){
+        if (key !== 'id' && key !== 'name' && key !== 'source' && key !== 'target') {
           this.all_property.push({
             title: key,
             value: edgePro[key]
@@ -1113,9 +1198,9 @@ export default {
       this.edgeForm.validateFields(async (err, values) => {
         if (!err) {
           console.log('Received values of form: ', values)
-          this.edgeData.start=this.from[0]
-          this.edgeData.end=this.to[0]
-          this.edgeData.type=values.name
+          this.edgeData.start = this.from[0]
+          this.edgeData.end = this.to[0]
+          this.edgeData.type = values.name
           const ele = {
             group: 'edges',
             data: {
@@ -1230,15 +1315,66 @@ export default {
       'set_cyinfo'
     ]),
     ...mapActions([
-        'getHistoryList'
+      'getHistoryList'
     ]),
     showHistory () {
       this.getHistoryList()
       this.set_historyVisible(true)
     },
     // 设置节点属性
-    setting () {
-      this.set_settingVisible(true)
+    async setting () {
+      await this.set_settingVisible(true)
+      while(this.settingVisible === true){
+        console.log('here')
+        console.log(this.settingList)
+        break
+      }
+    },
+    reset () {
+      this.form.resetFields()
+    },
+    handleChange (value) {
+      this.searchType = value
+    },
+    search (e) {
+      e.preventDefault();
+      this.searchForm.validateFields((err, values) => {
+        if (!err) {
+          this.queryParam = {
+            searchType: values.searchType,
+            searchValue: values.searchValue
+          }
+        }
+        //this.$refs.stable.refresh()
+        console.log(this.searchValue)
+        console.log(this.searchValue)
+        console.log("hhhhhh")
+        // 模糊搜索
+
+        // 获取所有节点
+        var nodesCollection = this.$cy.filter(function (e, i) {
+          return e.isNode()
+        })
+        console.log("testList")
+        console.log(nodesCollection)
+
+        var i = 0
+        //var len = nodesCollection.length()
+        // 应该是SearchValue
+        var reg = new RegExp("血");
+        while (i < 50) {
+          var node = nodesCollection[i]
+          i = i + 1
+          var nodeInfo = node.data()
+          console.log(i)
+          console.log(nodeInfo)
+          var nodeName = nodeInfo.name
+          console.log(nodeName)
+          if(nodeName.match(reg)){
+            this.lightOn(nodeInfo.id)
+          }
+        }
+      })
     }
   }
 }
