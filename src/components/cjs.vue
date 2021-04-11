@@ -136,15 +136,6 @@
                 </a-select>
               </a-form-item>
             </a-col>
-<!--            <a-col :md="4" :sm="24" :lg="4">-->
-<!--              <a-form-item>-->
-<!--                <a-input-->
-<!--                  v-decorator="['searchValue',-->
-<!--                {rules: [{ required: false, message: '请输入搜索值' }]}-->
-<!--                ]"-->
-<!--                  placeholder="请输入"/>-->
-<!--              </a-form-item>-->
-<!--            </a-col>-->
             <a-col :md="9" :sm="24" :lg="9">
               <a-form-item>
                 <a-input
@@ -1318,7 +1309,7 @@ export default {
       this.set_historyVisible(true)
     },
     reset () {
-      this.form.resetFields()
+      this.searchForm.resetFields()
     },
     handleChange (value) {
       this.searchType = value
@@ -1348,7 +1339,7 @@ export default {
         var i = 0
         //var len = nodesCollection.length()
         // 应该是SearchValue
-        var reg = new RegExp("血");
+        var reg = new RegExp("血液");
         while (i < 50) {
           var node = nodesCollection[i]
           i = i + 1
