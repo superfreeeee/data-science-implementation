@@ -10,7 +10,7 @@
       <div class="upload_form">
         <a-modal
           title="上传文件" :footer="null" :visible="uploadFormVisible" :confirmLoading="confirmLoading" @cancel="cancelUpload">
-          <a-upload-dragger name="mFile" :multiple="false" :showUploadList="true" action="http://localhost:9090/api/file/uploadFile" :remove="handleRemove"
+          <a-upload-dragger name="mFile" :multiple="false" :showUploadList="true" action="http://localhost:9090/api/graph/uploadFile" :remove="handleRemove"
                             :before-upload="beforeUpload" @change="handleChange" :file-list="fileList">
             <p class="ant-upload-drag-icon">
               <a-icon style="color:#437FFF;font-size: 32px " type="vertical-align-top" />

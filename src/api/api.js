@@ -36,3 +36,7 @@ export function getGraphAPI () {
 export function filterByNodeLabelsAPI(params){
   return http.post(`${request}/graph/filterByNodeLabels`,params)
 }
+
+export function uploadFileAPI(params){
+  return http.post(`${request}/graph/uploadFile`,params)
+}
