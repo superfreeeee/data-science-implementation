@@ -5,7 +5,6 @@
       <div class="button" style="margin-left: 70%">
         <Button style="background-color: #67758D;color: white; margin-right: 30px" @click="uploading" >上传文件</Button>
         <Button style="background-color: #67758D;color: white; margin-right: 30px" @click="addNodes">添加节点</Button>
-        <Button style="background-color: #67758D;color: white; margin-right: 30px" @click="delEles">删除</Button>
         <Button style="background-color: #67758D;color: white" @click="saveGraph">保存</Button>
       </div>
       <div class="upload_form">
@@ -119,24 +118,18 @@ export default {
     }
   },
   methods: {
-    ...mapMutations([
-      'set_graphList'                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+    ...mapMutations([                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
     ]),
     ...mapActions([
-      'saveGraphToEnd'
     ]),
     async addEles () {
       var graph = {}
       await getGraphAPI().then(res => {
         graph = res.content
-        // console.log(res)
       }).catch(err => console.log(err))
-
-      // console.log(graph)
+      var ele=[]
       var nodes = graph.nodes
       var edges = graph.edges
-      // this.set_graphList(graph)
-      // console.log(this.$refs.ref_CJS)
       for (var n in nodes) {
         var node = nodes[n]
         const data = {}
@@ -148,7 +141,6 @@ export default {
           data.name = ''
         }
         data.id = node.identity
-        // console.log(data)
         this.$refs.ref_CJS.addEles([{
           group: 'nodes',
           data

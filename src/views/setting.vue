@@ -13,7 +13,7 @@
       @submit="handleSubmit"
     >
       <a-form-item class='select' label="节点图形">
-        <a-radio-group class = 'right' v-decorator="['radio-group']">
+        <a-radio-group class = 'right' v-decorator="['shape']">
           <a-radio value="a">
             圆形
           </a-radio>
@@ -38,7 +38,7 @@
         />
       </a-form-item>
       <a-form-item class='select' label="是否显示关系标签">
-        <a-switch class = 'right' v-decorator="['是否显示关系标签', { valuePropName: 'checked' }]" />
+        <a-switch class = 'right' v-decorator="['relationLable', { valuePropName: 'checked' }]" />
       </a-form-item>
       <a-form-item class='select' :wrapper-col="{ span: 12, offset: 6 }">
         <a-button type="primary" html-type="submit">
@@ -72,39 +72,55 @@
     },
     computed:{
       ...mapGetters([
-        'settingVisible',
-        'settingList'
-      ])
+        'settingVisible'
+        ])
     },
     methods:{
       ...mapMutations([
-        'set_settingVisible',
-        'set_settingList'
+        'set_settingVisible'
       ]),
       ...mapActions([
       ]),
       ...mapGetters([
-        'cyinfo'
       ]),
       onClose(){
         this.set_settingVisible(false)
       },
       handleSubmit(e) {
         e.preventDefault()
+        var widthE = 0
         this.form.validateFields((err, values) => {
           if (!err) {
             console.log('Received values of form: ', values)
           }
+          if (values.sliderNodeSize == undefined) {
+            values.sliderNodeSize = 0
+          }
+          if (values.sliderNode == undefined) {
+            values.sliderNode = 0
+          }
+          if (values.shape == undefined) {
+            values.shape = 'a'
+          }
+          if (values.shape == 'b') {
+            values.shape = 'ellipse'
+            widthE = 50
+          }
+          else if (values.shape == 'c') {
+            values.shape = 'roundrectangle'
+          }
+          if (values.relationLable == undefined) {
+            values.relationLable = false
+          }
+          this.set_settingVisible(false)
+          this.$emit('listenToSet', {
+            'shape': values.shape,
+            'nodeSize': values.sliderNode/5 + 40,
+            'textSize': values.sliderNodeSize/10 + 10,
+            'lableVisible': values.relationLable,
+            'widthE': widthE
+          })
         })
-        if (e.sliderNodeSize == undefined) {
-          e.sliderNodeSize = 0
-        }
-        if (!e.sliderNode == undefined) {
-          e.sliderNode = 0
-        }
-        console.log(e.sliderNode)
-        this.set_settingList(e)
-        this.set_settingVisible(false)
       },
     }
   }

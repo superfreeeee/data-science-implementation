@@ -30,9 +30,11 @@ export function updateEdgeAPI (params) {
 export function AddEdgeAPI (params) {
   return http.post(`${request}/relation/addRelation`, params)
 }
-
 export function getGraphAPI () {
   return http.get(`${request}/graph/getGraph`)
+}
+export function filterByNodeLabelsAPI(params){
+  return http.post(`${request}/graph/filterByNodeLabels`,params)
 }
 
 export function uploadFileAPI(params){

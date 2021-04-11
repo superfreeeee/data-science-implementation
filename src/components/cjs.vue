@@ -1,106 +1,144 @@
 <style scoped>
-  a{TEXT-DECORATION:none}
-  .tools {
-    /*display: inline-block;*/
-    /*height: 45px;*/
-    /*width: 45px;*/
-    /*vertical-align: middle;*/
-    display: block;
-    color: #000;
-    padding: 18px 16px;
-    text-decoration: none;
-  }
-  .tools:hover{
-    background-color: #797979;
-    color: white;
-  }
+a {
+  text-decoration: none;
+}
+.tools {
+  /*display: inline-block;*/
+  /*height: 45px;*/
+  /*width: 45px;*/
+  /*vertical-align: middle;*/
+  display: block;
+  color: #000;
+  padding: 25px 16px;
+  text-decoration: none;
+}
+.tools:hover {
+  background-color: #797979;
+  color: white;
+}
 
-  .center-center {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    align-content: center;
-    justify-items: center;
-    justify-content: center;
-  }
-  .cytoolbar_id{
-    list-style-type: none;
+.center-center {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-items: center;
+  justify-content: center;
+}
+.cytoolbar_id {
+  list-style-type: none;
 
-    margin: 0;
-    padding: 0;
-    width: 5.5%;
-    background-color: #67758D;
-    position: fixed;
-    height: 100%;
-    overflow: auto;
-    z-index: 2;
-  }
-  #cytoscape_id{
-    height: 85%;
-    margin-left: 7.5%;
-    margin-right: 1%;
-    padding-top: 30px;
-    z-index: 1;
-    background-color: white;
-    border: 1.5px solid ;
-    border-radius: 15px;
-    border-style: outset;
-    padding: 1px;
-  }
-  .selectDisplay{
-    margin: 10px 20px 0 0;
-    text-align:right;
-  }
-  .propertyDisplay{
-    height:38px;
-    margin-left: 7.5%;
-    margin-right: 1%;
-    margin-top: 10px;
-    background-color: white;
-    overflow: hidden;
-    overflow-y: scroll;
-  }
-  #labels{
-    background-color: rgb(248, 182, 138);
-    border-radius: 10px;
-    box-shadow: 0px 1px 2px rgb(253, 146, 84), 0px 1px 2px rgba(0, 0, 0, .7);
-    font-weight:bold;
-  }
+  margin: 0;
+  padding: 0;
+  width: 5.5%;
+  background-color: #67758d;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+  z-index: 2;
+}
+#cytoscape_id {
+  height: 85%;
+  margin-left: 7.5%;
+  margin-right: 1%;
+  padding-top: 30px;
+  z-index: 1;
+  background-color: white;
+  border: 1.5px solid;
+  border-radius: 15px;
+  border-style: outset;
+  padding: 1px;
+}
+.selectDisplay {
+  margin: 10px 20px 0 0;
+  text-align: right;
+}
+.propertyDisplay {
+  height: 38px;
+  margin-left: 7.5%;
+  margin-right: 1%;
+  margin-top: 10px;
+  background-color: white;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+#labels {
+  background-color: rgb(248, 182, 138);
+  border-radius: 10px;
+  box-shadow: 0px 1px 2px rgb(253, 146, 84), 0px 1px 2px rgba(0, 0, 0, 0.7);
+  font-weight: bold;
+}
 </style>
 
 <template>
   <!--  整体-->
-  <div style="position: relative; height: 100%; width: 100%; z-index: 0;">
-    <!--    顶部导航栏-->
-    <div class="cytoolbar_id" >
+  <div style="position: relative; height: 100%; width: 100%; z-index: 0">
+    <!--    左侧导航栏-->
+    <div class="cytoolbar_id">
       <div class="tools">
         <div class="center-center">
-          <Icon style="font-size: 32px; cursor: pointer;" title="放大" type="ios-add-circle-outline" color="white" @click="magnifying()"/>
+          <Icon
+            style="font-size: 25px; cursor: pointer"
+            title="放大"
+            type="ios-add-circle-outline"
+            color="white"
+            @click="magnifying()"
+          />
         </div>
       </div>
       <div class="tools">
         <div class="center-center">
-          <Icon style="font-size: 32px; cursor: pointer;" title="缩小" type="ios-remove-circle-outline" color="white" @click="contractible()"/>
+          <Icon
+            style="font-size: 25px; cursor: pointer"
+            title="缩小"
+            type="ios-remove-circle-outline"
+            color="white"
+            @click="contractible()"
+          />
         </div>
       </div>
       <div class="tools">
         <div class="center-center">
-          <Icon style="font-size: 32px; cursor: pointer;" title="合适大小" type="ios-resize" color="white" @click="resize()"/>
+          <Icon
+            style="font-size: 25px; cursor: pointer"
+            title="合适大小"
+            type="ios-resize"
+            color="white"
+            @click="resize()"
+          />
         </div>
       </div>
       <div class="tools">
         <div class="center-center">
-          <Icon style="font-size: 32px; cursor: pointer;" title="高亮邻居" type="ios-color-wand-outline" color="white" @click="highlight()"/>
+          <Icon
+            style="font-size: 25px; cursor: pointer"
+            title="高亮邻居"
+            type="ios-color-wand-outline"
+            color="white"
+            @click="highlight()"
+          />
         </div>
       </div>
       <div class="tools">
         <div class="center-center">
-          <a-icon type="download"  style="font-size: 26px; cursor: pointer; color: white" title="xml下载"  @click="downloadXml()"/>
+          <a-icon
+            type="download"
+            style="font-size: 25px; cursor: pointer; color: white"
+            title="xml下载"
+            color="white"
+            @click="downloadXml()"
+          />
         </div>
       </div>
       <div class="tools">
         <div class="center-center">
-          <Icon style="font-size: 32px; cursor: pointer;" title="全图导出" type="ios-reverse-camera-outline" color="white" @click="exportPng()"/>
+          <Icon
+            style="font-size: 25px; cursor: pointer"
+            title="全图导出"
+            type="ios-reverse-camera-outline"
+            color="white"
+            @click="exportPng()"
+          />
         </div>
       </div>
       <div class="tools">
@@ -111,6 +149,16 @@
       <div class="tools">
         <div class="center-center">
           <a-icon type="setting" style="font-size: 26px;cursor: pointer; color: white;font-weight: lighter" title="设置" @click="setting()"/>
+        </div>
+      </div>
+      <div class="tools">
+        <div class="center-center">
+          <a-icon
+            type="unordered-list"
+            style="font-size: 25px; cursor: pointer; color: white"
+            title="详细信息"
+            @click="showGraphDetails()"
+          />
         </div>
       </div>
     </div>
@@ -155,6 +203,9 @@
               </span>
             </a-col>
             <a-col :md="4" :sm="24" :lg="4">
+              <a-button type="primary" @click="filterByNodeLabels()" style="font-size: 16px; color: #67758d;background-color:transparent;border:0px">
+                类型过滤
+              </a-button>
               <a-dropdown>
                 <a class="ant-dropdown-link" @click="e => e.preventDefault()"
                    style="font-size: 16px; color: #67758D; margin-top: 20px">
@@ -325,7 +376,9 @@
       </a-form>
     </a-modal>
     <History></History>
-    <Setting></Setting>
+    <Setting @listenToSet='getSetting'></Setting>
+    <GraphDetails></GraphDetails>
+    <FilterByNodeLabels @listenToChild='getChildData'></FilterByNodeLabels>
   </div>
 </template>
 
@@ -344,6 +397,9 @@ import Setting from '@/views/setting'
 import mySearch from '@/views/mySearch'
 import {mapGetters,mapActions,mapMutations} from 'vuex'
 import MySearch from '@/views/mySearch'
+import GraphDetails from "@/views/graphDetails";
+import FilterByNodeLabels from "@/views/filterByNodeLabels"
+
 
 export default {
   name: 'CJS',
@@ -360,7 +416,9 @@ export default {
   components:{
     History,
     Setting,
-    MySearch
+    MySearch,
+    GraphDetails,
+    FilterByNodeLabels
   },
   computed:{
     ...mapGetters([
@@ -414,12 +472,12 @@ export default {
       // DOM容器,决定内容展示的位置,方式一(原生):document.getElementById('xx'),方式二(jQuery):$('#xx')
       container: document.getElementById('cytoscape_id'),
       // 一个指定布局选项的普通对象.
+      elements:[],
       layout: {
         name: 'cose'
       }
 
     })
-    this.set_cyinfo(this.$cy)
     const eh = this.$cy.edgehandles({ preview: false })
     eh.enable()
     var that = this
@@ -713,7 +771,7 @@ export default {
      * ];
      * @param eles 元素集合.
      */
-    addEles (eles) {
+    addEles(eles) {
       // console.log(eles)
       if (eles) {
         this.$cy.startBatch()
@@ -728,8 +786,8 @@ export default {
     /**
      * 删除选择的内容(可能是顶点, 也可能是关系)
      */
-    delEles () {
-      this.$cy.startBatch()
+    delEles() {
+      this.$cy.startBatch();
       this.$cy.batch(() => {
         const selectedEles = this.$cy.elements(':selected')
         // console.log(selectedEles)
@@ -746,7 +804,7 @@ export default {
      * 缩放大小.
      * @param zoom 增减幅度.
      */
-    zoom (zoom) {
+    zoom(zoom) {
       /** 获取已选择内容 */
       const selectedEles = this.$cy.elements('node:selected')
       /** 获取已选择内容中得第一个, 没有选择为null */
@@ -782,8 +840,8 @@ export default {
      * 高亮.
      * @param ele 某元素ID
      */
-    lightOn (ele) {
-      this.$cy.startBatch()
+    lightOn(ele) {
+      this.$cy.startBatch();
       this.$cy.batch(() => {
         this.$cy.elements().addClass('light-off') //* 添加样式*/
         const elements = ((Array.isArray ? Array.isArray(ele) : ele != null && ele instanceof Array) ? ele : [ele])
@@ -798,10 +856,12 @@ export default {
     /**
      * 取消高亮.
      */
-    lightOff () {
-      this.$cy.startBatch()
-      this.$cy.batch(() => this.$cy.elements().removeClass('light-off') /* 移除样式 */)
-      this.$cy.endBatch()
+    lightOff() {
+      this.$cy.startBatch();
+      this.$cy.batch(
+        () => this.$cy.elements().removeClass("light-off") /* 移除样式 */
+      );
+      this.$cy.endBatch();
     },
     /** 高亮邻居 */
     highlight () {
@@ -817,17 +877,15 @@ export default {
      * ['grid', 'circle', 'cola', 'avsdf', 'cose-bilkent', ]
      * @param {name = 'cola......', randomize = true | false, animate = true | false}
      */
-    refresh ({ name = 'cola', randomize = false, animate = true } = {}) {
-      this.$cy.layout({
-        name: name,
-        randomize: randomize,
-        animate: animate
-      }).run()
+    refresh({ name = "cola", randomize = false, animate = true } = {}) {
+      this.$cy
+        .layout({ name: name, randomize: randomize, animate: animate })
+        .run();
     },
     /**
      * 绘制水印.
      */
-    drawWatermark ({
+    drawWatermark({
       canvas = null,
       words = `请勿外传 时间: ${new Date().toTimeString()}`,
       width = 400,
@@ -867,32 +925,38 @@ export default {
     /**
      * 导出全局图片.
      */
-    exportPng () {
+    exportPng() {
       const blob = this.$cy.png({
-        output: 'blob',
-        bg: 'transparent',
+        output: "blob",
+        bg: "transparent",
         full: true,
         scale: 4,
-        quality: 1
-      })
-      const [aLink, evt] = [document.createElement('a'), document.createEvent('HTMLEvents')]
-      evt.initEvent('click', true, true);
-      [aLink.download, aLink.href] = [`${new Date().getTime()}.png`, URL.createObjectURL(blob)]
-      aLink.dispatchEvent(evt)
-      aLink.click()
+        quality: 1,
+      });
+      const [aLink, evt] = [
+        document.createElement("a"),
+        document.createEvent("HTMLEvents"),
+      ];
+      evt.initEvent("click", true, true);
+      [aLink.download, aLink.href] = [
+        `${new Date().getTime()}.png`,
+        URL.createObjectURL(blob),
+      ];
+      aLink.dispatchEvent(evt);
+      aLink.click();
     },
     /**
      * 导出全局图片带有水印.
      */
-    exportPngAndWatermark () {
-      const time = new Date().getTime()
+    exportPngAndWatermark() {
+      const time = new Date().getTime();
       const blob = this.$cy.png({
-        output: 'blob',
-        bg: 'transparent',
+        output: "blob",
+        bg: "transparent",
         full: true,
         scale: 4,
-        quality: 1
-      })
+        quality: 1,
+      });
 
       const image = new Image();
       [image.id, image.crossOrigin, image.src] = [time, 'anonymous', window.URL.createObjectURL(blob)]
@@ -903,8 +967,8 @@ export default {
         /** 绘制水印 */
         this.drawWatermark({
           canvas: canvas,
-          words: `请勿外传! 时间: ${new Date().toTimeString()}`
-        })
+          words: `请勿外传! 时间: ${new Date().toTimeString()}`,
+        });
         /** 绘制原图 */
         ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, image.width, image.height)
         ctx.save()
@@ -918,8 +982,8 @@ export default {
     /**
      * 导出局部图片.
      */
-    exportCutPng ({ watermark = false } = {}) {
-      const unselectedVertexes = this.$cy.elements('node:unselected')
+    exportCutPng({ watermark = false } = {}) {
+      const unselectedVertexes = this.$cy.elements("node:unselected");
       if (!unselectedVertexes || unselectedVertexes.length === 0) {
         return false
       }
@@ -930,8 +994,8 @@ export default {
     /**
      * 导出局部图片.
      */
-    exportCutPngAndWatermark () {
-      this.exportCutPng({ watermark: true })
+    exportCutPngAndWatermark() {
+      this.exportCutPng({ watermark: true });
     },
     downloadXml () {
       DownloadXmlAPI().then(res => {
@@ -1037,8 +1101,8 @@ export default {
     /** 修改结点名称或属性 */
     changeNode (ele) {
       // console.log(ele)
-      const nodePro = this.$cy.getElementById(ele).data()
-      console.log('nodepro: ', nodePro)
+      const nodePro = this.$cy.getElementById(ele).data();
+      console.log("nodepro: ", nodePro);
       for (var key in nodePro) {
         console.log(key)
         if (key !== 'name' && key !== 'id') {
@@ -1197,10 +1261,10 @@ export default {
       e.preventDefault()
       this.edgeForm.validateFields(async (err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values)
-          this.edgeData.start = this.from[0]
-          this.edgeData.end = this.to[0]
-          this.edgeData.type = values.name
+          console.log("Received values of form: ", values);
+          this.edgeData.start = this.from[0];
+          this.edgeData.end = this.to[0];
+          this.edgeData.type = values.name;
           const ele = {
             group: 'edges',
             data: {
@@ -1312,10 +1376,12 @@ export default {
     ...mapMutations([
       'set_historyVisible',
       'set_settingVisible',
-      'set_cyinfo'
+      "set_graphDetailsVisible",
+      "set_filterByNodeLabelsVisible"
     ]),
     ...mapActions([
-      'getHistoryList'
+      'getHistoryList',
+      "getGraphDetailsList"
     ]),
     showHistory () {
       this.getHistoryList()
@@ -1324,14 +1390,10 @@ export default {
     // 设置节点属性
     async setting () {
       await this.set_settingVisible(true)
-      while(this.settingVisible === true){
-        console.log('here')
-        console.log(this.settingList)
-        break
-      }
+
     },
     reset () {
-      this.form.resetFields()
+      this.searchForm.resetFields()
     },
     handleChange (value) {
       this.searchType = value
@@ -1361,7 +1423,7 @@ export default {
         var i = 0
         //var len = nodesCollection.length()
         // 应该是SearchValue
-        var reg = new RegExp("血");
+        var reg = new RegExp("血液");
         while (i < 50) {
           var node = nodesCollection[i]
           i = i + 1
@@ -1375,6 +1437,105 @@ export default {
           }
         }
       })
+    },
+    showGraphDetails() {
+      this.getGraphDetailsList();
+      this.set_graphDetailsVisible(true);
+    },
+    filterByNodeLabels(){
+      this.set_filterByNodeLabelsVisible(true);
+    },
+    getChildData (graph) {
+      console.log(`子组件传递过来的数据: ${graph}`); // hello
+      console.log(graph)
+      console.log(this.$cy)
+      console.log(this.$cy.elements())
+      this.$cy.elements().remove()
+      console.log("destroyed")
+      var nodes = graph.nodes
+      var edges = graph.edges
+      for (var n in nodes) {
+        var node = nodes[n]
+        const data = {}
+        if (node.properties) {
+          for (var key in node.properties) {
+            data[key] = node.properties[key]
+          }
+        } else {
+          data.name = ''
+        }
+        data.id = node.identity
+        console.log(data)
+        this.addEles([{
+          group: 'nodes',
+          data
+        }])
+        console.log("added")
+      }
+
+      for (var e in edges) {
+        var edge = edges[e]
+        const data = {}
+        if (edge.properties) {
+          for (var keyE in edge.properties) {
+            if (keyE !== 'type') {
+              data[keyE] = edge.properties[keyE]
+            }
+          }
+        }
+        data.id = edge.identity
+        data.source = edge.start
+        data.target = edge.end
+        data.name = edge.type
+        this.addEles([{
+          group: 'edges',
+          data
+        }])
+      }
+      this.$cy.layout({
+        name: 'cose',
+        randomize: false,
+        animate: true
+      }).run()
+    },
+    getSetting(settingData){
+      var nodesCollection = this.$cy.filter(function (e, i) {
+        return e.isNode()
+      })
+      var edgesCollection = this.$cy.filter(function (e, i) {
+        return e.isEdge()
+      })
+      var edgeFont = '10px'
+      if(!settingData.lableVisible){
+        edgeFont = '0px'
+      }
+      if(settingData.shape !== 'a'){
+        this.$cy.startBatch()
+        this.$cy.batch(() => {
+          this.$cy
+            .elements(nodesCollection)
+            .style({
+              'shape':settingData.shape
+            })
+        })
+        this.$cy.endBatch()
+      }
+      this.$cy.startBatch()
+      this.$cy.batch(() => {
+        this.$cy
+          .elements(nodesCollection)
+          .style({
+            'font-size': settingData.textSize + 'pt',
+            width: settingData.nodeSize + settingData.widthE + 'pt',
+            height: settingData.nodeSize + 'pt'
+          })
+        this.$cy
+          .elements(edgesCollection)
+          .style({
+            'font-size': edgeFont
+          })
+      })
+      this.$cy.endBatch()
     }
   }
 }
