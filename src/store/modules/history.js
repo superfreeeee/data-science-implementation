@@ -2,8 +2,6 @@ import {
   getHistoryAPI
 } from "../../api/history";
 
-import {message} from "ant-design-vue";
-
 const history = {
   state: {
     historyVisible: false,

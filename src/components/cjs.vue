@@ -50,7 +50,7 @@ a {
   padding: 1px;
 }
 .selectDisplay {
-  margin: 10px 20px 0 0;
+  margin: 0px 20px 0 0;
   text-align: right;
 }
 .propertyDisplay {
@@ -165,7 +165,7 @@ a {
     <!--    知识图谱-->
     <div class = "selectDisplay">
       <!--搜索框-->
-      <div class="table-page-search-wrapper" style="margin-left: 200px">
+      <div class="table-page-search-wrapper">
         <a-form
           layout="inline"
           :form="searchForm"
@@ -206,23 +206,27 @@ a {
               <a-button type="primary" @click="filterByNodeLabels()" style="font-size: 16px; color: #67758d;background-color:transparent;border:0px">
                 类型过滤
               </a-button>
-              <a-dropdown>
+              <a-dropdown style="margin-left: 20px">
                 <a class="ant-dropdown-link" @click="e => e.preventDefault()"
                    style="font-size: 16px; color: #67758D; margin-top: 20px">
                   调整布局 <a-icon type="down" />
                 </a>
-                <a-menu slot="overlay" @click="onClick">
+                <a-menu slot="overlay" @click="onClick" style="width: 130px;">
                   <a-menu-item key="1" @click="refresh({name: 'cola'})">
                     刷新布局
-                    <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px" title="刷新布局" type="ios-sync" />
+                    <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px; position: absolute; right: 10px;" title="刷新布局" type="ios-sync" />
                   </a-menu-item>
                   <a-menu-item key="2"  @click="refresh({name: 'fcose'})">
                     力导图模式
-                    <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px" title="力导图模式" type="ios-apps-outline" />
+                    <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px; position: absolute; right: 10px;" title="力导图模式" type="ios-apps-outline" />
                   </a-menu-item>
                   <a-menu-item key="3" @click="refresh({name: 'grid'})">
                     排版模式
-                    <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px; position: absolute; right: 0px;" title="排版布局" type="ios-globe-outline" />
+                    <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px; position: absolute; right: 10px;" title="排版布局" type="ios-globe-outline" />
+                  </a-menu-item>
+                  <a-menu-item key="4" @click="saveGraph">
+                    保存布局
+                    <a-icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px; position: absolute; right: 2px;" title="排版布局" type="download" />
                   </a-menu-item>
                 </a-menu>
               </a-dropdown>
@@ -1381,7 +1385,8 @@ export default {
     ]),
     ...mapActions([
       'getHistoryList',
-      "getGraphDetailsList"
+      "getGraphDetailsList",
+      "updateNodePos"
     ]),
     showHistory () {
       this.getHistoryList()
@@ -1536,6 +1541,12 @@ export default {
           })
       })
       this.$cy.endBatch()
+    },
+    saveGraph(){
+      var nodesCollection = this.$cy.filter(function (e, i) {
+        return e.isNode()
+      })
+      this.updateNodePos(nodesCollection)
     }
   }
 }

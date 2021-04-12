@@ -5,7 +5,6 @@
       <div class="button" style="margin-left: 70%">
         <Button style="background-color: #67758D;color: white; margin-right: 30px" @click="uploading" >上传文件</Button>
         <Button style="background-color: #67758D;color: white; margin-right: 30px" @click="addNodes">添加节点</Button>
-        <Button style="background-color: #67758D;color: white" @click="saveGraph">保存</Button>
       </div>
       <div class="upload_form">
         <a-modal
@@ -143,11 +142,11 @@ export default {
         data.id = node.identity
         this.$refs.ref_CJS.addEles([{
           group: 'nodes',
-          data
-          // position: {
-          //   x: Math.ceil(Math.random() * 10) * 90,
-          //   y: Math.ceil(Math.random() * 10) * 90
-          // }
+          data,
+          position: {
+            x: parseFloat(node.properties.x),
+            y: parseFloat(node.properties.y)
+          }
         }])
       }
 
@@ -170,11 +169,11 @@ export default {
           data
         }])
       }
-      this.$refs.ref_CJS.$cy.layout({
-        name: 'cose',
-        randomize: false,
-        animate: true
-      }).run()
+      // this.$refs.ref_CJS.$cy.layout({
+      //   name: 'cose',
+      //   randomize: false,
+      //   animate: true
+      // }).run()
       // this.$refs.ref_CJS.addEles([
       // { group: 'nodes', data: { id: '0', name: 'n0' }, position: { x: 200, y: 50 } },
       // ])
@@ -353,9 +352,6 @@ export default {
     },
     handleSure () {
       this.uploadFormVisible = false
-    },
-    saveGraph () {
-      // this.saveGraphToEnd()
     }
   }
 }
