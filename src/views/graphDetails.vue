@@ -1,29 +1,23 @@
 <style scoped>
 .relationtypes {
-  background-color: rgb(248, 182, 138);
-  border-radius: 10px;
-  box-shadow: 0px 1px 2px rgb(253, 146, 84), 0px 1px 2px rgba(0, 0, 0, 0.7);
+  background-color: rgb(253, 207, 176);
+  border-radius: 5px;
+  box-shadow: 0px 1px 2px rgb(255, 168, 118), 0px 1px 2px rgba(0, 0, 0, 0.7);
   font-weight: bold;
   /* padding: 8px; */
   /* line-height:35px; */
   margin: 5px;
-  height: 15px;
+  height: 17px;
   font-size: 10px;
   display: inline-block;
+  padding: 0 0.16rem;
+  color: rgb(82, 77, 71);
+}
+.relationtypes:hover{
+  background-color: rgb(248, 182, 138);
 }
 .propertykeys {
-  background-color: rgb(248, 182, 138);
-  border-radius: 10px;
-  box-shadow: 0px 1px 2px rgb(253, 146, 84), 0px 1px 2px rgba(0, 0, 0, 0.7);
-  font-weight: bold;
-  margin: 5px;
-  /* line-height:35px; */
-  height: 15px;
-  font-size: 10px;
-  display: inline-block;
-}
-.nodelabels {
-  background-color: rgb(248, 182, 138);
+  background-color: rgb(253, 207, 176);
   border-radius: 5px;
   box-shadow: 0px 1px 2px rgb(253, 146, 84), 0px 1px 2px rgba(0, 0, 0, 0.7);
   font-weight: bold;
@@ -32,6 +26,27 @@
   height: 17px;
   font-size: 10px;
   display: inline-block;
+  padding: 0 0.16rem;
+  color: rgb(82, 77, 71);
+}
+.propertykeys:hover{
+  background-color: rgb(248, 182, 138);
+}
+.nodelabels {
+  background-color: rgb(253, 207, 176);
+  border-radius: 5px;
+  box-shadow: 0px 1px 2px rgb(253, 146, 84), 0px 1px 2px rgba(0, 0, 0, 0.7);
+  font-weight: bold;
+  margin: 5px;
+  /* line-height:35px; */
+  height: 17px;
+  font-size: 10px;
+  display: inline-block;
+  padding: 0 0.16rem;
+  color: rgb(82, 77, 71);
+}
+.nodelabels:hover{
+   background-color: rgb(248, 182, 138);
 }
 h3{
     font-style: italic;

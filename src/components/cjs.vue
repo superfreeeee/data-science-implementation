@@ -9,7 +9,7 @@ a {
   /*vertical-align: middle;*/
   display: block;
   color: #000;
-  padding: 25px 16px;
+  padding: 20px 16px;
   text-decoration: none;
 }
 .tools:hover {
@@ -203,7 +203,7 @@ a {
               </span>
             </a-col>
             <a-col :md="4" :sm="24" :lg="4">
-              <a-button type="primary" @click="filterByNodeLabels()" style="font-size: 16px; color: #67758d;background-color:transparent;border:0px">
+              <a-button @click="filterByNodeLabels()" style="font-size: 16px; color: #67758d;background-color:transparent;border:0px">
                 类型过滤
               </a-button>
               <a-dropdown style="margin-left: 20px">
@@ -212,7 +212,7 @@ a {
                   调整布局 <a-icon type="down" />
                 </a>
                 <a-menu slot="overlay" @click="onClick" style="width: 130px;">
-                  <a-menu-item key="1" @click="refresh({name: 'cola'})">
+                  <a-menu-item key="1" @click="refresh({name: 'cose'})">
                     刷新布局
                     <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px; position: absolute; right: 10px;" title="刷新布局" type="ios-sync" />
                   </a-menu-item>
@@ -658,7 +658,7 @@ export default {
         'font-size': '10pt',
         width: '40pt',
         height: '40pt',
-        'background-color': '#fce9cc'
+        'background-color': '#fce9cc',
       })
     /* 已选择节点样式 */
       .selector('node:selected')
@@ -689,8 +689,8 @@ export default {
     /* 高亮样式 */
       .selector('.light-off')
       .style({ opacity: '0.1' })
+      /* 拖拽添加边样式*/
       .selector('.eh-handle')
-
       .style({
         'background-color': '#fce9cc',
         width: 12,
@@ -1448,15 +1448,13 @@ export default {
       this.set_graphDetailsVisible(true);
     },
     filterByNodeLabels(){
+      this.getGraphDetailsList();
       this.set_filterByNodeLabelsVisible(true);
     },
     getChildData (graph) {
-      console.log(`子组件传递过来的数据: ${graph}`); // hello
+      // console.log(`子组件传递过来的数据: ${graph}`); // hello
       console.log(graph)
-      console.log(this.$cy)
-      console.log(this.$cy.elements())
       this.$cy.elements().remove()
-      console.log("destroyed")
       var nodes = graph.nodes
       var edges = graph.edges
       for (var n in nodes) {
