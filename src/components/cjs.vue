@@ -1427,10 +1427,34 @@ export default {
         console.log(nodesCollection)
 
         var i = 0
-        //var len = nodesCollection.length()
         // 应该是SearchValue
-        var reg = new RegExp("血液");
-        while (i < 50) {
+        function dealSearchKey (key) {
+          const escapeRegExp = /[-#$^*()+[\]{}|\\,.?\s]/g
+          var src = ['(.*?)('];
+          var ks = key.split('');
+          if (ks.length) {
+            while (ks.length) {
+              src.push(ks.shift().replace(escapeRegExp, '\\$&'), ')(.*?)(');
+            }
+            src.pop();
+          }
+          src.push(')(.*?)');
+          src = src.join('');
+          var reg = new RegExp(src, 'i');
+          var replacer = [];
+          var start = key.length
+          var begin = 1;
+          while (start > 0) {
+            start--;
+            replacer.push('$', begin, '($', begin + 1, ')');
+            begin += 2;
+          }
+          replacer.push('$', begin)
+          return reg
+        }
+
+        // var reg = new RegExp("血液");
+        while (i < nodesCollection.length) {
           var node = nodesCollection[i]
           i = i + 1
           var nodeInfo = node.data()
@@ -1438,6 +1462,7 @@ export default {
           console.log(nodeInfo)
           var nodeName = nodeInfo.name
           console.log(nodeName)
+          var reg = dealSearchKey("血液")
           if(nodeName.match(reg)){
             this.lightOn(nodeInfo.id)
           }
