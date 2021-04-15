@@ -172,8 +172,8 @@ a {
           @submit="search"
         >
           <a-row :gutter="24">
-            <a-col :md="5" :sm="24" :lg="5"></a-col>
-            <a-col :md="5" :sm="24" :lg="5">
+            <a-col :md="2" :sm="24" :lg="2"></a-col>
+            <a-col :md="4" :sm="24" :lg="4">
               <a-form-item label="搜索类型">
                 <a-select
                   placeholder="请选择"
@@ -189,7 +189,7 @@ a {
                 </a-select>
               </a-form-item>
             </a-col>
-            <a-col :md="9" :sm="24" :lg="9">
+            <a-col :md="8" :sm="24" :lg="8">
               <a-form-item>
                 <a-input
                   v-decorator="['searchValue',
@@ -198,11 +198,12 @@ a {
                   placeholder="请输入"/>
               </a-form-item>
               <span class="table-page-search-submitButtons">
-                <a-button type="primary" html-type="submit" style="margin-top: 3px">查询</a-button>
+                <a-button html-type="submit" style="background-color: #67758D;color: white;margin-top: 3px">查询</a-button>
                 <a-button style="margin-left: 10px" @click="reset">重置</a-button>
               </span>
             </a-col>
-            <a-col :md="4" :sm="24" :lg="4">
+            <a-col :md="4" :sm="24" :lg="4"></a-col>
+            <a-col :md="5" :sm="24" :lg="5">
               <a-button @click="filterByNodeLabels()" style="font-size: 16px; color: #67758d;background-color:transparent;border:0px">
                 类型过滤
               </a-button>

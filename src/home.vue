@@ -19,7 +19,7 @@
               点击或将文件拖拽到这里上传
             </p>
             <p class="ant-upload-hint">
-              支持扩展名：.csv .json
+              支持扩展名：.json
             </p>
           </a-upload-dragger>
           <a-button @click="handleSure" type="primary" style="margin: 20px 0px 10px 400px">确认</a-button>
@@ -118,7 +118,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations([                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    ...mapMutations([
     ]),
     ...mapActions([
     ]),
