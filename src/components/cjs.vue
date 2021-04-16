@@ -848,6 +848,7 @@ export default {
     lightOn(ele) {
       this.$cy.startBatch();
       this.$cy.batch(() => {
+        console.log(ele)
         this.$cy.elements().addClass('light-off') //* 添加样式*/
         const elements = ((Array.isArray ? Array.isArray(ele) : ele != null && ele instanceof Array) ? ele : [ele])
         elements.forEach(__ => {
@@ -1408,6 +1409,11 @@ export default {
       e.preventDefault();
       this.searchForm.validateFields((err, values) => {
         if (!err) {
+          console.log(values)
+          console.log(values.searchType)
+          console.log(values.searchValue)
+          this.searchValue = values.searchValue
+          this.searchType = values.searchType
           this.queryParam = {
             searchType: values.searchType,
             searchValue: values.searchValue
@@ -1415,59 +1421,110 @@ export default {
         }
         //this.$refs.stable.refresh()
         console.log(this.searchValue)
-        console.log(this.searchValue)
-        console.log("hhhhhh")
         // 模糊搜索
-
-        // 获取所有节点
-        var nodesCollection = this.$cy.filter(function (e, i) {
-          return e.isNode()
-        })
-        console.log("testList")
-        console.log(nodesCollection)
-
-        var i = 0
-        // 应该是SearchValue
-        function dealSearchKey (key) {
-          const escapeRegExp = /[-#$^*()+[\]{}|\\,.?\s]/g
-          var src = ['(.*?)('];
-          var ks = key.split('');
-          if (ks.length) {
-            while (ks.length) {
-              src.push(ks.shift().replace(escapeRegExp, '\\$&'), ')(.*?)(');
-            }
-            src.pop();
-          }
-          src.push(')(.*?)');
-          src = src.join('');
-          var reg = new RegExp(src, 'i');
-          var replacer = [];
-          var start = key.length
-          var begin = 1;
-          while (start > 0) {
-            start--;
-            replacer.push('$', begin, '($', begin + 1, ')');
-            begin += 2;
-          }
-          replacer.push('$', begin)
-          return reg
+        if(this.searchType === '1') {
+          this.searchNode(this.searchValue)
+          this.searchEdge(this.searchValue)
         }
-
-        // var reg = new RegExp("血液");
-        while (i < nodesCollection.length) {
-          var node = nodesCollection[i]
-          i = i + 1
-          var nodeInfo = node.data()
-          console.log(i)
-          console.log(nodeInfo)
-          var nodeName = nodeInfo.name
-          console.log(nodeName)
-          var reg = dealSearchKey("血液")
-          if(nodeName.match(reg)){
-            this.lightOn(nodeInfo.id)
-          }
+        if(this.searchType === '2') {
+          console.log("test")
+          this.searchNode(this.searchValue)
         }
+        if(this.searchType === '3') {
+          this.searchEdge(this.searchValue)
+        }
+        this.$cy.once('click', () => this.lightOff())
       })
+    },
+    searchEdge(key) {
+      var edgesCollection = this.$cy.filter(function (e, i) {
+        return e.isEdge()
+      })
+      console.log("searchEdgeTest")
+      console.log(edgesCollection)
+
+      var i = 0
+      var reg = this.dealSearchKey(key)
+      this.$cy.elements().addClass('light-off') //* 添加样式*/
+      while (i < edgesCollection.length) {
+        var edge = edgesCollection[i]
+        i = i + 1
+        var edgeInfo = edge.data()
+
+        var edgeName = edgeInfo.name
+
+
+        if (edgeName.match(reg)) {
+          // console.log(edgeInfo)
+          // this.lightOn(edgeInfo.id)
+          // this.$cy.startBatch();
+          // this.$cy.batch(() => {
+          console.log(edgeInfo.id)
+          const elements = ((Array.isArray ? Array.isArray(edgeInfo.id) : edgeInfo.id != null && edgeInfo.id instanceof Array) ? edgeInfo.id : [edgeInfo.id])
+          elements.forEach(__ => {
+            this.$cy.getElementById(__).removeClass('light-off')
+            //   this.$cy.getElementById(__).neighborhood().removeClass('light-off')
+          })
+          // })
+          // this.$cy.endBatch()
+        }
+      }
+    },
+    searchNode(key) {
+      // 获取所有节点
+      var nodesCollection = this.$cy.filter(function (e, i) {
+        return e.isNode()
+      })
+      console.log("searchNodeTest")
+      console.log(nodesCollection)
+
+      var i = 0
+      // 应该是searchValue
+
+      // var reg = new RegExp("血液");
+      var reg = this.dealSearchKey(key)
+      this.$cy.elements().addClass('light-off') //* 添加样式*/
+      while (i < nodesCollection.length) {
+        var node = nodesCollection[i]
+        i = i + 1
+        var nodeInfo = node.data()
+        console.log(i)
+        console.log(nodeInfo)
+        var nodeName = nodeInfo.name
+        console.log(nodeName)
+        if(nodeName.match(reg)){
+          // this.lightOn(nodeInfo.id)
+          const elements = ((Array.isArray ? Array.isArray(nodeInfo.id) : nodeInfo.id != null && nodeInfo.id instanceof Array) ? nodeInfo.id : [nodeInfo.id])
+          elements.forEach(__ => {
+            this.$cy.getElementById(__).removeClass('light-off')
+            // this.$cy.getElementById(__).neighborhood().removeClass('light-off')
+          })
+        }
+      }
+    },
+    dealSearchKey(key) {
+      const escapeRegExp = /[-#$^*()+[\]{}|\\,.?\s]/g
+      var src = ['(.*?)('];
+      var ks = key.split('');
+      if (ks.length) {
+        while (ks.length) {
+          src.push(ks.shift().replace(escapeRegExp, '\\$&'), ')(.*?)(');
+        }
+        src.pop();
+      }
+      src.push(')(.*?)');
+      src = src.join('');
+      var reg = new RegExp(src, 'i');
+      var replacer = [];
+      var start = key.length
+      var begin = 1;
+      while (start > 0) {
+        start--;
+        replacer.push('$', begin, '($', begin + 1, ')');
+        begin += 2;
+      }
+      replacer.push('$', begin)
+      return reg
     },
     showGraphDetails() {
       this.getGraphDetailsList();
