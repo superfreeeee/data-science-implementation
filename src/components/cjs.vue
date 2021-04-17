@@ -1214,7 +1214,7 @@ export default {
       });
     },
     removeNode(e) {
-      console.log("id", e[0]);
+      // console.log("id", e[0]);
       DeleteNodeAPI({ identity: e[0] })
         .then((res) => {
           // console.log(res)

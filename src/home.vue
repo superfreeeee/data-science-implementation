@@ -182,13 +182,13 @@ export default {
           data
         }])
       }
-      console.log(isInit)
+      // console.log(isInit)
       if(!isInit){
-      this.$refs.ref_CJS.$cy.layout({
-        name: 'cose',
-        randomize: false,
-        animate: true
-      }).run()
+        this.$refs.ref_CJS.$cy.layout({
+          name: 'cose',
+          randomize: false,
+          animate: true
+        }).run()
       }
       // this.$refs.ref_CJS.addEles([
       // { group: 'nodes', data: { id: '0', name: 'n0' }, position: { x: 200, y: 50 } },
