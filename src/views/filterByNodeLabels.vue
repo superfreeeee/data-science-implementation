@@ -36,8 +36,22 @@
   border: white;
   font-family: LiSu;
   height: 25px;
+  margin-right: 10px;
 }
 #button1:hover{
+  background-color:rgb(250, 198, 140);
+  color: rgb(252, 252, 252);
+}
+#button2{
+  color: rgb(63, 59, 53);
+  background-color:rgb(250, 212, 169);
+  box-shadow: 0px 1px 2px rgb(250, 212, 169),0px 1px 2px rgba(0, 0, 0, 0.7);
+  /* background-color:rgb(42, 50, 54); */
+  border: white;
+  font-family: LiSu;
+  height: 25px;
+}
+#button2:hover{
   background-color:rgb(250, 198, 140);
   color: rgb(252, 252, 252);
 }
@@ -69,6 +83,7 @@
     <a-spin :spinning="spinning" tip="加载中···" style="margin-left:45%"></a-spin>
     <div class="typeFilter">
       <a-button id="button1" type="primary" @click="filterByNodeLabels()">类型过滤</a-button>
+      <a-button id="button2" type="primary" @click="resetGraph()">重置</a-button>
     </div>
   </a-drawer>
 </template>
@@ -78,10 +93,8 @@ import { mapGetters, mapMutations, mapActions } from "vuex";
 import {
   filterByNodeLabelsAPI
 }from "../api/api";
-import CJS from "../components/cjs"
 export default {
   name: "FilterByNodeLabels",
-  components:{CJS},
   data() {
     return {
       arrIndex: [],
@@ -114,19 +127,19 @@ export default {
       }
       console.log(this.arrIndex)
     },
-    sendData (graph) {
-      console.log("send",graph)
-      this.$emit('listenToChild',graph);
+    sendData (graph,isReset) {
+      // console.log("send",graph)
+      this.$emit('listenToChild',graph,isReset);
     },
     filterByNodeLabels: async function(){
-      console.log(this.arrIndex);
+      // console.log(this.arrIndex);
       const nodeLabels={
         labels:[]
       }
       for(var key in this.arrIndex){
         nodeLabels.labels.push(this.arrIndex[key])
       }
-      console.log("labels",nodeLabels)
+      // console.log("labels",nodeLabels)
       var graph
       // this.set_filterByNodeLabelsVisible(false);
       this.spinning=true;
@@ -135,13 +148,19 @@ export default {
       .then((res)=>{
         // console.log(res)
         graph = res.content
-        this.sendData(graph)
+        this.sendData(graph,false)
       })
       .catch((err)=>{
         console.log(err)
       });
 
       this.arrIndex=[];
+      this.set_filterByNodeLabelsVisible(false);
+      this.spinning=false
+    },
+    resetGraph(){
+      this.spinning=true;
+      this.sendData({},true)
       this.set_filterByNodeLabelsVisible(false);
       this.spinning=false
     }

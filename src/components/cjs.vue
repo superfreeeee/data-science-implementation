@@ -143,12 +143,32 @@ a {
       </div>
       <div class="tools">
         <div class="center-center">
-          <a-icon type="history" style="font-size: 26px;cursor: pointer; color: white;font-weight: lighter" title="历史记录" @click="showHistory()"/>
+          <a-icon
+            type="history"
+            style="
+              font-size: 26px;
+              cursor: pointer;
+              color: white;
+              font-weight: lighter;
+            "
+            title="历史记录"
+            @click="showHistory()"
+          />
         </div>
       </div>
       <div class="tools">
         <div class="center-center">
-          <a-icon type="setting" style="font-size: 26px;cursor: pointer; color: white;font-weight: lighter" title="设置" @click="setting()"/>
+          <a-icon
+            type="setting"
+            style="
+              font-size: 26px;
+              cursor: pointer;
+              color: white;
+              font-weight: lighter;
+            "
+            title="设置"
+            @click="setting()"
+          />
         </div>
       </div>
       <div class="tools">
@@ -163,14 +183,10 @@ a {
       </div>
     </div>
     <!--    知识图谱-->
-    <div class = "selectDisplay">
+    <div class="selectDisplay">
       <!--搜索框-->
       <div class="table-page-search-wrapper">
-        <a-form
-          layout="inline"
-          :form="searchForm"
-          @submit="search"
-        >
+        <a-form layout="inline" :form="searchForm" @submit="search">
           <a-row :gutter="24">
             <a-col :md="2" :sm="24" :lg="2"></a-col>
             <a-col :md="4" :sm="24" :lg="4">
@@ -178,11 +194,13 @@ a {
                 <a-select
                   placeholder="请选择"
                   style="width: 100px"
-                  v-decorator="['searchType',
-                        {rules: [{ required: false, message: '请选择搜索类型' }]}
-                        ]"
+                  v-decorator="[
+                    'searchType',
+                    { rules: [{ required: false, message: '请选择搜索类型' }] },
+                  ]"
                   allowClear
-                  name="searchType">
+                  name="searchType"
+                >
                   <a-select-option value="1">所有</a-select-option>
                   <a-select-option value="2">节点</a-select-option>
                   <a-select-option value="3">关系</a-select-option>
@@ -192,42 +210,109 @@ a {
             <a-col :md="8" :sm="24" :lg="8">
               <a-form-item>
                 <a-input
-                  v-decorator="['searchValue',
-                {rules: [{ required: false, message: '请输入搜索值' }]}
-                ]"
-                  placeholder="请输入"/>
+                  v-decorator="[
+                    'searchValue',
+                    { rules: [{ required: false, message: '请输入搜索值' }] },
+                  ]"
+                  placeholder="请输入"
+                />
               </a-form-item>
               <span class="table-page-search-submitButtons">
-                <a-button html-type="submit" style="background-color: #67758D;color: white;margin-top: 3px">查询</a-button>
-                <a-button style="margin-left: 10px" @click="reset">重置</a-button>
+                <a-button
+                  html-type="submit"
+                  style="
+                    background-color: #67758d;
+                    color: white;
+                    margin-top: 3px;
+                  "
+                  >查询</a-button
+                >
+                <a-button style="margin-left: 10px" @click="reset"
+                  >重置</a-button
+                >
               </span>
             </a-col>
             <a-col :md="4" :sm="24" :lg="4"></a-col>
             <a-col :md="5" :sm="24" :lg="5">
-              <a-button @click="filterByNodeLabels()" style="font-size: 16px; color: #67758d;background-color:transparent;border:0px">
+              <a-button
+                @click="filterByNodeLabels()"
+                style="
+                  font-size: 16px;
+                  color: #67758d;
+                  background-color: transparent;
+                  border: 0px;
+                "
+              >
                 类型过滤
               </a-button>
               <a-dropdown style="margin-left: 20px">
-                <a class="ant-dropdown-link" @click="e => e.preventDefault()"
-                   style="font-size: 16px; color: #67758D; margin-top: 20px">
+                <a
+                  class="ant-dropdown-link"
+                  @click="(e) => e.preventDefault()"
+                  style="font-size: 16px; color: #67758d; margin-top: 20px"
+                >
                   调整布局 <a-icon type="down" />
                 </a>
-                <a-menu slot="overlay" @click="onClick" style="width: 130px;">
-                  <a-menu-item key="1" @click="refresh({name: 'cose'})">
+                <a-menu slot="overlay" @click="onClick" style="width: 130px">
+                  <a-menu-item key="1" @click="refresh({ name: 'cose' })">
                     刷新布局
-                    <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px; position: absolute; right: 10px;" title="刷新布局" type="ios-sync" />
+                    <Icon
+                      style="
+                        font-size: 20px;
+                        cursor: pointer;
+                        color: #67758d;
+                        margin-left: 5px;
+                        position: absolute;
+                        right: 10px;
+                      "
+                      title="刷新布局"
+                      type="ios-sync"
+                    />
                   </a-menu-item>
-                  <a-menu-item key="2"  @click="refresh({name: 'fcose'})">
+                  <a-menu-item key="2" @click="refresh({ name: 'fcose' })">
                     力导图模式
-                    <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px; position: absolute; right: 10px;" title="力导图模式" type="ios-apps-outline" />
+                    <Icon
+                      style="
+                        font-size: 20px;
+                        cursor: pointer;
+                        color: #67758d;
+                        margin-left: 5px;
+                        position: absolute;
+                        right: 10px;
+                      "
+                      title="力导图模式"
+                      type="ios-apps-outline"
+                    />
                   </a-menu-item>
-                  <a-menu-item key="3" @click="refresh({name: 'grid'})">
+                  <a-menu-item key="3" @click="refresh({ name: 'grid' })">
                     排版模式
-                    <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px; position: absolute; right: 10px;" title="排版布局" type="ios-globe-outline" />
+                    <Icon
+                      style="
+                        font-size: 20px;
+                        cursor: pointer;
+                        color: #67758d;
+                        margin-left: 5px;
+                        position: absolute;
+                        right: 10px;
+                      "
+                      title="排版布局"
+                      type="ios-globe-outline"
+                    />
                   </a-menu-item>
                   <a-menu-item key="4" @click="saveGraph">
                     保存布局
-                    <a-icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px; position: absolute; right: 2px;" title="排版布局" type="download" />
+                    <a-icon
+                      style="
+                        font-size: 20px;
+                        cursor: pointer;
+                        color: #67758d;
+                        margin-left: 5px;
+                        position: absolute;
+                        right: 2px;
+                      "
+                      title="排版布局"
+                      type="download"
+                    />
                   </a-menu-item>
                 </a-menu>
               </a-dropdown>
@@ -236,144 +321,290 @@ a {
         </a-form>
       </div>
     </div>
-    <div id="cytoscape_id">
-    </div>
+    <div id="cytoscape_id"></div>
     <div class="propertyDisplay">
       <span id="labels"></span>
-      <p id="properties"> click on the node or edge to display more infomation!</p>
+      <p id="properties">
+        click on the node or edge to display more infomation!
+      </p>
     </div>
-    <a-modal :visible="modifyEdgeFormVisible" title="修改边" @cancel="cancelModifyEdge" @ok="modifyEdge">
-      <a-form :form="modifyEdgeForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
+    <a-modal
+      :visible="modifyEdgeFormVisible"
+      title="修改边"
+      @cancel="cancelModifyEdge"
+      @ok="modifyEdge"
+    >
+      <a-form
+        :form="modifyEdgeForm"
+        :label-col="{ span: 5 }"
+        :wrapper-col="{ span: 12 }"
+      >
         <a-form-item label="name">
           <a-input
-            v-decorator="['name', { rules: [{ required: false, message: 'Please input name of the edge!' }] }]"
+            v-decorator="[
+              'name',
+              {
+                rules: [
+                  {
+                    required: false,
+                    message: 'Please input name of the edge!',
+                  },
+                ],
+              },
+            ]"
             placeholder="input name here"
           />
         </a-form-item>
-        <div style = "margin-left:50px; margin-top:30px">
-          <h4 style="margin-bottom: 16px">
-            属性:
-          </h4>
+        <div style="margin-left: 50px; margin-top: 30px">
+          <h4 style="margin-bottom: 16px">属性:</h4>
           <a-list item-layout="horizontal" :data-source="all_property">
             <a-list-item slot="renderItem" slot-scope="item">
               <a-list-item-meta>
-                <a slot="title" >{{ item.title }}:&nbsp;{{item.value}}</a>
+                <a slot="title">{{ item.title }}:&nbsp;{{ item.value }}</a>
               </a-list-item-meta>
             </a-list-item>
           </a-list>
-          <a-button @click="addEdgeProperty" style="margin: 20px 0px 10px 100px">增加属性</a-button>
+          <a-button @click="addEdgeProperty" style="margin: 20px 0px 10px 100px"
+            >增加属性</a-button
+          >
         </div>
       </a-form>
     </a-modal>
-    <a-modal :visible="modifyNodeFormVisible" title="修改结点" @cancel="cancelModifyNode" @ok="modifyNode">
-      <a-form :form="modifyNodeForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
+    <a-modal
+      :visible="modifyNodeFormVisible"
+      title="修改结点"
+      @cancel="cancelModifyNode"
+      @ok="modifyNode"
+    >
+      <a-form
+        :form="modifyNodeForm"
+        :label-col="{ span: 5 }"
+        :wrapper-col="{ span: 12 }"
+      >
         <a-form-item label="name">
           <a-input
-            v-decorator="['name', { rules: [{ required: false, message: 'Please input name of the node!' }] }]"
+            v-decorator="[
+              'name',
+              {
+                rules: [
+                  {
+                    required: false,
+                    message: 'Please input name of the node!',
+                  },
+                ],
+              },
+            ]"
             placeholder="input name here"
           />
         </a-form-item>
         <a-form-item label="label">
           <a-input
-            v-decorator="['label',{rules:[{required:false,message:'please input the label!'}]}]"
+            v-decorator="[
+              'label',
+              {
+                rules: [
+                  { required: false, message: 'please input the label!' },
+                ],
+              },
+            ]"
             placeholder="input label here"
-            ></a-input>
+          ></a-input>
         </a-form-item>
-        <div style = "margin-left:50px; margin-top:30px">
-          <h4 style="margin-bottom: 16px">
-            属性:
-          </h4>
+        <div style="margin-left: 50px; margin-top: 30px">
+          <h4 style="margin-bottom: 16px">属性:</h4>
           <a-list item-layout="horizontal" :data-source="all_property">
             <a-list-item slot="renderItem" slot-scope="item">
               <a-list-item-meta>
-                <a slot="title" >{{ item.title }}:&nbsp;{{item.value}}</a>
+                <a slot="title">{{ item.title }}:&nbsp;{{ item.value }}</a>
               </a-list-item-meta>
             </a-list-item>
           </a-list>
-          <a-button @click="addNodeProperty" style="margin: 20px 0px 10px 100px">增加属性</a-button>
+          <a-button @click="addNodeProperty" style="margin: 20px 0px 10px 100px"
+            >增加属性</a-button
+          >
         </div>
-        <div style = "margin-left:50px; margin-top:30px">
-          <h4 style="margin-bottom: 16px">
-            颜色:
-          </h4>
+        <div style="margin-left: 50px; margin-top: 30px">
+          <h4 style="margin-bottom: 16px">颜色:</h4>
           <div>
-            <a-checkable-tag style="background-color: #E7919C"  v-model="checkedPink" @change="handleChangeColor">
+            <a-checkable-tag
+              style="background-color: #e7919c"
+              v-model="checkedPink"
+              @change="handleChangeColor"
+            >
               pink
             </a-checkable-tag>
-            <a-checkable-tag style="background-color: #E93D4A"   v-model="checkedRed" @change="handleChangeColor">
+            <a-checkable-tag
+              style="background-color: #e93d4a"
+              v-model="checkedRed"
+              @change="handleChangeColor"
+            >
               red
             </a-checkable-tag>
-            <a-checkable-tag style="background-color: #ECA95A"  v-model="checkedOrange" @change="handleChangeColor">
+            <a-checkable-tag
+              style="background-color: #eca95a"
+              v-model="checkedOrange"
+              @change="handleChangeColor"
+            >
               orange
             </a-checkable-tag>
-            <a-checkable-tag style="background-color: #3E9A33"  v-model="checkedGreen" @change="handleChangeColor">
+            <a-checkable-tag
+              style="background-color: #3e9a33"
+              v-model="checkedGreen"
+              @change="handleChangeColor"
+            >
               green
             </a-checkable-tag>
-            <a-checkable-tag style="background-color: #91E1E7"  v-model="checkedCyan" @change="handleChangeColor">
+            <a-checkable-tag
+              style="background-color: #91e1e7"
+              v-model="checkedCyan"
+              @change="handleChangeColor"
+            >
               cyan
             </a-checkable-tag>
-            <a-checkable-tag style="background-color: #91CBE7"  v-model="checkedBlue" @change="handleChangeColor">
+            <a-checkable-tag
+              style="background-color: #91cbe7"
+              v-model="checkedBlue"
+              @change="handleChangeColor"
+            >
               blue
             </a-checkable-tag>
-            <a-checkable-tag style="background-color: #D56DB4"  v-model="checkedPurple" @change="handleChangeColor">
+            <a-checkable-tag
+              style="background-color: #d56db4"
+              v-model="checkedPurple"
+              @change="handleChangeColor"
+            >
               purple
             </a-checkable-tag>
           </div>
         </div>
       </a-form>
     </a-modal>
-    <a-modal :visible="addNodePropertyFormVisible" title="增加节点属性" @cancel="cancelAddNodeProperty" @ok="addNodeProperties">
-      <a-form :form="NodePropertyForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
+    <a-modal
+      :visible="addNodePropertyFormVisible"
+      title="增加节点属性"
+      @cancel="cancelAddNodeProperty"
+      @ok="addNodeProperties"
+    >
+      <a-form
+        :form="NodePropertyForm"
+        :label-col="{ span: 5 }"
+        :wrapper-col="{ span: 12 }"
+      >
         <a-form-item label="key">
           <a-input
-            v-decorator="['key', { rules: [{ required: true, message: 'Please input key of the property!' }] }]"
+            v-decorator="[
+              'key',
+              {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Please input key of the property!',
+                  },
+                ],
+              },
+            ]"
             placeholder="input key here"
           />
         </a-form-item>
         <a-form-item label="value">
           <a-input
-            v-decorator="['value', { rules: [{ required: true, message: 'please to input value of the property!' }] }]"
+            v-decorator="[
+              'value',
+              {
+                rules: [
+                  {
+                    required: true,
+                    message: 'please to input value of the property!',
+                  },
+                ],
+              },
+            ]"
             placeholder="input value here"
           />
         </a-form-item>
       </a-form>
     </a-modal>
-    <a-modal :visible="addEdgePropertyFormVisible" title="增加边属性" @cancel="cancelAddEdgeProperty" @ok="addEdgeProperties">
-      <a-form :form="EdgePropertyForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
+    <a-modal
+      :visible="addEdgePropertyFormVisible"
+      title="增加边属性"
+      @cancel="cancelAddEdgeProperty"
+      @ok="addEdgeProperties"
+    >
+      <a-form
+        :form="EdgePropertyForm"
+        :label-col="{ span: 5 }"
+        :wrapper-col="{ span: 12 }"
+      >
         <a-form-item label="key">
           <a-input
-            v-decorator="['key', { rules: [{ required: true, message: 'Please input key of the property!' }] }]"
+            v-decorator="[
+              'key',
+              {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Please input key of the property!',
+                  },
+                ],
+              },
+            ]"
             placeholder="input key here"
           />
         </a-form-item>
         <a-form-item label="value">
           <a-input
-            v-decorator="['value', { rules: [{ required: true, message: 'choose to input value of the property!' }] }]"
+            v-decorator="[
+              'value',
+              {
+                rules: [
+                  {
+                    required: true,
+                    message: 'choose to input value of the property!',
+                  },
+                ],
+              },
+            ]"
             placeholder="input value here"
           />
         </a-form-item>
       </a-form>
     </a-modal>
-    <a-modal :visible="addEdgeFormVisible" title="增加边" @cancel="cancelAddEdge" @ok="addEdge">
-      <a-form :form="edgeForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
+    <a-modal
+      :visible="addEdgeFormVisible"
+      title="增加边"
+      @cancel="cancelAddEdge"
+      @ok="addEdge"
+    >
+      <a-form
+        :form="edgeForm"
+        :label-col="{ span: 5 }"
+        :wrapper-col="{ span: 12 }"
+      >
         <a-form-item label="name">
           <a-input
-            v-decorator="['name', { rules: [{ required: true, message: 'Please input name of the Edge!' }] }]"
+            v-decorator="[
+              'name',
+              {
+                rules: [
+                  { required: true, message: 'Please input name of the Edge!' },
+                ],
+              },
+            ]"
             placeholder="input name here"
           />
         </a-form-item>
-        <div style = "margin-left:50px; margin-top:30px">
-          <h4 style="margin-bottom: 16px">
-            属性:
-          </h4>
+        <div style="margin-left: 50px; margin-top: 30px">
+          <h4 style="margin-bottom: 16px">属性:</h4>
           <a-list item-layout="horizontal" :data-source="all_property">
             <a-list-item slot="renderItem" slot-scope="item">
               <a-list-item-meta>
-                <a slot="title" >{{ item.title }}:&nbsp;{{item.value}}</a>
+                <a slot="title">{{ item.title }}:&nbsp;{{ item.value }}</a>
               </a-list-item-meta>
             </a-list-item>
           </a-list>
-          <a-button @click="addEdgeProperty" style="margin: 20px 0px 10px 100px">增加属性</a-button>
+          <a-button @click="addEdgeProperty" style="margin: 20px 0px 10px 100px"
+            >增加属性</a-button
+          >
         </div>
         <!--        <a-form-item :wrapper-col="{ span: 12, offset: 5 }">-->
         <!--          <a-button type="primary" @click="addItem"><E5><A2><9E><E5><8A><A0><E5><B1><9E><E6><80><A7></a-button>-->
@@ -381,66 +612,68 @@ a {
       </a-form>
     </a-modal>
     <History></History>
-    <Setting @listenToSet='getSetting'></Setting>
+    <Setting @listenToSet="getSetting"></Setting>
     <GraphDetails></GraphDetails>
-    <FilterByNodeLabels @listenToChild='getChildData'></FilterByNodeLabels>
+    <FilterByNodeLabels @listenToChild="getChildData"></FilterByNodeLabels>
   </div>
 </template>
 
 <script>
-import cytoscape from 'cytoscape'
-import cxtmenu from 'cytoscape-cxtmenu'
-import cola from 'cytoscape-cola'
-import avsdf from 'cytoscape-avsdf'
+import cytoscape from "cytoscape";
+import cxtmenu from "cytoscape-cxtmenu";
+import cola from "cytoscape-cola";
+import avsdf from "cytoscape-avsdf";
 // import coseBilkent from 'cytoscape-cose-bilkent'
-import { UpdataNodeAPI, DeleteNodeAPI, DownloadXmlAPI, DeleteEdgeAPI, updateEdgeAPI, AddEdgeAPI } from '@/api/api'
+import {
+  UpdataNodeAPI,
+  DeleteNodeAPI,
+  DownloadXmlAPI,
+  DeleteEdgeAPI,
+  updateEdgeAPI,
+  AddEdgeAPI,
+} from "@/api/api";
 // import { UpdataNodeAPI, DeleteNodeAPI, DeleteEdgeAPI, updateEdgeAPI, AddEdgeAPI } from '@/api/api'
-import edgehandles from 'cytoscape-edgehandles'
-import fcose from 'cytoscape-fcose'
-import History from '@/views/history'
-import Setting from '@/views/setting'
-import mySearch from '@/views/mySearch'
-import {mapGetters,mapActions,mapMutations} from 'vuex'
-import MySearch from '@/views/mySearch'
+import edgehandles from "cytoscape-edgehandles";
+import fcose from "cytoscape-fcose";
+import History from "@/views/history";
+import Setting from "@/views/setting";
+import mySearch from "@/views/mySearch";
+import { mapGetters, mapActions, mapMutations } from "vuex";
+import MySearch from "@/views/mySearch";
 import GraphDetails from "@/views/graphDetails";
-import FilterByNodeLabels from "@/views/filterByNodeLabels"
-
+import FilterByNodeLabels from "@/views/filterByNodeLabels";
 
 export default {
-  name: 'CJS',
-  beforeCreate () {
-    this.$cy && this.$cy.destroyed() && this.$cy.destroy()
-    delete this.$cy
+  name: "CJS",
+  beforeCreate() {
+    this.$cy && this.$cy.destroyed() && this.$cy.destroy();
+    delete this.$cy;
   },
-  beforeDestroy () {
-    this.$cy && this.$cy.destroyed() && this.$cy.destroy()
-    delete this.$cy
+  beforeDestroy() {
+    this.$cy && this.$cy.destroyed() && this.$cy.destroy();
+    delete this.$cy;
   },
   watch: {},
   props: {},
-  components:{
+  components: {
     History,
     Setting,
     MySearch,
     GraphDetails,
-    FilterByNodeLabels
+    FilterByNodeLabels,
   },
-  computed:{
-    ...mapGetters([
-      'historyVisible',
-      'settingVisible',
-      'settingList'
-    ])
+  computed: {
+    ...mapGetters(["historyVisible", "settingVisible", "settingList"]),
   },
-  mounted () {
+  mounted() {
     // Cxtmenu圆形菜单主要依赖组件
     if (!cytoscape().cxtmenu) {
-      cytoscape.use(cxtmenu)
-      cytoscape.use(cola)
-      cytoscape.use(avsdf)
+      cytoscape.use(cxtmenu);
+      cytoscape.use(cola);
+      cytoscape.use(avsdf);
       // cytoscape.use(coseBilkent)
-      cytoscape.use(edgehandles)
-      cytoscape.use(fcose)
+      cytoscape.use(edgehandles);
+      cytoscape.use(fcose);
     }
 
     this.$cy = cytoscape({
@@ -455,7 +688,7 @@ export default {
       panningEnabled: true, // 是否通过用户事件和编程方式启用平移图形.
       userPanningEnabled: true, // 是否允许用户事件(例如拖动图形背景)平移图形.平移的程序化更改不受此选项的影响.
       boxSelectionEnabled: false, // 是否启用了框选择(即拖动框叠加,并将其释放为选择).如果启用,则用户必须点击以平移图表.
-      selectionType: 'single', // 一个字符串，指示用户输入的选择行为.对于'additive',用户进行的新选择将添加到当前所选元素的集合中.对于'single',用户做出的新选择成为当前所选元素的整个集合.
+      selectionType: "single", // 一个字符串，指示用户输入的选择行为.对于'additive',用户进行的新选择将添加到当前所选元素的集合中.对于'single',用户做出的新选择成为当前所选元素的整个集合.
       touchTapThreshold: 8, // 非负整数,分别表示用户在轻击手势期间可以在触摸设备和桌面设备上移动的最大允许距离.这使得用户更容易点击.
       // 这些值具有合理的默认值,因此建议不要更改这些选项,除非您有充分的理由这样做.大值几乎肯定会产生不良后果.
       desktopTapThreshold: 4, // 非负整数,分别表示用户在轻击手势期间可以在触摸设备和桌面设备上移动的最大允许距离.这使得用户更容易点击.
@@ -472,80 +705,96 @@ export default {
       motionBlur: true, // 渲染提示,设置为true使渲染器使用运动模糊效果使帧之间的过渡看起来更平滑.这可以增加大图的感知性能.由于性能增强,此选项现在基本上没有实际意义.
       motionBlurOpacity: 0.2, // 当motionBlur:true,此值控制运动模糊帧的不透明度.值越高,运动模糊效果越明显.由于性能增强,此选项现在基本上没有实际意义.
       wheelSensitivity: 0.3, // 缩放时更改滚轮灵敏度.这是一个乘法修饰符.因此,0到1之间的值会降低灵敏度(变焦较慢),而大于1的值会增加灵敏度(变焦更快).
-      pixelRatio: 'auto', // 使用手动设置值覆盖屏幕像素比率(1.0建议,如果已设置).这可以通过减少需要渲染的有效区域来提高高密度显示器的性能,
+      pixelRatio: "auto", // 使用手动设置值覆盖屏幕像素比率(1.0建议,如果已设置).这可以通过减少需要渲染的有效区域来提高高密度显示器的性能,
       // 尽管在最近的浏览器版本中这是不太必要的.如果要使用硬件的实际像素比,可以设置pixelRatio: 'auto'(默认).
       // DOM容器,决定内容展示的位置,方式一(原生):document.getElementById('xx'),方式二(jQuery):$('#xx')
-      container: document.getElementById('cytoscape_id'),
+      container: document.getElementById("cytoscape_id"),
       // 一个指定布局选项的普通对象.
-      elements:[],
+      elements: [],
       layout: {
-        name: 'cose'
-      }
-
-    })
-    const eh = this.$cy.edgehandles({ preview: false })
-    eh.enable()
-    var that = this
+        name: "cose",
+      },
+    });
+    const eh = this.$cy.edgehandles({ preview: false });
+    eh.enable();
+    var that = this;
     // 拖动添加边
-    this.$cy.on('ehcomplete', (event, sourceNode, targetNode, addedEles) => {
+    this.$cy.on("ehcomplete", (event, sourceNode, targetNode, addedEles) => {
       // console.log(sourceNode.data().id)
       // that.addEdgeFormVisible = true
       // console.log(addedEles.data())
-      that.$cy.getElementById(addedEles.data().id).remove()
-      that.addEdges([sourceNode.data().id], [targetNode.data().id])
-    })
+      that.$cy.getElementById(addedEles.data().id).remove();
+      that.addEdges([sourceNode.data().id], [targetNode.data().id]);
+    });
 
     // 鼠标移动到节点上显示属性
-    this.$cy.on('mousemove', 'node', function (e) {
-      console.log(e)
+    this.$cy.on("mousemove", "node", function (e) {
+      // console.log(e)
       // this.data().isClick = false
-      var list = e.target.data()
-      var listStr = JSON.stringify(list)
-      document.getElementById('labels').innerHTML = '\xa0\xa0' + list.name + '\xa0\xa0'
-      document.getElementById('properties').innerHTML = listStr
-    })
-    // 鼠标移动到边上显示属性
-    this.$cy.on('mouseover', 'edge', function (e) {
-      console.log(e)
-      // this.data().isClick = false
-      var list = e.target.data()
-      var listStr = JSON.stringify(list)
-      document.getElementById('labels').innerHTML = '\xa0\xa0' + list.name + '\xa0\xa0'
-      document.getElementById('properties').innerHTML = listStr
-    })
-    // 鼠标点击节点或边显示属性
-    this.$cy.on('click', function (e) {
-      console.log(JSON.stringify(e.target.data()))
-      if (JSON.stringify(e.target.data()) === '{}') {
-        that._data.labels = ''
-        that._data.properties = ' click on the node or edge to display more infomation!'
-        document.getElementById('labels').innerHTML = ''
-        document.getElementById('properties').innerHTML = ' click on the node or edge to display more infomation!'
+      var list = e.target.data();
+      var listStr = JSON.stringify(list);
+      if (list.labels.length == 0) {
+        document.getElementById("labels").innerHTML =
+          "\xa0\xa0name:" + list.name + "\xa0\xa0";
       } else {
-        that._data.isClick = true
-        var list = e.target.data()
-        var listStr = JSON.stringify(list)
-        document.getElementById('labels').innerHTML = '\xa0\xa0' + list.name + '\xa0\xa0'
-        document.getElementById('properties').innerHTML = listStr
-        that._data.labels = '\xa0\xa0' + list.name + '\xa0\xa0'
-        that._data.properties = listStr
+        document.getElementById("labels").innerHTML =
+          "\xa0\xa0labels:" + list.labels + "\xa0\xa0";
       }
-    })
+      document.getElementById("properties").innerHTML = listStr;
+    });
+    // 鼠标移动到边上显示属性
+    this.$cy.on("mouseover", "edge", function (e) {
+      // console.log(e)
+      // this.data().isClick = false
+      var list = e.target.data();
+      var listStr = JSON.stringify(list);
+      document.getElementById("labels").innerHTML =
+        "\xa0\xa0" + list.name + "\xa0\xa0";
+      document.getElementById("properties").innerHTML = listStr;
+    });
+    // 鼠标点击节点或边显示属性
+    this.$cy.on("click", function (e) {
+      // console.log(JSON.stringify(e.target.data()))
+      if (JSON.stringify(e.target.data()) === "{}") {
+        that._data.labels = "";
+        that._data.properties =
+          " click on the node or edge to display more infomation!";
+        document.getElementById("labels").innerHTML = "";
+        document.getElementById("properties").innerHTML =
+          " click on the node or edge to display more infomation!";
+      } else {
+        that._data.isClick = true;
+        var list = e.target.data();
+        var listStr = JSON.stringify(list);
+        if (list.labels.length == 0) {
+          document.getElementById("labels").innerHTML =
+            "\xa0\xa0name:" + list.name + "\xa0\xa0";
+            that._data.labels = "\xa0\xa0name:" + list.name + "\xa0\xa0";
+        } else {
+          document.getElementById("labels").innerHTML =
+            "\xa0\xa0labels:" + list.labels + "\xa0\xa0";
+            that._data.labels = "\xa0\xa0labels:" + list.labels + "\xa0\xa0";
+        }
+        document.getElementById("properties").innerHTML = listStr;
+        that._data.properties = listStr;
+      }
+    });
     // 鼠标移开不显示
-    this.$cy.on('mouseout', function () {
+    this.$cy.on("mouseout", function () {
       // console.log(this.data().isClick)
       if (!that._data.isClick) {
-        document.getElementById('labels').innerHTML = ''
-        document.getElementById('properties').innerHTML = ' click on the node or edge to display more infomation!'
+        document.getElementById("labels").innerHTML = "";
+        document.getElementById("properties").innerHTML =
+          " click on the node or edge to display more infomation!";
       } else {
-        document.getElementById('labels').innerHTML = that._data.labels
-        document.getElementById('properties').innerHTML = that._data.properties
+        document.getElementById("labels").innerHTML = that._data.labels;
+        document.getElementById("properties").innerHTML = that._data.properties;
       }
-    })
+    });
     // Cxtmenu圆形菜单--节点
     this.$cy.cxtmenu({
       menuRadius: 80, // the radius of the circular menu in pixels
-      selector: 'node', // elements matching this Cytoscape.js selector will trigger cxtmenus
+      selector: "node", // elements matching this Cytoscape.js selector will trigger cxtmenus
       // eslint-disable-next-line no-unused-vars
       commands: (element) => {
         return [
@@ -559,7 +808,7 @@ export default {
           //   enabled: true // whether the command is selectable
           // },
           {
-            fillColor: 'rgba(200, 200, 200, 0.75)', // optional: custom background color for item
+            fillColor: "rgba(200, 200, 200, 0.75)", // optional: custom background color for item
             content: '<span class="fa fa-flash fa-2x">删除节点</span>', // html/text content to be displayed in the menu
             contentStyle: {}, // css key:value pairs to set the command's css in js if you want
             select: (ele) => this.removeNode([ele.id()]),
@@ -567,22 +816,22 @@ export default {
 
             //   ele.remove()
             // },
-            enabled: true // whether the command is selectable
+            enabled: true, // whether the command is selectable
           },
           {
             // fillColor: 'rgba(200, 200, 200, 0.75)', // optional: custom background color for item
-            content: '高亮邻居', // html/text content to be displayed in the menu
+            content: "高亮邻居", // html/text content to be displayed in the menu
             // contentStyle: {}, // css key:value pairs to set the command's css in js if you want
             select: (ele) => this.lightOn([ele.id()]), // a function to execute when the command is selected
-            enabled: true // whether the command is selectable
+            enabled: true, // whether the command is selectable
           },
           {
             // fillColor: 'rgba(200, 200, 200, 0.75)', // optional: custom background color for item
-            content: '修改', // html/text content to be displayed in the menu
+            content: "修改", // html/text content to be displayed in the menu
             // contentStyle: {}, // css key:value pairs to set the command's css in js if you want
             select: (ele) => this.changeNode([ele.id()]), // a function to execute when the command is selected
-            enabled: true // whether the command is selectable
-          }
+            enabled: true, // whether the command is selectable
+          },
           // {
           //   // fillColor: 'rgba(200, 200, 200, 0.75)', // optional: custom background color for item
           //   content: '禁用', // html/text content to be displayed in the menu
@@ -590,151 +839,157 @@ export default {
           //   select: (ele) => alert(ele.id()), // a function to execute when the command is selected
           //   enabled: false // whether the command is selectable
           // }
-        ]
+        ];
       },
-      fillColor: 'rgba(0, 0, 0, 0.75)', // 指令默认颜色(the background colour of the menu)
-      activeFillColor: 'rgba(1, 105, 217, 0.75)', // 所选指令的颜色(the colour used to indicate the selected command)
+      fillColor: "rgba(0, 0, 0, 0.75)", // 指令默认颜色(the background colour of the menu)
+      activeFillColor: "rgba(1, 105, 217, 0.75)", // 所选指令的颜色(the colour used to indicate the selected command)
       activePadding: 10, // additional size in pixels for the active command
       indicatorSize: 14, // the size in pixels of the pointer to the active command
       separatorWidth: 4, // 连续命令之间的空白间隔(以像素为单位)
       spotlightPadding: 10, // 元素和聚光灯之间的额外间距(以像素为单位)
       minSpotlightRadius: 10, // the minimum radius in pixels of the spotlight
       maxSpotlightRadius: 14, // the maximum radius in pixels of the spotlight
-      openMenuEvents: 'cxttapstart taphold', // space-separated cytoscape events that will open the menu; only `cxttapstart` and/or `taphold` work here
-      itemColor: 'white', // 各指令元素内字体颜色
-      itemTextShadowColor: 'red', // 各指令元素内字体阴影颜色
+      openMenuEvents: "cxttap", // space-separated cytoscape events that will open the menu; only `cxttapstart` and/or `taphold` work here
+      itemColor: "white", // 各指令元素内字体颜色
+      itemTextShadowColor: "red", // 各指令元素内字体阴影颜色
       zIndex: 9999, // the z-index of the ui div
-      atMouse: true // draw menu at mouse position
-    })
+      atMouse: true, // draw menu at mouse position
+    });
     // 边删除、修改
     this.$cy.cxtmenu({
       menuRadius: 40, // the radius of the circular menu in pixels
-      selector: 'edge', // elements matching this Cytoscape.js selector will trigger cxtmenus
+      selector: "edge", // elements matching this Cytoscape.js selector will trigger cxtmenus
       // eslint-disable-next-line no-unused-vars
       commands: (element) => {
         return [
           {
-            fillColor: 'rgba(200, 200, 200, 0.75)', // optional: custom background color for item
+            fillColor: "rgba(200, 200, 200, 0.75)", // optional: custom background color for item
             content: '<span class="fa fa-flash fa-2x">删除</span>', // html/text content to be displayed in the menu
             contentStyle: {}, // css key:value pairs to set the command's css in js if you want
-            select: function (ele) { // a function to execute when the command is selected
+            select: function (ele) {
+              // a function to execute when the command is selected
               // console.log(ele)
-              ele.remove() // `ele` holds the reference to the active element
+              ele.remove(); // `ele` holds the reference to the active element
             },
-            enabled: true // whether the command is selectable
+            enabled: true, // whether the command is selectable
           },
           {
-            fillColor: 'rgba(200, 200, 200, 0.75)', // optional: custom background color for item
+            fillColor: "rgba(200, 200, 200, 0.75)", // optional: custom background color for item
             content: '<span class="fa fa-flash fa-2x">修改</span>', // html/text content to be displayed in the menu
             contentStyle: {}, // css key:value pairs to set the command's css in js if you want
-            select: (ele) => this.setModifyEdgeFormVisible([ele.data().id, ele.data().source, ele.data().target]),
-            enabled: true // whether the command is selectable
-          }
-        ]
+            select: (ele) =>
+              this.setModifyEdgeFormVisible([
+                ele.data().id,
+                ele.data().source,
+                ele.data().target,
+              ]),
+            enabled: true, // whether the command is selectable
+          },
+        ];
       },
-      fillColor: 'rgba(0, 0, 0, 0.75)', // 指令默认颜色(the background colour of the menu)
-      activeFillColor: 'rgba(1, 105, 217, 0.75)', // 所选指令的颜色(the colour used to indicate the selected command)
+      fillColor: "rgba(0, 0, 0, 0.75)", // 指令默认颜色(the background colour of the menu)
+      activeFillColor: "rgba(1, 105, 217, 0.75)", // 所选指令的颜色(the colour used to indicate the selected command)
       activePadding: 10, // additional size in pixels for the active command
       indicatorSize: 14, // the size in pixels of the pointer to the active command
       separatorWidth: 4, // 连续命令之间的空白间隔(以像素为单位)
       spotlightPadding: 10, // 元素和聚光灯之间的额外间距(以像素为单位)
       minSpotlightRadius: 10, // the minimum radius in pixels of the spotlight
       maxSpotlightRadius: 14, // the maximum radius in pixels of the spotlight
-      openMenuEvents: 'cxttapstart taphold', // space-separated cytoscape events that will open the menu; only `cxttapstart` and/or `taphold` work here
-      itemColor: 'white', // 各指令元素内字体颜色
-      itemTextShadowColor: 'red', // 各指令元素内字体阴影颜色
+      openMenuEvents: "cxttap", // space-separated cytoscape events that will open the menu; only `cxttapstart` and/or `taphold` work here
+      itemColor: "white", // 各指令元素内字体颜色
+      itemTextShadowColor: "red", // 各指令元素内字体阴影颜色
       zIndex: 9999, // the z-index of the ui div
-      atMouse: true // draw menu at mouse position
-    })
+      atMouse: true, // draw menu at mouse position
+    });
     // 通用的样式
-    this.$cy.style()
-    /* 未选择节点样式 */
-      .selector('node')
+    this.$cy
+      .style()
+      /* 未选择节点样式 */
+      .selector("node")
       .style({
         // content: 'data(id)',
-        'pie-size': '100%',
-        'text-valign': 'center',
-        'text-halign': 'center',
-        label: 'data(name)',
-        'font-size': '10pt',
-        width: '40pt',
-        height: '40pt',
-        'background-color': '#fce9cc',
+        "pie-size": "100%",
+        "text-valign": "center",
+        "text-halign": "center",
+        label: "data(name)",
+        "font-size": "10pt",
+        width: "40pt",
+        height: "40pt",
+        "background-color": "#fce9cc",
       })
-    /* 已选择节点样式 */
-      .selector('node:selected')
-      .style({ 'border-color': '#c84e40', 'border-width': '1px' })
-    /* 未选择节点样式 */
-      .selector('edge')
+      /* 已选择节点样式 */
+      .selector("node:selected")
+      .style({ "border-color": "#c84e40", "border-width": "1px" })
+      /* 未选择节点样式 */
+      .selector("edge")
       .style({
-        label: 'data(name)',
-        'target-arrow-shape': 'triangle', /* 箭头样式 */
-        'target-arrow-size': '1px', /* 箭头大小 */
-        'target-arrow-color': 'rgba(230,230,250,0.9)', /* 箭头颜色 */
-        'curve-style': 'bezier', /* 线条样式曲线 */
-        'line-color': 'rgba(230,230,250,0.9)', /* 线条颜色 */
-        width: '1px', /* 线条宽度 */
-        'font-size': '10px', /* 标签字体大小 */
-        color: '#000000', /* 标签字体大小 */
+        label: "data(name)",
+        "target-arrow-shape": "triangle" /* 箭头样式 */,
+        "target-arrow-size": "1px" /* 箭头大小 */,
+        "target-arrow-color": "rgba(230,230,250,0.9)" /* 箭头颜色 */,
+        "curve-style": "bezier" /* 线条样式曲线 */,
+        "line-color": "rgba(230,230,250,0.9)" /* 线条颜色 */,
+        width: "1px" /* 线条宽度 */,
+        "font-size": "10px" /* 标签字体大小 */,
+        color: "#000000" /* 标签字体大小 */,
         // 'text-outline-color': 'white', /* 文本轮廓颜色 */
         // 'text-outline-width': '0.5px', /* 文本轮廓宽度 */
-        'text-rotation': 'autorotate' /* 标签方向 */
+        "text-rotation": "autorotate" /* 标签方向 */,
       })
-    /* 已选择节点样式 */
-      .selector('edge:selected')
+      /* 已选择节点样式 */
+      .selector("edge:selected")
       .style({
-        color: '#90acfc', /* 标签字体大小 */
-        'target-arrow-color': '#9ad3f8', /* 箭头颜色 */
-        'line-color': '#abdbfa' /* 线条颜色 */
+        color: "#90acfc" /* 标签字体大小 */,
+        "target-arrow-color": "#9ad3f8" /* 箭头颜色 */,
+        "line-color": "#abdbfa" /* 线条颜色 */,
       })
-    /* 高亮样式 */
-      .selector('.light-off')
-      .style({ opacity: '0.1' })
+      /* 高亮样式 */
+      .selector(".light-off")
+      .style({ opacity: "0.1" })
       /* 拖拽添加边样式*/
-      .selector('.eh-handle')
+      .selector(".eh-handle")
       .style({
-        'background-color': '#fce9cc',
+        "background-color": "#fce9cc",
         width: 12,
         height: 12,
-        shape: 'ellipse',
-        'overlay-opacity': 0,
-        'border-width': 12, // makes the handle easier to hit
-        'border-opacity': 0
-      })
+        shape: "ellipse",
+        "overlay-opacity": 0,
+        "border-width": 12, // makes the handle easier to hit
+        "border-opacity": 0,
+      });
   },
-  data () {
+  data() {
     return {
       modifyEdgeFormVisible: false,
-      modifyEdgeForm: this.$form.createForm(this, { name: 'coordinated' }),
-      edgeId: '',
-      sourceNode: '',
-      endNode: '',
+      modifyEdgeForm: this.$form.createForm(this, { name: "coordinated" }),
+      edgeId: "",
+      sourceNode: "",
+      endNode: "",
       modifyNodeFormVisible: false,
-      modifyNodeForm: this.$form.createForm(this, { name: 'coordinated' }),
-      nodeId: '',
-      from: '',
-      to: '',
+      modifyNodeForm: this.$form.createForm(this, { name: "coordinated" }),
+      nodeId: "",
+      from: "",
+      to: "",
       addEdgeFormVisible: false,
-      edgeForm: this.$form.createForm(this, { name: 'coordinated' }),
+      edgeForm: this.$form.createForm(this, { name: "coordinated" }),
       addNodePropertyFormVisible: false,
-      NodePropertyForm: this.$form.createForm(this, { name: 'coordinated' }),
+      NodePropertyForm: this.$form.createForm(this, { name: "coordinated" }),
       addEdgePropertyFormVisible: false,
-      EdgePropertyForm: this.$form.createForm(this, { name: 'coordinated' }),
+      EdgePropertyForm: this.$form.createForm(this, { name: "coordinated" }),
       nodeData: {
-        identity: '',
+        identity: "",
         labels: [], // 标签
         properties: {
-          name: ''
+          name: "",
           // 属性（键值对）
-        }
+        },
       },
       edgeData: {
-        identity: '',
-        start: '',
-        end: '',
-        type: '',
-        properties: {
-        }
+        identity: "",
+        start: "",
+        end: "",
+        type: "",
+        properties: {},
       },
       checkedPink: false,
       checkedRed: false,
@@ -745,21 +1000,21 @@ export default {
       checkedPurple: false,
       all_property: [],
       isClick: false,
-      labels: '',
-      properties: '',
+      labels: "",
+      properties: "",
       // 搜索相关参数
-      formLayout: 'horizontal',
-      searchForm: this.$form.createForm(this, { name: 'coordinated' }),
+      formLayout: "horizontal",
+      searchForm: this.$form.createForm(this, { name: "coordinated" }),
       searchParams: {
-        type_id: undefined
+        type_id: undefined,
       },
-      searchValue: '',
+      searchValue: "",
       // 高级搜索 展开/关闭
       advanced: false,
-      searchType: '',
+      searchType: "",
       // 查询参数
-      queryParam: {}
-    }
+      queryParam: {},
+    };
   },
   methods: {
     /**
@@ -779,13 +1034,21 @@ export default {
     addEles(eles) {
       // console.log(eles)
       if (eles) {
-        this.$cy.startBatch()
+        this.$cy.startBatch();
         this.$cy.batch(() => {
-          const elements = ((Array.isArray ? Array.isArray(eles) : eles != null && eles instanceof Array) ? eles : [eles])
-          const filterElements = elements.filter(__ => !this.$cy.getElementById(__.data.id).length)
-          this.$cy.add(filterElements)
-        })
-        this.$cy.endBatch()
+          const elements = (
+            Array.isArray
+              ? Array.isArray(eles)
+              : eles != null && eles instanceof Array
+          )
+            ? eles
+            : [eles];
+          const filterElements = elements.filter(
+            (__) => !this.$cy.getElementById(__.data.id).length
+          );
+          this.$cy.add(filterElements);
+        });
+        this.$cy.endBatch();
       }
     },
     /**
@@ -794,15 +1057,15 @@ export default {
     delEles() {
       this.$cy.startBatch();
       this.$cy.batch(() => {
-        const selectedEles = this.$cy.elements(':selected')
+        const selectedEles = this.$cy.elements(":selected");
         // console.log(selectedEles)
         // 未选择不进行操作
         if (!selectedEles || selectedEles.length < 1) {
-          return false
+          return false;
         }
-        selectedEles.remove()
-      })
-      this.$cy.endBatch()
+        selectedEles.remove();
+      });
+      this.$cy.endBatch();
     },
     /** *************************工具栏************************/
     /**
@@ -811,35 +1074,38 @@ export default {
      */
     zoom(zoom) {
       /** 获取已选择内容 */
-      const selectedEles = this.$cy.elements('node:selected')
+      const selectedEles = this.$cy.elements("node:selected");
       /** 获取已选择内容中得第一个, 没有选择为null */
-      const selectedEle = selectedEles && selectedEles.length ? selectedEles[0] : null
+      const selectedEle =
+        selectedEles && selectedEles.length ? selectedEles[0] : null;
       /** 获取画布偏移位置 */
-      const pan = this.$cy.pan()
+      const pan = this.$cy.pan();
       /** 计算原点坐标 */
-      const [x, y] = selectedEle ? [selectedEle.position('x'), selectedEle.position('y')] : [pan.x, pan.y]
+      const [x, y] = selectedEle
+        ? [selectedEle.position("x"), selectedEle.position("y")]
+        : [pan.x, pan.y];
       let level = this.$cy.zoom() + zoom;
-      (level > this.$cy.maxZoom) && (level = this.$cy.maxZoom);
-      (level < this.$cy.minZoom) && (level = this.$cy.minZoom)
+      level > this.$cy.maxZoom && (level = this.$cy.maxZoom);
+      level < this.$cy.minZoom && (level = this.$cy.minZoom);
       this.$cy.zoom({
         level: level,
         renderedPosition: {
           x: x,
-          y: y
-        }
-      })
+          y: y,
+        },
+      });
     },
     /** 放大 */
-    magnifying () {
-      this.zoom(0.3)
+    magnifying() {
+      this.zoom(0.3);
     },
     /** 缩小 */
-    contractible () {
-      this.zoom(-0.3)
+    contractible() {
+      this.zoom(-0.3);
     },
     /** 合适大小 */
-    resize () {
-      this.$cy.fit()
+    resize() {
+      this.$cy.fit();
     },
     /**
      * 高亮.
@@ -848,15 +1114,21 @@ export default {
     lightOn(ele) {
       this.$cy.startBatch();
       this.$cy.batch(() => {
-        this.$cy.elements().addClass('light-off') //* 添加样式*/
-        const elements = ((Array.isArray ? Array.isArray(ele) : ele != null && ele instanceof Array) ? ele : [ele])
-        elements.forEach(__ => {
-          this.$cy.getElementById(__).removeClass('light-off')
-          this.$cy.getElementById(__).neighborhood().removeClass('light-off')
-        })
-      })
-      this.$cy.once('click', () => this.lightOff())
-      this.$cy.endBatch()
+        this.$cy.elements().addClass("light-off"); //* 添加样式*/
+        const elements = (
+          Array.isArray
+            ? Array.isArray(ele)
+            : ele != null && ele instanceof Array
+        )
+          ? ele
+          : [ele];
+        elements.forEach((__) => {
+          this.$cy.getElementById(__).removeClass("light-off");
+          this.$cy.getElementById(__).neighborhood().removeClass("light-off");
+        });
+      });
+      this.$cy.once("click", () => this.lightOff());
+      this.$cy.endBatch();
     },
     /**
      * 取消高亮.
@@ -869,12 +1141,13 @@ export default {
       this.$cy.endBatch();
     },
     /** 高亮邻居 */
-    highlight () {
+    highlight() {
       /** 获取已选择内容 */
-      const selectedEles = this.$cy.elements('node:selected')
+      const selectedEles = this.$cy.elements("node:selected");
       /** 获取已选择内容中得第一个, 没有选择为null */
-      const selectedEle = selectedEles && selectedEles.length ? selectedEles[0] : null;
-      (selectedEle) && (this.lightOn(selectedEle.id()))
+      const selectedEle =
+        selectedEles && selectedEles.length ? selectedEles[0] : null;
+      selectedEle && this.lightOn(selectedEle.id());
     },
     /**
      * 刷新布局.
@@ -895,37 +1168,44 @@ export default {
       words = `请勿外传 时间: ${new Date().toTimeString()}`,
       width = 400,
       height = 400,
-      font = '15px microsoft yahei', // 水印字体设置
-      fillStyle = 'rgba(0, 0, 0, 0.3)', // 水印字体颜色设置
-      rotate = 10 * Math.PI / 180, // 水印字体倾斜角度设置, 正数顺时针, 负数逆时针
+      font = "15px microsoft yahei", // 水印字体设置
+      fillStyle = "rgba(0, 0, 0, 0.3)", // 水印字体颜色设置
+      rotate = (10 * Math.PI) / 180, // 水印字体倾斜角度设置, 正数顺时针, 负数逆时针
       positionX = 20, // X 轴偏移像素
-      positionY = 20 // Y 轴偏移像素
+      positionY = 20, // Y 轴偏移像素
     } = {}) {
-      const tempCanvas = document.createElement('canvas');
-      [tempCanvas.width, tempCanvas.height] = [width, height]
-      const tempCtx = tempCanvas.getContext('2d')
+      const tempCanvas = document.createElement("canvas");
+      [tempCanvas.width, tempCanvas.height] = [width, height];
+      const tempCtx = tempCanvas.getContext("2d");
       /** 清除画布 */
-      tempCtx.clearRect(0, 0, tempCanvas.width, tempCanvas.height)
+      tempCtx.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
       /** 文字倾斜角度 */
       tempCtx.rotate(rotate);
       /** 字体样式及颜色 */
-      [tempCtx.font, tempCtx.fillStyle] = [font, fillStyle]
+      [tempCtx.font, tempCtx.fillStyle] = [font, fillStyle];
 
-      let [wordsArr, index, s] = [[], 0, '']
+      let [wordsArr, index, s] = [[], 0, ""];
       for (const code of words) {
-        s = code
-        code.codePointAt(0) > 255 ? index = 2 : index = 1;
-        (index > tempCanvas.width / 11.25) && (wordsArr.push(s)) && ([index, s] = [0, ''])
+        s = code;
+        code.codePointAt(0) > 255 ? (index = 2) : (index = 1);
+        index > tempCanvas.width / 11.25 &&
+          wordsArr.push(s) &&
+          ([index, s] = [0, ""]);
       }
-      wordsArr.push(s)
+      wordsArr.push(s);
 
       for (let i = 0; i < wordsArr.length; i) {
-        tempCtx.fillText(wordsArr[i], positionX, positionY + i * 20, tempCanvas.width - positionX)
+        tempCtx.fillText(
+          wordsArr[i],
+          positionX,
+          positionY + i * 20,
+          tempCanvas.width - positionX
+        );
       }
 
-      const ctx = canvas.getContext('2d')
-      ctx.fillStyle = ctx.createPattern(tempCanvas, 'repeat')
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = ctx.createPattern(tempCanvas, "repeat");
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
     },
     /**
      * 导出全局图片.
@@ -964,25 +1244,45 @@ export default {
       });
 
       const image = new Image();
-      [image.id, image.crossOrigin, image.src] = [time, 'anonymous', window.URL.createObjectURL(blob)]
+      [image.id, image.crossOrigin, image.src] = [
+        time,
+        "anonymous",
+        window.URL.createObjectURL(blob),
+      ];
       image.onload = () => {
-        const canvas = document.createElement('canvas');
-        [canvas.width, canvas.height] = [image.width, image.height]
-        const ctx = canvas.getContext('2d')
+        const canvas = document.createElement("canvas");
+        [canvas.width, canvas.height] = [image.width, image.height];
+        const ctx = canvas.getContext("2d");
         /** 绘制水印 */
         this.drawWatermark({
           canvas: canvas,
           words: `请勿外传! 时间: ${new Date().toTimeString()}`,
         });
         /** 绘制原图 */
-        ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, image.width, image.height)
-        ctx.save()
-        const [aLink, evt] = [document.createElement('a'), document.createEvent('HTMLEvents')]
-        evt.initEvent('click', true, true);
-        [aLink.download, aLink.href] = [`${time}.png`, canvas.toDataURL('image/png')]
-        aLink.dispatchEvent(evt)
-        aLink.click()
-      }
+        ctx.drawImage(
+          image,
+          0,
+          0,
+          image.width,
+          image.height,
+          0,
+          0,
+          image.width,
+          image.height
+        );
+        ctx.save();
+        const [aLink, evt] = [
+          document.createElement("a"),
+          document.createEvent("HTMLEvents"),
+        ];
+        evt.initEvent("click", true, true);
+        [aLink.download, aLink.href] = [
+          `${time}.png`,
+          canvas.toDataURL("image/png"),
+        ];
+        aLink.dispatchEvent(evt);
+        aLink.click();
+      };
     },
     /**
      * 导出局部图片.
@@ -990,11 +1290,11 @@ export default {
     exportCutPng({ watermark = false } = {}) {
       const unselectedVertexes = this.$cy.elements("node:unselected");
       if (!unselectedVertexes || unselectedVertexes.length === 0) {
-        return false
+        return false;
       }
-      const remove = unselectedVertexes.remove() // 保留删除内容
+      const remove = unselectedVertexes.remove(); // 保留删除内容
       watermark ? this.exportPngAndWatermark() : this.exportPng();
-      (remove && remove.length) && (remove.restore()) // 恢复删除内容
+      remove && remove.length && remove.restore(); // 恢复删除内容
     },
     /**
      * 导出局部图片.
@@ -1002,11 +1302,13 @@ export default {
     exportCutPngAndWatermark() {
       this.exportCutPng({ watermark: true });
     },
-    downloadXml () {
-      DownloadXmlAPI().then(res => {
-        // console.log(res)
-      }).catch(err => console.log(err))
-      const url = 'https://sec123.oss-cn-shanghai.aliyuncs.com/export.xml'
+    downloadXml() {
+      DownloadXmlAPI()
+        .then((res) => {
+          // console.log(res)
+        })
+        .catch((err) => console.log(err));
+      const url = "https://sec123.oss-cn-shanghai.aliyuncs.com/export.xml";
       // const params = '前端xml下载'
       // const xhr = new XMLHttpRequest()
       // xhr.open('POST', url, true)
@@ -1034,34 +1336,34 @@ export default {
       // // 参数是json格式
       // xhr.send(JSON.stringify(params))
       //
-      const x = new XMLHttpRequest()
-      const fileName = 'xml导出'
-      x.open('GET', url, true)
-      x.responseType = 'blob'
+      const x = new XMLHttpRequest();
+      const fileName = "xml导出";
+      x.open("GET", url, true);
+      x.responseType = "blob";
       x.onload = function (e) {
-        const url = window.URL.createObjectURL(x.response)
-        const a = document.createElement('a')
-        a.href = url
-        a.download = fileName
-        a.click()
-      }
-      x.send()
+        const url = window.URL.createObjectURL(x.response);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = fileName;
+        a.click();
+      };
+      x.send();
     },
-    onClick ({ key }) {
-      console.log(`Click on item ${key}`)
+    onClick({ key }) {
+      console.log(`Click on item ${key}`);
     },
     /** *************************工具栏************************/
     //修改边
-    modifyEdge (e) {
+    modifyEdge(e) {
       // console.log(e)
-      e.preventDefault()
+      e.preventDefault();
       this.modifyEdgeForm.validateFields(async (err, values) => {
         if (!err) {
-          console.log('the value of the form: ', values)
-          this.edgeData.identity = this.edgeId
-          this.edgeData.start = this.sourceNode
-          this.edgeData.end = this.endNode
-          this.edgeData.type = values.name
+          console.log("the value of the form: ", values);
+          this.edgeData.identity = this.edgeId;
+          this.edgeData.start = this.sourceNode;
+          this.edgeData.end = this.endNode;
+          this.edgeData.type = values.name;
           // const edgeData = {
           //   identity: this.edgeId,
           //   start: this.sourceNode,
@@ -1070,73 +1372,75 @@ export default {
           //   properties: {}
           // }
           const ele = {
-            group: 'edges',
+            group: "edges",
             data: {
               id: this.edgeId,
               name: this.edgeData.type,
               source: this.edgeData.start,
-              target: this.edgeData.end
+              target: this.edgeData.end,
             },
-            properties: {}
-          }
+            properties: {},
+          };
           for (var key in this.edgeData.properties) {
-            ele.properties[key] = this.edgeData.properties[key]
+            ele.properties[key] = this.edgeData.properties[key];
           }
-          this.$cy.getElementById(ele.data.id).data().name = ele.data.name
+          this.$cy.getElementById(ele.data.id).data().name = ele.data.name;
           // this.$cy.getElementById(ele.data.id).data().source = ele.data.source
           // this.$cy.getElementById(ele.data.id).data().target = ele.data.target
           // console.log(this.$cy.getElementById(ele.data.id).data())
-          this.$cy.getElementById(ele.data.id).remove()
+          this.$cy.getElementById(ele.data.id).remove();
           // console.log(ele)
-          this.addEles([ele])
-          await updateEdgeAPI(this.edgeData).then(res => {
-            // console.log(res)
-          }).catch(err => console.log(err))
-          this.modifyEdgeFormVisible = false
-          this.modifyEdgeForm.resetFields()
-          this.edgeId = ''
-          this.sourceNode = ''
-          this.endNode = ''
-          this.all_property = []
+          this.addEles([ele]);
+          await updateEdgeAPI(this.edgeData)
+            .then((res) => {
+              // console.log(res)
+            })
+            .catch((err) => console.log(err));
+          this.modifyEdgeFormVisible = false;
+          this.modifyEdgeForm.resetFields();
+          this.edgeId = "";
+          this.sourceNode = "";
+          this.endNode = "";
+          this.all_property = [];
         } else {
-          console.log(err)
+          console.log(err);
         }
-      })
+      });
     },
     /** 修改结点名称或属性 */
-    changeNode (ele) {
+    changeNode(ele) {
       // console.log(ele)
       const nodePro = this.$cy.getElementById(ele).data();
       console.log("nodepro: ", nodePro);
       for (var key in nodePro) {
-        console.log(key)
-        if (key !== 'name' && key !== 'id') {
+        console.log(key);
+        if (key !== "name" && key !== "id") {
           this.all_property.push({
             title: key,
-            value: nodePro[key]
-          })
+            value: nodePro[key],
+          });
         }
       }
       if (this.all_property.length >= 5) {
-        this.all_property.splice(5)
+        this.all_property.splice(5);
       }
-      this.modifyNodeFormVisible = true
-      this.nodeId = ele
+      this.modifyNodeFormVisible = true;
+      this.nodeId = ele;
     },
-    cancelModifyNode () {
-      this.modifyNodeFormVisible = false
-      this.modifyNodeForm.resetFields()
-      this.nodeId = ''
-      this.all_property = []
+    cancelModifyNode() {
+      this.modifyNodeFormVisible = false;
+      this.modifyNodeForm.resetFields();
+      this.nodeId = "";
+      this.all_property = [];
     },
-    modifyNode (e) {
-      e.preventDefault()
+    modifyNode(e) {
+      e.preventDefault();
       this.modifyNodeForm.validateFields(async (err, values) => {
         if (!err) {
-          console.log('the value of the form: ', values)
-          this.nodeData.identity = this.nodeId[0]
-          this.nodeData.labels = [values.label]
-          this.nodeData.properties.name = values.name
+          console.log("the value of the form: ", values);
+          this.nodeData.identity = this.nodeId[0];
+          this.nodeData.labels = [values.label];
+          this.nodeData.properties.name = values.name;
           // const nodeData = {
           //   identity: this.nodeId[0],
           //   // identity: '26626',
@@ -1147,123 +1451,132 @@ export default {
           // }
           // console.log(this.nodeData)
           const ele = {
-            group: 'nodes',
+            group: "nodes",
             data: {
               id: this.nodeId[0],
               name: values.name,
-              label: values.label
-            }
-          }
+              label: values.label,
+            },
+          };
           // console.log('test 1')
           // console.log(document.getElementById(ele.data.id))
           // console.log(ele.data.id)
           // console.log(this.$cy)
           // console.log(this.$cy.getElementById(ele.data.id).data())
-          this.$cy.startBatch()
+          this.$cy.startBatch();
           this.$cy.batch(() => {
-            this.$cy.getElementById(ele.data.id).data().name = ele.data.name
-            this.$cy.getElementById(ele.data.id).label = ele.data.label
-            this.lightOff()
-          })
-          this.$cy.endBatch()
+            this.$cy.getElementById(ele.data.id).data().name = ele.data.name;
+            this.$cy.getElementById(ele.data.id).label = ele.data.label;
+            this.lightOff();
+          });
+          this.$cy.endBatch();
           // console.log(this.$cy.getElementById(ele.data.id).data())
           // this.lightOn(ele.data.id)
-          await UpdataNodeAPI(this.nodeData).then(res => {
-            // console.log(res)
-          }).catch(err => console.log(err))
-          this.modifyNodeFormVisible = false
-          this.modifyNodeForm.resetFields()
-          this.nodeId = ''
-          this.all_property = []
+          await UpdataNodeAPI(this.nodeData)
+            .then((res) => {
+              // console.log(res)
+            })
+            .catch((err) => console.log(err));
+          this.modifyNodeFormVisible = false;
+          this.modifyNodeForm.resetFields();
+          this.nodeId = "";
+          this.all_property = [];
         } else {
-          console.log(err)
+          console.log(err);
         }
-      })
+      });
     },
-    removeNode (e) {
-      // console.log(e)
-      DeleteNodeAPI({ identity: e }).then(res => {
-        // console.log(res)
-      }).catch(err => console.log(err))
-      this.$cy.getElementById(e).remove()
+    removeNode(e) {
+      console.log("id", e[0]);
+      DeleteNodeAPI({ identity: e[0] })
+        .then((res) => {
+          // console.log(res)
+        })
+        .catch((err) => console.log(err));
+      this.$cy.getElementById(e).remove();
     },
     // 点击跳出增加结点
-    addNodeProperty () {
-      this.addNodePropertyFormVisible = true
+    addNodeProperty() {
+      this.addNodePropertyFormVisible = true;
     },
     // 点击增加结点属性
-    addNodeProperties (e) {
-      e.preventDefault()
+    addNodeProperties(e) {
+      e.preventDefault();
       this.NodePropertyForm.validateFields((err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values)
-          var test1 = /^[0-9][\s\S]*$/
+          console.log("Received values of form: ", values);
+          var test1 = /^[0-9][\s\S]*$/;
           if (test1.test(values.key)) {
-            alert('开头是数字')
+            alert("开头是数字");
           } else {
-            this.nodeData.properties[values.key] = values.value
-            const sel = this.$cy.getElementById(this.nodeId).data()
-            sel[values.key] = values.value
+            this.nodeData.properties[values.key] = values.value;
+            const sel = this.$cy.getElementById(this.nodeId).data();
+            sel[values.key] = values.value;
             this.all_property.push({
               title: values.key,
-              value: values.value
-            })
-            this.addNodePropertyFormVisible = false
-            this.NodePropertyForm.resetFields()
+              value: values.value,
+            });
+            this.addNodePropertyFormVisible = false;
+            this.NodePropertyForm.resetFields();
           }
         }
-      })
+      });
       // console.log('first')
       // console.log(this.nodeData)
     },
     // 取消增加结点属性
-    cancelAddNodeProperty () {
-      this.addNodePropertyFormVisible = false
-      this.NodePropertyForm.resetFields()
+    cancelAddNodeProperty() {
+      this.addNodePropertyFormVisible = false;
+      this.NodePropertyForm.resetFields();
     },
     //点击跳出表单
-    setModifyEdgeFormVisible (ele) {
-
-      this.modifyEdgeFormVisible = true
-      const edgePro = this.$cy.getElementById(ele[0]).data()
-      console.log(edgePro)
+    setModifyEdgeFormVisible(ele) {
+      this.modifyEdgeFormVisible = true;
+      const edgePro = this.$cy.getElementById(ele[0]).data();
+      console.log(edgePro);
       for (var key in edgePro) {
-        console.log(key)
-        if (key !== 'id' && key !== 'name' && key !== 'source' && key !== 'target') {
+        console.log(key);
+        if (
+          key !== "id" &&
+          key !== "name" &&
+          key !== "source" &&
+          key !== "target"
+        ) {
           this.all_property.push({
             title: key,
-            value: edgePro[key]
-          })
-
+            value: edgePro[key],
+          });
         }
       }
       if (this.all_property.length >= 5) {
-        this.all_property.splice(5)
+        this.all_property.splice(5);
       }
-      this.edgeId = ele[0]
-      this.sourceNode = ele[1]
-      this.endNode = ele[2]
+      this.edgeId = ele[0];
+      this.sourceNode = ele[1];
+      this.endNode = ele[2];
     },
-    cancelModifyEdge () {
-      this.modifyEdgeFormVisible = false
-      this.modifyEdgeForm.resetFields()
-      this.edgeId = ''
+    cancelModifyEdge() {
+      this.modifyEdgeFormVisible = false;
+      this.modifyEdgeForm.resetFields();
+      this.edgeId = "";
 
-      this.sourceNode = ''
-      this.endNode = ''
+      this.sourceNode = "";
+      this.endNode = "";
     },
     //删除边
-    removeEdge (e) {
+    removeEdge(e) {
       // console.log(e)
-      DeleteEdgeAPI({ identity: e }).then(res => {
-        // console.log(res)
-      }).catch(err => console.log(err))
-      this.$cy.getElementById(e).remove()
+      DeleteEdgeAPI({ identity: e })
+        .then((res) => {
+          // console.log(res)
+        })
+        .catch((err) => console.log(err));
+      this.$cy.getElementById(e).remove();
     },
     //增加边
-    addEdge (e) {
+    addEdge(e) {
       // console.log(e)
-      e.preventDefault()
+      e.preventDefault();
       this.edgeForm.validateFields(async (err, values) => {
         if (!err) {
           console.log("Received values of form: ", values);
@@ -1271,307 +1584,316 @@ export default {
           this.edgeData.end = this.to[0];
           this.edgeData.type = values.name;
           const ele = {
-            group: 'edges',
+            group: "edges",
             data: {
-              id: '',
+              id: "",
               name: this.edgeData.type,
               source: this.edgeData.start,
-              target: this.edgeData.end
+              target: this.edgeData.end,
             },
-            properties: {}
-          }
+            properties: {},
+          };
           // console.log(this.edgeData)
           for (var key in this.edgeData.properties) {
-            ele.properties[key] = this.edgeData.properties[key]
+            ele.properties[key] = this.edgeData.properties[key];
           }
-          await AddEdgeAPI(this.edgeData).then(res => {
-            // console.log(res.content)
-            ele.data.id = res.content + ''
-            // console.log(ele)
-          }).catch(err => console.log(err))
-          this.addEles([ele])
+          console.log(this.edgeData);
+          await AddEdgeAPI(this.edgeData)
+            .then((res) => {
+              // console.log(res.content)
+              ele.data.id = res.content + "";
+              // console.log(ele)
+            })
+            .catch((err) => console.log(err));
+          this.addEles([ele]);
 
-          this.addEdgeFormVisible = false
-          this.edgeForm.resetFields()
-          this.from = ''
-          this.to = ''
-          this.all_property = []
-          this.edgeData.start = ''
-          this.edgeData.end = ''
-          this.edgeData.type = ''
-          this.edgeData.properties = {}
-          this.edgeData.identity = ''
+          this.addEdgeFormVisible = false;
+          this.edgeForm.resetFields();
+          this.from = "";
+          this.to = "";
+          this.all_property = [];
+          this.edgeData.start = "";
+          this.edgeData.end = "";
+          this.edgeData.type = "";
+          this.edgeData.properties = {};
+          this.edgeData.identity = "";
         }
-      })
+      });
     },
     //点击跳出增加边表单
-    addEdges (source, target) {
-      this.addEdgeFormVisible = true
-      this.from = source
-      this.to = target
+    addEdges(source, target) {
+      this.addEdgeFormVisible = true;
+      this.from = source;
+      this.to = target;
     },
-    cancelAddEdge () {
-      this.addEdgeFormVisible = false
-      this.edgeForm.resetFields()
-      this.all_property = []
-      this.edgeData.start = ''
-      this.edgeData.end = ''
-      this.edgeData.type = ''
-      this.edgeData.properties = {}
-      this.edgeData.identity = ''
+    cancelAddEdge() {
+      this.addEdgeFormVisible = false;
+      this.edgeForm.resetFields();
+      this.all_property = [];
+      this.edgeData.start = "";
+      this.edgeData.end = "";
+      this.edgeData.type = "";
+      this.edgeData.properties = {};
+      this.edgeData.identity = "";
     },
-    handleChangeColor (checked) {
-      const selectedEles = this.$cy.getElementById(this.nodeId)
+    handleChangeColor(checked) {
+      const selectedEles = this.$cy.getElementById(this.nodeId);
       // console.log(this.nodeId)
       if (this.checkedPink) {
-        selectedEles.style({ 'background-color': '#E7919C' })
+        selectedEles.style({ "background-color": "#E7919C" });
       } else if (this.checkedBlue) {
-        selectedEles.style({ 'background-color': '#91CBE7' })
+        selectedEles.style({ "background-color": "#91CBE7" });
       } else if (this.checkedCyan) {
-        selectedEles.style({ 'background-color': '#91E1E7' })
+        selectedEles.style({ "background-color": "#91E1E7" });
       } else if (this.checkedGreen) {
-        selectedEles.style({ 'background-color': '#3E9A33' })
+        selectedEles.style({ "background-color": "#3E9A33" });
       } else if (this.checkedOrange) {
-        selectedEles.style({ 'background-color': '#ECA95A' })
+        selectedEles.style({ "background-color": "#ECA95A" });
       } else if (this.checkedPurple) {
-        selectedEles.style({ 'background-color': '#D56DB4' })
+        selectedEles.style({ "background-color": "#D56DB4" });
       } else if (this.checkedRed) {
-        selectedEles.style({ 'background-color': '#E93D4A' })
+        selectedEles.style({ "background-color": "#E93D4A" });
       }
-      this.checkedRed = false
-      this.checkedCyan = false
-      this.checkedOrange = false
-      this.checkedBlue = false
-      this.checkedPurple = false
-      this.checkedPink = false
-      this.checkedGreen = false
+      this.checkedRed = false;
+      this.checkedCyan = false;
+      this.checkedOrange = false;
+      this.checkedBlue = false;
+      this.checkedPurple = false;
+      this.checkedPink = false;
+      this.checkedGreen = false;
     },
     // 点击跳出增加边属性
-    addEdgeProperty () {
-      this.addEdgePropertyFormVisible = true
+    addEdgeProperty() {
+      this.addEdgePropertyFormVisible = true;
     },
     // 点击增加边属性
-    addEdgeProperties (e) {
-      e.preventDefault()
+    addEdgeProperties(e) {
+      e.preventDefault();
       this.EdgePropertyForm.validateFields((err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values)
-          var test1 = /^[0-9][\s\S]*$/
+          console.log("Received values of form: ", values);
+          var test1 = /^[0-9][\s\S]*$/;
           if (test1.test(values.key)) {
-            alert('开头是数字')
+            alert("开头是数字");
           } else {
-            this.edgeData.properties[values.key] = values.value
+            this.edgeData.properties[values.key] = values.value;
             this.all_property.push({
               title: values.key,
-              value: values.value
-            })
+              value: values.value,
+            });
           }
-          console.log(this.edgeData)
-          this.addEdgePropertyFormVisible = false
-          this.EdgePropertyForm.resetFields()
+          console.log(this.edgeData);
+          this.addEdgePropertyFormVisible = false;
+          this.EdgePropertyForm.resetFields();
         }
-      })
+      });
     },
     // 取消增加边属性
-    cancelAddEdgeProperty () {
-      this.addEdgePropertyFormVisible = false
-      this.EdgePropertyForm.resetFields()
-      this.all_property = []
+    cancelAddEdgeProperty() {
+      this.addEdgePropertyFormVisible = false;
+      this.EdgePropertyForm.resetFields();
+      this.all_property = [];
     },
     ...mapMutations([
-      'set_historyVisible',
-      'set_settingVisible',
+      "set_historyVisible",
+      "set_settingVisible",
       "set_graphDetailsVisible",
-      "set_filterByNodeLabelsVisible"
+      "set_filterByNodeLabelsVisible",
     ]),
-    ...mapActions([
-      'getHistoryList',
-      "getGraphDetailsList",
-      "updateNodePos"
-    ]),
-    showHistory () {
-      this.getHistoryList()
-      this.set_historyVisible(true)
+    ...mapActions(["getHistoryList", "getGraphDetailsList", "updateNodePos"]),
+    showHistory() {
+      this.getHistoryList();
+      this.set_historyVisible(true);
     },
     // 设置节点属性
-    async setting () {
-      await this.set_settingVisible(true)
-
+    async setting() {
+      await this.set_settingVisible(true);
     },
-    reset () {
-      this.searchForm.resetFields()
+    reset() {
+      this.searchForm.resetFields();
     },
-    handleChange (value) {
-      this.searchType = value
+    handleChange(value) {
+      this.searchType = value;
     },
-    search (e) {
+    search(e) {
       e.preventDefault();
       this.searchForm.validateFields((err, values) => {
         if (!err) {
           this.queryParam = {
             searchType: values.searchType,
-            searchValue: values.searchValue
-          }
+            searchValue: values.searchValue,
+          };
         }
         //this.$refs.stable.refresh()
-        console.log(this.searchValue)
-        console.log(this.searchValue)
-        console.log("hhhhhh")
+        console.log(this.searchValue);
+        console.log(this.searchValue);
+        console.log("hhhhhh");
         // 模糊搜索
 
         // 获取所有节点
         var nodesCollection = this.$cy.filter(function (e, i) {
-          return e.isNode()
-        })
-        console.log("testList")
-        console.log(nodesCollection)
+          return e.isNode();
+        });
+        console.log("testList");
+        console.log(nodesCollection);
 
-        var i = 0
+        var i = 0;
         // 应该是SearchValue
-        function dealSearchKey (key) {
-          const escapeRegExp = /[-#$^*()+[\]{}|\\,.?\s]/g
-          var src = ['(.*?)('];
-          var ks = key.split('');
+        function dealSearchKey(key) {
+          const escapeRegExp = /[-#$^*()+[\]{}|\\,.?\s]/g;
+          var src = ["(.*?)("];
+          var ks = key.split("");
           if (ks.length) {
             while (ks.length) {
-              src.push(ks.shift().replace(escapeRegExp, '\\$&'), ')(.*?)(');
+              src.push(ks.shift().replace(escapeRegExp, "\\$&"), ")(.*?)(");
             }
             src.pop();
           }
-          src.push(')(.*?)');
-          src = src.join('');
-          var reg = new RegExp(src, 'i');
+          src.push(")(.*?)");
+          src = src.join("");
+          var reg = new RegExp(src, "i");
           var replacer = [];
-          var start = key.length
+          var start = key.length;
           var begin = 1;
           while (start > 0) {
             start--;
-            replacer.push('$', begin, '($', begin + 1, ')');
+            replacer.push("$", begin, "($", begin + 1, ")");
             begin += 2;
           }
-          replacer.push('$', begin)
-          return reg
+          replacer.push("$", begin);
+          return reg;
         }
 
         // var reg = new RegExp("血液");
         while (i < nodesCollection.length) {
-          var node = nodesCollection[i]
-          i = i + 1
-          var nodeInfo = node.data()
-          console.log(i)
-          console.log(nodeInfo)
-          var nodeName = nodeInfo.name
-          console.log(nodeName)
-          var reg = dealSearchKey("血液")
-          if(nodeName.match(reg)){
-            this.lightOn(nodeInfo.id)
+          var node = nodesCollection[i];
+          i = i + 1;
+          var nodeInfo = node.data();
+          console.log(i);
+          console.log(nodeInfo);
+          var nodeName = nodeInfo.name;
+          console.log(nodeName);
+          var reg = dealSearchKey("血液");
+          if (nodeName.match(reg)) {
+            this.lightOn(nodeInfo.id);
           }
         }
-      })
+      });
     },
     showGraphDetails() {
       this.getGraphDetailsList();
       this.set_graphDetailsVisible(true);
     },
-    filterByNodeLabels(){
+    filterByNodeLabels() {
       this.getGraphDetailsList();
       this.set_filterByNodeLabelsVisible(true);
     },
-    getChildData (graph) {
+    getChildData(graph,isReset) {
       // console.log(`子组件传递过来的数据: ${graph}`); // hello
-      console.log(graph)
-      this.$cy.elements().remove()
-      var nodes = graph.nodes
-      var edges = graph.edges
+      console.log(graph);
+      console.log("重新加载",isReset);
+      this.$cy.elements().remove();
+      if(!isReset){
+      var nodes = graph.nodes;
+      var edges = graph.edges;
       for (var n in nodes) {
-        var node = nodes[n]
-        const data = {}
+        var node = nodes[n];
+        const data = {};
         if (node.properties) {
           for (var key in node.properties) {
-            data[key] = node.properties[key]
+            data[key] = node.properties[key];
           }
         } else {
-          data.name = ''
+          data.name = "";
         }
-        data.id = node.identity
-        console.log(data)
-        this.addEles([{
-          group: 'nodes',
-          data
-        }])
-        console.log("added")
+        data.id = node.identity;
+        console.log(data);
+        this.addEles([
+          {
+            group: "nodes",
+            data,
+            //  position: {
+            //   x: parseFloat(node.properties.x),
+            //   y: parseFloat(node.properties.y)
+            // }
+          },
+        ]);
+        console.log("added");
       }
 
       for (var e in edges) {
-        var edge = edges[e]
-        const data = {}
+        var edge = edges[e];
+        const data = {};
         if (edge.properties) {
           for (var keyE in edge.properties) {
-            if (keyE !== 'type') {
-              data[keyE] = edge.properties[keyE]
+            if (keyE !== "type") {
+              data[keyE] = edge.properties[keyE];
             }
           }
         }
-        data.id = edge.identity
-        data.source = edge.start
-        data.target = edge.end
-        data.name = edge.type
-        this.addEles([{
-          group: 'edges',
-          data
-        }])
+        data.id = edge.identity;
+        data.source = edge.start;
+        data.target = edge.end;
+        data.name = edge.type;
+        this.addEles([
+          {
+            group: "edges",
+            data,
+          },
+        ]);
       }
-      this.$cy.layout({
-        name: 'cose',
-        randomize: false,
-        animate: true
-      }).run()
-    },
-    getSetting(settingData){
-      var nodesCollection = this.$cy.filter(function (e, i) {
-        return e.isNode()
-      })
-      var edgesCollection = this.$cy.filter(function (e, i) {
-        return e.isEdge()
-      })
-      var edgeFont = '10px'
-      if(!settingData.lableVisible){
-        edgeFont = '0px'
-      }
-      if(settingData.shape !== 'a'){
-        this.$cy.startBatch()
-        this.$cy.batch(() => {
-          this.$cy
-            .elements(nodesCollection)
-            .style({
-              'shape':settingData.shape
-            })
+      this.$cy
+        .layout({
+          name: "cose",
+          randomize: false,
+          animate: true,
         })
-        this.$cy.endBatch()
+        .run();
+      }else{
+        this.$emit('reloadGraph')
+        this.resize()
       }
-      this.$cy.startBatch()
-      this.$cy.batch(() => {
-        this.$cy
-          .elements(nodesCollection)
-          .style({
-            'font-size': settingData.textSize + 'pt',
-            width: settingData.nodeSize + settingData.widthE + 'pt',
-            height: settingData.nodeSize + 'pt'
-          })
-        this.$cy
-          .elements(edgesCollection)
-          .style({
-            'font-size': edgeFont
-          })
-      })
-      this.$cy.endBatch()
+      
     },
-    saveGraph(){
+    getSetting(settingData) {
       var nodesCollection = this.$cy.filter(function (e, i) {
-        return e.isNode()
-      })
-      this.updateNodePos(nodesCollection)
-    }
-  }
-}
+        return e.isNode();
+      });
+      var edgesCollection = this.$cy.filter(function (e, i) {
+        return e.isEdge();
+      });
+      var edgeFont = "10px";
+      if (!settingData.lableVisible) {
+        edgeFont = "0px";
+      }
+      if (settingData.shape !== "a") {
+        this.$cy.startBatch();
+        this.$cy.batch(() => {
+          this.$cy.elements(nodesCollection).style({
+            shape: settingData.shape,
+          });
+        });
+        this.$cy.endBatch();
+      }
+      this.$cy.startBatch();
+      this.$cy.batch(() => {
+        this.$cy.elements(nodesCollection).style({
+          "font-size": settingData.textSize + "pt",
+          width: settingData.nodeSize + settingData.widthE + "pt",
+          height: settingData.nodeSize + "pt",
+        });
+        this.$cy.elements(edgesCollection).style({
+          "font-size": edgeFont,
+        });
+      });
+      this.$cy.endBatch();
+    },
+    saveGraph() {
+      var nodesCollection = this.$cy.filter(function (e, i) {
+        return e.isNode();
+      });
+      this.updateNodePos(nodesCollection);
+    },
+  },
+};
 </script>
