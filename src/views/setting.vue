@@ -110,7 +110,7 @@
             values.shape = 'roundrectangle'
           }
           if (values.relationLable == undefined) {
-            values.relationLable = false
+            values.relationLable = true
           }
           this.set_settingVisible(false)
           this.$emit('listenToSet', {
