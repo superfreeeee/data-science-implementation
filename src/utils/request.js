@@ -1,9 +1,9 @@
 import axios from 'axios'
 
 const request = axios.create({
-  baseURL: process.env.NODE_ENV === 'production' ? 'http://42.192.9.211:9090/coin' : 'http://42.192.9.211:9090/coin',
+  baseURL: process.env.NODE_ENV === 'production' ? 'http://42.192.9.211:9090/coin' : 'http://localhost:9090',
   withCredentials: true,
-  timeout: 10 * 1000
+  timeout: 15 * 1000
 })
 
 request.interceptors.request.use(config => {

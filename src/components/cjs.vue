@@ -9,7 +9,7 @@ a {
   /*vertical-align: middle;*/
   display: block;
   color: #000;
-  padding: 25px 16px;
+  padding: 20px 16px;
   text-decoration: none;
 }
 .tools:hover {
@@ -172,8 +172,8 @@ a {
           @submit="search"
         >
           <a-row :gutter="24">
-            <a-col :md="5" :sm="24" :lg="5"></a-col>
-            <a-col :md="5" :sm="24" :lg="5">
+            <a-col :md="2" :sm="24" :lg="2"></a-col>
+            <a-col :md="4" :sm="24" :lg="4">
               <a-form-item label="搜索类型">
                 <a-select
                   placeholder="请选择"
@@ -189,7 +189,7 @@ a {
                 </a-select>
               </a-form-item>
             </a-col>
-            <a-col :md="9" :sm="24" :lg="9">
+            <a-col :md="8" :sm="24" :lg="8">
               <a-form-item>
                 <a-input
                   v-decorator="['searchValue',
@@ -198,12 +198,13 @@ a {
                   placeholder="请输入"/>
               </a-form-item>
               <span class="table-page-search-submitButtons">
-                <a-button type="primary" html-type="submit" style="margin-top: 3px">查询</a-button>
+                <a-button html-type="submit" style="background-color: #67758D;color: white;margin-top: 3px">查询</a-button>
                 <a-button style="margin-left: 10px" @click="reset">重置</a-button>
               </span>
             </a-col>
-            <a-col :md="4" :sm="24" :lg="4">
-              <a-button type="primary" @click="filterByNodeLabels()" style="font-size: 16px; color: #67758d;background-color:transparent;border:0px">
+            <a-col :md="4" :sm="24" :lg="4"></a-col>
+            <a-col :md="5" :sm="24" :lg="5">
+              <a-button @click="filterByNodeLabels()" style="font-size: 16px; color: #67758d;background-color:transparent;border:0px">
                 类型过滤
               </a-button>
               <a-dropdown style="margin-left: 20px">
@@ -212,7 +213,7 @@ a {
                   调整布局 <a-icon type="down" />
                 </a>
                 <a-menu slot="overlay" @click="onClick" style="width: 130px;">
-                  <a-menu-item key="1" @click="refresh({name: 'cola'})">
+                  <a-menu-item key="1" @click="refresh({name: 'cose'})">
                     刷新布局
                     <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px; position: absolute; right: 10px;" title="刷新布局" type="ios-sync" />
                   </a-menu-item>
@@ -660,7 +661,7 @@ export default {
         'font-size': '10pt',
         width: '40pt',
         height: '40pt',
-        'background-color': '#fce9cc'
+        'background-color': '#fce9cc',
       })
     /* 已选择节点样式 */
       .selector('node:selected')
@@ -691,8 +692,8 @@ export default {
     /* 高亮样式 */
       .selector('.light-off')
       .style({ opacity: '0.1' })
+      /* 拖拽添加边样式*/
       .selector('.eh-handle')
-
       .style({
         'background-color': '#fce9cc',
         width: 12,
@@ -849,6 +850,7 @@ export default {
     lightOn(ele) {
       this.$cy.startBatch();
       this.$cy.batch(() => {
+        console.log(ele)
         this.$cy.elements().addClass('light-off') //* 添加样式*/
         const elements = ((Array.isArray ? Array.isArray(ele) : ele != null && ele instanceof Array) ? ele : [ele])
         elements.forEach(__ => {
@@ -1409,6 +1411,11 @@ export default {
       e.preventDefault();
       this.searchForm.validateFields((err, values) => {
         if (!err) {
+          console.log(values)
+          console.log(values.searchType)
+          console.log(values.searchValue)
+          this.searchValue = values.searchValue
+          this.searchType = values.searchType
           this.queryParam = {
             searchType: values.searchType,
             searchValue: values.searchValue
@@ -1416,49 +1423,123 @@ export default {
         }
         //this.$refs.stable.refresh()
         console.log(this.searchValue)
-        console.log(this.searchValue)
-        console.log("hhhhhh")
         // 模糊搜索
-
-        // 获取所有节点
-        var nodesCollection = this.$cy.filter(function (e, i) {
-          return e.isNode()
-        })
-        console.log("testList")
-        console.log(nodesCollection)
-
-        var i = 0
-        //var len = nodesCollection.length()
-        // 应该是SearchValue
-        var reg = new RegExp("血液");
-        while (i < 50) {
-          var node = nodesCollection[i]
-          i = i + 1
-          var nodeInfo = node.data()
-          console.log(i)
-          console.log(nodeInfo)
-          var nodeName = nodeInfo.name
-          console.log(nodeName)
-          if(nodeName.match(reg)){
-            this.lightOn(nodeInfo.id)
-          }
+        if(this.searchType === '1') {
+          this.searchNode(this.searchValue)
+          this.searchEdge(this.searchValue)
         }
+        if(this.searchType === '2') {
+          console.log("test")
+          this.searchNode(this.searchValue)
+        }
+        if(this.searchType === '3') {
+          this.searchEdge(this.searchValue)
+        }
+        this.$cy.once('click', () => this.lightOff())
       })
+    },
+    searchEdge(key) {
+      var edgesCollection = this.$cy.filter(function (e, i) {
+        return e.isEdge()
+      })
+      console.log("searchEdgeTest")
+      console.log(edgesCollection)
+
+      var i = 0
+      var reg = this.dealSearchKey(key)
+      this.$cy.elements().addClass('light-off') //* 添加样式*/
+      while (i < edgesCollection.length) {
+        var edge = edgesCollection[i]
+        i = i + 1
+        var edgeInfo = edge.data()
+
+        var edgeName = edgeInfo.name
+
+
+        if (edgeName.match(reg)) {
+          // console.log(edgeInfo)
+          // this.lightOn(edgeInfo.id)
+          // this.$cy.startBatch();
+          // this.$cy.batch(() => {
+          console.log(edgeInfo.id)
+          const elements = ((Array.isArray ? Array.isArray(edgeInfo.id) : edgeInfo.id != null && edgeInfo.id instanceof Array) ? edgeInfo.id : [edgeInfo.id])
+          elements.forEach(__ => {
+            this.$cy.getElementById(__).removeClass('light-off')
+            //   this.$cy.getElementById(__).neighborhood().removeClass('light-off')
+          })
+          // })
+          // this.$cy.endBatch()
+        }
+      }
+    },
+    searchNode(key) {
+      // 获取所有节点
+      var nodesCollection = this.$cy.filter(function (e, i) {
+        return e.isNode()
+      })
+      console.log("searchNodeTest")
+      console.log(nodesCollection)
+
+      var i = 0
+      // 应该是searchValue
+
+      // var reg = new RegExp("血液");
+      var reg = this.dealSearchKey(key)
+      this.$cy.elements().addClass('light-off') //* 添加样式*/
+      while (i < nodesCollection.length) {
+        var node = nodesCollection[i]
+        i = i + 1
+        var nodeInfo = node.data()
+        console.log(i)
+        console.log(nodeInfo)
+        var nodeName = nodeInfo.name
+        console.log(nodeName)
+        if(nodeName.match(reg)){
+          // this.lightOn(nodeInfo.id)
+          const elements = ((Array.isArray ? Array.isArray(nodeInfo.id) : nodeInfo.id != null && nodeInfo.id instanceof Array) ? nodeInfo.id : [nodeInfo.id])
+          elements.forEach(__ => {
+            this.$cy.getElementById(__).removeClass('light-off')
+            // this.$cy.getElementById(__).neighborhood().removeClass('light-off')
+          })
+        }
+      }
+    },
+    dealSearchKey(key) {
+      const escapeRegExp = /[-#$^*()+[\]{}|\\,.?\s]/g
+      var src = ['(.*?)('];
+      var ks = key.split('');
+      if (ks.length) {
+        while (ks.length) {
+          src.push(ks.shift().replace(escapeRegExp, '\\$&'), ')(.*?)(');
+        }
+        src.pop();
+      }
+      src.push(')(.*?)');
+      src = src.join('');
+      var reg = new RegExp(src, 'i');
+      var replacer = [];
+      var start = key.length
+      var begin = 1;
+      while (start > 0) {
+        start--;
+        replacer.push('$', begin, '($', begin + 1, ')');
+        begin += 2;
+      }
+      replacer.push('$', begin)
+      return reg
     },
     showGraphDetails() {
       this.getGraphDetailsList();
       this.set_graphDetailsVisible(true);
     },
     filterByNodeLabels(){
+      this.getGraphDetailsList();
       this.set_filterByNodeLabelsVisible(true);
     },
     getChildData (graph) {
-      console.log(`子组件传递过来的数据: ${graph}`); // hello
+      // console.log(`子组件传递过来的数据: ${graph}`); // hello
       console.log(graph)
-      console.log(this.$cy)
-      console.log(this.$cy.elements())
       this.$cy.elements().remove()
-      console.log("destroyed")
       var nodes = graph.nodes
       var edges = graph.edges
       for (var n in nodes) {

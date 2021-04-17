@@ -1,7 +1,8 @@
 <template>
   <div style="height: 100%; width: 100%;">
-    <CJS ref="ref_CJS"></CJS>
-    <div class="buttonBar" style="background-color: rgb(220, 220, 220)">
+    <CJS ref="ref_CJS">
+    </CJS>
+    <div class="buttonBar" style="padding:20px;background-color: rgb(220, 220, 220)">
       <div class="button" style="margin-left: 70%">
         <Button style="background-color: #67758D;color: white; margin-right: 30px" @click="uploading" >上传文件</Button>
         <Button style="background-color: #67758D;color: white; margin-right: 30px" @click="addNodes">添加节点</Button>
@@ -18,7 +19,7 @@
               点击或将文件拖拽到这里上传
             </p>
             <p class="ant-upload-hint">
-              支持扩展名：.csv .json
+              支持扩展名：.json
             </p>
           </a-upload-dragger>
           <a-button @click="handleSure" type="primary" style="margin: 20px 0px 10px 400px">确认</a-button>
@@ -113,11 +114,11 @@ export default {
       uploadFormVisible: false,
       fileList: [],
       confirmLoading: false,
-      graphAll: {}
+      graphAll: {},
     }
   },
   methods: {
-    ...mapMutations([                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    ...mapMutations([
     ]),
     ...mapActions([
     ]),

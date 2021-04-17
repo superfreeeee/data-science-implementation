@@ -1,8 +1,8 @@
 <style scoped>
 .labels {
   display: inline-block;
-  height: 20px;
-  line-height: 20px;
+  height: 23px;
+  line-height: 23px;
   padding: 0 0.16rem;
   font-size: 10px;
   color: #97979f;
@@ -11,10 +11,38 @@
   margin-right: 10px;
   margin-top: 10px;
   font-style: normal;
+  background-color: antiquewhite;
 }
 .active {
   border: 1px solid orange;
-  color: orange;
+  color: white;
+  background-color: rgb(248, 182, 138);
+  box-shadow: 0px 1px 2px rgb(253, 146, 84), 0px 1px 2px rgba(0, 0, 0, 0.7);
+}
+.tips{
+  font-family: FZYaoti;
+  font-size: 15px;
+}
+.typeFilter{
+  padding: 20px;
+  margin-left: 80%;
+  
+}
+#button1{
+  color: rgb(63, 59, 53);
+  background-color:rgb(250, 212, 169);
+  box-shadow: 0px 1px 2px rgb(250, 212, 169),0px 1px 2px rgba(0, 0, 0, 0.7);
+  /* background-color:rgb(42, 50, 54); */
+  border: white;
+  font-family: LiSu;
+  height: 25px;
+}
+#button1:hover{
+  background-color:rgb(250, 198, 140);
+  color: rgb(252, 252, 252);
+}
+.loadTip{
+  margin-left: 45%;
 }
 </style>
 
@@ -27,6 +55,7 @@
     @close="onClose"
     width="100"
   >
+    <div class="tips">请点击选择节点的标签来过滤（可多选）</div>
     <div
       class="labels"
       v-for="item in graphDetailsList.nodeLabels"
@@ -36,7 +65,11 @@
     >
       {{ item }}
     </div>
-    <button @click="filterByNodeLabels()">类型过滤</button>
+    <br>
+    <a-spin :spinning="spinning" tip="加载中···" style="margin-left:45%"></a-spin>
+    <div class="typeFilter">
+      <a-button id="button1" type="primary" @click="filterByNodeLabels()">类型过滤</a-button>
+    </div>
   </a-drawer>
 </template>
 
@@ -52,6 +85,7 @@ export default {
   data() {
     return {
       arrIndex: [],
+      spinning:false
     };
   },
   computed: {
@@ -94,7 +128,9 @@ export default {
       }
       console.log("labels",nodeLabels)
       var graph
-      this.set_filterByNodeLabelsVisible(false);
+      // this.set_filterByNodeLabelsVisible(false);
+      this.spinning=true;
+      console.log(this.spinning)
       await filterByNodeLabelsAPI(nodeLabels)
       .then((res)=>{
         // console.log(res)
@@ -107,6 +143,7 @@ export default {
 
       this.arrIndex=[];
       this.set_filterByNodeLabelsVisible(false);
+      this.spinning=false
     }
   },
 };

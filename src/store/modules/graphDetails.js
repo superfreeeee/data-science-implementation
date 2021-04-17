@@ -26,6 +26,7 @@ import {
         const res=await getGraphDetailsAPI()
         if(res){
           commit('set_graphDetailsList',res.content)
+          console.log("获取图信息",res.content)
         }
       }
     }
