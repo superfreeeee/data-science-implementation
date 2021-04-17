@@ -38,7 +38,7 @@
         />
       </a-form-item>
       <a-form-item class='select' label="是否显示关系标签">
-        <a-switch class = 'right' v-decorator="['relationLable', { valuePropName: 'checked' }]" />
+        <a-switch default-checked un-checked-children="不显示" checked-children="显示" class = 'right' v-decorator="['relationLable', { valuePropName: 'unchecked' }]" />
       </a-form-item>
       <a-form-item class='select' :wrapper-col="{ span: 12, offset: 6 }">
         <a-button type="primary" html-type="submit">

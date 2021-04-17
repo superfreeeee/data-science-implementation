@@ -1642,7 +1642,7 @@ export default {
     },
     getSetting(settingData) {
       var nodesCollection = this.$cy.filter(function (e, i) {
-        return e.isNode();
+        return e.isNode()&&e.data();
       });
       var edgesCollection = this.$cy.filter(function (e, i) {
         return e.isEdge();
@@ -1670,6 +1670,7 @@ export default {
         this.$cy.elements(edgesCollection).style({
           "font-size": edgeFont,
         });
+        console.log(nodesCollection[0].data().id)
       });
       this.$cy.endBatch();
     },
