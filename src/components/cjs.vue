@@ -220,7 +220,7 @@ a {
                     力导图模式
                     <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px; position: absolute; right: 10px;" title="力导图模式" type="ios-apps-outline" />
                   </a-menu-item>
-                  <a-menu-item key="3" @click="refresh({name: 'grid'})">
+                  <a-menu-item key="3" @click="refresh({name: 'klay'})">
                     排版模式
                     <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px; position: absolute; right: 10px;" title="排版布局" type="ios-globe-outline" />
                   </a-menu-item>
@@ -391,6 +391,7 @@ import cytoscape from 'cytoscape'
 import cxtmenu from 'cytoscape-cxtmenu'
 import cola from 'cytoscape-cola'
 import avsdf from 'cytoscape-avsdf'
+import klay from 'cytoscape-klay'
 // import coseBilkent from 'cytoscape-cose-bilkent'
 import { UpdataNodeAPI, DeleteNodeAPI, DownloadXmlAPI, DeleteEdgeAPI, updateEdgeAPI, AddEdgeAPI } from '@/api/api'
 // import { UpdataNodeAPI, DeleteNodeAPI, DeleteEdgeAPI, updateEdgeAPI, AddEdgeAPI } from '@/api/api'
@@ -440,6 +441,7 @@ export default {
       // cytoscape.use(coseBilkent)
       cytoscape.use(edgehandles)
       cytoscape.use(fcose)
+      cytoscape.use(klay)
     }
 
     this.$cy = cytoscape({
