@@ -11,7 +11,7 @@ export function AddNodeAPI (params) {
 }
 
 export function DeleteNodeAPI (params) {
-  return http.post(`${request}/node/deleteNode`, params)
+  return http.get(`${request}/node/deleteNode`, params)
 }
 
 export function UpdataNodeAPI (params) {
@@ -22,7 +22,7 @@ export function DownloadXmlAPI (params) {
   return http.get(`${request}/graph/exportXml`, params)
 }
 export function DeleteEdgeAPI (params) {
-  return http.post(`${request}/relation/deleteRelation`, params)
+  return http.get(`${request}/relation/deleteRelation`, params)
 }
 export function updateEdgeAPI (params) {
   return http.post(`${request}/relation/updateRelation`, params)

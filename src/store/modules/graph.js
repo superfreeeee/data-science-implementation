@@ -14,8 +14,9 @@ const graph = {
         if(node.data()){
           var nodePro = {}
           var nodeInfo = node.data()
+          console.log(nodeInfo)
           for(var item in nodeInfo){
-            if(item !== 'id'){
+            if(item !== 'id' && item !=='labels'){
               nodePro[item] = nodeInfo[item]
             }
           }
@@ -26,6 +27,7 @@ const graph = {
             labels: node.labels == undefined ? [] : node.labels,
             properties: nodePro
           }
+          console.log(NodeData)
           await UpdataNodeAPI(NodeData).then(res => {
             // console.log(res)
           }).catch(err => console.log(err))

@@ -61,6 +61,7 @@ h3{
     :visible="graphDetailsVisible"
     @close="onClose"
     width="400"
+    id="drawer"
   >
     <p>
       There are

@@ -1,6 +1,6 @@
 <template>
   <div style="height: 100%; width: 100%;">
-    <CJS ref="ref_CJS">
+    <CJS ref="ref_CJS" @reloadGraph="reloadGraph">
     </CJS>
     <div class="buttonBar" style="padding:20px;background-color: rgb(220, 220, 220)">
       <div class="button" style="margin-left: 70%">
@@ -124,8 +124,10 @@ export default {
     ]),
     async addEles () {
       var graph = {}
+      var isInit=true
       await getGraphAPI().then(res => {
         graph = res.content
+        console.log(graph)
       }).catch(err => console.log(err))
       var ele=[]
       var nodes = graph.nodes
@@ -141,14 +143,24 @@ export default {
           data.name = ''
         }
         data.id = node.identity
-        this.$refs.ref_CJS.addEles([{
+        data.labels=node.labels
+        const toBeAdded={
           group: 'nodes',
           data,
-          position: {
+        }
+        console.log('xy',node.properties.x,node.properties.y)
+        if(node.properties.x!=null && node.properties.y!=null){
+          toBeAdded.position={
             x: parseFloat(node.properties.x),
             y: parseFloat(node.properties.y)
           }
-        }])
+        }else{
+          console.log("shit",node.properties.name)
+            isInit=false
+        }
+
+        this.$refs.ref_CJS.addEles([toBeAdded])
+        console.log("true")
       }
 
       for (var e in edges) {
@@ -170,11 +182,14 @@ export default {
           data
         }])
       }
-      // this.$refs.ref_CJS.$cy.layout({
-      //   name: 'cose',
-      //   randomize: false,
-      //   animate: true
-      // }).run()
+      console.log(isInit)
+      if(!isInit){
+      this.$refs.ref_CJS.$cy.layout({
+        name: 'cose',
+        randomize: false,
+        animate: true
+      }).run()
+      }
       // this.$refs.ref_CJS.addEles([
       // { group: 'nodes', data: { id: '0', name: 'n0' }, position: { x: 200, y: 50 } },
       // ])
@@ -197,6 +212,7 @@ export default {
           //     // 属性（键值对）
           //   }
           // }
+          const pos={x:600,y:400}
           const ele = {
             group: 'nodes',
             data: {
@@ -204,14 +220,14 @@ export default {
               name: values.name,
               label: values.label
             },
-            position: {
-              x: 600,
-              y: 400
-            }
+            position: pos
           }
+          this.nodeData.properties.x=pos.x
+          this.nodeData.properties.y=pos.y
           for (var key in this.nodeData.properties) {
             ele.data[key] = this.nodeData.properties[key]
           }
+          console.log("nodeData",this.nodeData)
           await AddNodeAPI(this.nodeData).then(res => {
             ele.data.id = res.content + ''
           }).catch(err => console.log(err))
@@ -353,7 +369,13 @@ export default {
     },
     handleSure () {
       this.uploadFormVisible = false
+    },
+    async reloadGraph(){
+      await this.addEles()
+      this.$refs.ref_CJS.$cy.fit()
+      console.log("resize")
     }
+
   }
 }
 </script>

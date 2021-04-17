@@ -501,11 +501,17 @@ export default {
     this.$cy.on('mousemove', 'node', function (e) {
       console.log(e)
       // this.data().isClick = false
-      var list = e.target.data()
-      var listStr = JSON.stringify(list)
-      document.getElementById('labels').innerHTML = '\xa0\xa0' + list.name + '\xa0\xa0'
-      document.getElementById('properties').innerHTML = listStr
-    })
+      var list = e.target.data();
+      var listStr = JSON.stringify(list);
+      if (list.labels.length == 0) {
+        document.getElementById("labels").innerHTML =
+          "\xa0\xa0name:" + list.name + "\xa0\xa0";
+      } else {
+        document.getElementById("labels").innerHTML =
+          "\xa0\xa0labels:" + list.labels + "\xa0\xa0";
+      }
+      document.getElementById("properties").innerHTML = listStr;
+    });
     // 鼠标移动到边上显示属性
     this.$cy.on('mouseover', 'edge', function (e) {
       console.log(e)
@@ -524,30 +530,38 @@ export default {
         document.getElementById('labels').innerHTML = ''
         document.getElementById('properties').innerHTML = ' click on the node or edge to display more infomation!'
       } else {
-        that._data.isClick = true
-        var list = e.target.data()
-        var listStr = JSON.stringify(list)
-        document.getElementById('labels').innerHTML = '\xa0\xa0' + list.name + '\xa0\xa0'
-        document.getElementById('properties').innerHTML = listStr
-        that._data.labels = '\xa0\xa0' + list.name + '\xa0\xa0'
-        that._data.properties = listStr
+        that._data.isClick = true;
+        var list = e.target.data();
+        var listStr = JSON.stringify(list);
+        if (list.labels.length == 0) {
+          document.getElementById("labels").innerHTML =
+            "\xa0\xa0name:" + list.name + "\xa0\xa0";
+            that._data.labels = "\xa0\xa0name:" + list.name + "\xa0\xa0";
+        } else {
+          document.getElementById("labels").innerHTML =
+            "\xa0\xa0labels:" + list.labels + "\xa0\xa0";
+            that._data.labels = "\xa0\xa0labels:" + list.labels + "\xa0\xa0";
+        }
+        document.getElementById("properties").innerHTML = listStr;
+        that._data.properties = listStr;
       }
-    })
+    });
     // 鼠标移开不显示
-    this.$cy.on('mouseout', function () {
+    this.$cy.on("mouseout", function () {
       // console.log(this.data().isClick)
       if (!that._data.isClick) {
-        document.getElementById('labels').innerHTML = ''
-        document.getElementById('properties').innerHTML = ' click on the node or edge to display more infomation!'
+        document.getElementById("labels").innerHTML = "";
+        document.getElementById("properties").innerHTML =
+          " click on the node or edge to display more infomation!";
       } else {
-        document.getElementById('labels').innerHTML = that._data.labels
-        document.getElementById('properties').innerHTML = that._data.properties
+        document.getElementById("labels").innerHTML = that._data.labels;
+        document.getElementById("properties").innerHTML = that._data.properties;
       }
-    })
+    });
     // Cxtmenu圆形菜单--节点
     this.$cy.cxtmenu({
       menuRadius: 80, // the radius of the circular menu in pixels
-      selector: 'node', // elements matching this Cytoscape.js selector will trigger cxtmenus
+      selector: "node", // elements matching this Cytoscape.js selector will trigger cxtmenus
       // eslint-disable-next-line no-unused-vars
       commands: (element) => {
         return [
@@ -561,7 +575,7 @@ export default {
           //   enabled: true // whether the command is selectable
           // },
           {
-            fillColor: 'rgba(200, 200, 200, 0.75)', // optional: custom background color for item
+            fillColor: "rgba(200, 200, 200, 0.75)", // optional: custom background color for item
             content: '<span class="fa fa-flash fa-2x">删除节点</span>', // html/text content to be displayed in the menu
             contentStyle: {}, // css key:value pairs to set the command's css in js if you want
             select: (ele) => this.removeNode([ele.id()]),
@@ -569,22 +583,22 @@ export default {
 
             //   ele.remove()
             // },
-            enabled: true // whether the command is selectable
+            enabled: true, // whether the command is selectable
           },
           {
             // fillColor: 'rgba(200, 200, 200, 0.75)', // optional: custom background color for item
-            content: '高亮邻居', // html/text content to be displayed in the menu
+            content: "高亮邻居", // html/text content to be displayed in the menu
             // contentStyle: {}, // css key:value pairs to set the command's css in js if you want
             select: (ele) => this.lightOn([ele.id()]), // a function to execute when the command is selected
-            enabled: true // whether the command is selectable
+            enabled: true, // whether the command is selectable
           },
           {
             // fillColor: 'rgba(200, 200, 200, 0.75)', // optional: custom background color for item
-            content: '修改', // html/text content to be displayed in the menu
+            content: "修改", // html/text content to be displayed in the menu
             // contentStyle: {}, // css key:value pairs to set the command's css in js if you want
             select: (ele) => this.changeNode([ele.id()]), // a function to execute when the command is selected
-            enabled: true // whether the command is selectable
-          }
+            enabled: true, // whether the command is selectable
+          },
           // {
           //   // fillColor: 'rgba(200, 200, 200, 0.75)', // optional: custom background color for item
           //   content: '禁用', // html/text content to be displayed in the menu
@@ -592,62 +606,68 @@ export default {
           //   select: (ele) => alert(ele.id()), // a function to execute when the command is selected
           //   enabled: false // whether the command is selectable
           // }
-        ]
+        ];
       },
-      fillColor: 'rgba(0, 0, 0, 0.75)', // 指令默认颜色(the background colour of the menu)
-      activeFillColor: 'rgba(1, 105, 217, 0.75)', // 所选指令的颜色(the colour used to indicate the selected command)
+      fillColor: "rgba(0, 0, 0, 0.75)", // 指令默认颜色(the background colour of the menu)
+      activeFillColor: "rgba(1, 105, 217, 0.75)", // 所选指令的颜色(the colour used to indicate the selected command)
       activePadding: 10, // additional size in pixels for the active command
       indicatorSize: 14, // the size in pixels of the pointer to the active command
       separatorWidth: 4, // 连续命令之间的空白间隔(以像素为单位)
       spotlightPadding: 10, // 元素和聚光灯之间的额外间距(以像素为单位)
       minSpotlightRadius: 10, // the minimum radius in pixels of the spotlight
       maxSpotlightRadius: 14, // the maximum radius in pixels of the spotlight
-      openMenuEvents: 'cxttapstart taphold', // space-separated cytoscape events that will open the menu; only `cxttapstart` and/or `taphold` work here
-      itemColor: 'white', // 各指令元素内字体颜色
-      itemTextShadowColor: 'red', // 各指令元素内字体阴影颜色
+      openMenuEvents: "cxttap", // space-separated cytoscape events that will open the menu; only `cxttapstart` and/or `taphold` work here
+      itemColor: "white", // 各指令元素内字体颜色
+      itemTextShadowColor: "red", // 各指令元素内字体阴影颜色
       zIndex: 9999, // the z-index of the ui div
-      atMouse: true // draw menu at mouse position
-    })
+      atMouse: true, // draw menu at mouse position
+    });
     // 边删除、修改
     this.$cy.cxtmenu({
       menuRadius: 40, // the radius of the circular menu in pixels
-      selector: 'edge', // elements matching this Cytoscape.js selector will trigger cxtmenus
+      selector: "edge", // elements matching this Cytoscape.js selector will trigger cxtmenus
       // eslint-disable-next-line no-unused-vars
       commands: (element) => {
         return [
           {
-            fillColor: 'rgba(200, 200, 200, 0.75)', // optional: custom background color for item
+            fillColor: "rgba(200, 200, 200, 0.75)", // optional: custom background color for item
             content: '<span class="fa fa-flash fa-2x">删除</span>', // html/text content to be displayed in the menu
             contentStyle: {}, // css key:value pairs to set the command's css in js if you want
-            select: function (ele) { // a function to execute when the command is selected
+            select: function (ele) {
+              // a function to execute when the command is selected
               // console.log(ele)
-              ele.remove() // `ele` holds the reference to the active element
+              ele.remove(); // `ele` holds the reference to the active element
             },
-            enabled: true // whether the command is selectable
+            enabled: true, // whether the command is selectable
           },
           {
-            fillColor: 'rgba(200, 200, 200, 0.75)', // optional: custom background color for item
+            fillColor: "rgba(200, 200, 200, 0.75)", // optional: custom background color for item
             content: '<span class="fa fa-flash fa-2x">修改</span>', // html/text content to be displayed in the menu
             contentStyle: {}, // css key:value pairs to set the command's css in js if you want
-            select: (ele) => this.setModifyEdgeFormVisible([ele.data().id, ele.data().source, ele.data().target]),
-            enabled: true // whether the command is selectable
-          }
-        ]
+            select: (ele) =>
+              this.setModifyEdgeFormVisible([
+                ele.data().id,
+                ele.data().source,
+                ele.data().target,
+              ]),
+            enabled: true, // whether the command is selectable
+          },
+        ];
       },
-      fillColor: 'rgba(0, 0, 0, 0.75)', // 指令默认颜色(the background colour of the menu)
-      activeFillColor: 'rgba(1, 105, 217, 0.75)', // 所选指令的颜色(the colour used to indicate the selected command)
+      fillColor: "rgba(0, 0, 0, 0.75)", // 指令默认颜色(the background colour of the menu)
+      activeFillColor: "rgba(1, 105, 217, 0.75)", // 所选指令的颜色(the colour used to indicate the selected command)
       activePadding: 10, // additional size in pixels for the active command
       indicatorSize: 14, // the size in pixels of the pointer to the active command
       separatorWidth: 4, // 连续命令之间的空白间隔(以像素为单位)
       spotlightPadding: 10, // 元素和聚光灯之间的额外间距(以像素为单位)
       minSpotlightRadius: 10, // the minimum radius in pixels of the spotlight
       maxSpotlightRadius: 14, // the maximum radius in pixels of the spotlight
-      openMenuEvents: 'cxttapstart taphold', // space-separated cytoscape events that will open the menu; only `cxttapstart` and/or `taphold` work here
-      itemColor: 'white', // 各指令元素内字体颜色
-      itemTextShadowColor: 'red', // 各指令元素内字体阴影颜色
+      openMenuEvents: "cxttap", // space-separated cytoscape events that will open the menu; only `cxttapstart` and/or `taphold` work here
+      itemColor: "white", // 各指令元素内字体颜色
+      itemTextShadowColor: "red", // 各指令元素内字体阴影颜色
       zIndex: 9999, // the z-index of the ui div
-      atMouse: true // draw menu at mouse position
-    })
+      atMouse: true, // draw menu at mouse position
+    });
     // 通用的样式
     this.$cy.style()
     /* 未选择节点样式 */
@@ -663,46 +683,46 @@ export default {
         height: '40pt',
         'background-color': '#fce9cc',
       })
-    /* 已选择节点样式 */
-      .selector('node:selected')
-      .style({ 'border-color': '#c84e40', 'border-width': '1px' })
-    /* 未选择节点样式 */
-      .selector('edge')
+      /* 已选择节点样式 */
+      .selector("node:selected")
+      .style({ "border-color": "#c84e40", "border-width": "1px" })
+      /* 未选择节点样式 */
+      .selector("edge")
       .style({
-        label: 'data(name)',
-        'target-arrow-shape': 'triangle', /* 箭头样式 */
-        'target-arrow-size': '1px', /* 箭头大小 */
-        'target-arrow-color': 'rgba(230,230,250,0.9)', /* 箭头颜色 */
-        'curve-style': 'bezier', /* 线条样式曲线 */
-        'line-color': 'rgba(230,230,250,0.9)', /* 线条颜色 */
-        width: '1px', /* 线条宽度 */
-        'font-size': '10px', /* 标签字体大小 */
-        color: '#000000', /* 标签字体大小 */
+        label: "data(name)",
+        "target-arrow-shape": "triangle" /* 箭头样式 */,
+        "target-arrow-size": "1px" /* 箭头大小 */,
+        "target-arrow-color": "rgba(230,230,250,0.9)" /* 箭头颜色 */,
+        "curve-style": "bezier" /* 线条样式曲线 */,
+        "line-color": "rgba(230,230,250,0.9)" /* 线条颜色 */,
+        width: "1px" /* 线条宽度 */,
+        "font-size": "10px" /* 标签字体大小 */,
+        color: "#000000" /* 标签字体大小 */,
         // 'text-outline-color': 'white', /* 文本轮廓颜色 */
         // 'text-outline-width': '0.5px', /* 文本轮廓宽度 */
-        'text-rotation': 'autorotate' /* 标签方向 */
+        "text-rotation": "autorotate" /* 标签方向 */,
       })
-    /* 已选择节点样式 */
-      .selector('edge:selected')
+      /* 已选择节点样式 */
+      .selector("edge:selected")
       .style({
-        color: '#90acfc', /* 标签字体大小 */
-        'target-arrow-color': '#9ad3f8', /* 箭头颜色 */
-        'line-color': '#abdbfa' /* 线条颜色 */
+        color: "#90acfc" /* 标签字体大小 */,
+        "target-arrow-color": "#9ad3f8" /* 箭头颜色 */,
+        "line-color": "#abdbfa" /* 线条颜色 */,
       })
-    /* 高亮样式 */
-      .selector('.light-off')
-      .style({ opacity: '0.1' })
+      /* 高亮样式 */
+      .selector(".light-off")
+      .style({ opacity: "0.1" })
       /* 拖拽添加边样式*/
-      .selector('.eh-handle')
+      .selector(".eh-handle")
       .style({
-        'background-color': '#fce9cc',
+        "background-color": "#fce9cc",
         width: 12,
         height: 12,
-        shape: 'ellipse',
-        'overlay-opacity': 0,
-        'border-width': 12, // makes the handle easier to hit
-        'border-opacity': 0
-      })
+        shape: "ellipse",
+        "overlay-opacity": 0,
+        "border-width": 12, // makes the handle easier to hit
+        "border-opacity": 0,
+      });
   },
   data () {
     return {
@@ -781,7 +801,7 @@ export default {
     addEles(eles) {
       // console.log(eles)
       if (eles) {
-        this.$cy.startBatch()
+        this.$cy.startBatch();
         this.$cy.batch(() => {
           const elements = ((Array.isArray ? Array.isArray(eles) : eles != null && eles instanceof Array) ? eles : [eles])
           const filterElements = elements.filter(__ => !this.$cy.getElementById(__.data.id).length)
@@ -796,7 +816,7 @@ export default {
     delEles() {
       this.$cy.startBatch();
       this.$cy.batch(() => {
-        const selectedEles = this.$cy.elements(':selected')
+        const selectedEles = this.$cy.elements(":selected");
         // console.log(selectedEles)
         // 未选择不进行操作
         if (!selectedEles || selectedEles.length < 1) {
@@ -850,7 +870,6 @@ export default {
     lightOn(ele) {
       this.$cy.startBatch();
       this.$cy.batch(() => {
-        console.log(ele)
         this.$cy.elements().addClass('light-off') //* 添加样式*/
         const elements = ((Array.isArray ? Array.isArray(ele) : ele != null && ele instanceof Array) ? ele : [ele])
         elements.forEach(__ => {
@@ -898,37 +917,44 @@ export default {
       words = `请勿外传 时间: ${new Date().toTimeString()}`,
       width = 400,
       height = 400,
-      font = '15px microsoft yahei', // 水印字体设置
-      fillStyle = 'rgba(0, 0, 0, 0.3)', // 水印字体颜色设置
-      rotate = 10 * Math.PI / 180, // 水印字体倾斜角度设置, 正数顺时针, 负数逆时针
+      font = "15px microsoft yahei", // 水印字体设置
+      fillStyle = "rgba(0, 0, 0, 0.3)", // 水印字体颜色设置
+      rotate = (10 * Math.PI) / 180, // 水印字体倾斜角度设置, 正数顺时针, 负数逆时针
       positionX = 20, // X 轴偏移像素
-      positionY = 20 // Y 轴偏移像素
+      positionY = 20, // Y 轴偏移像素
     } = {}) {
-      const tempCanvas = document.createElement('canvas');
-      [tempCanvas.width, tempCanvas.height] = [width, height]
-      const tempCtx = tempCanvas.getContext('2d')
+      const tempCanvas = document.createElement("canvas");
+      [tempCanvas.width, tempCanvas.height] = [width, height];
+      const tempCtx = tempCanvas.getContext("2d");
       /** 清除画布 */
-      tempCtx.clearRect(0, 0, tempCanvas.width, tempCanvas.height)
+      tempCtx.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
       /** 文字倾斜角度 */
       tempCtx.rotate(rotate);
       /** 字体样式及颜色 */
-      [tempCtx.font, tempCtx.fillStyle] = [font, fillStyle]
+      [tempCtx.font, tempCtx.fillStyle] = [font, fillStyle];
 
-      let [wordsArr, index, s] = [[], 0, '']
+      let [wordsArr, index, s] = [[], 0, ""];
       for (const code of words) {
-        s = code
-        code.codePointAt(0) > 255 ? index = 2 : index = 1;
-        (index > tempCanvas.width / 11.25) && (wordsArr.push(s)) && ([index, s] = [0, ''])
+        s = code;
+        code.codePointAt(0) > 255 ? (index = 2) : (index = 1);
+        index > tempCanvas.width / 11.25 &&
+          wordsArr.push(s) &&
+          ([index, s] = [0, ""]);
       }
-      wordsArr.push(s)
+      wordsArr.push(s);
 
       for (let i = 0; i < wordsArr.length; i) {
-        tempCtx.fillText(wordsArr[i], positionX, positionY + i * 20, tempCanvas.width - positionX)
+        tempCtx.fillText(
+          wordsArr[i],
+          positionX,
+          positionY + i * 20,
+          tempCanvas.width - positionX
+        );
       }
 
-      const ctx = canvas.getContext('2d')
-      ctx.fillStyle = ctx.createPattern(tempCanvas, 'repeat')
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = ctx.createPattern(tempCanvas, "repeat");
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
     },
     /**
      * 导出全局图片.
@@ -967,11 +993,15 @@ export default {
       });
 
       const image = new Image();
-      [image.id, image.crossOrigin, image.src] = [time, 'anonymous', window.URL.createObjectURL(blob)]
+      [image.id, image.crossOrigin, image.src] = [
+        time,
+        "anonymous",
+        window.URL.createObjectURL(blob),
+      ];
       image.onload = () => {
-        const canvas = document.createElement('canvas');
-        [canvas.width, canvas.height] = [image.width, image.height]
-        const ctx = canvas.getContext('2d')
+        const canvas = document.createElement("canvas");
+        [canvas.width, canvas.height] = [image.width, image.height];
+        const ctx = canvas.getContext("2d");
         /** 绘制水印 */
         this.drawWatermark({
           canvas: canvas,
@@ -1104,7 +1134,7 @@ export default {
         } else {
           console.log(err)
         }
-      })
+      });
     },
     /** 修改结点名称或属性 */
     changeNode (ele) {
@@ -1112,34 +1142,34 @@ export default {
       const nodePro = this.$cy.getElementById(ele).data();
       console.log("nodepro: ", nodePro);
       for (var key in nodePro) {
-        console.log(key)
-        if (key !== 'name' && key !== 'id') {
+        console.log(key);
+        if (key !== "name" && key !== "id") {
           this.all_property.push({
             title: key,
-            value: nodePro[key]
-          })
+            value: nodePro[key],
+          });
         }
       }
       if (this.all_property.length >= 5) {
-        this.all_property.splice(5)
+        this.all_property.splice(5);
       }
-      this.modifyNodeFormVisible = true
-      this.nodeId = ele
+      this.modifyNodeFormVisible = true;
+      this.nodeId = ele;
     },
-    cancelModifyNode () {
-      this.modifyNodeFormVisible = false
-      this.modifyNodeForm.resetFields()
-      this.nodeId = ''
-      this.all_property = []
+    cancelModifyNode() {
+      this.modifyNodeFormVisible = false;
+      this.modifyNodeForm.resetFields();
+      this.nodeId = "";
+      this.all_property = [];
     },
-    modifyNode (e) {
-      e.preventDefault()
+    modifyNode(e) {
+      e.preventDefault();
       this.modifyNodeForm.validateFields(async (err, values) => {
         if (!err) {
-          console.log('the value of the form: ', values)
-          this.nodeData.identity = this.nodeId[0]
-          this.nodeData.labels = [values.label]
-          this.nodeData.properties.name = values.name
+          console.log("the value of the form: ", values);
+          this.nodeData.identity = this.nodeId[0];
+          this.nodeData.labels = [values.label];
+          this.nodeData.properties.name = values.name;
           // const nodeData = {
           //   identity: this.nodeId[0],
           //   // identity: '26626',
@@ -1150,123 +1180,132 @@ export default {
           // }
           // console.log(this.nodeData)
           const ele = {
-            group: 'nodes',
+            group: "nodes",
             data: {
               id: this.nodeId[0],
               name: values.name,
-              label: values.label
-            }
-          }
+              label: values.label,
+            },
+          };
           // console.log('test 1')
           // console.log(document.getElementById(ele.data.id))
           // console.log(ele.data.id)
           // console.log(this.$cy)
           // console.log(this.$cy.getElementById(ele.data.id).data())
-          this.$cy.startBatch()
+          this.$cy.startBatch();
           this.$cy.batch(() => {
-            this.$cy.getElementById(ele.data.id).data().name = ele.data.name
-            this.$cy.getElementById(ele.data.id).label = ele.data.label
-            this.lightOff()
-          })
-          this.$cy.endBatch()
+            this.$cy.getElementById(ele.data.id).data().name = ele.data.name;
+            this.$cy.getElementById(ele.data.id).label = ele.data.label;
+            this.lightOff();
+          });
+          this.$cy.endBatch();
           // console.log(this.$cy.getElementById(ele.data.id).data())
           // this.lightOn(ele.data.id)
-          await UpdataNodeAPI(this.nodeData).then(res => {
-            // console.log(res)
-          }).catch(err => console.log(err))
-          this.modifyNodeFormVisible = false
-          this.modifyNodeForm.resetFields()
-          this.nodeId = ''
-          this.all_property = []
+          await UpdataNodeAPI(this.nodeData)
+            .then((res) => {
+              // console.log(res)
+            })
+            .catch((err) => console.log(err));
+          this.modifyNodeFormVisible = false;
+          this.modifyNodeForm.resetFields();
+          this.nodeId = "";
+          this.all_property = [];
         } else {
-          console.log(err)
+          console.log(err);
         }
-      })
+      });
     },
-    removeNode (e) {
-      // console.log(e)
-      DeleteNodeAPI({ identity: e }).then(res => {
-        // console.log(res)
-      }).catch(err => console.log(err))
-      this.$cy.getElementById(e).remove()
+    removeNode(e) {
+      console.log("id", e[0]);
+      DeleteNodeAPI({ identity: e[0] })
+        .then((res) => {
+          // console.log(res)
+        })
+        .catch((err) => console.log(err));
+      this.$cy.getElementById(e).remove();
     },
     // 点击跳出增加结点
-    addNodeProperty () {
-      this.addNodePropertyFormVisible = true
+    addNodeProperty() {
+      this.addNodePropertyFormVisible = true;
     },
     // 点击增加结点属性
-    addNodeProperties (e) {
-      e.preventDefault()
+    addNodeProperties(e) {
+      e.preventDefault();
       this.NodePropertyForm.validateFields((err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values)
-          var test1 = /^[0-9][\s\S]*$/
+          console.log("Received values of form: ", values);
+          var test1 = /^[0-9][\s\S]*$/;
           if (test1.test(values.key)) {
-            alert('开头是数字')
+            alert("开头是数字");
           } else {
-            this.nodeData.properties[values.key] = values.value
-            const sel = this.$cy.getElementById(this.nodeId).data()
-            sel[values.key] = values.value
+            this.nodeData.properties[values.key] = values.value;
+            const sel = this.$cy.getElementById(this.nodeId).data();
+            sel[values.key] = values.value;
             this.all_property.push({
               title: values.key,
-              value: values.value
-            })
-            this.addNodePropertyFormVisible = false
-            this.NodePropertyForm.resetFields()
+              value: values.value,
+            });
+            this.addNodePropertyFormVisible = false;
+            this.NodePropertyForm.resetFields();
           }
         }
-      })
+      });
       // console.log('first')
       // console.log(this.nodeData)
     },
     // 取消增加结点属性
-    cancelAddNodeProperty () {
-      this.addNodePropertyFormVisible = false
-      this.NodePropertyForm.resetFields()
+    cancelAddNodeProperty() {
+      this.addNodePropertyFormVisible = false;
+      this.NodePropertyForm.resetFields();
     },
     //点击跳出表单
-    setModifyEdgeFormVisible (ele) {
-
-      this.modifyEdgeFormVisible = true
-      const edgePro = this.$cy.getElementById(ele[0]).data()
-      console.log(edgePro)
+    setModifyEdgeFormVisible(ele) {
+      this.modifyEdgeFormVisible = true;
+      const edgePro = this.$cy.getElementById(ele[0]).data();
+      console.log(edgePro);
       for (var key in edgePro) {
-        console.log(key)
-        if (key !== 'id' && key !== 'name' && key !== 'source' && key !== 'target') {
+        console.log(key);
+        if (
+          key !== "id" &&
+          key !== "name" &&
+          key !== "source" &&
+          key !== "target"
+        ) {
           this.all_property.push({
             title: key,
-            value: edgePro[key]
-          })
-
+            value: edgePro[key],
+          });
         }
       }
       if (this.all_property.length >= 5) {
-        this.all_property.splice(5)
+        this.all_property.splice(5);
       }
-      this.edgeId = ele[0]
-      this.sourceNode = ele[1]
-      this.endNode = ele[2]
+      this.edgeId = ele[0];
+      this.sourceNode = ele[1];
+      this.endNode = ele[2];
     },
-    cancelModifyEdge () {
-      this.modifyEdgeFormVisible = false
-      this.modifyEdgeForm.resetFields()
-      this.edgeId = ''
+    cancelModifyEdge() {
+      this.modifyEdgeFormVisible = false;
+      this.modifyEdgeForm.resetFields();
+      this.edgeId = "";
 
-      this.sourceNode = ''
-      this.endNode = ''
+      this.sourceNode = "";
+      this.endNode = "";
     },
     //删除边
-    removeEdge (e) {
+    removeEdge(e) {
       // console.log(e)
-      DeleteEdgeAPI({ identity: e }).then(res => {
-        // console.log(res)
-      }).catch(err => console.log(err))
-      this.$cy.getElementById(e).remove()
+      DeleteEdgeAPI({ identity: e })
+        .then((res) => {
+          // console.log(res)
+        })
+        .catch((err) => console.log(err));
+      this.$cy.getElementById(e).remove();
     },
     //增加边
-    addEdge (e) {
+    addEdge(e) {
       // console.log(e)
-      e.preventDefault()
+      e.preventDefault();
       this.edgeForm.validateFields(async (err, values) => {
         if (!err) {
           console.log("Received values of form: ", values);
@@ -1274,140 +1313,138 @@ export default {
           this.edgeData.end = this.to[0];
           this.edgeData.type = values.name;
           const ele = {
-            group: 'edges',
+            group: "edges",
             data: {
-              id: '',
+              id: "",
               name: this.edgeData.type,
               source: this.edgeData.start,
-              target: this.edgeData.end
+              target: this.edgeData.end,
             },
-            properties: {}
-          }
+            properties: {},
+          };
           // console.log(this.edgeData)
           for (var key in this.edgeData.properties) {
-            ele.properties[key] = this.edgeData.properties[key]
+            ele.properties[key] = this.edgeData.properties[key];
           }
-          await AddEdgeAPI(this.edgeData).then(res => {
-            // console.log(res.content)
-            ele.data.id = res.content + ''
-            // console.log(ele)
-          }).catch(err => console.log(err))
-          this.addEles([ele])
+          console.log(this.edgeData);
+          await AddEdgeAPI(this.edgeData)
+            .then((res) => {
+              // console.log(res.content)
+              ele.data.id = res.content + "";
+              // console.log(ele)
+            })
+            .catch((err) => console.log(err));
+          this.addEles([ele]);
 
-          this.addEdgeFormVisible = false
-          this.edgeForm.resetFields()
-          this.from = ''
-          this.to = ''
-          this.all_property = []
-          this.edgeData.start = ''
-          this.edgeData.end = ''
-          this.edgeData.type = ''
-          this.edgeData.properties = {}
-          this.edgeData.identity = ''
+          this.addEdgeFormVisible = false;
+          this.edgeForm.resetFields();
+          this.from = "";
+          this.to = "";
+          this.all_property = [];
+          this.edgeData.start = "";
+          this.edgeData.end = "";
+          this.edgeData.type = "";
+          this.edgeData.properties = {};
+          this.edgeData.identity = "";
         }
-      })
+      });
     },
     //点击跳出增加边表单
-    addEdges (source, target) {
-      this.addEdgeFormVisible = true
-      this.from = source
-      this.to = target
+    addEdges(source, target) {
+      this.addEdgeFormVisible = true;
+      this.from = source;
+      this.to = target;
     },
-    cancelAddEdge () {
-      this.addEdgeFormVisible = false
-      this.edgeForm.resetFields()
-      this.all_property = []
-      this.edgeData.start = ''
-      this.edgeData.end = ''
-      this.edgeData.type = ''
-      this.edgeData.properties = {}
-      this.edgeData.identity = ''
+    cancelAddEdge() {
+      this.addEdgeFormVisible = false;
+      this.edgeForm.resetFields();
+      this.all_property = [];
+      this.edgeData.start = "";
+      this.edgeData.end = "";
+      this.edgeData.type = "";
+      this.edgeData.properties = {};
+      this.edgeData.identity = "";
     },
-    handleChangeColor (checked) {
-      const selectedEles = this.$cy.getElementById(this.nodeId)
+    handleChangeColor(checked) {
+      const selectedEles = this.$cy.getElementById(this.nodeId);
       // console.log(this.nodeId)
       if (this.checkedPink) {
-        selectedEles.style({ 'background-color': '#E7919C' })
+        selectedEles.style({ "background-color": "#E7919C" });
       } else if (this.checkedBlue) {
-        selectedEles.style({ 'background-color': '#91CBE7' })
+        selectedEles.style({ "background-color": "#91CBE7" });
       } else if (this.checkedCyan) {
-        selectedEles.style({ 'background-color': '#91E1E7' })
+        selectedEles.style({ "background-color": "#91E1E7" });
       } else if (this.checkedGreen) {
-        selectedEles.style({ 'background-color': '#3E9A33' })
+        selectedEles.style({ "background-color": "#3E9A33" });
       } else if (this.checkedOrange) {
-        selectedEles.style({ 'background-color': '#ECA95A' })
+        selectedEles.style({ "background-color": "#ECA95A" });
       } else if (this.checkedPurple) {
-        selectedEles.style({ 'background-color': '#D56DB4' })
+        selectedEles.style({ "background-color": "#D56DB4" });
       } else if (this.checkedRed) {
-        selectedEles.style({ 'background-color': '#E93D4A' })
+        selectedEles.style({ "background-color": "#E93D4A" });
       }
-      this.checkedRed = false
-      this.checkedCyan = false
-      this.checkedOrange = false
-      this.checkedBlue = false
-      this.checkedPurple = false
-      this.checkedPink = false
-      this.checkedGreen = false
+      this.checkedRed = false;
+      this.checkedCyan = false;
+      this.checkedOrange = false;
+      this.checkedBlue = false;
+      this.checkedPurple = false;
+      this.checkedPink = false;
+      this.checkedGreen = false;
     },
     // 点击跳出增加边属性
-    addEdgeProperty () {
-      this.addEdgePropertyFormVisible = true
+    addEdgeProperty() {
+      this.addEdgePropertyFormVisible = true;
     },
     // 点击增加边属性
-    addEdgeProperties (e) {
-      e.preventDefault()
+    addEdgeProperties(e) {
+      e.preventDefault();
       this.EdgePropertyForm.validateFields((err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values)
-          var test1 = /^[0-9][\s\S]*$/
+          console.log("Received values of form: ", values);
+          var test1 = /^[0-9][\s\S]*$/;
           if (test1.test(values.key)) {
-            alert('开头是数字')
+            alert("开头是数字");
           } else {
-            this.edgeData.properties[values.key] = values.value
+            this.edgeData.properties[values.key] = values.value;
             this.all_property.push({
               title: values.key,
-              value: values.value
-            })
+              value: values.value,
+            });
           }
-          console.log(this.edgeData)
-          this.addEdgePropertyFormVisible = false
-          this.EdgePropertyForm.resetFields()
+          console.log(this.edgeData);
+          this.addEdgePropertyFormVisible = false;
+          this.EdgePropertyForm.resetFields();
         }
-      })
+      });
     },
     // 取消增加边属性
-    cancelAddEdgeProperty () {
-      this.addEdgePropertyFormVisible = false
-      this.EdgePropertyForm.resetFields()
-      this.all_property = []
+    cancelAddEdgeProperty() {
+      this.addEdgePropertyFormVisible = false;
+      this.EdgePropertyForm.resetFields();
+      this.all_property = [];
     },
     ...mapMutations([
-      'set_historyVisible',
-      'set_settingVisible',
+      "set_historyVisible",
+      "set_settingVisible",
       "set_graphDetailsVisible",
-      "set_filterByNodeLabelsVisible"
+      "set_filterByNodeLabelsVisible",
     ]),
-    ...mapActions([
-      'getHistoryList',
-      "getGraphDetailsList",
-      "updateNodePos"
-    ]),
-    showHistory () {
-      this.getHistoryList()
-      this.set_historyVisible(true)
+    ...mapActions(["getHistoryList", "getGraphDetailsList", "updateNodePos"]),
+    showHistory() {
+      this.getHistoryList();
+      this.set_historyVisible(true);
     },
     // 设置节点属性
-    async setting () {
-      await this.set_settingVisible(true)
-
+    async setting() {
+      await this.set_settingVisible(true);
     },
-    reset () {
-      this.searchForm.resetFields()
+    reset() {
+      this.searchForm.resetFields();
     },
-    handleChange (value) {
-      this.searchType = value
+    handleChange(value) {
+      this.searchType = value;
     },
-    search (e) {
+    search(e) {
       e.preventDefault();
       this.searchForm.validateFields((err, values) => {
         if (!err) {
@@ -1418,8 +1455,8 @@ export default {
           this.searchType = values.searchType
           this.queryParam = {
             searchType: values.searchType,
-            searchValue: values.searchValue
-          }
+            searchValue: values.searchValue,
+          };
         }
         //this.$refs.stable.refresh()
         console.log(this.searchValue)
@@ -1532,105 +1569,116 @@ export default {
       this.getGraphDetailsList();
       this.set_graphDetailsVisible(true);
     },
-    filterByNodeLabels(){
+    filterByNodeLabels() {
       this.getGraphDetailsList();
       this.set_filterByNodeLabelsVisible(true);
     },
-    getChildData (graph) {
+    getChildData(graph,isReset) {
       // console.log(`子组件传递过来的数据: ${graph}`); // hello
-      console.log(graph)
-      this.$cy.elements().remove()
-      var nodes = graph.nodes
-      var edges = graph.edges
+      console.log(graph);
+      console.log("重新加载",isReset);
+      this.$cy.elements().remove();
+      if(!isReset){
+      var nodes = graph.nodes;
+      var edges = graph.edges;
       for (var n in nodes) {
-        var node = nodes[n]
-        const data = {}
+        var node = nodes[n];
+        const data = {};
         if (node.properties) {
           for (var key in node.properties) {
-            data[key] = node.properties[key]
+            data[key] = node.properties[key];
           }
         } else {
-          data.name = ''
+          data.name = "";
         }
-        data.id = node.identity
-        console.log(data)
-        this.addEles([{
-          group: 'nodes',
-          data
-        }])
-        console.log("added")
+        data.id = node.identity;
+        console.log(data);
+        this.addEles([
+          {
+            group: "nodes",
+            data,
+            //  position: {
+            //   x: parseFloat(node.properties.x),
+            //   y: parseFloat(node.properties.y)
+            // }
+          },
+        ]);
+        console.log("added");
       }
 
       for (var e in edges) {
-        var edge = edges[e]
-        const data = {}
+        var edge = edges[e];
+        const data = {};
         if (edge.properties) {
           for (var keyE in edge.properties) {
-            if (keyE !== 'type') {
-              data[keyE] = edge.properties[keyE]
+            if (keyE !== "type") {
+              data[keyE] = edge.properties[keyE];
             }
           }
         }
-        data.id = edge.identity
-        data.source = edge.start
-        data.target = edge.end
-        data.name = edge.type
-        this.addEles([{
-          group: 'edges',
-          data
-        }])
+        data.id = edge.identity;
+        data.source = edge.start;
+        data.target = edge.end;
+        data.name = edge.type;
+        this.addEles([
+          {
+            group: "edges",
+            data,
+          },
+        ]);
       }
-      this.$cy.layout({
-        name: 'cose',
-        randomize: false,
-        animate: true
-      }).run()
-    },
-    getSetting(settingData){
-      var nodesCollection = this.$cy.filter(function (e, i) {
-        return e.isNode()
-      })
-      var edgesCollection = this.$cy.filter(function (e, i) {
-        return e.isEdge()
-      })
-      var edgeFont = '10px'
-      if(!settingData.lableVisible){
-        edgeFont = '0px'
-      }
-      if(settingData.shape !== 'a'){
-        this.$cy.startBatch()
-        this.$cy.batch(() => {
-          this.$cy
-            .elements(nodesCollection)
-            .style({
-              'shape':settingData.shape
-            })
+      this.$cy
+        .layout({
+          name: "cose",
+          randomize: false,
+          animate: true,
         })
-        this.$cy.endBatch()
+        .run();
+      }else{
+        this.$emit('reloadGraph')
+        this.resize()
       }
-      this.$cy.startBatch()
-      this.$cy.batch(() => {
-        this.$cy
-          .elements(nodesCollection)
-          .style({
-            'font-size': settingData.textSize + 'pt',
-            width: settingData.nodeSize + settingData.widthE + 'pt',
-            height: settingData.nodeSize + 'pt'
-          })
-        this.$cy
-          .elements(edgesCollection)
-          .style({
-            'font-size': edgeFont
-          })
-      })
-      this.$cy.endBatch()
+
     },
-    saveGraph(){
+    getSetting(settingData) {
       var nodesCollection = this.$cy.filter(function (e, i) {
-        return e.isNode()
-      })
-      this.updateNodePos(nodesCollection)
-    }
-  }
-}
+        return e.isNode();
+      });
+      var edgesCollection = this.$cy.filter(function (e, i) {
+        return e.isEdge();
+      });
+      var edgeFont = "10px";
+      if (!settingData.lableVisible) {
+        edgeFont = "0px";
+      }
+      if (settingData.shape !== "a") {
+        this.$cy.startBatch();
+        this.$cy.batch(() => {
+          this.$cy.elements(nodesCollection).style({
+            shape: settingData.shape,
+          });
+        });
+        this.$cy.endBatch();
+      }
+      this.$cy.startBatch();
+      this.$cy.batch(() => {
+        this.$cy.elements(nodesCollection).style({
+          "font-size": settingData.textSize + "pt",
+          width: settingData.nodeSize + settingData.widthE + "pt",
+          height: settingData.nodeSize + "pt",
+        });
+        this.$cy.elements(edgesCollection).style({
+          "font-size": edgeFont,
+        });
+      });
+      this.$cy.endBatch();
+    },
+    saveGraph() {
+      var nodesCollection = this.$cy.filter(function (e, i) {
+        return e.isNode();
+      });
+      this.updateNodePos(nodesCollection);
+    },
+  },
+};
 </script>
