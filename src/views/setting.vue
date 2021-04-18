@@ -102,6 +102,9 @@
           if (values.shape == undefined) {
             values.shape = 'a'
           }
+          if (values.shape == 'a') {
+            values.shape = 'ellipse'
+          }
           if (values.shape == 'b') {
             values.shape = 'ellipse'
             widthE = 50

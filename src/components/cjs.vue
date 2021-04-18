@@ -1651,15 +1651,13 @@ export default {
       if (!settingData.lableVisible) {
         edgeFont = "0px";
       }
-      if (settingData.shape !== "a") {
-        this.$cy.startBatch();
-        this.$cy.batch(() => {
-          this.$cy.elements(nodesCollection).style({
-            shape: settingData.shape,
-          });
+      this.$cy.startBatch();
+      this.$cy.batch(() => {
+        this.$cy.elements(nodesCollection).style({
+          shape: settingData.shape,
         });
-        this.$cy.endBatch();
-      }
+      });
+      this.$cy.endBatch();
       this.$cy.startBatch();
       this.$cy.batch(() => {
         this.$cy.elements(nodesCollection).style({
