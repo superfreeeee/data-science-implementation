@@ -221,7 +221,7 @@ a {
                     力导图模式
                     <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px; position: absolute; right: 10px;" title="力导图模式" type="ios-apps-outline" />
                   </a-menu-item>
-                  <a-menu-item key="3" @click="refresh({name: 'grid'})">
+                  <a-menu-item key="3" @click="refresh({name: 'klay'})">
                     排版模式
                     <Icon style="font-size: 20px; cursor: pointer; color: #67758D; margin-left:5px; position: absolute; right: 10px;" title="排版布局" type="ios-globe-outline" />
                   </a-menu-item>
@@ -392,6 +392,7 @@ import cytoscape from 'cytoscape'
 import cxtmenu from 'cytoscape-cxtmenu'
 import cola from 'cytoscape-cola'
 import avsdf from 'cytoscape-avsdf'
+import klay from 'cytoscape-klay'
 // import coseBilkent from 'cytoscape-cose-bilkent'
 import { UpdataNodeAPI, DeleteNodeAPI, DownloadXmlAPI, DeleteEdgeAPI, updateEdgeAPI, AddEdgeAPI } from '@/api/api'
 // import { UpdataNodeAPI, DeleteNodeAPI, DeleteEdgeAPI, updateEdgeAPI, AddEdgeAPI } from '@/api/api'
@@ -441,6 +442,7 @@ export default {
       // cytoscape.use(coseBilkent)
       cytoscape.use(edgehandles)
       cytoscape.use(fcose)
+      cytoscape.use(klay)
     }
 
     this.$cy = cytoscape({
@@ -1639,37 +1641,63 @@ export default {
 
     },
     getSetting(settingData) {
-      var nodesCollection = this.$cy.filter(function (e, i) {
-        return e.isNode();
-      });
-      var edgesCollection = this.$cy.filter(function (e, i) {
-        return e.isEdge();
-      });
+      console.log(settingData)
+      this.$cy.style()
+      .selector('node')
+      .style({
+        "font-size": settingData.textSize+ "pt",
+        width: settingData.nodeSize + settingData.widthE + "pt",
+        height: settingData.nodeSize + "pt",
+        shape: settingData.shape
+      }).update()
+      // var nodesCollection = this.$cy.filter(function (e, i) {
+      //   return e.isNode();
+      // });
+      // console.log(nodesCollection)
+      // var edgesCollection = this.$cy.filter(function (e, i) {
+      //   return e.isEdge();
+      // });
       var edgeFont = "10px";
       if (!settingData.lableVisible) {
         edgeFont = "0px";
       }
-      if (settingData.shape !== "a") {
-        this.$cy.startBatch();
-        this.$cy.batch(() => {
-          this.$cy.elements(nodesCollection).style({
-            shape: settingData.shape,
-          });
-        });
-        this.$cy.endBatch();
-      }
-      this.$cy.startBatch();
-      this.$cy.batch(() => {
-        this.$cy.elements(nodesCollection).style({
-          "font-size": settingData.textSize + "pt",
-          width: settingData.nodeSize + settingData.widthE + "pt",
-          height: settingData.nodeSize + "pt",
-        });
-        this.$cy.elements(edgesCollection).style({
-          "font-size": edgeFont,
-        });
-      });
-      this.$cy.endBatch();
+      this.$cy.style()
+      .selector('edge')
+      .style({
+        "font-size": edgeFont
+      }).update()
+    //   if (settingData.shape !== "a") {
+    //     this.$cy.startBatch();
+    //     this.$cy.batch(() => {
+    //       this.$cy.elements(nodesCollection).style({
+    //         shape: settingData.shape,
+    //       });
+    //     });
+    //     this.$cy.endBatch();
+    //   }
+    //   this.$cy.startBatch();
+    //  this.$cy.batch(() => {
+    //     this.$cy.elements(nodesCollection).style({
+    //       "font-size": settingData.textSize + "pt",
+    //       width: settingData.nodeSize + settingData.widthE + "pt",
+    //       height: settingData.nodeSize + "pt",
+    //     });
+    //     this.$cy.elements(edgesCollection).style({
+    //       "font-size": edgeFont,
+    //     });
+    //   });
+      this.$cy.style()
+      .selector(".eh-handle")
+      .style({
+        "background-color": "#fce9cc",
+        width: 10,
+        height: 10,
+        shape: "ellipse",
+        "overlay-opacity": 0,
+        "border-width": 12, // makes the handle easier to hit
+        "border-opacity": 0,
+      }).update()
+      // this.$cy.endBatch();
     },
     saveGraph() {
       var nodesCollection = this.$cy.filter(function (e, i) {
