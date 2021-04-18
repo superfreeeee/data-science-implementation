@@ -148,14 +148,14 @@ export default {
           group: 'nodes',
           data,
         }
-        console.log('xy',node.properties.x,node.properties.y)
+        // console.log('xy',node.properties.x,node.properties.y)
         if(node.properties.x!=null && node.properties.y!=null){
           toBeAdded.position={
             x: parseFloat(node.properties.x),
             y: parseFloat(node.properties.y)
           }
         }else{
-          console.log("shit",node.properties.name)
+          // console.log("shit",node.properties.name)
             isInit=false
         }
 
