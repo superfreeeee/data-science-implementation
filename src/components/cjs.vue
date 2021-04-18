@@ -1854,7 +1854,7 @@ export default {
       }else{
         this.$emit('reloadGraph')
       }
-      
+
     },
     getSetting(settingData) {
       console.log(settingData)
@@ -1866,7 +1866,6 @@ export default {
         height: settingData.nodeSize + "pt",
         shape: settingData.shape
       }).update()
-
       // var nodesCollection = this.$cy.filter(function (e, i) {
       //   return e.isNode();
       // });
