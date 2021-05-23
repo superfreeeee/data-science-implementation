@@ -2,6 +2,10 @@
   <div style="height: 100%; width: 100%;">
     <CJS ref="ref_CJS" @reloadGraph="reloadGraph">
     </CJS>
+    <div class = "Int_question" @click = "int_question">
+      <a-icon class = "ques_icon" type="customer-service" />
+    </div>
+    <Question></Question>
     <div class="buttonBar" style="padding:20px;background-color: rgb(220, 220, 220)">
       <div class="button" style="margin-left: 70%">
         <Button style="background-color: #67758D;color: white; margin-right: 30px" @click="uploading" >上传文件</Button>
@@ -86,10 +90,14 @@
 import CJS from './components/cjs'
 import { getListAPI, getGraphAPI, AddNodeAPI } from '@/api/api'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
+import Question from '@/views/question'
 
 export default {
   name: 'Test',
-  components: { CJS },
+  components: { 
+    CJS,
+    Question
+    },
   watch: {},
   mounted () {
     this.addEles()
@@ -119,6 +127,7 @@ export default {
   },
   methods: {
     ...mapMutations([
+      "set_questionVisible"
     ]),
     ...mapActions([
     ]),
@@ -374,6 +383,9 @@ export default {
       await this.addEles()
       this.$refs.ref_CJS.$cy.fit()
       console.log("resize")
+    },
+    int_question(){
+      this.set_questionVisible(true)
     }
 
   }
@@ -383,5 +395,17 @@ export default {
 <style scoped>
   .change_form {
     padding-top: 30px;
+  }
+  .Int_question {
+    position: fixed;
+    top: 600px;
+    right: 20px;
+  }
+  .Int_question :hover{
+    background-color: rgb(103, 117, 141);
+    color: white;
+  }
+  .ques_icon {
+    font-size: 35px;
   }
 </style>

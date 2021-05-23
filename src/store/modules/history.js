@@ -23,7 +23,7 @@ const history = {
       const res=await getHistoryAPI()
       console.log(res)
       if(res){
-        commit('set_historyList',res.content)
+        commit('set_historyList', res.content)
       }
     }
   }
