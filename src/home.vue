@@ -2,10 +2,7 @@
   <div style="height: 100%; width: 100%;">
     <CJS ref="ref_CJS" @reloadGraph="reloadGraph">
     </CJS>
-    <div class = "Int_question" @click = "int_question">
-      <a-icon class = "ques_icon" type="customer-service" />
-    </div>
-    <Question></Question>
+    <Question class = "Int_question"></Question>
     <div class="buttonBar" style="padding:20px;background-color: rgb(220, 220, 220)">
       <div class="button" style="margin-left: 70%">
         <Button style="background-color: #67758D;color: white; margin-right: 30px" @click="uploading" >上传文件</Button>
@@ -127,7 +124,6 @@ export default {
   },
   methods: {
     ...mapMutations([
-      "set_questionVisible"
     ]),
     ...mapActions([
     ]),
@@ -384,9 +380,9 @@ export default {
       this.$refs.ref_CJS.$cy.fit()
       console.log("resize")
     },
-    int_question(){
-      this.set_questionVisible(true)
-    }
+    // int_question(){
+    //   this.set_questionVisible(true)
+    // }
 
   }
 }
@@ -398,12 +394,8 @@ export default {
   }
   .Int_question {
     position: fixed;
-    top: 600px;
-    right: 20px;
-  }
-  .Int_question :hover{
-    background-color: rgb(103, 117, 141);
-    color: white;
+    bottom: 200px;
+    right: 50px;
   }
   .ques_icon {
     font-size: 35px;

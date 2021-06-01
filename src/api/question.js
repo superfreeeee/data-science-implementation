@@ -5,5 +5,5 @@ const api={
 }
 
 export function getAnswerAPI(params) {
-  return http.get(`${api.QuestionPre}/getAnswer`,params)
+  return http.get(`${api.QuestionPre}/answerQuestion`,params)
 }
