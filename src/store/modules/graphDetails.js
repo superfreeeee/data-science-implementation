@@ -1,3 +1,4 @@
+//获取图详细信息
 import {
     getGraphDetailsAPI
   } from "../../api/graphDetails";

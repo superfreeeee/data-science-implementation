@@ -6,6 +6,8 @@ import filterByNodeLabels from './modules/filterByNodeLabels'
 import getters from './getters'
 import setting from './modules/setting'
 import graph from './modules/graph'
+import node from './modules/node'
+import edge from './modules/edge'
 import question from './modules/question'
 
 Vue.use(Vuex)
@@ -17,6 +19,8 @@ export default new Vuex.Store({
     graph,
     graphDetails,
     filterByNodeLabels,
+    node,
+    edge,
     question
   },
   state: {

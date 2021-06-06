@@ -1,0 +1,65 @@
+.topNavigator{
+    height: 40px;
+    /* background: linear-gradient(to bottom right,rgb(240, 195, 165),rgb(247, 235, 228)); */
+    background: rgb(240, 195, 165);
+    box-shadow: 0px 1px 2px rgb(247, 235, 228), 0px 1px 5px rgba(110, 106, 100, 0.7);
+}
+
+.cytoolbar_id {
+    list-style-type: none;
+    /* margin-bottom: 10px; */
+    margin-top: 50px;
+    padding: 0;
+    width: 4%;
+    height: 300px;
+    background-color: white;
+    box-shadow: 0px 1px 2px rgb(247, 235, 228), 0px 1px 2px rgba(0, 0, 0, .7);
+    position: fixed;
+    
+    overflow: auto;
+    z-index: 2;
+    border: 1px;
+    border-radius: 5px;
+  }
+  .center-center {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-items: center;
+    justify-content: center;
+    margin: 5px;
+  }
+  a {
+    text-decoration: none;
+  }
+  .propertyDisplay {
+    height: 38px;
+    width:950px;
+    margin-left: 5.5%;
+    /* margin-right: 20%; */
+    margin-top: 10px;
+    background-color: white;
+    overflow: hidden;
+    overflow-y: scroll;
+  }
+  #labels {
+    background-color: rgb(248, 182, 138);
+    border-radius: 10px;
+    box-shadow: 0px 1px 2px rgb(253, 146, 84), 0px 1px 2px rgba(0, 0, 0, 0.7);
+    font-weight: bold;
+  }
+  .Int_question {
+    position: fixed;
+    bottom: 200px;
+    right: 50px;
+  }
+  .navigatorAboveDrawer{
+    background-color: white;
+    margin-left: 5.5%;
+    height: 30px;
+    width:950px;
+    margin-top: 10px;
+    margin-bottom: 0;
+    padding: 0;
+  }

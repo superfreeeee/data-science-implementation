@@ -126,8 +126,7 @@
 
 <script>
 import { mapGetters, mapMutations, mapActions } from "vuex";
-import {
-}from "../api/api";
+
 export default {
   name: "question",
   data () {

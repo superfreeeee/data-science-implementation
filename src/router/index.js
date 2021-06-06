@@ -5,7 +5,7 @@ Vue.use(Router)
 
 const common = [
   {
-    path: '/', name: 'root', component: () => import('../home')
+    path: '/', name: 'root', component: () => import('../views/Home')
   }
 ]
 

@@ -126,7 +126,7 @@ export default {
     await this.getGraphDetailsList();
   },
   computed: {
-    ...mapGetters(["graphDetailsVisible", "graphDetailsList", "nodeLabels"]),
+    ...mapGetters(["graphDetailsVisible", "graphDetailsList"]),
   },
   methods: {
     ...mapMutations(["set_graphDetailsVisible"]),
