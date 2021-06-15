@@ -1,12 +1,26 @@
 <style src="../assets/style/knowledgeGraph.css"></style>
 <template>
-  <div class="drawer">
+<!-- <div> -->
+  <div class="drawer"> 
     <div id="cytoscape_id"></div>
     <addEdge :sourceId=this.from :targetId=this.to @listenToAddedEdge='getEdgeData'></addEdge>
     <modifyEdge :edge=this.edgeData @listenToModifiedEdge="getModifiedEdge"></modifyEdge>
     <addNode :posX=this.posX :posY=this.posY @listenToAddedNode="getNodeData"></addNode>
     <modifyNode :node=this.nodeData @listenToModifiedNode="getModifiedNode"></modifyNode>
   </div>
+  <!-- <div >
+    <div id="cytoscape_id1" style="height: 150px;
+    width:950px;margin-top:10px;margin-left: 5.5%;
+    /* margin-right: 20%; */
+    padding-top: 30px;
+    z-index: 1;
+    background-color: white;
+    border: 1.5px solid;
+    border-radius:0px 0px 15px 15px;
+    border-style: outset;
+    padding: 1px;"></div>
+  </div>
+</div> -->
 </template>
 
 <script>
@@ -59,6 +73,9 @@ export default {
       boxSelectionEnabled: false,
       
     })
+    // this.$cy=[cytoscape({container: document.getElementById('cytoscape_id'),userZoomingEnabled: false, boxSelectionEnabled: false,}),
+    // cytoscape({container: document.getElementById('cytoscape_id1'),userZoomingEnabled: false, boxSelectionEnabled: false,})
+    // ]
     // 拖拽添加边
     const eh = this.$cy.edgehandles({ preview: false })
     eh.enable()
@@ -522,21 +539,22 @@ export default {
           })
         }
       }
-      // this.node_properties=this.nodeData.properties
-      console.log("传值",this.nodeData)
-      console.log(this.node_properties)
       this.set_nodeProperties(this.node_properties)
       this.set_modifyNodeFormVisible(true)
+      this.node_properties=[]
     },
-    getModifiedNode(color,id,name,label){
+    async getModifiedNode(color,id,name,label){
          this.$cy.startBatch();
           this.$cy.batch(() => {
             this.$cy.getElementById(id).data().name = name;
             this.$cy.getElementById(id).label = label;
+            if(color!==""){
             this.$cy.getElementById(id).style({"background-color":color});
+            }
             this.lightOff();
           });
           this.$cy.endBatch();
+          await this.getGraph()
     }
   },
 };

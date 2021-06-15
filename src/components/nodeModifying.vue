@@ -1,3 +1,12 @@
+<style scoped>
+#propertiesDisplay{
+  /* width:10px; */
+  display: -webkit-box;
+  -webkit-line-clamp: 3; 
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+}
+</style>
 <template>
   <div>
     <!-- 增加节点属性 -->
@@ -66,7 +75,7 @@
           <a-list item-layout="horizontal" :data-source="nodeProperties">
             <a-list-item slot="renderItem" slot-scope="item">
               <a-list-item-meta>
-                <a slot="title">{{ item.title }}:&nbsp;{{ item.value }}</a>
+                <a slot="title" id="propertiesDisplay">{{ item.title }}:&nbsp;{{ item.value }}</a>
               </a-list-item-meta>
             </a-list-item>
           </a-list>
@@ -157,6 +166,9 @@ export default {
       all_property:[]
     };
   },
+  created:function(){
+    this.nodeData=this.node
+  },
   computed: {
     ...mapGetters(["modifyNodeFormVisible","nodeProperties"]),
   },
@@ -193,15 +205,13 @@ export default {
     // 点击跳出增加结点
     addNodeProperty() {
       this.nodeData=this.node
-      this.all_property=nodeProperties
+      this.all_property=this.nodeProperties
       this.addNodePropertyFormVisible = true;
     },
     // 取消添加节点属性
      cancelAddNodeProperty() {
       this.addNodePropertyFormVisible = false;
       this.NodePropertyForm.resetFields();
-      this.nodeData={}
-      this.all_property=[]
     },
     // 点击增加结点属性
     addNodeProperties(e) {
@@ -235,47 +245,34 @@ export default {
       this.modifyNodeForm.resetFields();
       this.nodeData={}
       this.all_property=[]
-      this.checkedRed = false;
-      this.checkedCyan = false;
-      this.checkedOrange = false;
-      this.checkedBlue = false;
-      this.checkedPurple = false;
-      this.checkedPink = false;
-      this.checkedGreen = false;
+      this.color=""
     },
     // 修改节点  传过来的值有节点属性，节点属性
     modifyNode(e) {
       e.preventDefault();
+      console.log(this.nodeData)
+      console.log(this.node)
       this.modifyNodeForm.validateFields(async (err, values) => {
         if (!err) {
           console.log("the value of the form: ", values);
-          if(this.nodeData=={}){
-            this.nodeData=this.node
-            this.all_property=nodeProperties
-          }
-          this.nodeData.labels = [values.label];
+          if(values.label!==""){
+          this.nodeData.labels = [values.label];}
+          if(values.name!==""){
           this.nodeData.properties.name = values.name;
-          const ele = {
-            group: "nodes",
-            data: {
-              id: this.nodeId[0],
-              name: values.name,
-              label: values.label,
-            },
-          };
-          for(var key in nodeProperties){
-              ele.data[key]=this.nodeProperties[key]
           }
-          console.log(ele)
         
-          this.$emit("listenToModifiedNode",this.color,ele.data.id,ele.data.name,ele.data.label)
+        console.log("nodedata",this.nodeData)
           await UpdataNodeAPI(this.nodeData)
             .then((res) => {
               console.log(res)
             })
             .catch((err) => console.log(err));
+          this.$emit("listenToModifiedNode",this.color,this.nodeData.identity,this.nodeData.properties.name,this.nodeData.labels)
           this.set_modifyNodeFormVisible(false);
           this.modifyNodeForm.resetFields();
+          this.color="";
+          this.nodeData={};
+          this.all_property=[]
         } else {
           console.log(err);
         }
