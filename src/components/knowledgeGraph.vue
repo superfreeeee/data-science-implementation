@@ -77,7 +77,14 @@ export default {
       } else {
         document.getElementById("labels").innerHTML ="\xa0\xa0labels:" + list.labels + "\xa0\xa0";
       }
-      document.getElementById("properties").innerHTML = listStr;
+      var value = ""
+        var not_list = ["labels", "id", "name", "x", "y"]
+        for(var item in list){
+          if(!not_list.includes(item)){
+            value += item + ": " + list[item] + "\n"
+          }
+        }
+      document.getElementById("properties").innerHTML = value;
     });
     // 鼠标移动到边上显示属性
     this.$cy.on('mouseover', 'edge', function (e) {
@@ -110,8 +117,15 @@ export default {
             that._data.labels = "\xa0\xa0labels:" + list.labels + "\xa0\xa0";
         }
         }
-        document.getElementById("properties").innerHTML = listStr;
-        that._data.properties = listStr;
+        var value = ""
+        var not_list = ["labels", "id", "name", "x", "y"]
+        for(var item in list){
+          if(!not_list.includes(item)){
+            value += item + ": " + list[item] + "\n"
+          }
+        }
+        document.getElementById("properties").innerHTML = value;
+        that._data.properties = value;
       }
     });
     // 鼠标移开不显示

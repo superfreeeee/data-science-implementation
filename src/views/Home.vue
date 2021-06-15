@@ -1,176 +1,218 @@
 <style src="../assets/style/Home.css"></style>
 <template>
-  <div style="height: 100%; width: 100%;">
-    <!--顶部导航栏-->
-    <div class="topNavigator">
-      <div class="table-page-search-wrapper">
-        <a-form
-          layout="inline"
-          :form="searchForm"
-          @submit="search"
-        >
-          <a-row :gutter="24">
-            <a-col :md="2" :sm="24" :lg="2"></a-col>
-            <a-col :md="4" :sm="24" :lg="4">
-              <a-form-item label="搜索类型">
-                <a-select
-                  placeholder="请选择"
-                  style="width: 100px"
-                  v-decorator="['searchType',
-                        {rules: [{ required: false, message: '请选择搜索类型' }]}
+  <a-layout id="components-layout-demo-side" style="min-height: 100vh;">
+    <a-layout-sider v-model="collapsed"  collapsible width = 350 >
+      <div class="logo" />
+      <a-menu theme="dark" :default-selected-keys="['1']"  mode="inline">
+        <a-menu-item key="1" @click="newDrawer">
+          <a-icon type="pie-chart" />
+          <span>Option 1</span>
+        </a-menu-item>
+        <a-sub-menu>
+          <span slot="title"><a-icon type="user" /><span>所有节点</span></span>
+            <a-sub-menu  v-for='(value, key) in nodeList' :key="key"  >
+              <span slot="title"><a-icon type="user" /><span>{{key}}</span></span>
+              <a-sub-menu  v-for='(value1, key1) in value' :key="key+key1"  >
+                <span slot="title"><a-icon type="user" /><span>{{key1}}</span></span>
+                  <a-menu-item v-for='(item, index) in value1' :key="key+key1+item" >
+                    {{item}}
+                  </a-menu-item>
+              </a-sub-menu>
+            </a-sub-menu>
+        </a-sub-menu>
+        <a-menu-item key="8">
+          <a-icon type="desktop" />
+          <span>Option 8</span>
+        </a-menu-item>
+        <a-sub-menu key="sub2">
+          <span slot="title"><a-icon type="team" /><span>Team</span></span>
+          <a-menu-item key="9">
+            Team 1
+          </a-menu-item>
+          <a-menu-item key="10">
+            Team 2
+          </a-menu-item>
+        </a-sub-menu>
+      </a-menu>
+    </a-layout-sider>
+    <a-layout>
+      <a-layout-content>
+        <div style="padding: 16px 24px; height: 70px; background-color: white; border-bottom:1px groove">
+          <a-input-search placeholder="input search text" style="width: 60%; margin-left: 5.5%;"  />
+        </div>
+        <div :style="{ padding: '24px', minHeight: '360px' }">
+          <div style="height: 100%; width: 100%;">
+            <!-- 画布 -->
+            <div class="navigatorAboveDrawer">
+              <a-form
+                layout="inline"
+                :form="form"
+                @submit="search"
+              >
+                <a-row :gutter="24">
+                  <a-col :md="0" :sm="0" :lg="2"></a-col>
+                  <a-col :md="16" :sm="16" :lg="16" >
+                    <div style = "display: flex; align-items: center;">
+                      <a-form-item label="搜索类型">
+                        <a-select
+                          placeholder="请选择"
+                          style="width: 100px"
+                          v-decorator="['searchType',
+                                {rules: [{ required: false, message: '请选择搜索类型' }]}
+                                ]"
+                          allowClear
+                          name="searchType">
+                          <a-select-option value="1">所有</a-select-option>
+                          <a-select-option value="2">节点</a-select-option>
+                          <a-select-option value="3">关系</a-select-option>
+                        </a-select>
+                      </a-form-item>
+                      <a-form-item>
+                        <a-input
+                          v-decorator="['searchValue',
+                        {rules: [{ required: false, message: '请输入搜索值' }]}
                         ]"
-                  allowClear
-                  name="searchType">
-                  <a-select-option value="1">所有</a-select-option>
-                  <a-select-option value="2">节点</a-select-option>
-                  <a-select-option value="3">关系</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24" :lg="8">
-              <a-form-item>
-                <a-input
-                  v-decorator="['searchValue',
-                {rules: [{ required: false, message: '请输入搜索值' }]}
-                ]"
-                  placeholder="请输入"/>
-              </a-form-item>
-              <span class="table-page-search-submitButtons">
-                <a-button html-type="submit" style="background-color:rgb(248, 182, 138);box-shadow: 0px 1px 2px rgb(253, 146, 84), 0px 1px 2px rgba(0, 0, 0, .7);color: white;margin-top: 3px">查询</a-button>
-                <a-button style="margin-left: 10px" @click="reset">重置</a-button>
-              </span>
-            </a-col>
-            <a-col :md="4" :sm="24" :lg="4"></a-col>
-            <a-col :md="5" :sm="24" :lg="5">
-              <a-button @click="filterByNodeLabels()" style="font-size: 16px; color: white;background-color:transparent;border:0px">
-                类型过滤
-              </a-button>
-              <a-dropdown style="margin-left: 20px">
-                <a class="ant-dropdown-link" @click="e => e.preventDefault()"
-                   style="font-size: 16px; color: white; margin-top: 20px">
-                  调整布局 <a-icon type="down" />
-                </a>
-                <a-menu slot="overlay" @click="onClick">
-                  <a-menu-item key="1" @click="refresh({name: 'cose'})"><a-icon title="刷新布局" type="sync" />刷新布局
-                  </a-menu-item>
-                  <a-menu-item key="2"  @click="refresh({name: 'fcose'})">
-                  <a-icon type="global" />力导图模式
-                  </a-menu-item>
-                  <a-menu-item key="3" @click="refresh({name: 'klay'})">
-                    <a-icon title="排版布局" type="appstore" />排版模式
-                  </a-menu-item>
-                  <a-menu-item key="4" @click="saveGraph">
-                    <a-icon title="排版布局" type="download" />保存布局
-                  </a-menu-item>
-                </a-menu>
-              </a-dropdown>
-            </a-col>
-          </a-row>
-        </a-form>
-      </div>
-    </div>
-    <!-- 左侧导航栏 -->
-    <div class="cytoolbar_id">
-      <div class="tools">
-        <div class="center-center">
-          <a-icon type="plus-circle" style="font-size: 25px;cursor: pointer;"
-            title="放大"
-            @click="magnifying()"/>
+                          placeholder="请输入"/>
+                      </a-form-item>
+                      <a-button html-type="submit">查询</a-button>
+                      <a-button style="margin-left: 10px" @click="reset">重置</a-button>
+                    </div>
+                  </a-col>
+                  <a-col :md="2" :sm="2" :lg="0"></a-col>
+                  <a-col :md="6" :sm="6" :lg="6">
+                    <div style = "display: flex; align-items: center;">
+                      <a-button @click="filterByNodeLabels()" style="font-size: 16px; color: black;background-color:transparent;border:0px">
+                        类型过滤
+                      </a-button>
+                      <a-dropdown style="margin-left: 20px">
+                        <a class="ant-dropdown-link" @click="e => e.preventDefault()"
+                            style="font-size: 16px; color: black">
+                          调整布局 <a-icon type="down" />
+                        </a>
+                        <a-menu slot="overlay" @click="onClick">
+                          <a-menu-item key="1" @click="refresh({name: 'cose'})"><a-icon title="刷新布局" type="sync" />刷新布局
+                          </a-menu-item>
+                          <a-menu-item key="2"  @click="refresh({name: 'fcose'})">
+                          <a-icon type="global" />力导图模式
+                          </a-menu-item>
+                          <a-menu-item key="3" @click="refresh({name: 'klay'})">
+                            <a-icon title="排版布局" type="appstore" />排版模式
+                          </a-menu-item>
+                          <a-menu-item key="4" @click="saveGraph">
+                            <a-icon title="排版布局" type="download" />保存布局
+                          </a-menu-item>
+                        </a-menu>
+                      </a-dropdown>
+                    </div>
+                  </a-col>
+                </a-row>
+              </a-form>
+            </div>
+            <!-- 左侧导航栏 -->
+            <div class="cytoolbar_id">
+              <div class="tools">
+                <div class="center-center">
+                  <a-icon type="plus-circle" style="font-size: 25px;cursor: pointer;"
+                    title="放大"
+                    @click="magnifying()"/>
+                </div>
+              </div>
+              <div class="tools">
+                <div class="center-center">
+                  <a-icon type="minus-circle" 
+                    style="font-size: 25px; cursor: pointer"
+                    title="缩小"
+                    @click="contractible()"
+                  />
+                </div>
+              </div>
+              <div class="tools">
+                <div class="center-center">
+                  <a-icon type="fullscreen" 
+                    style="font-size: 25px; cursor: pointer"
+                    title="合适大小"
+                    @click="resize()"
+                  />
+                </div>
+              </div>
+              <div class="tools">
+                <div class="center-center">
+                  <a-icon type="highlight"
+                    style="font-size: 25px; cursor: pointer"
+                    title="高亮邻居"
+                    @click="highlight()"
+                  />
+                </div>
+              </div>
+              <div class="tools">
+                <div class="center-center">
+                  <a-icon
+                    type="download"
+                    style="font-size: 25px; cursor: pointer;"
+                    title="xml下载"
+                    @click="downloadXml()"
+                  />
+                </div>
+              </div>
+              <div class="tools">
+                <div class="center-center">
+                  <a-icon type="camera"
+                    style="font-size: 25px; cursor: pointer"
+                    title="全图导出"
+                    @click="exportPng()"
+                  />
+                </div>
+              </div>
+              <div class="tools">
+                <div class="center-center">
+                  <a-icon type="history"
+                    style="font-size: 25px; cursor: pointer"
+                    title="历史记录"
+                    @click="showHistory()"
+                  />
+                </div>
+              </div>
+              <div class="tools">
+                <div class="center-center">
+                  <a-icon
+                    type="setting"
+                    style="font-size: 25px; cursor: pointer"
+                    title="设置"
+                    @click="setting()"
+                  />
+                </div>
+              </div>
+              <div class="tools">
+                <div class="center-center">
+                  <a-icon
+                    type="unordered-list"
+                    style="font-size: 25px; cursor: pointer"
+                    title="详细信息"
+                    @click="showGraphDetails()"
+                  />
+                </div>
+              </div>
+            </div>
+            <Drawer ref="ref_CJS" @reloadGraph="reloadGraph">
+            </Drawer>
+            <!-- 智能问答 -->
+            <Question class = "Int_question"></Question>
+            <div class="propertyDisplay">
+              <span id="labels"></span>
+              <pre id="properties"> click on the node or edge to display more infomation!</pre>
+            </div>
+            <Setting @listenToSet='getSetting'></Setting>
+            <GraphDetails></GraphDetails>
+            <History></History>
+            <FilterByNodeLabels @listenToChild='getChildData'></FilterByNodeLabels>
+          </div>
         </div>
-      </div>
-      <div class="tools">
-        <div class="center-center">
-          <a-icon type="minus-circle" 
-            style="font-size: 25px; cursor: pointer"
-            title="缩小"
-            @click="contractible()"
-          />
-        </div>
-      </div>
-      <div class="tools">
-        <div class="center-center">
-          <a-icon type="fullscreen" 
-            style="font-size: 25px; cursor: pointer"
-            title="合适大小"
-            @click="resize()"
-          />
-        </div>
-      </div>
-      <div class="tools">
-        <div class="center-center">
-          <a-icon type="highlight"
-            style="font-size: 25px; cursor: pointer"
-            title="高亮邻居"
-            @click="highlight()"
-          />
-        </div>
-      </div>
-      <div class="tools">
-        <div class="center-center">
-          <a-icon
-            type="download"
-            style="font-size: 25px; cursor: pointer;"
-            title="xml下载"
-            @click="downloadXml()"
-          />
-        </div>
-      </div>
-      <div class="tools">
-        <div class="center-center">
-          <a-icon type="camera"
-            style="font-size: 25px; cursor: pointer"
-            title="全图导出"
-            @click="exportPng()"
-          />
-        </div>
-      </div>
-      <div class="tools">
-        <div class="center-center">
-          <a-icon type="history"
-            style="font-size: 25px; cursor: pointer"
-            title="历史记录"
-            @click="showHistory()"
-          />
-        </div>
-      </div>
-      <div class="tools">
-        <div class="center-center">
-          <a-icon
-            type="setting"
-            style="font-size: 25px; cursor: pointer"
-            title="设置"
-            @click="setting()"
-          />
-        </div>
-      </div>
-      <div class="tools">
-        <div class="center-center">
-          <a-icon
-            type="unordered-list"
-            style="font-size: 25px; cursor: pointer"
-            title="详细信息"
-            @click="showGraphDetails()"
-          />
-        </div>
-      </div>
-    </div>
-    <!-- 画布 -->
-    <div>
-    <div class="navigatorAboveDrawer"></div>
-    <Drawer ref="ref_CJS" @reloadGraph="reloadGraph">
-    </Drawer>
-    </div>
-    <!-- 智能问答 -->
-    <Question class = "Int_question"></Question>
-    <div class="propertyDisplay">
-      <span id="labels"></span>
-      <p id="properties"> click on the node or edge to display more infomation!</p>
-    </div>
-    <Setting @listenToSet='getSetting'></Setting>
-    <GraphDetails></GraphDetails>
-    <History></History>
-    <FilterByNodeLabels @listenToChild='getChildData'></FilterByNodeLabels>
-  </div>
+      </a-layout-content>
+      <a-layout-footer style="text-align: center">
+        Ant Design ©2018 Created by Ant UED
+      </a-layout-footer>
+    </a-layout>
+  </a-layout>
 </template>
 
 <script>
@@ -182,6 +224,25 @@ import FilterByNodeLabels from "../components/nodeLabelsFiltering"
 import Question from '../components/question'
 import { mapActions, mapGetters,mapMutations } from 'vuex'
 export default{
+  data() {
+    return {
+      collapsed: true,
+      formLayout: 'horizontal',
+      form: this.$form.createForm(this, { name: 'coordinated' }),
+      searchParams: {
+        type_id: undefined
+      },
+      searchValue: '',
+      // 高级搜索 展开/关闭
+      advanced: false,
+      searchType: '',
+      // 查询参数
+      queryParam: {},
+      nodeList:{'开心':{'A':['1','2'], 'B':['1','2']},
+        '快乐':{'A':['1','2'], 'B':['1','2','3']}
+      }
+    }
+  },
   components:{
     Drawer,
     Setting,
@@ -371,6 +432,27 @@ export default{
       // console.log(nodes)
       this.updateNodePos(nodesCollection);
     },
+    reset () {
+      this.form.resetFields()
+    },
+    handleChange (value) {
+      this.searchType = value
+    },
+    search(e) {
+      e.preventDefault();
+      this.form.validateFields((err, values) => {
+        if(!err) {
+          this.queryParam = {
+            searchType: values.searchType,
+            searchValue: values.searchValue
+          }
+        }
+        this.refresh()
+      })
+    },
+    newDrawer(){
+      this.collapsed = false
+    }
   }
 }
 

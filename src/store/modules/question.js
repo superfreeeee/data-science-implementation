@@ -28,10 +28,6 @@ const question = {
                 commit('set_answer', res)
             }).catch(err => console.log(err))
         },
-        // getAnswer: ({commit}, data)=>{
-        //     var value = data + 'Answer'
-        //     commit('set_answer', value)
-        // },
         getRecommand: ({commit}, data)=>{
             var res = [
                 "RCM1"+data,

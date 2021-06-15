@@ -1,22 +1,32 @@
-.topNavigator{
-    height: 40px;
+/* .topNavigator{ */
+    /* height: 40px; */
     /* background: linear-gradient(to bottom right,rgb(240, 195, 165),rgb(247, 235, 228)); */
-    background: rgb(240, 195, 165);
-    box-shadow: 0px 1px 2px rgb(247, 235, 228), 0px 1px 5px rgba(110, 106, 100, 0.7);
+    /* background: rgb(240, 195, 165); */
+    /* box-shadow: 0px 1px 2px rgb(247, 235, 228), 0px 1px 5px rgba(110, 106, 100, 0.7); */
+/* } */
+
+
+#components-layout-demo-side .logo {
+  height: 32px;
+  background:#1F2F49;
+  /* background:white; */
+  margin: 16px;
 }
 
 .cytoolbar_id {
     list-style-type: none;
     /* margin-bottom: 10px; */
     margin-top: 50px;
+    margin-right: 20px;
+    top: 70px;
+    right: 30px;
     padding: 0;
     width: 4%;
     height: 300px;
     background-color: white;
     box-shadow: 0px 1px 2px rgb(247, 235, 228), 0px 1px 2px rgba(0, 0, 0, .7);
     position: fixed;
-    
-    overflow: auto;
+    /* overflow: auto; */
     z-index: 2;
     border: 1px;
     border-radius: 5px;
@@ -34,11 +44,12 @@
     text-decoration: none;
   }
   .propertyDisplay {
-    height: 38px;
-    width:950px;
+    height: 100px;
+    width:80%;
     margin-left: 5.5%;
     /* margin-right: 20%; */
     margin-top: 10px;
+    padding: 10px;
     background-color: white;
     overflow: hidden;
     overflow-y: scroll;
@@ -51,15 +62,18 @@
   }
   .Int_question {
     position: fixed;
-    bottom: 200px;
+    bottom: 150px;
     right: 50px;
   }
   .navigatorAboveDrawer{
     background-color: white;
+    /* background-color: #8C99AC; */
     margin-left: 5.5%;
-    height: 30px;
-    width:950px;
-    margin-top: 10px;
+    width:80%;
+    border: 1px;
+    border-radius:5px 5px 0px 0px;
+    border-style: groove groove none groove;
+    margin-top: 20px;
     margin-bottom: 0;
     padding: 0;
   }

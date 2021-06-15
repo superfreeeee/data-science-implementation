@@ -14,7 +14,6 @@
 
 .post_question {
   padding: 10px;
-  width: 600px;
 }
 
 .answer {
@@ -36,6 +35,7 @@
   background: #A3C3F6;
   position: relative;
   margin-top: 8px;
+  overflow-wrap: break-word;
 }
 .answer .info .info-content::before {
   position: absolute;
@@ -73,6 +73,7 @@
   margin-top: 8px;
   background: #ECD1E9;
   text-align: left;
+  overflow-wrap: break-word;
 }
 
 .question .info .info-content::after {
@@ -109,7 +110,20 @@
                   </div>
                 </div>
               </div>
-              <a-input-search placeholder="input search text" class="post_question" @search="onSearch" />
+              <div style=" display: flex; align-items: center;  width: 600px;">
+                <a-popover placement="topLeft" v-model="show_l">
+                  <template slot="content">
+                    <a-list size="small" bordered :data-source="recommand_list">
+                      <a-list-item slot="renderItem" slot-scope="item, index" @click="get_answer(index)">
+                      {{ item }}
+                      </a-list-item>
+                    </a-list>
+                  </template>
+                  <a-button>推荐问题</a-button>
+                </a-popover>
+                <a-input-search placeholder="input search text" class="post_question" @search="onSearch" />
+              </div>
+               
             </div>
           </template>
           <img src="../assets/question/IQ.svg" style="max-height: 100%">
@@ -146,6 +160,7 @@ export default {
         }
       ],
       show: false,
+      show_l: false
     }
   },
   computed: {
@@ -178,6 +193,20 @@ export default {
         Text:this.answer
       })
       this.show = true;
+      this.down_scroll()
+    },
+    async get_answer(index){
+      this.show_l = false;
+      const question_cur = this.recommand_list[index]
+      await Promise.all([this.getAnswer(question_cur), this.getRecommand(question_cur)])
+      this.chatList.push({
+        IsAnswer:false,
+        Text:question_cur
+      })
+      this.chatList.push({
+        IsAnswer:true,
+        Text:this.answer
+      })
       this.down_scroll()
     },
     async onSearch(value) {
