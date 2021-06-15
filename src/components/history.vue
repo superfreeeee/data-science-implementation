@@ -1,3 +1,11 @@
+<style scoped>
+#propertiesDisplay{
+  display: -webkit-box;
+  -webkit-line-clamp: 3; 
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+}
+</style>
 <template>
   <a-drawer
     :visible="historyVisible"
@@ -21,7 +29,7 @@
               {{item.objectId}}
             </a-descriptions-item>
             <a-descriptions-item label="修改属性" v-if="item.operationType==='UpdateNode' || item.operationType==='UpdateRelation'">
-              {{item.properties}}
+              <span id="propertiesDisplay">{{item.properties}}</span>
             </a-descriptions-item>
           </a-descriptions>
         </a-list-item>
