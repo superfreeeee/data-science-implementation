@@ -3,27 +3,12 @@
 <template>
 <!-- <div> -->
   <div class="drawer"> 
-    
     <div id="cytoscape_id"></div>
-    <!-- <a-spin v-if="loading" class="demo-loading" /> -->
     <addEdge :sourceId=this.from :targetId=this.to @listenToAddedEdge='getEdgeData'></addEdge>
     <modifyEdge :edge=this.edgeData @listenToModifiedEdge="getModifiedEdge"></modifyEdge>
     <addNode :posX=this.posX :posY=this.posY @listenToAddedNode="getNodeData"></addNode>
     <modifyNode :node=this.nodeData @listenToModifiedNode="getModifiedNode"></modifyNode>
   </div>
-  <!-- <div >
-    <div id="cytoscape_id1" style="height: 150px;
-    width:950px;margin-top:10px;margin-left: 5.5%;
-    /* margin-right: 20%; */
-    padding-top: 30px;
-    z-index: 1;
-    background-color: white;
-    border: 1.5px solid;
-    border-radius:0px 0px 15px 15px;
-    border-style: outset;
-    padding: 1px;"></div>
-  </div>
-</div> -->
 </template>
 
 <script>
@@ -76,10 +61,6 @@ export default {
       
     })
     this.getGraphList()
-    // this.$cy=[cytoscape({container: document.getElementById('cytoscape_id'),userZoomingEnabled: false, boxSelectionEnabled: false,}),
-    // cytoscape({container: document.getElementById('cytoscape_id1'),userZoomingEnabled: false, boxSelectionEnabled: false,})
-    // ]
-    // 拖拽添加边
     const eh = this.$cy.edgehandles({ preview: false })
     eh.enable()
     var that = this

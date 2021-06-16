@@ -20,7 +20,7 @@
                 <span slot="title"><a-icon type="user" /><span>{{key1}}</span></span>
                 <a-sub-menu  v-for='(value2, key2) in value1' :key="key+key1+key2"  >
                 <span slot="title"><a-icon type="user" /><span>{{key2}}</span></span>
-                  <a-menu-item v-for='(item, index) in value2' :key="key+key1+key2+item" @click="addGraph(item.identity)">
+                  <a-menu-item v-for='item in value2' :key="key+key1+key2+item" @click="addGraph(item.identity)">
                     {{item.properties.name}}
                   </a-menu-item>
               </a-sub-menu>
@@ -61,40 +61,14 @@
            <span class="tabTitle" v-bind:class="{ active2: arrIndex.indexOf(item) > -1 }">graph {{graphIndexList.indexOf(item)}}</span> <a-icon type="close" v-bind:class="{ active3: arrIndex.indexOf(item) > -1 }" @click="closeGraph(item)"/>
           </div>
           <a-divider style="margin:0;padding:0"/>
-              <a-form
+              <!-- <a-form
                 layout="inline"
                 :form="form"
                 @submit="search"
-              >
+              > -->
                 <a-row :gutter="24">
-                  <a-col :md="0" :sm="0" :lg="2"></a-col>
-                  <a-col :md="16" :sm="16" :lg="16" >
-                    <div style = "display: flex; align-items: center;">
-                      <a-form-item label="搜索类型">
-                        <a-select
-                          placeholder="请选择"
-                          style="width: 100px"
-                          v-decorator="['searchType',
-                                {rules: [{ required: false, message: '请选择搜索类型' }]}
-                                ]"
-                          allowClear
-                          name="searchType">
-                          <a-select-option value="1">所有</a-select-option>
-                          <a-select-option value="2">节点</a-select-option>
-                          <a-select-option value="3">关系</a-select-option>
-                        </a-select>
-                      </a-form-item>
-                      <a-form-item>
-                        <a-input
-                          v-decorator="['searchValue',
-                        {rules: [{ required: false, message: '请输入搜索值' }]}
-                        ]"
-                          placeholder="请输入"/>
-                      </a-form-item>
-                      <a-button html-type="submit">查询</a-button>
-                      <a-button style="margin-left: 10px" @click="reset">重置</a-button>
-                    </div>
-                  </a-col>
+                  <a-col :md="0" :sm="0" :lg="1"></a-col>
+                  <MySearch @listenToMySearch='getSearchResult'></MySearch>
                   <a-col :md="2" :sm="2" :lg="0"></a-col>
                   <a-col :md="6" :sm="6" :lg="6">
                     <div style = "display: flex; align-items: center;">
@@ -123,9 +97,9 @@
                     </div>
                   </a-col>
                 </a-row>
-              </a-form>
+              <!-- </a-form> -->
             </div>
-            <!-- 左侧导航栏 -->
+            <!-- 右侧导航栏 -->
             <div class="cytoolbar_id">
               <div class="tools">
                 <div class="center-center">
@@ -210,8 +184,7 @@
                 </div>
               </div>
             </div>
-
-            <!-- list画布 -->
+            <!-- 画布 -->
             <Drawer ref="ref_CJS" @reloadGraph="reloadGraph">
             </Drawer>
             <!-- 智能问答 -->
@@ -245,6 +218,7 @@ import GraphDetails from "../components/graphDetails"
 import History from "../components/history"
 import FilterByNodeLabels from "../components/nodeLabelsFiltering"
 import Question from '../components/question'
+import MySearch from '../components/mySearch'
 import {getNodesListAPI} from "../api/api"
 import { mapActions, mapGetters,mapMutations } from 'vuex'
 export default{
@@ -254,15 +228,15 @@ export default{
       collapsed: true,
       formLayout: "horizontal",
       form: this.$form.createForm(this, { name: "coordinated" }),
-      searchParams: {
-        type_id: undefined,
-      },
-      searchValue: "",
-      // 高级搜索 展开/关闭
-      advanced: false,
-      searchType: "",
-      // 查询参数
-      queryParam: {},
+      // searchParams: {
+      //   type_id: undefined,
+      // },
+      // searchValue: "",
+      // // 高级搜索 展开/关闭
+      // advanced: false,
+      // searchType: "",
+      // // 查询参数
+      // queryParam: {},
       nodeList:{'开心':{'非常开心':{'A':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}], 'B':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}]},'一般般开心':{'A':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}], 'B':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}]}},
         '快乐':{'非常开心':{'A':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}], 'B':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}]},'一般般开心':{'A':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}], 'B':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}]}}
       },
@@ -284,7 +258,8 @@ export default{
     History,
     FilterByNodeLabels,
     Question,
-    semanticsS
+    semanticsS,
+    MySearch,
   },
   async beforeMount(){
     // var that=this
@@ -582,6 +557,22 @@ export default{
       }
       this.set_currentIndex(item)
       this.$refs.ref_CJS.getGraphList()
+    },
+    getSearchResult(idList){
+      this.$refs.ref_CJS.$cy.elements().addClass('light-off')
+      for(var key in idList){
+        var id=idList[key]
+        this.$refs.ref_CJS.$cy.startBatch();
+        this.$refs.ref_CJS.$cy.batch(() => {
+        const elements = ((Array.isArray ? Array.isArray(id) : id != null && id instanceof Array) ? id : [id])
+          elements.forEach(__ => {
+            this.$refs.ref_CJS.$cy.getElementById(__).removeClass('light-off')
+            //   this.$cy.getElementById(__).neighborhood().removeClass('light-off')
+          })
+        })
+        this.$refs.ref_CJS.$cy.once('click', () => this.$refs.ref_CJS.$cy.elements().removeClass("light-off"))
+        this.$refs.ref_CJS.$cy.endBatch()
+      }
     }
   },
 };
