@@ -54,18 +54,13 @@
 
         <div :style="{ padding: '24px', minHeight: '360px' }">
           <div style="height: 100%; width: 100%;">
-            <!-- 画布 -->
-            
+            <!-- 画布 -->           
             <div class="navigatorAboveDrawer">
+              <!-- tab -->
           <div class="mytab" v-for="item in graphIndexList" :key="item" @click="changeGraph(item)" v-bind:class="{ active1: arrIndex.indexOf(item) > -1 }">
            <span class="tabTitle" v-bind:class="{ active2: arrIndex.indexOf(item) > -1 }">graph {{graphIndexList.indexOf(item)}}</span> <a-icon type="close" v-bind:class="{ active3: arrIndex.indexOf(item) > -1 }" @click="closeGraph(item)"/>
           </div>
           <a-divider style="margin:0;padding:0"/>
-              <!-- <a-form
-                layout="inline"
-                :form="form"
-                @submit="search"
-              > -->
                 <a-row :gutter="24">
                   <a-col :md="0" :sm="0" :lg="1"></a-col>
                   <MySearch @listenToMySearch='getSearchResult'></MySearch>
@@ -97,7 +92,6 @@
                     </div>
                   </a-col>
                 </a-row>
-              <!-- </a-form> -->
             </div>
             <!-- 右侧导航栏 -->
             <div class="cytoolbar_id">
@@ -183,6 +177,16 @@
                   />
                 </div>
               </div>
+              <div class="tools">
+                <div class="center-center">
+                  <a-icon
+                    type="file-add"
+                    style="font-size: 25px; cursor: pointer"
+                    title="上传文件"
+                    @click="uploadFile()"
+                  />
+                </div>
+              </div>
             </div>
             <!-- 画布 -->
             <Drawer ref="ref_CJS" @reloadGraph="reloadGraph">
@@ -197,6 +201,7 @@
             <GraphDetails></GraphDetails>
             <History></History>
             <FilterByNodeLabels @listenToChild='getChildData'></FilterByNodeLabels>
+            <UploadFile></UploadFile>
           </div>
         </div>
       </a-layout-content>
@@ -219,6 +224,7 @@ import History from "../components/history"
 import FilterByNodeLabels from "../components/nodeLabelsFiltering"
 import Question from '../components/question'
 import MySearch from '../components/mySearch'
+import UploadFile from '../components/file'
 import {getNodesListAPI} from "../api/api"
 import { mapActions, mapGetters,mapMutations } from 'vuex'
 export default{
@@ -260,6 +266,7 @@ export default{
     Question,
     semanticsS,
     MySearch,
+    UploadFile
   },
   async beforeMount(){
     // var that=this
@@ -277,7 +284,8 @@ export default{
       "set_isInit",
       "set_currentIndex",
       "set_graphIndexList",
-      "set_graphNumber"
+      "set_graphNumber",
+      "set_uploadFormVisible"
     ]),
     ...mapActions(["getGraphDetailsList", "getHistoryList", "updateNodePos","getGraph",]),
     // 放大
@@ -546,7 +554,7 @@ export default{
       // await this.removeGraph(item)
       }
     },
-
+    // 切换图
     changeGraph(item){
       console.log("item",item)
       let arrIndex = this.arrIndex.indexOf(item);
@@ -558,6 +566,7 @@ export default{
       this.set_currentIndex(item)
       this.$refs.ref_CJS.getGraphList()
     },
+    // 模糊搜索结果高亮
     getSearchResult(idList){
       this.$refs.ref_CJS.$cy.elements().addClass('light-off')
       for(var key in idList){
@@ -573,6 +582,9 @@ export default{
         this.$refs.ref_CJS.$cy.once('click', () => this.$refs.ref_CJS.$cy.elements().removeClass("light-off"))
         this.$refs.ref_CJS.$cy.endBatch()
       }
+    },
+    uploadFile(){
+      this.set_uploadFormVisible(true)
     }
   },
 };

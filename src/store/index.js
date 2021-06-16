@@ -9,6 +9,7 @@ import graph from './modules/graph'
 import node from './modules/node'
 import edge from './modules/edge'
 import question from './modules/question'
+import file from './modules/file'
 
 Vue.use(Vuex)
 
@@ -21,7 +22,8 @@ export default new Vuex.Store({
     filterByNodeLabels,
     node,
     edge,
-    question
+    question,
+    file
   },
   state: {
   },

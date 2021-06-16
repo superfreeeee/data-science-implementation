@@ -34,7 +34,7 @@ const getters={
   //question
   // questionVisible: state=>state.question.questionVisible,
   answer: state=>state.question.answer,
-  recommand_list: state=>state.question.recommand_list
+  recommand_list: state=>state.question.recommand_list,
 }
 
 export default getters

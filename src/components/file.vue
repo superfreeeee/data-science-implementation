@@ -40,14 +40,11 @@ export default {
   },
   methods:{
     ...mapMutations([
-      'set_historyVisible'
-    ]),
-    ...mapActions([
-      'getHistoryList'
+      "set_uploadFormVisible"
     ]),
     // 点击取消上传
     cancelUpload () {
-      this.uploadFormVisible = false
+      this.set_uploadFormVisible(false)
     },
     // 删除上传文件
     handleRemove (file) {
@@ -72,7 +69,7 @@ export default {
       return true
     },
     handleChange (info) {
-      console.log('239==', info)
+      // console.log('239==', info)
       const file = info.file
       const name = file.name
       const suffix = name.substr(name.lastIndexOf('.'))
@@ -112,7 +109,6 @@ export default {
           const parent = suc[0].parentNode
           parent.style.display = 'flex'
           parent.style.marginTop = '16px'
-          // console.log('278==parent==',parent)
           const sp = document.createElement('span')
           sp.innerText = '上传成功'
           sp.style.color = '#437FFF'
