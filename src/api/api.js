@@ -40,3 +40,6 @@ export function filterByNodeLabelsAPI(params){
 export function uploadFileAPI(params){
   return http.post(`${request}/graph/uploadFile`,params)
 }
+export function removeGraphAPI(params){
+  return http.get(`${request}/graph/removeGraph`,params)
+}

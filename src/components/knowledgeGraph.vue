@@ -1,8 +1,11 @@
 <style src="../assets/style/knowledgeGraph.css"></style>
+
 <template>
 <!-- <div> -->
   <div class="drawer"> 
+    
     <div id="cytoscape_id"></div>
+    <!-- <a-spin v-if="loading" class="demo-loading" /> -->
     <addEdge :sourceId=this.from :targetId=this.to @listenToAddedEdge='getEdgeData'></addEdge>
     <modifyEdge :edge=this.edgeData @listenToModifiedEdge="getModifiedEdge"></modifyEdge>
     <addNode :posX=this.posX :posY=this.posY @listenToAddedNode="getNodeData"></addNode>
@@ -48,7 +51,7 @@ export default {
     delete this.$cy;
   },
   watch: {
-         ...mapGetters(["graphList","isInit"])
+         ...mapGetters(["graphList","isInit","currentIndex","allGraphList"])
   },
   props: {},
   components:{
@@ -60,7 +63,6 @@ export default {
   computed:{
   },
   mounted(){
-    this.getGraphList()
     cytoscape.use(cxtmenu)
     cytoscape.use(edgehandles)
     cytoscape.use(fcose)
@@ -69,10 +71,11 @@ export default {
     this.$cy=cytoscape({
       container: document.getElementById('cytoscape_id'),
       // 一个指定布局选项的普通对象.
-      userZoomingEnabled: false, // 是否允许用户事件(例如鼠标滚轮,捏合缩放)缩放图形.对此缩放的编程更改不受此选项的影响.
+      userZoomingEnabled: true, // 是否允许用户事件(例如鼠标滚轮,捏合缩放)缩放图形.对此缩放的编程更改不受此选项的影响.
       boxSelectionEnabled: false,
       
     })
+    this.getGraphList()
     // this.$cy=[cytoscape({container: document.getElementById('cytoscape_id'),userZoomingEnabled: false, boxSelectionEnabled: false,}),
     // cytoscape({container: document.getElementById('cytoscape_id1'),userZoomingEnabled: false, boxSelectionEnabled: false,})
     // ]
@@ -251,13 +254,13 @@ export default {
         'text-halign': 'center',
         label: 'data(name)',
         'font-size': '15pt',
-        width: '60pt',
-        height: '60pt',
+        width: '50pt',
+        height: '50pt',
         'background-color': '#fce9cc',
       })
       /* 已选择节点样式 */
       .selector("node:selected")
-      .style({ "border-color": "#c84e40", "border-width": "1px" })
+      .style({ "border-color": "#c84e40", "border-width": "1px"})
       /* 未选择节点样式 */
       .selector("edge")
       .style({
@@ -294,7 +297,22 @@ export default {
         "overlay-opacity": 0,
         "border-width": 12, // makes the handle easier to hit
         "border-opacity": 0,
-      });
+      })
+      .selector(".0")
+      .style({'background-color': '#fce9cc'})
+      .selector(".1")
+      .style({'background-color': '#aeeaf5'})
+      .selector(".2")
+      .style({'background-color': '#FFC0CB'})
+      .selector(".3")
+      .style({'background-color': '#FFF8DC'})
+      .selector(".4")
+      .style({'background-color': '#FFFACD'})
+      .selector(".5")
+      .style({'background-color': '#48D1CC'})
+      .selector(".6")
+      .style({'background-color': '#B0E0E6'});
+
   },
   data(){
     return{
@@ -418,7 +436,7 @@ export default {
      */
     refresh({ name = "cose", randomize = false, animate = true } = {}) {
       this.$cy
-        .layout({ name: name, randomize: randomize, animate: animate,padding:0 })
+        .layout({ name: name, randomize: randomize, animate: animate,padding:0,componentSpacing: 30,nodeOverlap:10 })
         .run();
     },
     /**
@@ -465,10 +483,16 @@ export default {
     },
     //获取图
     async getGraphList(){
-      await this.getGraph()
-      this.addEles(this.$store.getters.graphList)
+      // await this.getGraph()
+      var graphIndex=this.$store.getters.currentIndex
+      var allGraphs=this.$store.getters.allGraphList
+      var graph=allGraphs[graphIndex]
+      console.log(graphIndex)
+      // this.$cy.elements().remove()
+      console.log(graph)
+      this.addEles(graph)
       if(!(this.$store.getters.isInit)){
-        this.$cy.layout({name: 'cose',randomize: false,animate: true,padding:0,componentSpacing: 30,nodeOverlap:10
+        this.$cy.layout({name: 'cose',randomize: false,animate: true,padding:0,componentSpacing: 30,nodeOverlap:4
       }).run()
       this.resize()
       }else{
