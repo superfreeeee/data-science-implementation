@@ -51,10 +51,16 @@
           </a-select>
           <a-icon type="radar-chart" />
         </div>
+
         <div :style="{ padding: '24px', minHeight: '360px' }">
           <div style="height: 100%; width: 100%;">
             <!-- 画布 -->
+            
             <div class="navigatorAboveDrawer">
+          <div class="mytab" v-for="item in graphIndexList" :key="item" @click="changeGraph(item)" v-bind:class="{ active1: arrIndex.indexOf(item) > -1 }">
+           <span class="tabTitle" v-bind:class="{ active2: arrIndex.indexOf(item) > -1 }">graph {{graphIndexList.indexOf(item)}}</span> <a-icon type="close" v-bind:class="{ active3: arrIndex.indexOf(item) > -1 }" @click="closeGraph(item)"/>
+          </div>
+          <a-divider style="margin:0;padding:0"/>
               <a-form
                 layout="inline"
                 :form="form"
@@ -204,6 +210,8 @@
                 </div>
               </div>
             </div>
+
+            <!-- list画布 -->
             <Drawer ref="ref_CJS" @reloadGraph="reloadGraph">
             </Drawer>
             <!-- 智能问答 -->
@@ -244,15 +252,15 @@ export default{
     return {
       isHome: true,
       collapsed: true,
-      formLayout: 'horizontal',
-      form: this.$form.createForm(this, { name: 'coordinated' }),
+      formLayout: "horizontal",
+      form: this.$form.createForm(this, { name: "coordinated" }),
       searchParams: {
-        type_id: undefined
+        type_id: undefined,
       },
-      searchValue: '',
+      searchValue: "",
       // 高级搜索 展开/关闭
       advanced: false,
-      searchType: '',
+      searchType: "",
       // 查询参数
       queryParam: {},
       nodeList:{'开心':{'非常开心':{'A':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}], 'B':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}]},'一般般开心':{'A':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}], 'B':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}]}},
@@ -260,7 +268,9 @@ export default{
       },
       searchNodeList:[
         {'name':'r', 'id':1}, {'name':'n', 'id':2}, {'name':'g', 'id':3}, {'name':'6', 'id':4}
-      ]
+      ],
+      // graphIndexList:[0,1],
+      arrIndex:[0]
 
     }
   },
@@ -276,75 +286,94 @@ export default{
     Question,
     semanticsS
   },
-  computed:{
-    ...mapGetters(['settingVisible','settingList','historyVisible'])
+  async beforeMount(){
+    // var that=this
+    await this.getGraph()
   },
-  methods:{
-    ...mapMutations(["set_settingVisible","set_graphDetailsVisible","set_historyVisible","set_filterByNodeLabelsVisible","set_isInit"]),
-    ...mapActions(["getGraphDetailsList","getHistoryList","updateNodePos"]),
+  computed: {
+    ...mapGetters(["settingVisible", "settingList", "historyVisible","graphIndexList"]),
+  },
+  methods: {
+    ...mapMutations([
+      "set_settingVisible",
+      "set_graphDetailsVisible",
+      "set_historyVisible",
+      "set_filterByNodeLabelsVisible",
+      "set_isInit",
+      "set_currentIndex",
+      "set_graphIndexList",
+      "set_graphNumber"
+    ]),
+    ...mapActions(["getGraphDetailsList", "getHistoryList", "updateNodePos","getGraph",]),
     // 放大
-    magnifying(){
-      console.log(this)
-      this.$refs.ref_CJS.magnifying()
+    magnifying() {
+      console.log(this);
+      this.$refs.ref_CJS.magnifying();
     },
     // 缩小
-    contractible(){
-      this.$refs.ref_CJS.contractible ()
+    contractible() {
+      this.$refs.ref_CJS.contractible();
     },
     // 合适大小
-    resize(){
-      this.$refs.ref_CJS.resize()
+    resize() {
+      this.$refs.ref_CJS.resize();
     },
     // 高亮
-    highlight(){
-      this.$refs.ref_CJS.highlight()
+    highlight() {
+      this.$refs.ref_CJS.highlight();
     },
     // 导出xml
-    downloadXml(){
-      this.$refs.ref_CJS.downloadXml()
+    downloadXml() {
+      this.$refs.ref_CJS.downloadXml();
     },
     // 导出图片
-    exportPng(){
-      this.$refs.ref_CJS.exportPng()
+    exportPng() {
+      this.$refs.ref_CJS.exportPng();
     },
     // 刷新布局
-    refresh(name){
-      this.$refs.ref_CJS.refresh(name)
+    refresh(name) {
+      this.$refs.ref_CJS.refresh(name);
     },
     // 设置节点属性
     async setting() {
       await this.set_settingVisible(true);
     },
     getSetting(settingData) {
-      console.log(settingData)
-      this.$refs.ref_CJS.$cy.style()
-      .selector('node')
-      .style({
-        "font-size": settingData.textSize+ "pt",
-        width: settingData.nodeSize + settingData.widthE + "pt",
-        height: settingData.nodeSize + "pt",
-        shape: settingData.shape
-      }).update()
+      console.log(settingData);
+      this.$refs.ref_CJS.$cy
+        .style()
+        .selector("node")
+        .style({
+          "font-size": settingData.textSize + "pt",
+          width: settingData.nodeSize + settingData.widthE + "pt",
+          height: settingData.nodeSize + "pt",
+          shape: settingData.shape,
+        })
+        .update();
       var edgeFont = "10px";
       if (!settingData.lableVisible) {
         edgeFont = "0px";
       }
-      this.$refs.ref_CJS.$cy.style()
-      .selector('edge')
-      .style({
-        "font-size": edgeFont
-      }).update()
-      this.$refs.ref_CJS.$cy.style()
-      .selector(".eh-handle")
-      .style({
-        "background-color": "#fce9cc",
-        width: 10,
-        height: 10,
-        shape: "ellipse",
-        "overlay-opacity": 0,
-        "border-width": 12, // makes the handle easier to hit
-        "border-opacity": 0,
-      }).update()
+      this.$refs.ref_CJS.$cy
+        .style()
+        .selector("edge")
+        .style({
+          "font-size": edgeFont,
+        })
+        .update();
+      this.$refs.ref_CJS.$cy
+        .style()
+        .selector(".eh-handle")
+        .style({
+          "background-color": "#fce9cc",
+          width: 10,
+          height: 10,
+          shape: "ellipse",
+          "overlay-opacity": 0,
+          "border-width": 12, // makes the handle easier to hit
+          "border-opacity": 0,
+        })
+        .update();
       // this.$cy.endBatch();
     },
     // 显示图详细信息
@@ -357,88 +386,88 @@ export default{
       this.getHistoryList();
       this.set_historyVisible(true);
     },
-    onClick ({ key }) {
-      console.log(`Click on item ${key}`)
+    onClick({ key }) {
+      console.log(`Click on item ${key}`);
     },
     // 重新加载图片
-    async reloadGraph(){
-      await this.$refs.ref_CJS.getGraphList()
-      console.log("hhh",this.$store.getters.isInit)
-      this.$refs.ref_CJS.$cy.fit()
+    async reloadGraph() {
+      await this.$refs.ref_CJS.getGraphList();
+      console.log("hhh", this.$store.getters.isInit);
+      this.$refs.ref_CJS.$cy.fit();
     },
     // 节点过滤
     filterByNodeLabels() {
       this.getGraphDetailsList();
       this.set_filterByNodeLabelsVisible(true);
     },
-    getChildData(graph,isReset){
-       console.log("filter",graph);
-      console.log("重新加载",isReset);
+    getChildData(graph, isReset) {
+      console.log("filter", graph);
+      console.log("重新加载", isReset);
       this.$refs.ref_CJS.$cy.elements().remove();
-      if(!isReset){
-      var nodes = graph.nodes;
-      var edges = graph.edges;
-      for (var n in nodes) {
-        var node = nodes[n];
-        const data = {};
-        if (node.properties) {
-          for (var key in node.properties) {
-            data[key] = node.properties[key];
+      if (!isReset) {
+        var nodes = graph.nodes;
+        var edges = graph.edges;
+        for (var n in nodes) {
+          var node = nodes[n];
+          const data = {};
+          if (node.properties) {
+            for (var key in node.properties) {
+              data[key] = node.properties[key];
+            }
+          } else {
+            data.name = "";
           }
-        } else {
-          data.name = "";
+          data.id = node.identity;
+          console.log(data);
+          this.$refs.ref_CJS.addEles([
+            {
+              group: "nodes",
+              data,
+              //  position: {
+              //   x: parseFloat(node.properties.x),
+              //   y: parseFloat(node.properties.y)
+              // }
+            },
+          ]);
+          console.log("added");
         }
-        data.id = node.identity;
-        console.log(data);
-        this.$refs.ref_CJS.addEles([
-          {
-            group: "nodes",
-            data,
-            //  position: {
-            //   x: parseFloat(node.properties.x),
-            //   y: parseFloat(node.properties.y)
-            // }
-          },
-        ]);
-        console.log("added");
-      }
 
-      for (var e in edges) {
-        var edge = edges[e];
-        const data = {};
-        if (edge.properties) {
-          for (var keyE in edge.properties) {
-            if (keyE !== "type") {
-              data[keyE] = edge.properties[keyE];
+        for (var e in edges) {
+          var edge = edges[e];
+          const data = {};
+          if (edge.properties) {
+            for (var keyE in edge.properties) {
+              if (keyE !== "type") {
+                data[keyE] = edge.properties[keyE];
+              }
             }
           }
+          data.id = edge.identity;
+          data.source = edge.start;
+          data.target = edge.end;
+          data.name = edge.type;
+          this.$refs.ref_CJS.addEles([
+            {
+              group: "edges",
+              data,
+            },
+          ]);
         }
-        data.id = edge.identity;
-        data.source = edge.start;
-        data.target = edge.end;
-        data.name = edge.type;
-        this.$refs.ref_CJS.addEles([
-          {
-            group: "edges",
-            data,
-          },
-        ]);
-      }
-      this.$refs.ref_CJS.$cy
-        .layout({
-          name: "cose",
-          randomize: false,
-          animate: true,
-        })
-        .run();
-      }else{
-        this.reloadGraph()
-        this.resize()
+        this.$refs.ref_CJS.$cy
+          .layout({
+            name: "cose",
+            randomize: false,
+            animate: true,
+          })
+          .run();
+      } else {
+        this.reloadGraph();
+        this.resize();
       }
     },
     // 保存位置信息
     saveGraph() {
-      this.set_isInit(true)
+      this.set_isInit(true);
       var nodesCollection = this.$refs.ref_CJS.$cy.filter(function (e, i) {
         return e.isNode();
       });
@@ -457,23 +486,23 @@ export default{
       // console.log(nodes)
       this.updateNodePos(nodesCollection);
     },
-    reset () {
-      this.form.resetFields()
+    reset() {
+      this.form.resetFields();
     },
-    handleChange (value) {
-      this.searchType = value
+    handleChange(value) {
+      this.searchType = value;
     },
     search(e) {
       e.preventDefault();
       this.form.validateFields((err, values) => {
-        if(!err) {
+        if (!err) {
           this.queryParam = {
             searchType: values.searchType,
-            searchValue: values.searchValue
-          }
+            searchValue: values.searchValue,
+          };
         }
-        this.refresh()
-      })
+        this.refresh();
+      });
     },
     newDrawer(){
       if(this.collapsed){
@@ -510,12 +539,50 @@ export default{
       }
     },
     getNodeList(){
-      this.getNodesListAPI().then(res=>{
-        console.log(res)
-        this.nodeList = res.data
-      }).catch(err => console.log(err))
-    }
-  }
-}
+      // getNodesListAPI().then(res=>{
+      //   this.nodeList = res.data
+      // }).catch(err => console.log(err))
+    },
+    async closeGraph(item){
+      var list=this.$store.getters.graphIndexList
+      console.log("len",list.length)
+      if(list.length==1){
+        // 只有一张图不能删除
+        console.log(this.document)
+        alert("can't be delete!There is only one graph")
+      }else{
+        // 将Index从currentIndex中删除
+        var index=list.indexOf(item)
+        list.splice(index,1)
+        this.set_graphIndexList(list)
+        // 更改当前的currentIndex
+        if(index==0){
+          index=imdex+1
+        }else{
+          index=index-1
+        }
+      var currentIndex=list[index]
+      this.set_currentIndex(currentIndex)
+      this.$refs.ref_CJS.getGraphList()
+      // 图数量减一
+      var num=this.$store.getters.graphNumber
+      num=num-1
+      this.set_graphNumber(num)
+      // await this.removeGraph(item)
+      }
+    },
 
+    changeGraph(item){
+      console.log("item",item)
+      let arrIndex = this.arrIndex.indexOf(item);
+      if (arrIndex <= -1) {
+        // 未选中,点击选中
+        this.arrIndex=[]
+        this.arrIndex.push(item);
+      }
+      this.set_currentIndex(item)
+      this.$refs.ref_CJS.getGraphList()
+    }
+  },
+};
 </script>

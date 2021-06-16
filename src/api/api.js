@@ -44,3 +44,7 @@ export function uploadFileAPI(params){
 export function getNodesListAPI(){
   return http.get(`${request}/getNodesList`)
 }
+
+export function removeGraphAPI(params){
+  return http.get(`${request}/graph/removeGraph`,params)
+}

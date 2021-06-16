@@ -77,3 +77,27 @@
     margin-bottom: 0;
     padding: 0;
   }
+  .mytab{
+    margin:0;
+    padding:0;
+    height:30px;
+    width: 80px;
+    display: inline-block;
+    border: 1px solid;
+    border-radius: 5px 5px 0px 0px;
+    /* margin-right: 2px; */
+  }
+  .active1{
+    background-color: #161616;
+    border: 0px solid;
+  }
+  .tabTitle{
+    font-family:Serif;
+    font-weight: bold;
+  }
+  .active2{
+    color: white;
+  }
+  .active3{
+    color: white;
+  }
