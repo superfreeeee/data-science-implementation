@@ -7,3 +7,7 @@ const api={
 export function getAnswerAPI(params) {
   return http.get(`${api.QuestionPre}/answerQuestion`,params)
 }
+
+export function semanticSearchAPI(params) {
+  return http.get(`${api.QuestionPre}/semanticSearch`,params)
+}

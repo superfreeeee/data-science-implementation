@@ -4,9 +4,13 @@
     <a-layout-sider v-model="collapsed"  collapsible width = 350 >
       <div class="logo" />
       <a-menu theme="dark" :default-selected-keys="['1']"  mode="inline">
-        <a-menu-item key="1" @click="newDrawer">
+        <a-menu-item key="1" @click="menuChange('Home')">
           <a-icon type="pie-chart" />
-          <span>Option 1</span>
+          <span>主页</span>
+        </a-menu-item>
+        <a-menu-item key="2" @click="menuChange('semanticSearch')">
+          <a-icon type="desktop" />
+          <span>语义搜索</span>
         </a-menu-item>
         <a-sub-menu>
           <span slot="title"><a-icon type="user" /><span>所有节点</span></span>
@@ -14,31 +18,38 @@
               <span slot="title"><a-icon type="user" /><span>{{key}}</span></span>
               <a-sub-menu  v-for='(value1, key1) in value' :key="key+key1"  >
                 <span slot="title"><a-icon type="user" /><span>{{key1}}</span></span>
-                  <a-menu-item v-for='(item, index) in value1' :key="key+key1+item" >
-                    {{item}}
+                <a-sub-menu  v-for='(value2, key2) in value1' :key="key+key1+key2"  >
+                <span slot="title"><a-icon type="user" /><span>{{key2}}</span></span>
+                  <a-menu-item v-for='(item, index) in value2' :key="key+key1+key2+item" @click="addGraph(item.identity)">
+                    {{item.properties.name}}
                   </a-menu-item>
+              </a-sub-menu>
               </a-sub-menu>
             </a-sub-menu>
         </a-sub-menu>
-        <a-menu-item key="8">
-          <a-icon type="desktop" />
-          <span>Option 8</span>
-        </a-menu-item>
-        <a-sub-menu key="sub2">
+        <a-menu key="4" @click="newDrawer">
           <span slot="title"><a-icon type="team" /><span>Team</span></span>
-          <a-menu-item key="9">
-            Team 1
-          </a-menu-item>
-          <a-menu-item key="10">
-            Team 2
-          </a-menu-item>
-        </a-sub-menu>
+        </a-menu>
       </a-menu>
     </a-layout-sider>
     <a-layout>
-      <a-layout-content>
+      <a-layout-content v-if="isHome">
         <div style="padding: 16px 24px; height: 70px; background-color: white; border-bottom:1px groove">
-          <a-input-search placeholder="input search text" style="width: 60%; margin-left: 5.5%;"  />
+          <a-select style="width: 60%; margin-left: 5.5%;"
+            show-search
+            placeholder="Select a person"
+            option-filter-prop="children"
+            :filter-option="filterOption"
+            @focus="handleFocus"
+            @blur="handleBlur"
+            @change="handleChangeS"
+            
+          >
+            <a-select-option v-for="item in searchNodeList" :key="item.id">
+              {{item.name}}
+            </a-select-option>
+          </a-select>
+          <a-icon type="radar-chart" />
         </div>
         <div :style="{ padding: '24px', minHeight: '360px' }">
           <div style="height: 100%; width: 100%;">
@@ -208,6 +219,9 @@
           </div>
         </div>
       </a-layout-content>
+      <a-layout-content v-else style="text-align: center;" >
+        <semanticsS></semanticsS>
+      </a-layout-content>
       <a-layout-footer style="text-align: center">
         Ant Design ©2018 Created by Ant UED
       </a-layout-footer>
@@ -218,14 +232,17 @@
 <script>
 import Drawer from "../components/knowledgeGraph"
 import Setting from "../components/setting"
+import semanticsS from "../components/semanticsS"
 import GraphDetails from "../components/graphDetails"
 import History from "../components/history"
 import FilterByNodeLabels from "../components/nodeLabelsFiltering"
 import Question from '../components/question'
+import {getNodesListAPI} from "../api/api"
 import { mapActions, mapGetters,mapMutations } from 'vuex'
 export default{
   data() {
     return {
+      isHome: true,
       collapsed: true,
       formLayout: 'horizontal',
       form: this.$form.createForm(this, { name: 'coordinated' }),
@@ -238,10 +255,17 @@ export default{
       searchType: '',
       // 查询参数
       queryParam: {},
-      nodeList:{'开心':{'A':['1','2'], 'B':['1','2']},
-        '快乐':{'A':['1','2'], 'B':['1','2','3']}
-      }
+      nodeList:{'开心':{'非常开心':{'A':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}], 'B':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}]},'一般般开心':{'A':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}], 'B':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}]}},
+        '快乐':{'非常开心':{'A':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}], 'B':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}]},'一般般开心':{'A':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}], 'B':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}]}}
+      },
+      searchNodeList:[
+        {'name':'r', 'id':1}, {'name':'n', 'id':2}, {'name':'g', 'id':3}, {'name':'6', 'id':4}
+      ]
+
     }
+  },
+  mounted(){
+    this.getNodeList()
   },
   components:{
     Drawer,
@@ -249,7 +273,8 @@ export default{
     GraphDetails,
     History,
     FilterByNodeLabels,
-    Question
+    Question,
+    semanticsS
   },
   computed:{
     ...mapGetters(['settingVisible','settingList','historyVisible'])
@@ -451,7 +476,44 @@ export default{
       })
     },
     newDrawer(){
-      this.collapsed = false
+      if(this.collapsed){
+        this.collapsed = false      
+      }
+      else{
+        this.collapsed = true
+      }
+    },
+    addGraph(item){
+      this.isHome = true
+      console.log(item)
+    },
+    handleChangeS(value) {
+      console.log(`selected ${value}`);
+    },
+    handleBlur() {
+      console.log('blur');
+    },
+    handleFocus() {
+      console.log('focus');
+    },
+    filterOption(input, option) {
+      return (
+        option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
+      );
+    },
+    menuChange(item) {
+      if(item == 'Home'){
+        this.isHome = true
+      }
+      else{
+        this.isHome = false
+      }
+    },
+    getNodeList(){
+      this.getNodesListAPI().then(res=>{
+        console.log(res)
+        this.nodeList = res.data
+      }).catch(err => console.log(err))
     }
   }
 }

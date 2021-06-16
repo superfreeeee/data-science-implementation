@@ -1,5 +1,6 @@
 import {
-    getAnswerAPI
+    getAnswerAPI,
+    semanticSearchAPI
 } from "../../api/question"
 
 const question = {
@@ -24,8 +25,10 @@ const question = {
     },
     actions:{
         getAnswer: async ({commit}, data)=>{
-            await getAnswerAPI(data).then(res => {
-                commit('set_answer', res)
+            await semanticSearchAPI(data).then(res => {
+                getAnswerAPI(res).then(res1 => {
+                    commit('set_answer', res1.content.smartQA)
+                }).catch(err => console.log(err))
             }).catch(err => console.log(err))
         },
         getRecommand: ({commit}, data)=>{

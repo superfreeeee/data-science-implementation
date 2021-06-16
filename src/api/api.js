@@ -40,3 +40,7 @@ export function filterByNodeLabelsAPI(params){
 export function uploadFileAPI(params){
   return http.post(`${request}/graph/uploadFile`,params)
 }
+
+export function getNodesListAPI(){
+  return http.get(`${request}/getNodesList`)
+}
