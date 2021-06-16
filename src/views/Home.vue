@@ -273,7 +273,7 @@ export default{
     await this.getGraph()
   },
   computed: {
-    ...mapGetters(["settingVisible", "settingList", "historyVisible","graphIndexList"]),
+    ...mapGetters(["settingVisible", "settingList", "historyVisible","graphIndexList","isInitList","allGraphList"]),
   },
   methods: {
     ...mapMutations([
@@ -285,7 +285,9 @@ export default{
       "set_currentIndex",
       "set_graphIndexList",
       "set_graphNumber",
-      "set_uploadFormVisible"
+      "set_uploadFormVisible",
+      "set_isInitList",
+      "set_allGraphList"
     ]),
     ...mapActions(["getGraphDetailsList", "getHistoryList", "updateNodePos","getGraph",]),
     // 放大
@@ -526,6 +528,7 @@ export default{
       //   this.nodeList = res.data
       // }).catch(err => console.log(err))
     },
+    // 删除图
     async closeGraph(item){
       var list=this.$store.getters.graphIndexList
       console.log("len",list.length)
@@ -540,7 +543,7 @@ export default{
         this.set_graphIndexList(list)
         // 更改当前的currentIndex
         if(index==0){
-          index=imdex+1
+          index=index+1
         }else{
           index=index-1
         }
@@ -551,6 +554,13 @@ export default{
       var num=this.$store.getters.graphNumber
       num=num-1
       this.set_graphNumber(num)
+      // // 从allGraphList,isInitList中删除
+      // var allGraphs=this.$store.getters.allGraphList
+      // allGraphs.remove(item)
+      // var isInitList=this.$store.getters.isInitList
+      // isInitList.remove(item)
+      // this.set_allGraphList(allGraphs)
+      // this.set_isInitList(isInitList)
       // await this.removeGraph(item)
       }
     },

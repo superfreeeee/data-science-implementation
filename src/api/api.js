@@ -48,3 +48,7 @@ export function getNodesListAPI(){
 export function removeGraphAPI(params){
   return http.get(`${request}/graph/removeGraph`,params)
 }
+
+export function getGraphByNodeAPI(params){
+  return http.get(`${request}/graph/getGraphByNode`,params)
+}

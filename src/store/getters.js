@@ -18,6 +18,7 @@ const getters={
   graphNumber:state=>state.graph.graphNumber,//图的总数量
   allGraphList:state=>state.graph.allGraphList,//存放所有图的map
   graphIndexList:state=>state.graph.graphIndexList,//存放所有的index
+  isInitList:state=>state.graph.isInitList,//存放所有图是否保存布局
   //添加边
   addEdgeFormVisible:state=>state.edge.addEdgeFormVisible,
   // 修改边

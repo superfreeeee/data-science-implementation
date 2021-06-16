@@ -1,24 +1,21 @@
 <template>
   <div class="upload_form">
-    <a-modal
-      title="上传文件" :footer="null" :visible="uploadFormVisible" :confirmLoading="confirmLoading" @cancel="cancelUpload">
-      <a-upload-dragger name="file" ref="majorUpload" :multiple="true" action="http://localhost:9999/api/file/upload" :remove="handleRemove"
-                        :headers="majorHeaders" :before-upload="beforeUpload" @change="handleChange" :file-list="fileList">
-        <p class="ant-upload-drag-icon">
-          <a-icon style="color:#437FFF;font-size: 32px " type="vertical-align-top" />
-        </p>
-        <p class="ant-upload-text">
-          点击或将文件拖拽到这里上传
-        </p>
-        <p class="ant-upload-hint">
-          支持扩展名：.csv .json
-        </p>
-      </a-upload-dragger>
-      <!--      <a-upload-->
-      <!--        :fileList="fileList" :remove="handleRemove" show-upload-list="true" :beforeUpload="beforeUpload">-->
-      <!--      <a-button><a-icon type="upload" />选择文件</a-button>-->
-      <!--      </a-upload>-->
-    </a-modal>
+        <a-modal
+          title="上传文件" :footer="null" :visible="uploadFormVisible" :confirmLoading="confirmLoading" @cancel="cancelUpload">
+          <a-upload-dragger name="mFile" :multiple="false" :showUploadList="true" action="http://localhost:9090/api/graph/uploadFile" :remove="handleRemove"
+                            :before-upload="beforeUpload" @change="handleChange" :file-list="fileList">
+            <p class="ant-upload-drag-icon">
+              <a-icon style="color:#437FFF;font-size: 32px " type="vertical-align-top" />
+            </p>
+            <p class="ant-upload-text">
+              点击或将文件拖拽到这里上传
+            </p>
+            <p class="ant-upload-hint">
+              支持扩展名：.json
+            </p>
+          </a-upload-dragger>
+          <a-button @click="handleSure" type="primary" style="margin: 20px 0px 10px 400px">确认</a-button>
+        </a-modal>
   </div>
 </template>
 
@@ -28,14 +25,13 @@ export default {
   name: "file",
   data(){
     return{
-      fileList: [],
-      confirmLoading: false
+      confirmLoading: false,
+      fileList:[]
     }
   },
   computed:{
     ...mapGetters([
       'uploadFormVisible',
-      'fileList'
     ])
   },
   methods:{
@@ -116,7 +112,11 @@ export default {
         }
       }
       this.all_property = []
-    }
+    },
+    handleSure () {
+      // this.uploadFormVisible = false
+      this.set_uploadFormVisible(false)
+    },
   }
 }
 </script>
