@@ -10,10 +10,12 @@ const getters={
   //知识图谱详细信息
   graphDetailsVisible:state=>state.graphDetails.graphDetailsVisible,
   graphDetailsList:state=>state.graphDetails.graphDetailsList,
+  // 类型过滤
   filterByNodeLabelsVisible: state=>state.filterByNodeLabels.filterByNodeLabelsVisible,
+  graphLabelsList:state=>state.filterByNodeLabels.graphLabelsList,
   //知识图谱边节点信息
-  graphList:state=>state.graph.graphList,
-  isInit:state=>state.graph.isInit,
+  // graphList:state=>state.graph.graphList,
+  // isInit:state=>state.graph.isInit,
   currentIndex:state=>state.graph.currentIndex,//当前图index
   graphNumber:state=>state.graph.graphNumber,//图的总数量
   allGraphList:state=>state.graph.allGraphList,//存放所有图的map

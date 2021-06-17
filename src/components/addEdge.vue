@@ -83,7 +83,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["addEdgeFormVisible"]),
+    ...mapGetters(["addEdgeFormVisible","currentIndex"]),
   },
   props:{
       'sourceId':String,
@@ -159,9 +159,9 @@ export default {
             ele.properties[key] = this.edgeData.properties[key];
           }
           console.log(this.edgeData);
-          await AddEdgeAPI(this.edgeData)
+          await AddEdgeAPI({id:this.$store.getters.currentIndex,edge:this.edgeData})
             .then((res) => {
-              console.log(res.content)
+              console.log(res)
               ele.data.id = res.content + "";
               // console.log(ele)
             })

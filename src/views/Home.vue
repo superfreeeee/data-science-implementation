@@ -409,6 +409,7 @@ export default {
       "isInitList",
       "allGraphList",
       "graphIndexList",
+      "currentIndex"
     ]),
   },
   methods: {
@@ -431,6 +432,7 @@ export default {
       "updateNodePos",
       "getGraph",
       "getNewGraph",
+      "getLabelsByGraphId",
     ]),
     // 放大
     magnifying() {
@@ -519,17 +521,17 @@ export default {
     // 重新加载图片
     async reloadGraph() {
       await this.$refs.ref_CJS.getGraphList();
-      console.log("hhh", this.$store.getters.isInit);
+      // console.log("hhh", this.$store.getters.isInit);
       this.$refs.ref_CJS.$cy.fit();
     },
     // 节点过滤
     filterByNodeLabels() {
-      this.getGraphDetailsList();
+      this.getLabelsByGraphId();
       this.set_filterByNodeLabelsVisible(true);
     },
     getChildData(graph, isReset) {
-      console.log("filter", graph);
-      console.log("重新加载", isReset);
+      // console.log("filter", graph);
+      // console.log("重新加载", isReset);
       this.$refs.ref_CJS.$cy.elements().remove();
       if (!isReset) {
         var nodes = graph.nodes;
@@ -556,7 +558,7 @@ export default {
               // }
             },
           ]);
-          console.log("added");
+          // console.log("added");
         }
 
         for (var e in edges) {
@@ -594,23 +596,13 @@ export default {
     },
     // 保存位置信息
     saveGraph() {
-      this.set_isInit(true);
+      var idx=this.$store.getters.currentIndex
+      var isInit=this.$store.getters.isInitList
+      isInit[idx]=true
+      this.set_isInitList(isInit)
       var nodesCollection = this.$refs.ref_CJS.$cy.filter(function (e, i) {
         return e.isNode();
       });
-      // var nodes={}
-      // var test1=/^[0-9]+$/
-      // for(var item in nodesCollection){
-      //   // console.log(nodesCollection[item])
-      //   console.log(nodesCollection[item].data().id)
-      //   if(test1.test(nodesCollection[item].data().id)){
-      //     // console.log("t")
-      //     console.log(nodesCollection[item].data().id)
-      //     nodes[item]=nodesCollection[item]
-      //   }
-      // }
-      // console.log(nodesCollection)
-      // console.log(nodes)
       this.updateNodePos(nodesCollection);
     },
     newDrawer() {

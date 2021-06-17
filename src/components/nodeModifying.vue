@@ -170,7 +170,7 @@ export default {
     this.nodeData=this.node
   },
   computed: {
-    ...mapGetters(["modifyNodeFormVisible","nodeProperties"]),
+    ...mapGetters(["modifyNodeFormVisible","nodeProperties","currentIndex"]),
   },
   props: {
     'node':Object
@@ -262,7 +262,7 @@ export default {
           }
         
         console.log("nodedata",this.nodeData)
-          await UpdataNodeAPI(this.nodeData)
+          await UpdataNodeAPI({id:this.$store.getters.currentIndex,node:this.nodeData})
             .then((res) => {
               console.log(res)
             })

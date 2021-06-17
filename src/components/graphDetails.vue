@@ -56,7 +56,7 @@ h3{
 <template>
   <a-drawer
     title="Graph Details"
-    placement="left"
+    placement="right"
     :closable="true"
     :visible="graphDetailsVisible"
     @close="onClose"
