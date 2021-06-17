@@ -1888,6 +1888,8 @@ const graph = {
                 ]
             }
             graph = res.content
+
+            
             for (var item in graph) {
                 graphNumber = graphNumber + 1
                 var isInit = true
@@ -2047,18 +2049,23 @@ const graph = {
             }}]
             var isInit=true
 
+            // 将新图添加到allGraphList
             var allGraphs=this.getters.allGraphList
             allGraphs[index]=graphList
             commit("set_allGraphList",allGraphs)
+            // 图总数加一
             var graphNumber=this.getters.graphNumber
             graphNumber=graphNumber+1
             commit("set_graphNumber",graphNumber)
+            // 图的index添加到graphIndexList
             var graphIndexList=this.getters.graphIndexList
             graphIndexList.push(index)
             commit("set_graphIndexList",graphIndexList)
+            // 当前展示图的index为新图的index
             var currentIndex=this.getters.currentIndex
             currentIndex=index
             commit("set_currentIndex",currentIndex)
+            // 把是否保存布局的存入isInitList
             var initList=this.getters.isInitList
             initList[index]=isInit
             commit("set_isInitList",initList)

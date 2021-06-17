@@ -675,7 +675,7 @@ export default {
         var index = list.indexOf(item);
         list.splice(index, 1);
         this.set_graphIndexList(list);
-        // 更改当前的currentIndex
+        // 更改当前的currentIndex,加入arrIndex中
         if (index == 0) {
           index = index + 1;
         } else {
@@ -683,16 +683,16 @@ export default {
         }
         var currentIndex = list[index];
         this.set_currentIndex(currentIndex);
+        this.arrIndex=[]
+        this.arrIndex.push(currentIndex)
+        // console.log("arr",this.arrIndex)
+        // console.log(this.$store.getters.graphIndexList)
         this.$refs.ref_CJS.getGraphList();
         // 图数量减一
         var num = this.$store.getters.graphNumber;
         num = num - 1;
         this.set_graphNumber(num);
-        // 如果index在arrIndex中，删除
-        let arrIndex = this.arrIndex.indexOf(item);
-        if(arrIndex>-1){
-          this.arrIndex=[]
-        }
+        
         // // 从allGraphList,isInitList中删除
         // var allGraphs=this.$store.getters.allGraphList
         // allGraphs.remove(item)
@@ -705,7 +705,7 @@ export default {
     },
     // 切换图
     changeGraph(item) {
-      console.log("item", item);
+      // console.log("item", item);
       let arrIndex = this.arrIndex.indexOf(item);
       if (arrIndex <= -1) {
         // 未选中,点击选中
@@ -716,9 +716,10 @@ export default {
       this.$refs.ref_CJS.getGraphList();
     },
     async myAddGraph() {
-      console.log("start");
       await this.getNewGraph();
-      console.log(this.$store.getters.graphIndexList);
+      this.arrIndex=[]
+      this.arrIndex.push(this.$store.getters.currentIndex);
+      this.$refs.ref_CJS.getGraphList();
     },
     // 模糊搜索结果高亮
     getSearchResult(idList) {

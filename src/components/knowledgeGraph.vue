@@ -476,7 +476,7 @@ export default {
       console.log(graph)
       this.$cy.elements().remove()
       this.addEles(graph)
-      if(!(this.$store.getters.isInit[graphIndex])){
+      if(!(this.$store.getters.isInitList[graphIndex])){
         this.$cy.layout({name: 'cose',randomize: false,animate: true,padding:0,componentSpacing: 30,nodeOverlap:4
       }).run()
       this.resize()
