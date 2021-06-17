@@ -42,9 +42,13 @@ export function uploadFileAPI(params){
 }
 
 export function getNodesListAPI(){
-  return http.get(`${request}/getNodesList`)
+  return http.get(`${request}/node/getNodesList`)
 }
 
 export function removeGraphAPI(params){
   return http.get(`${request}/graph/removeGraph`,params)
+}
+
+export function getSearchNodeListAPI(){
+  return http.get(`${request}/node/getSearchNodes`)
 }

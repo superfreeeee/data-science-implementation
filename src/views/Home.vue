@@ -16,7 +16,7 @@
           <span slot="title"><a-icon type="user" /><span>所有节点</span></span>
             <a-sub-menu  v-for='(value, key) in nodeList' :key="key"  >
               <span slot="title"><a-icon type="user" /><span>{{key}}</span></span>
-              <a-sub-menu  v-for='(value1, key1) in value' :key="key+key1"  >
+              <a-sub-menu  v-for='(value1, key1) in value[0]' :key="key+key1"  >
                 <span slot="title"><a-icon type="user" /><span>{{key1}}</span></span>
                 <a-sub-menu  v-for='(value2, key2) in value1' :key="key+key1+key2"  >
                 <span slot="title"><a-icon type="user" /><span>{{key2}}</span></span>
@@ -37,7 +37,7 @@
         <div style="padding: 16px 24px; height: 70px; background-color: white; border-bottom:1px groove">
           <a-select style="width: 60%; margin-left: 5.5%;"
             show-search
-            placeholder="Select a person"
+            placeholder="Select a node"
             option-filter-prop="children"
             :filter-option="filterOption"
             @focus="handleFocus"
@@ -45,8 +45,8 @@
             @change="handleChangeS"
             
           >
-            <a-select-option v-for="item in searchNodeList" :key="item.id">
-              {{item.name}}
+            <a-select-option v-for="(value, key) in searchNodeList" :key="value">
+              {{key}}
             </a-select-option>
           </a-select>
           <a-icon type="radar-chart" />
@@ -219,7 +219,7 @@ import History from "../components/history"
 import FilterByNodeLabels from "../components/nodeLabelsFiltering"
 import Question from '../components/question'
 import MySearch from '../components/mySearch'
-import {getNodesListAPI} from "../api/api"
+import {getNodesListAPI, getSearchNodeListAPI} from "../api/api"
 import { mapActions, mapGetters,mapMutations } from 'vuex'
 export default{
   data() {
@@ -237,19 +237,15 @@ export default{
       // searchType: "",
       // // 查询参数
       // queryParam: {},
-      nodeList:{'开心':{'非常开心':{'A':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}], 'B':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}]},'一般般开心':{'A':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}], 'B':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}]}},
-        '快乐':{'非常开心':{'A':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}], 'B':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}]},'一般般开心':{'A':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}], 'B':[{'identity':'1', 'properties':{'name':'12'}},{'identity':'1', 'properties':{'name':'12'}}]}}
-      },
-      searchNodeList:[
-        {'name':'r', 'id':1}, {'name':'n', 'id':2}, {'name':'g', 'id':3}, {'name':'6', 'id':4}
-      ],
+      nodeList:{},
+      searchNodeList:[],
       // graphIndexList:[0,1],
       arrIndex:[0]
 
     }
   },
-  mounted(){
-    this.getNodeList()
+  async mounted(){
+    await  Promise.all(this.getNodeList(), this.getSearchNodeList())
   },
   components:{
     Drawer,
@@ -282,7 +278,7 @@ export default{
     ...mapActions(["getGraphDetailsList", "getHistoryList", "updateNodePos","getGraph",]),
     // 放大
     magnifying() {
-      console.log(this);
+      // console.log(this);
       this.$refs.ref_CJS.magnifying();
     },
     // 缩小
@@ -314,7 +310,7 @@ export default{
       await this.set_settingVisible(true);
     },
     getSetting(settingData) {
-      console.log(settingData);
+      // console.log(settingData);
       this.$refs.ref_CJS.$cy
         .style()
         .selector("node")
@@ -362,12 +358,12 @@ export default{
       this.set_historyVisible(true);
     },
     onClick({ key }) {
-      console.log(`Click on item ${key}`);
+      // console.log(`Click on item ${key}`);
     },
     // 重新加载图片
     async reloadGraph() {
       await this.$refs.ref_CJS.getGraphList();
-      console.log("hhh", this.$store.getters.isInit);
+      // console.log("hhh", this.$store.getters.isInit);
       this.$refs.ref_CJS.$cy.fit();
     },
     // 节点过滤
@@ -376,8 +372,8 @@ export default{
       this.set_filterByNodeLabelsVisible(true);
     },
     getChildData(graph, isReset) {
-      console.log("filter", graph);
-      console.log("重新加载", isReset);
+      // console.log("filter", graph);
+      // console.log("重新加载", isReset);
       this.$refs.ref_CJS.$cy.elements().remove();
       if (!isReset) {
         var nodes = graph.nodes;
@@ -393,7 +389,7 @@ export default{
             data.name = "";
           }
           data.id = node.identity;
-          console.log(data);
+          // console.log(data);
           this.$refs.ref_CJS.addEles([
             {
               group: "nodes",
@@ -404,7 +400,7 @@ export default{
               // }
             },
           ]);
-          console.log("added");
+          // console.log("added");
         }
 
         for (var e in edges) {
@@ -489,16 +485,16 @@ export default{
     },
     addGraph(item){
       this.isHome = true
-      console.log(item)
+      // console.log(item)
     },
     handleChangeS(value) {
-      console.log(`selected ${value}`);
+      // console.log(`selected ${value}`);
     },
     handleBlur() {
-      console.log('blur');
+      // console.log('blur');
     },
     handleFocus() {
-      console.log('focus');
+      // console.log('focus');
     },
     filterOption(input, option) {
       return (
@@ -513,17 +509,23 @@ export default{
         this.isHome = false
       }
     },
-    getNodeList(){
-      // getNodesListAPI().then(res=>{
-      //   this.nodeList = res.data
-      // }).catch(err => console.log(err))
+    async getNodeList(){
+      await getNodesListAPI().then(res=>{
+        this.nodeList = res.content
+        console.log("nodelist", this.nodeList)
+      }).catch(err => console.log(err))
+    },
+    async getSearchNodeList(){
+      await getSearchNodeListAPI().then(res=>{
+        this.searchNodeList = res.content
+      }).catch(err=>console.log(err))
     },
     async closeGraph(item){
       var list=this.$store.getters.graphIndexList
-      console.log("len",list.length)
+      // console.log("len",list.length)
       if(list.length==1){
         // 只有一张图不能删除
-        console.log(this.document)
+        // console.log(this.document)
         alert("can't be delete!There is only one graph")
       }else{
         // 将Index从currentIndex中删除
@@ -548,7 +550,7 @@ export default{
     },
 
     changeGraph(item){
-      console.log("item",item)
+      // console.log("item",item)
       let arrIndex = this.arrIndex.indexOf(item);
       if (arrIndex <= -1) {
         // 未选中,点击选中

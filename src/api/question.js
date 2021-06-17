@@ -5,9 +5,22 @@ const api={
 }
 
 export function getAnswerAPI(params) {
-  return http.get(`${api.QuestionPre}/answerQuestion`,params)
+  const pa = {
+    'question': params
+  }
+  return http.get(`${api.QuestionPre}/answerQuestion`, pa)
+}
+
+export function getRecommandAPI(params) {
+  const pa = {
+    'question': params
+  }
+  return http.get(`${api.QuestionPre}/recommendQue`, pa)
 }
 
 export function semanticSearchAPI(params) {
-  return http.get(`${api.QuestionPre}/semanticSearch`,params)
+  const pa = {
+    'question': params
+  }
+  return http.get(`${api.QuestionPre}/semanticSearch`,pa)
 }
