@@ -101,3 +101,6 @@
   .active3{
     color: white;
   }
+  .outer-container::-webkit-scrollbar {
+    display: none;
+}

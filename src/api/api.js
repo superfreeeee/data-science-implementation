@@ -27,11 +27,11 @@ export function DeleteEdgeAPI (params) {
 export function updateEdgeAPI (params) {
   return http.post(`${request}/relation/updateRelation`, params)
 }
-export function AddEdgeAPI (params) {
-  return http.post(`${request}/relation/addRelation`, params)
+export function AddEdgeAPI (id,params) {
+  return http.post(`${request}/relation/addRelation?graph_id=${id}`, params)
 }
-export function getGraphAPI () {
-  return http.get(`${request}/graph/getGraph`)
+export function getGraphListAPI () {
+  return http.get(`${request}/graph/getGraphList`)
 }
 export function filterByNodeLabelsAPI(params){
   return http.post(`${request}/graph/filterByNodeLabels`,params)

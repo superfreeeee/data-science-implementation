@@ -36,7 +36,7 @@ export default {
     delete this.$cy;
   },
   watch: {
-         ...mapGetters(["graphList","isInit","currentIndex","allGraphList"])
+         ...mapGetters(["graphList","isInit","currentIndex","allGraphList","isInitList"])
   },
   props: {},
   components:{
@@ -293,7 +293,6 @@ export default {
       .style({'background-color': '#48D1CC'})
       .selector(".6")
       .style({'background-color': '#B0E0E6'});
-
   },
   data(){
     return{
@@ -314,7 +313,8 @@ export default {
           // 属性（键值对）
         }
       },
-      node_properties:[]
+      node_properties:[],
+      cnt:1
     }
   },
   methods:{
@@ -329,6 +329,7 @@ export default {
           const elements = ((Array.isArray ? Array.isArray(eles) : eles != null && eles instanceof Array) ? eles : [eles])
           const filterElements = elements.filter(__ => !this.$cy.getElementById(__.data.id).length)
           this.$cy.add(filterElements)
+          // this.$cy.layout({name:"cose"}).run()
         })
         this.$cy.endBatch()
       }
@@ -464,13 +465,16 @@ export default {
     },
     //获取图
     async getGraphList(){
-      // await this.getGraph()
+      await this.getGraph()
       var graphIndex=this.$store.getters.currentIndex
       var allGraphs=this.$store.getters.allGraphList
+      // console.log("graphIndex",graphIndex)
+      // console.log("allgraphs",allGraphs)
       var graph=allGraphs[graphIndex]
-      console.log(graphIndex)
+      // console.log(graphIndex)
       // this.$cy.elements().remove()
       console.log(graph)
+      this.$cy.elements().remove()
       this.addEles(graph)
       if(!(this.$store.getters.isInit[graphIndex])){
         this.$cy.layout({name: 'cose',randomize: false,animate: true,padding:0,componentSpacing: 30,nodeOverlap:4
@@ -478,9 +482,7 @@ export default {
       this.resize()
       }else{
         this.resize()
-        // console.log("kg",this.$store.getters.isInit)
       }
-      
     },
     //删除节点
     async removeNode(e){

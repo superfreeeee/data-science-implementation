@@ -1,6 +1,6 @@
 import {
     UpdataNodeAPI,
-    getGraphAPI,
+    getGraphListAPI,
     removeGraphAPI,
     getGraphByNodeAPI
 } from "../../api/api";
@@ -10,7 +10,8 @@ const graph = {
         graphList: [],
         isInit: true,
         currentIndex: 0,
-        graphNumber: 0
+        graphNumber: 0,
+        getGraphByNodeId:0
     },
     mutations: {
         set_graphList: function (state, data) {
@@ -33,6 +34,9 @@ const graph = {
         },
         set_isInitList: function (state, data) {
             state.isInitList = data
+        },
+        set_getGraphByNodeId: function(state,data){
+            state.getGraphByNodeId=data
         }
     },
     actions: {
@@ -74,7 +78,7 @@ const graph = {
             var graphNumber = 0//图总数量
             var graphIndexList = [] //图的index
             var isInitList = {} //是否已经保存布局
-            //   await getGraphAPI().then(res => {
+            //   await getGraphListAPI().then(res => {
             //     console.log("res",res)
             //     graph = res.content
             //     console.log(graph)
@@ -1691,7 +1695,196 @@ const graph = {
                             }
                         ],
                         "id": 1
-                    }
+                    },{
+                        "nodes":[
+                            {
+                                "identity": 53571,
+                                "labels": [
+                                    "医用诊疗设备"
+                                ],
+                                "properties": {
+                                    "name": "外循环及血液处理设备",
+                                    "x": "880.8942372569195",
+                                    "y": "994.440155759884",
+                                    "id": "https://covid-19.aminer.cn/kg/class/external_circulation_and_blood_processing_equipment"
+                                },
+                                "cls": 1
+                            },
+                        ],
+                        "edges":[],
+                        "id":2
+                    },
+                    {
+                        "nodes":[
+                            {
+                                "identity": 53571,
+                                "labels": [
+                                    "医用诊疗设备"
+                                ],
+                                "properties": {
+                                    "name": "外循环及血液处理设备",
+                                    "x": "880.8942372569195",
+                                    "y": "994.440155759884",
+                                    "id": "https://covid-19.aminer.cn/kg/class/external_circulation_and_blood_processing_equipment"
+                                },
+                                "cls": 1
+                            },
+                        ],
+                        "edges":[],
+                        "id":3
+                    },
+                    {
+                        "nodes":[
+                            {
+                                "identity": 53571,
+                                "labels": [
+                                    "医用诊疗设备"
+                                ],
+                                "properties": {
+                                    "name": "外循环及血液处理设备",
+                                    "x": "880.8942372569195",
+                                    "y": "994.440155759884",
+                                    "id": "https://covid-19.aminer.cn/kg/class/external_circulation_and_blood_processing_equipment"
+                                },
+                                "cls": 1
+                            },
+                        ],
+                        "edges":[],
+                        "id":4
+                    },
+                    {
+                        "nodes":[
+                            {
+                                "identity": 53571,
+                                "labels": [
+                                    "医用诊疗设备"
+                                ],
+                                "properties": {
+                                    "name": "外循环及血液处理设备",
+                                    "x": "880.8942372569195",
+                                    "y": "994.440155759884",
+                                    "id": "https://covid-19.aminer.cn/kg/class/external_circulation_and_blood_processing_equipment"
+                                },
+                                "cls": 1
+                            },
+                        ],
+                        "edges":[],
+                        "id":5
+                    },
+                    {
+                        "nodes":[
+                            {
+                                "identity": 53571,
+                                "labels": [
+                                    "医用诊疗设备"
+                                ],
+                                "properties": {
+                                    "name": "外循环及血液处理设备",
+                                    "x": "880.8942372569195",
+                                    "y": "994.440155759884",
+                                    "id": "https://covid-19.aminer.cn/kg/class/external_circulation_and_blood_processing_equipment"
+                                },
+                                "cls": 1
+                            },
+                        ],
+                        "edges":[],
+                        "id":6
+                    },
+                    {
+                        "nodes":[
+                            {
+                                "identity": 53571,
+                                "labels": [
+                                    "医用诊疗设备"
+                                ],
+                                "properties": {
+                                    "name": "外循环及血液处理设备",
+                                    "x": "880.8942372569195",
+                                    "y": "994.440155759884",
+                                    "id": "https://covid-19.aminer.cn/kg/class/external_circulation_and_blood_processing_equipment"
+                                },
+                                "cls": 1
+                            },
+                        ],
+                        "edges":[],
+                        "id":7
+                    },
+                    {
+                        "nodes":[
+                            {
+                                "identity": 53571,
+                                "labels": [
+                                    "医用诊疗设备"
+                                ],
+                                "properties": {
+                                    "name": "外循环及血液处理设备",
+                                    "x": "880.8942372569195",
+                                    "y": "994.440155759884",
+                                    "id": "https://covid-19.aminer.cn/kg/class/external_circulation_and_blood_processing_equipment"
+                                },
+                                "cls": 1
+                            },
+                        ],
+                        "edges":[],
+                        "id":8
+                    },
+                    {
+                        "nodes":[
+                            {
+                                "identity": 53571,
+                                "labels": [
+                                    "医用诊疗设备"
+                                ],
+                                "properties": {
+                                    "name": "外循环及血液处理设备",
+                                    "x": "880.8942372569195",
+                                    "y": "994.440155759884",
+                                    "id": "https://covid-19.aminer.cn/kg/class/external_circulation_and_blood_processing_equipment"
+                                },
+                                "cls": 1
+                            },
+                        ],
+                        "edges":[],
+                        "id":9
+                    },
+                    {
+                        "nodes":[
+                            {
+                                "identity": 53571,
+                                "labels": [
+                                    "医用诊疗设备"
+                                ],
+                                "properties": {
+                                    "name": "外循环及血液处理设备",
+                                    "x": "880.8942372569195",
+                                    "y": "994.440155759884",
+                                    "id": "https://covid-19.aminer.cn/kg/class/external_circulation_and_blood_processing_equipment"
+                                },
+                                "cls": 1
+                            },
+                        ],
+                        "edges":[],
+                        "id":10
+                    },
+                    {
+                        "nodes":[
+                            {
+                                "identity": 53571,
+                                "labels": [
+                                    "医用诊疗设备"
+                                ],
+                                "properties": {
+                                    "name": "外循环及血液处理设备",
+                                    "x": "880.8942372569195",
+                                    "y": "994.440155759884",
+                                    "id": "https://covid-19.aminer.cn/kg/class/external_circulation_and_blood_processing_equipment"
+                                },
+                                "cls": 1
+                            },
+                        ],
+                        "edges":[],
+                        "id":20
+                    },
                 ]
             }
             graph = res.content
@@ -1763,9 +1956,9 @@ const graph = {
                 // {"1":graphList,"2":graphList,..}
                 allGraphList[index] = graphList
             }
-            // console.log("all_graphList",allGraphList)
-            // console.log(graphNumber)
-            // console.log(graphIndexList)
+            console.log("all_graphList",allGraphList)
+            console.log(graphNumber)
+            console.log(graphIndexList)
             commit("set_allGraphList", allGraphList)
             commit("set_graphNumber", graphNumber)
             commit("set_graphIndexList", graphIndexList)
@@ -1781,84 +1974,94 @@ const graph = {
                 .catch((err) => console.log(err));
         },
         // 根据节点id获取新的图
-        async getNewGraph(nodeId) {
-            var graph = {}
-            await getGraphByNodeAPI({ id: nodeId })
-                .then((res) => {
-                    graph = res.content
-                })
-                .catch((err) => console.log(err));
+        async getNewGraph({commit}) {
+            // var nodeId=this.getters.getGraphByNodeId
+            // var graph = {}
+            // await getGraphByNodeAPI({ id: nodeId })
+            //     .then((res) => {
+            //         graph = res.content
+            //     })
+            //     .catch((err) => console.log(err));
 
-            // 图数量加一，index存入graphIndexList，currentIndex修改，存入totalgraphList,isinit存入
-            var graphList = []
-            var nodes = graph.nodes
-            var edges = graph.edges
-            var index = graph.id
-            var isInit = true
-            for (var n in nodes) {
-                var node = nodes[n]
-                const data = {}
-                if (node.properties) {
-                    for (var key in node.properties) {
-                        data[key] = node.properties[key]
-                    }
-                } else {
-                    data.name = ''
-                }
-                const toBeAdded = {
-                    group: 'nodes',
-                    data,
-                    classes: "" + node.cls
-                }
-                if (node.properties.x != null && node.properties.y != null) {
-                    toBeAdded.position = {
-                        x: parseFloat(node.properties.x),
-                        y: parseFloat(node.properties.y)
-                    }
-                } else {
-                    isInit = false
-                    // isInitList[index] = false
-                }
-                graphList.push(toBeAdded)
-            }
+            // // 图数量加一，index存入graphIndexList，currentIndex修改，存入totalgraphList,isinit存入
+            // var graphList = []
+            // var nodes = graph.nodes
+            // var edges = graph.edges
+            // var index = graph.id
+            // var isInit = true
+            // for (var n in nodes) {
+            //     var node = nodes[n]
+            //     const data = {}
+            //     if (node.properties) {
+            //         for (var key in node.properties) {
+            //             data[key] = node.properties[key]
+            //         }
+            //     } else {
+            //         data.name = ''
+            //     }
+            //    data.id = node.identity
+            //    data.labels = node.labels
+            //     const toBeAdded = {
+            //         group: 'nodes',
+            //         data,
+            //         classes: "" + node.cls
+            //     }
+            //     if (node.properties.x != null && node.properties.y != null) {
+            //         toBeAdded.position = {
+            //             x: parseFloat(node.properties.x),
+            //             y: parseFloat(node.properties.y)
+            //         }
+            //     } else {
+            //         isInit = false
+            //         // isInitList[index] = false
+            //     }
+            //     graphList.push(toBeAdded)
+            // }
 
-            for (var e in edges) {
-                var edge = edges[e]
-                const data = {}
-                if (edge.properties) {
-                    for (var keyE in edge.properties) {
-                        if (keyE !== 'type') {
-                            data[keyE] = edge.properties[keyE]
-                        }
-                    }
-                }
-                data.id = edge.identity
-                data.source = edge.start
-                data.target = edge.end
-                data.name = edge.type
-                const toBeAdded = {
-                    group: 'edges',
-                    data
-                }
-                graphList.push(toBeAdded)
-            }
+            // for (var e in edges) {
+            //     var edge = edges[e]
+            //     const data = {}
+            //     if (edge.properties) {
+            //         for (var keyE in edge.properties) {
+            //             if (keyE !== 'type') {
+            //                 data[keyE] = edge.properties[keyE]
+            //             }
+            //         }
+            //     }
+            //     data.id = edge.identity
+            //     data.source = edge.start
+            //     data.target = edge.end
+            //     data.name = edge.type
+            //     const toBeAdded = {
+            //         group: 'edges',
+            //         data
+            //     }
+            //     graphList.push(toBeAdded)
+            // }
+            var index=30
+            var graphList=[{group:"nodes",data:{
+                id:53571,
+                "name": "外循环及血液处理设备",
+                "x": "880.8942372569195",
+                "y": "994.440155759884",
+            }}]
+            var isInit=true
 
-            var allGraphs=this.$store.getters.allGraphList
+            var allGraphs=this.getters.allGraphList
             allGraphs[index]=graphList
             commit("set_allGraphList",allGraphs)
-            var graphNumber=this.$store.getters.graphNumber
+            var graphNumber=this.getters.graphNumber
             graphNumber=graphNumber+1
             commit("set_graphNumber",graphNumber)
-            var graphIndexList=this.$store.getters.graphIndexList
+            var graphIndexList=this.getters.graphIndexList
             graphIndexList.push(index)
             commit("set_graphIndexList",graphIndexList)
-            var currentIndex=this.$store.getters.currentIndex
+            var currentIndex=this.getters.currentIndex
             currentIndex=index
             commit("set_currentIndex",currentIndex)
-            var initList=this.$store.getters.isInitList
+            var initList=this.getters.isInitList
             initList[index]=isInit
             commit("set_isInitList",initList)
-
         }
     }
 }
