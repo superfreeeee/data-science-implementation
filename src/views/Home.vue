@@ -1,9 +1,9 @@
 <style src="../assets/style/Home.css"></style>
 <template>
-  <a-layout id="components-layout-demo-side" style="min-height: 100vh;">
-    <a-layout-sider v-model="collapsed"  collapsible width = 350 >
+  <a-layout id="components-layout-demo-side" style="min-height: 100vh">
+    <a-layout-sider v-model="collapsed" collapsible width="350">
       <div class="logo" />
-      <a-menu theme="dark" :default-selected-keys="['1']"  mode="inline">
+      <a-menu theme="dark" :default-selected-keys="['1']" mode="inline">
         <a-menu-item key="1" @click="menuChange('Home')">
           <a-icon type="pie-chart" />
           <span>主页</span>
@@ -14,28 +14,41 @@
         </a-menu-item>
         <a-sub-menu>
           <span slot="title"><a-icon type="user" /><span>所有节点</span></span>
-            <a-sub-menu  v-for='(value, key) in nodeList' :key="key"  >
-              <span slot="title"><a-icon type="user" /><span>{{key}}</span></span>
-              <a-sub-menu  v-for='(value1, key1) in value[0]' :key="key+key1"  >
-                <span slot="title"><a-icon type="user" /><span>{{key1}}</span></span>
-                <a-sub-menu  v-for='(value2, key2) in value1' :key="key+key1+key2"  >
-                <span slot="title"><a-icon type="user" /><span>{{key2}}</span></span>
-                  <a-menu-item v-for='item in value2' :key="key+key1+key2+item" @click="addGraph(item.identity)">
-                    {{item.properties.name}}
-                  </a-menu-item>
-              </a-sub-menu>
+          <a-sub-menu  v-for='(value, key) in nodeList' :key="key"  >
+            <span slot="title"><a-icon type="user" /><span>{{key}}</span></span>
+            <a-sub-menu  v-for='(value1, key1) in value[0]' :key="key+key1"  >
+              <span slot="title"><a-icon type="user" /><span>{{key1}}</span></span>
+              <a-sub-menu  v-for='(value2, key2) in value1' :key="key+key1+key2"  >
+              <span slot="title"><a-icon type="user" /><span>{{key2}}</span></span>
+                <a-menu-item v-for='item in value2' :key="item.identity" @click="addGraph(item.identity)">
+                  {{item.properties.name}}
+                </a-menu-item>
               </a-sub-menu>
             </a-sub-menu>
+          </a-sub-menu>
         </a-sub-menu>
         <a-menu key="4" @click="newDrawer">
           <span slot="title"><a-icon type="team" /><span>Team</span></span>
         </a-menu>
+        <a-menu-item key="5" @click="menuChange('automaticBuilding')">
+          <a-icon type="build" />
+          <span>自动构建</span>
+        </a-menu-item>
       </a-menu>
     </a-layout-sider>
     <a-layout>
+      <!-- 主页面 -->
       <a-layout-content v-if="isHome">
-        <div style="padding: 16px 24px; height: 70px; background-color: white; border-bottom:1px groove">
-          <a-select style="width: 60%; margin-left: 5.5%;"
+        <div
+          style="
+            padding: 16px 24px;
+            height: 70px;
+            background-color: white;
+            border-bottom: 1px groove;
+          "
+        >
+          <a-select
+            style="width: 60%; margin-left: 5.5%"
             show-search
             placeholder="Select a node"
             option-filter-prop="children"
@@ -43,7 +56,6 @@
             @focus="handleFocus"
             @blur="handleBlur"
             @change="handleChangeS"
-            
           >
             <a-select-option v-for="(value, key) in searchNodeList" :key="value">
               {{key}}
@@ -53,64 +65,102 @@
         </div>
 
         <div :style="{ padding: '24px', minHeight: '360px' }">
-          <div style="height: 100%; width: 100%;">
+          <div style="height: 100%; width: 100%">
             <!-- 画布 -->
-            
             <div class="navigatorAboveDrawer">
-          <div class="mytab" v-for="item in graphIndexList" :key="item" @click="changeGraph(item)" v-bind:class="{ active1: arrIndex.indexOf(item) > -1 }">
-           <span class="tabTitle" v-bind:class="{ active2: arrIndex.indexOf(item) > -1 }">graph {{graphIndexList.indexOf(item)}}</span> <a-icon type="close" v-bind:class="{ active3: arrIndex.indexOf(item) > -1 }" @click="closeGraph(item)"/>
-          </div>
-          <a-divider style="margin:0;padding:0"/>
-              <!-- <a-form
-                layout="inline"
-                :form="form"
-                @submit="search"
-              > -->
-                <a-row :gutter="24">
-                  <a-col :md="0" :sm="0" :lg="1"></a-col>
-                  <MySearch @listenToMySearch='getSearchResult'></MySearch>
-                  <a-col :md="2" :sm="2" :lg="0"></a-col>
-                  <a-col :md="6" :sm="6" :lg="6">
-                    <div style = "display: flex; align-items: center;">
-                      <a-button @click="filterByNodeLabels()" style="font-size: 16px; color: black;background-color:transparent;border:0px">
-                        类型过滤
-                      </a-button>
-                      <a-dropdown style="margin-left: 20px">
-                        <a class="ant-dropdown-link" @click="e => e.preventDefault()"
-                            style="font-size: 16px; color: black">
-                          调整布局 <a-icon type="down" />
-                        </a>
-                        <a-menu slot="overlay" @click="onClick">
-                          <a-menu-item key="1" @click="refresh({name: 'cose'})"><a-icon title="刷新布局" type="sync" />刷新布局
-                          </a-menu-item>
-                          <a-menu-item key="2"  @click="refresh({name: 'fcose'})">
+              <!-- tab -->
+              <div class="outer-container" style="overflow: auto">
+                <div class="inner-container" style="white-space: nowrap">
+                  <div
+                    class="mytab"
+                    v-for="item in graphIndexList"
+                    :key="item"
+                    @click="changeGraph(item)"
+                    v-bind:class="{ active1: arrIndex.indexOf(item) > -1 }"
+                  >
+                    <span
+                      class="tabTitle"
+                      v-bind:class="{ active2: arrIndex.indexOf(item) > -1 }"
+                      >graph {{ graphIndexList.indexOf(item) }}</span
+                    >
+                    <a-icon
+                      type="close"
+                      v-bind:class="{ active3: arrIndex.indexOf(item) > -1 }"
+                      @click="closeGraph(item)"
+                    />
+                  </div>
+                  <a-icon
+                    type="plus-square"
+                    style="font-size: 20px; margin: 0px"
+                    @click="myAddGraph"
+                  />
+                </div>
+              </div>
+
+              <a-divider style="margin: 0; padding: 0" />
+              <a-row :gutter="24">
+                <a-col :md="0" :sm="0" :lg="1"></a-col>
+                <MySearch @listenToMySearch="getSearchResult"></MySearch>
+                <a-col :md="2" :sm="2" :lg="0"></a-col>
+                <a-col :md="6" :sm="6" :lg="6">
+                  <div style="display: flex; align-items: center">
+                    <a-button
+                      @click="filterByNodeLabels()"
+                      style="
+                        font-size: 16px;
+                        color: black;
+                        background-color: transparent;
+                        border: 0px;
+                      "
+                    >
+                      类型过滤
+                    </a-button>
+                    <a-dropdown style="margin-left: 20px">
+                      <a
+                        class="ant-dropdown-link"
+                        @click="(e) => e.preventDefault()"
+                        style="font-size: 16px; color: black"
+                      >
+                        调整布局 <a-icon type="down" />
+                      </a>
+                      <a-menu slot="overlay" @click="onClick">
+                        <a-menu-item key="1" @click="refresh({ name: 'cose' })"
+                          ><a-icon title="刷新布局" type="sync" />刷新布局
+                        </a-menu-item>
+                        <a-menu-item
+                          key="2"
+                          @click="refresh({ name: 'fcose' })"
+                        >
                           <a-icon type="global" />力导图模式
-                          </a-menu-item>
-                          <a-menu-item key="3" @click="refresh({name: 'klay'})">
-                            <a-icon title="排版布局" type="appstore" />排版模式
-                          </a-menu-item>
-                          <a-menu-item key="4" @click="saveGraph">
-                            <a-icon title="排版布局" type="download" />保存布局
-                          </a-menu-item>
-                        </a-menu>
-                      </a-dropdown>
-                    </div>
-                  </a-col>
-                </a-row>
-              <!-- </a-form> -->
+                        </a-menu-item>
+                        <a-menu-item key="3" @click="refresh({ name: 'klay' })">
+                          <a-icon title="排版布局" type="appstore" />排版模式
+                        </a-menu-item>
+                        <a-menu-item key="4" @click="saveGraph">
+                          <a-icon title="排版布局" type="download" />保存布局
+                        </a-menu-item>
+                      </a-menu>
+                    </a-dropdown>
+                  </div>
+                </a-col>
+              </a-row>
             </div>
             <!-- 右侧导航栏 -->
             <div class="cytoolbar_id">
               <div class="tools">
                 <div class="center-center">
-                  <a-icon type="plus-circle" style="font-size: 25px;cursor: pointer;"
+                  <a-icon
+                    type="plus-circle"
+                    style="font-size: 25px; cursor: pointer"
                     title="放大"
-                    @click="magnifying()"/>
+                    @click="magnifying()"
+                  />
                 </div>
               </div>
               <div class="tools">
                 <div class="center-center">
-                  <a-icon type="minus-circle" 
+                  <a-icon
+                    type="minus-circle"
                     style="font-size: 25px; cursor: pointer"
                     title="缩小"
                     @click="contractible()"
@@ -119,7 +169,8 @@
               </div>
               <div class="tools">
                 <div class="center-center">
-                  <a-icon type="fullscreen" 
+                  <a-icon
+                    type="fullscreen"
                     style="font-size: 25px; cursor: pointer"
                     title="合适大小"
                     @click="resize()"
@@ -128,7 +179,8 @@
               </div>
               <div class="tools">
                 <div class="center-center">
-                  <a-icon type="highlight"
+                  <a-icon
+                    type="highlight"
                     style="font-size: 25px; cursor: pointer"
                     title="高亮邻居"
                     @click="highlight()"
@@ -139,7 +191,7 @@
                 <div class="center-center">
                   <a-icon
                     type="download"
-                    style="font-size: 25px; cursor: pointer;"
+                    style="font-size: 25px; cursor: pointer"
                     title="xml下载"
                     @click="downloadXml()"
                   />
@@ -147,7 +199,8 @@
               </div>
               <div class="tools">
                 <div class="center-center">
-                  <a-icon type="camera"
+                  <a-icon
+                    type="camera"
                     style="font-size: 25px; cursor: pointer"
                     title="全图导出"
                     @click="exportPng()"
@@ -156,7 +209,8 @@
               </div>
               <div class="tools">
                 <div class="center-center">
-                  <a-icon type="history"
+                  <a-icon
+                    type="history"
                     style="font-size: 25px; cursor: pointer"
                     title="历史记录"
                     @click="showHistory()"
@@ -183,25 +237,42 @@
                   />
                 </div>
               </div>
+              <div class="tools">
+                <div class="center-center">
+                  <a-icon
+                    type="file-add"
+                    style="font-size: 25px; cursor: pointer"
+                    title="上传文件"
+                    @click="uploadFile()"
+                  />
+                </div>
+              </div>
             </div>
             <!-- 画布 -->
-            <Drawer ref="ref_CJS" @reloadGraph="reloadGraph">
-            </Drawer>
+            <Drawer ref="ref_CJS" @reloadGraph="reloadGraph"> </Drawer>
             <!-- 智能问答 -->
-            <Question class = "Int_question"></Question>
+            <Question class="Int_question"></Question>
             <div class="propertyDisplay">
               <span id="labels"></span>
               <pre id="properties"> click on the node or edge to display more infomation!</pre>
             </div>
-            <Setting @listenToSet='getSetting'></Setting>
+            <Setting @listenToSet="getSetting"></Setting>
             <GraphDetails></GraphDetails>
             <History></History>
-            <FilterByNodeLabels @listenToChild='getChildData'></FilterByNodeLabels>
+            <FilterByNodeLabels
+              @listenToChild="getChildData"
+            ></FilterByNodeLabels>
+            <UploadFile></UploadFile>
           </div>
         </div>
       </a-layout-content>
-      <a-layout-content v-else style="text-align: center;" >
+      <!-- 语义搜索页面 -->
+      <a-layout-content v-if="isSemantics" style="text-align: center">
         <semanticsS></semanticsS>
+      </a-layout-content>
+      <!-- 自动构建页面 -->
+      <a-layout-content v-if="isAutomaticBuild">
+        <AutomaticBuilding></AutomaticBuilding>
       </a-layout-content>
       <a-layout-footer style="text-align: center">
         Ant Design ©2018 Created by Ant UED
@@ -213,20 +284,24 @@
 <script>
 import Drawer from "../components/knowledgeGraph"
 import Setting from "../components/setting"
-import semanticsS from "../components/semanticsS"
+import semanticsS from "../views/semanticsS"
 import GraphDetails from "../components/graphDetails"
 import History from "../components/history"
 import FilterByNodeLabels from "../components/nodeLabelsFiltering"
 import Question from '../components/question'
 import MySearch from '../components/mySearch'
+import UploadFile from "../components/file";
+import AutomaticBuilding from "./AutomaticBuilding";
 import {getNodesListAPI, getSearchNodeListAPI} from "../api/api"
-import { mapActions, mapGetters,mapMutations } from 'vuex'
-export default{
+import { mapActions, mapGetters, mapMutations } from "vuex";
+export default {
   data() {
     return {
       isHome: true,
       collapsed: true,
       formLayout: "horizontal",
+      isAutomaticBuild: false,
+      isSemantics: false,
       form: this.$form.createForm(this, { name: "coordinated" }),
       // searchParams: {
       //   type_id: undefined,
@@ -240,14 +315,16 @@ export default{
       nodeList:{},
       searchNodeList:[],
       // graphIndexList:[0,1],
-      arrIndex:[0]
-
-    }
+      arrIndex: [0],
+    };
   },
   async mounted(){
     await  Promise.all(this.getNodeList(), this.getSearchNodeList())
   },
-  components:{
+  async beforeMount() {
+    this.getGraph();
+  },
+  components: {
     Drawer,
     Setting,
     GraphDetails,
@@ -256,13 +333,18 @@ export default{
     Question,
     semanticsS,
     MySearch,
-  },
-  async beforeMount(){
-    // var that=this
-    await this.getGraph()
+    UploadFile,
+    AutomaticBuilding,
   },
   computed: {
-    ...mapGetters(["settingVisible", "settingList", "historyVisible","graphIndexList"]),
+    ...mapGetters([
+      "settingVisible",
+      "settingList",
+      "historyVisible",
+      "isInitList",
+      "allGraphList",
+      "graphIndexList",
+    ]),
   },
   methods: {
     ...mapMutations([
@@ -273,9 +355,18 @@ export default{
       "set_isInit",
       "set_currentIndex",
       "set_graphIndexList",
-      "set_graphNumber"
+      "set_graphNumber",
+      "set_uploadFormVisible",
+      "set_isInitList",
+      "set_allGraphList",
     ]),
-    ...mapActions(["getGraphDetailsList", "getHistoryList", "updateNodePos","getGraph",]),
+    ...mapActions([
+      "getGraphDetailsList",
+      "getHistoryList",
+      "updateNodePos",
+      "getGraph",
+      "getNewGraph"
+    ]),
     // 放大
     magnifying() {
       // console.log(this);
@@ -457,56 +548,51 @@ export default{
       // console.log(nodes)
       this.updateNodePos(nodesCollection);
     },
-    reset() {
-      this.form.resetFields();
-    },
-    handleChange(value) {
-      this.searchType = value;
-    },
-    search(e) {
-      e.preventDefault();
-      this.form.validateFields((err, values) => {
-        if (!err) {
-          this.queryParam = {
-            searchType: values.searchType,
-            searchValue: values.searchValue,
-          };
-        }
-        this.refresh();
-      });
-    },
-    newDrawer(){
-      if(this.collapsed){
-        this.collapsed = false      
-      }
-      else{
-        this.collapsed = true
+    newDrawer() {
+      if (this.collapsed) {
+        this.collapsed = false;
+      } else {
+        this.collapsed = true;
       }
     },
-    addGraph(item){
-      this.isHome = true
-      // console.log(item)
+    addGraph(item) {
+      this.isHome = true;
+      this.getNewGraph(item)
+      this.arrIndex=[]
+      this.arrIndex.push(this.$store.getters.currentIndex);
+      this.$refs.ref_CJS.getGraphList();
     },
     handleChangeS(value) {
       // console.log(`selected ${value}`);
     },
     handleBlur() {
-      // console.log('blur');
+      console.log("blur");
     },
     handleFocus() {
-      // console.log('focus');
+      console.log("focus");
     },
     filterOption(input, option) {
       return (
-        option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
+        option.componentOptions.children[0].text
+          .toLowerCase()
+          .indexOf(input.toLowerCase()) >= 0
       );
     },
     menuChange(item) {
-      if(item == 'Home'){
-        this.isHome = true
+      if (item == "Home") {
+        this.isHome = true;
+        this.isAutomaticBuild = false;
+        this.isSemantics = false;
       }
-      else{
-        this.isHome = false
+      if (item == "semanticSearch") {
+        this.isHome = false;
+        this.isAutomaticBuild = false;
+        this.isSemantics = true;
+      }
+      if (item == "automaticBuilding") {
+        this.isHome = false;
+        this.isAutomaticBuild = true;
+        this.isSemantics = false;
       }
     },
     async getNodeList(){
@@ -520,62 +606,93 @@ export default{
         this.searchNodeList = res.content
       }).catch(err=>console.log(err))
     },
-    async closeGraph(item){
-      var list=this.$store.getters.graphIndexList
-      // console.log("len",list.length)
-      if(list.length==1){
+    // 删除图
+    async closeGraph(item) {
+      var list = this.$store.getters.graphIndexList;
+      console.log("len", list.length);
+      if (list.length == 1) {
         // 只有一张图不能删除
-        // console.log(this.document)
-        alert("can't be delete!There is only one graph")
-      }else{
+        console.log(this.document);
+        alert("can't be delete!There is only one graph");
+      } else {
         // 将Index从currentIndex中删除
-        var index=list.indexOf(item)
-        list.splice(index,1)
-        this.set_graphIndexList(list)
-        // 更改当前的currentIndex
-        if(index==0){
-          index=imdex+1
-        }else{
-          index=index-1
+        var index = list.indexOf(item);
+        list.splice(index, 1);
+        this.set_graphIndexList(list);
+        // 更改当前的currentIndex,加入arrIndex中
+        if (index == 0) {
+          index = index + 1;
+        } else {
+          index = index - 1;
         }
-      var currentIndex=list[index]
-      this.set_currentIndex(currentIndex)
-      this.$refs.ref_CJS.getGraphList()
-      // 图数量减一
-      var num=this.$store.getters.graphNumber
-      num=num-1
-      this.set_graphNumber(num)
-      // await this.removeGraph(item)
+        var currentIndex = list[index];
+        this.set_currentIndex(currentIndex);
+        this.arrIndex=[]
+        this.arrIndex.push(currentIndex)
+        // console.log("arr",this.arrIndex)
+        // console.log(this.$store.getters.graphIndexList)
+        this.$refs.ref_CJS.getGraphList();
+        // 图数量减一
+        var num = this.$store.getters.graphNumber;
+        num = num - 1;
+        this.set_graphNumber(num);
+        
+        // // 从allGraphList,isInitList中删除
+        // var allGraphs=this.$store.getters.allGraphList
+        // allGraphs.remove(item)
+        // var isInitList=this.$store.getters.isInitList
+        // isInitList.remove(item)
+        // this.set_allGraphList(allGraphs)
+        // this.set_isInitList(isInitList)
+        // await this.removeGraph(item)
       }
     },
-
-    changeGraph(item){
-      // console.log("item",item)
+    // 切换图
+    changeGraph(item) {
+      // console.log("item", item);
       let arrIndex = this.arrIndex.indexOf(item);
       if (arrIndex <= -1) {
         // 未选中,点击选中
-        this.arrIndex=[]
+        this.arrIndex = [];
         this.arrIndex.push(item);
       }
-      this.set_currentIndex(item)
-      this.$refs.ref_CJS.getGraphList()
+      this.set_currentIndex(item);
+      this.$refs.ref_CJS.getGraphList();
     },
-    getSearchResult(idList){
-      this.$refs.ref_CJS.$cy.elements().addClass('light-off')
-      for(var key in idList){
-        var id=idList[key]
+    async myAddGraph() {
+      await this.getNewGraph();
+      this.arrIndex=[]
+      this.arrIndex.push(this.$store.getters.currentIndex);
+      this.$refs.ref_CJS.getGraphList();
+    },
+    // 模糊搜索结果高亮
+    getSearchResult(idList) {
+      this.$refs.ref_CJS.$cy.elements().addClass("light-off");
+      for (var key in idList) {
+        var id = idList[key];
         this.$refs.ref_CJS.$cy.startBatch();
         this.$refs.ref_CJS.$cy.batch(() => {
-        const elements = ((Array.isArray ? Array.isArray(id) : id != null && id instanceof Array) ? id : [id])
-          elements.forEach(__ => {
-            this.$refs.ref_CJS.$cy.getElementById(__).removeClass('light-off')
+          const elements = (
+            Array.isArray
+              ? Array.isArray(id)
+              : id != null && id instanceof Array
+          )
+            ? id
+            : [id];
+          elements.forEach((__) => {
+            this.$refs.ref_CJS.$cy.getElementById(__).removeClass("light-off");
             //   this.$cy.getElementById(__).neighborhood().removeClass('light-off')
-          })
-        })
-        this.$refs.ref_CJS.$cy.once('click', () => this.$refs.ref_CJS.$cy.elements().removeClass("light-off"))
-        this.$refs.ref_CJS.$cy.endBatch()
+          });
+        });
+        this.$refs.ref_CJS.$cy.once("click", () =>
+          this.$refs.ref_CJS.$cy.elements().removeClass("light-off")
+        );
+        this.$refs.ref_CJS.$cy.endBatch();
       }
-    }
+    },
+    uploadFile() {
+      this.set_uploadFormVisible(true);
+    },
   },
 };
 </script>

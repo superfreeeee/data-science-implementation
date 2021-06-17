@@ -18,6 +18,7 @@ const getters={
   graphNumber:state=>state.graph.graphNumber,//图的总数量
   allGraphList:state=>state.graph.allGraphList,//存放所有图的map
   graphIndexList:state=>state.graph.graphIndexList,//存放所有的index
+  isInitList:state=>state.graph.isInitList,//存放所有图是否保存布局
   //添加边
   addEdgeFormVisible:state=>state.edge.addEdgeFormVisible,
   // 修改边
@@ -35,7 +36,14 @@ const getters={
   // questionVisible: state=>state.question.questionVisible,
   answer: state=>state.question.answer,
   recommand_list: state=>state.question.recommand_list,
-  semanticAnswer:state=>state.question.semanticAnswer
+  semanticAnswer:state=>state.question.semanticAnswer,
+  // 自动构建图谱
+  preConstructGraph:state=>state.graphConstruction.preConstructGraph,
+  latestConstructGraph:state=>state.graphConstruction.latestConstructGraph,
+  elesToBeAdded:state=>state.graphConstruction.elesToBeAdded,
+  graphConstructId:state=>state.graphConstruction.graphConstructId,//用于getGraphById
+  // 根据节点id获取新的图(getGraphByNodeId)
+  getGraphByNodeId:state=>state.graph.getGraphByNodeId
 }
 
 export default getters
