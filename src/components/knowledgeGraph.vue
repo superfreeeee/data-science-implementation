@@ -216,8 +216,8 @@ export default {
         coreAsWell: true,
         onClickFunction: function (e) {
           console.log(e.position.x)
-          that._data.posX=""+e.position.x
-          that._data.posY=""+e.position.y
+          that._data.posX=e.position.x
+          that._data.posY=e.position.y
           that.addNode()
         }
       }
@@ -302,8 +302,8 @@ export default {
       labels: '',
       properties: '',
       edgeData:{},//修改边时
-      posX:"",//保存布局
-      posY:"",
+      posX:0,//保存布局
+      posY:0,
       // 修改节点时
       nodeData: {
         identity: '',

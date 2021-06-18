@@ -7,11 +7,7 @@ export function getListAPI (params) {
 }
 
 export function AddNodeAPI (params) {
-  console.log("id", params.id)
-  var pa = {
-    "graphId": params.id
-  }
-  return http.get(`${request}/node/addNode`, pa)
+  return http.post(`${request}/node/addNode?graphId=${params.id}`, params.node)
 }
 
 export function DeleteNodeAPI (params) {
