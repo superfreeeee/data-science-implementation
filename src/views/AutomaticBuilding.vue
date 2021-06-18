@@ -55,7 +55,9 @@
         </div>
       </a-form>
     </div>
-    <div class="constructionProcess"></div>
+    <div class="constructionProcess">
+      当前爬取页面数：<span id="pageNum"></span>
+    </div>
 
     <div>
       <div id="picture"></div>
@@ -89,6 +91,7 @@ export default {
       searchUrl: "",
       searchNum: "",
       queryParam: {},
+      num:0
     };
   },
   mounted() {
@@ -191,6 +194,7 @@ export default {
     },
     async constructGraph(e) {
       e.preventDefault();
+      this.$myCy.elements().remove()
       this.form.validateFields((err, values) => {
         if (!err) {
           this.searchUrl = values.searchUrl;
@@ -232,13 +236,21 @@ export default {
         for (var key in eles) {
           this.addEles(eles[key]);
         }
-        this.getConstructionDetail();
+        // this.getConstructionDetail();
+        
+        // await getConstructionDetailAPI()
+        //     .then((res) => {
+        //         console.log("num",res)
+        //         this.num=res
+        //     })
+        //     .catch((err) => { console.log(err) })
+        // window.document.getElementById("pageNum").innerHTML=this.num+"页"
         this.set_preConstructGraph(this.$store.getters.latestConstructGraph);
         this.set_latestConstructGraph([]);
         this.set_elesToBeAdded([]);
       }, 3000);
       // var id1=setInterval(() => {
-      //   // alert("dahuaidanjjw")
+      //   // alert("dahuaidanljb")
       //   this.addEles({group:'nodes',data:{id:""+cnt}})
       //   cnt++
       //   if(cnt==5){

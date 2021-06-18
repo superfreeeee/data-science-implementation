@@ -609,7 +609,7 @@ export default {
         // console.log(this.document);
         alert("can't be delete!There is only one graph");
       } else {
-        // 将Index从currentIndex中删除
+        // 将Index从graphIndexList中删除
         var index = list.indexOf(item);
         list.splice(index, 1);
         this.set_graphIndexList(list);

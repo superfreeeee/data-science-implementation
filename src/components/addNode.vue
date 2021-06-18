@@ -138,8 +138,8 @@ export default {
     ...mapGetters(["addNodeFormVisible","currentIndex"]),
   },
   props: {
-    posX: String,
-    posY: String,
+    posX: Number,
+    posY: Number,
   },
   methods: {
     ...mapMutations(["set_addNodeFormVisible"]),

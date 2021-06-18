@@ -94,7 +94,12 @@ const graphConstruction = {
             var preGraph=this.getters.preConstructGraph
             console.log(preGraph)
             for(var item in graphList){
-                if(preGraph.indexOf(graphList[item])<=-1){
+                var newGraphId=graphList[item].data.UUID
+                var idList=[]
+                for(var item1 in preGraph){
+                    idList.push(preGraph[item1].data.UUID)
+                }
+                if(idList.indexOf(newGraphId)<=-1){
                     eles.push(graphList[item])
                 }
             }
