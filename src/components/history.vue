@@ -9,7 +9,7 @@
 <template>
   <a-drawer
     :visible="historyVisible"
-    placement="left"
+    placement="right"
     :closable="true"
     @close="onClose"
     width="520"

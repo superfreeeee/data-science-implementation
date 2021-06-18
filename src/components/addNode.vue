@@ -135,7 +135,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["addNodeFormVisible"]),
+    ...mapGetters(["addNodeFormVisible","currentIndex"]),
   },
   props: {
     posX: String,
@@ -204,12 +204,13 @@ export default {
             ele.data[key] = this.nodeData.properties[key];
           }
           console.log("nodeData", this.nodeData);
-          await AddNodeAPI(this.nodeData)
+          await AddNodeAPI({'id':this.$store.getters.currentIndex,'node':this.nodeData})
             .then((res) => {
               console.log(res);
-              ele.data.id = res.content + "";
+              ele.data.id = ""+res.content;
             })
             .catch((err) => console.log(err));
+          console.log(ele)
           this.$emit("listenToAddedNode", ele);
           this.nodeData.properties = {
             name: "",

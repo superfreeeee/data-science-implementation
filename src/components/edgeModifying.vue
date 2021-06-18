@@ -115,7 +115,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["modifyEdgeFormVisible"]),
+    ...mapGetters(["modifyEdgeFormVisible","currentIndex"]),
   },
   props:{
       'edge':Object
@@ -194,7 +194,7 @@ export default {
         //   this.$cy.getElementById(ele.data.id).remove()
         //   this.addEles([ele])
         this.$emit('listenToModifiedEdge',ele)
-          await updateEdgeAPI(this.edgeData).then(res => {
+          await updateEdgeAPI({id:this.$store.getters.currentIndex,edge:this.edgeData}).then(res => {
             console.log(res)
           }).catch(err => console.log(err))
           this.set_modifyEdgeFormVisible(false)

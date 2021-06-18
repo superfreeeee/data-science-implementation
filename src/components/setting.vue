@@ -1,7 +1,7 @@
 <template>
   <a-drawer
     :visible="settingVisible"
-    placement="left"
+    placement="right"
     :closable="true"
     @close="onClose"
     width="520"

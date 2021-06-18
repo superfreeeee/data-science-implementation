@@ -21,7 +21,7 @@ const edge={
     actions:{
         async removeEdges(){
             var params=this.getters.edgeId
-            await DeleteEdgeAPI({identity:params})
+            await DeleteEdgeAPI({graphId:this.getters.currentIndex,identity:params})
             .then((res) => {
               console.log(res)
             })

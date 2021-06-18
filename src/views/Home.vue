@@ -322,7 +322,8 @@ export default {
     await  Promise.all(this.getNodeList(), this.getSearchNodeList())
   },
   async beforeMount() {
-    this.getGraph();
+    await this.getGraph();
+    // console.log('list', this.graphIndexList)
   },
   components: {
     Drawer,
@@ -344,6 +345,7 @@ export default {
       "isInitList",
       "allGraphList",
       "graphIndexList",
+      "currentIndex"
     ]),
   },
   methods: {
@@ -365,7 +367,9 @@ export default {
       "getHistoryList",
       "updateNodePos",
       "getGraph",
-      "getNewGraph"
+      "getNewGraph",
+      "getLabelsByGraphId",
+      'removeGraph'
     ]),
     // 放大
     magnifying() {
@@ -459,7 +463,7 @@ export default {
     },
     // 节点过滤
     filterByNodeLabels() {
-      this.getGraphDetailsList();
+      this.getLabelsByGraphId();
       this.set_filterByNodeLabelsVisible(true);
     },
     getChildData(graph, isReset) {
@@ -529,23 +533,13 @@ export default {
     },
     // 保存位置信息
     saveGraph() {
-      this.set_isInit(true);
+      var idx=this.$store.getters.currentIndex
+      var isInit=this.$store.getters.isInitList
+      isInit[idx]=true
+      this.set_isInitList(isInit)
       var nodesCollection = this.$refs.ref_CJS.$cy.filter(function (e, i) {
         return e.isNode();
       });
-      // var nodes={}
-      // var test1=/^[0-9]+$/
-      // for(var item in nodesCollection){
-      //   // console.log(nodesCollection[item])
-      //   console.log(nodesCollection[item].data().id)
-      //   if(test1.test(nodesCollection[item].data().id)){
-      //     // console.log("t")
-      //     console.log(nodesCollection[item].data().id)
-      //     nodes[item]=nodesCollection[item]
-      //   }
-      // }
-      // console.log(nodesCollection)
-      // console.log(nodes)
       this.updateNodePos(nodesCollection);
     },
     newDrawer() {
@@ -563,13 +557,13 @@ export default {
       this.$refs.ref_CJS.getGraphList();
     },
     handleChangeS(value) {
-      // console.log(`selected ${value}`);
+      this.addGraph(value)
     },
     handleBlur() {
-      console.log("blur");
+      // console.log("blur");
     },
     handleFocus() {
-      console.log("focus");
+      // console.log("focus");
     },
     filterOption(input, option) {
       return (
@@ -598,7 +592,7 @@ export default {
     async getNodeList(){
       await getNodesListAPI().then(res=>{
         this.nodeList = res.content
-        console.log("nodelist", this.nodeList)
+        // console.log("nodelist", this.nodeList)
       }).catch(err => console.log(err))
     },
     async getSearchNodeList(){
@@ -609,10 +603,10 @@ export default {
     // 删除图
     async closeGraph(item) {
       var list = this.$store.getters.graphIndexList;
-      console.log("len", list.length);
+      // console.log("len", list.length);
       if (list.length == 1) {
         // 只有一张图不能删除
-        console.log(this.document);
+        // console.log(this.document);
         alert("can't be delete!There is only one graph");
       } else {
         // 将Index从currentIndex中删除
@@ -637,14 +631,16 @@ export default {
         num = num - 1;
         this.set_graphNumber(num);
         
-        // // 从allGraphList,isInitList中删除
-        // var allGraphs=this.$store.getters.allGraphList
-        // allGraphs.remove(item)
-        // var isInitList=this.$store.getters.isInitList
-        // isInitList.remove(item)
-        // this.set_allGraphList(allGraphs)
-        // this.set_isInitList(isInitList)
-        // await this.removeGraph(item)
+        // 从allGraphList,isInitList中删除
+        var allGraphs=this.$store.getters.allGraphList
+        delete allGraphs.item
+        var isInitList=this.$store.getters.isInitList
+        delete isInitList.item
+        this.set_allGraphList(allGraphs)
+        this.set_isInitList(isInitList)
+        // console.log("item", item)
+        // var id = item
+        await this.removeGraph(item)
       }
     },
     // 切换图

@@ -7,7 +7,11 @@ export function getListAPI (params) {
 }
 
 export function AddNodeAPI (params) {
-  return http.post(`${request}/node/addNode`, params)
+  console.log("id", params.id)
+  var pa = {
+    "graphId": params.id
+  }
+  return http.get(`${request}/node/addNode`, pa)
 }
 
 export function DeleteNodeAPI (params) {
@@ -15,7 +19,7 @@ export function DeleteNodeAPI (params) {
 }
 
 export function UpdataNodeAPI (params) {
-  return http.post(`${request}/node/updateNode`, params)
+  return http.post(`${request}/node/updateNode?graphId=${params.id}`, params.node)
 }
 
 export function DownloadXmlAPI (params) {
@@ -25,16 +29,16 @@ export function DeleteEdgeAPI (params) {
   return http.get(`${request}/relation/deleteRelation`,params)
 }
 export function updateEdgeAPI (params) {
-  return http.post(`${request}/relation/updateRelation`, params)
+  return http.post(`${request}/relation/updateRelation?graphId=${params.id}`, params.edge)
 }
-export function AddEdgeAPI (id,params) {
-  return http.post(`${request}/relation/addRelation?graph_id=${id}`, params)
+export function AddEdgeAPI (params) {
+  return http.post(`${request}/relation/addRelation?graphId=${params.id}`, params.edge)
 }
 export function getGraphListAPI () {
   return http.get(`${request}/graph/getGraphList`)
 }
 export function filterByNodeLabelsAPI(params){
-  return http.post(`${request}/graph/filterByNodeLabels`,params)
+  return http.post(`${request}/graph/filterByNodeLabels?graphId=${params.id}`,params.labels)
 }
 
 export function uploadFileAPI(params){

@@ -24,7 +24,9 @@ const node={
     },
     actions:{
         async removeNodes(){
-            await DeleteNodeAPI({ identity: this.getters.nodeId })
+            console.log(this.getters.nodeId)
+            console.log(this.getters.currentIndex)
+            await DeleteNodeAPI({identity: this.getters.nodeId,graphId:this.getters.currentIndex})
             .then((res) => {
               console.log(res)
             })

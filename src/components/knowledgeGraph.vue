@@ -216,8 +216,8 @@ export default {
         coreAsWell: true,
         onClickFunction: function (e) {
           console.log(e.position.x)
-          that._data.posX=e.position.x
-          that._data.posY=e.position.y
+          that._data.posX=""+e.position.x
+          that._data.posY=""+e.position.y
           that.addNode()
         }
       }
@@ -476,6 +476,7 @@ export default {
       console.log(graph)
       this.$cy.elements().remove()
       this.addEles(graph)
+      console.log(this.$store.getters.isInitList)
       if(!(this.$store.getters.isInitList[graphIndex])){
         this.$cy.layout({name: 'cose',randomize: false,animate: true,padding:0,componentSpacing: 30,nodeOverlap:4
       }).run()
@@ -508,7 +509,7 @@ export default {
     },
     getEdgeData(ele){
       this.addEles(ele)
-      this.$store.getters.graphList.push(ele)
+      this.$store.getters.graphList[this.$store.getters.currentIndex].push(ele)
       // console.log(this.$store.getters.graphList)
     },
     // 修改边
@@ -529,8 +530,8 @@ export default {
     },
     getNodeData(ele){
       this.addEles(ele)
-      this.$store.getters.graphList.push(ele)
-      // console.log(this.$store.getters.graphList)
+      this.$store.getters.graphList[this.$store.getters.currentIndex].push(ele)
+      // await this.getGraph()
     },
     // 修改节点
     modifyNode(ele){

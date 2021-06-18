@@ -7,7 +7,7 @@ import {
 const question = {
     state: {
         answer: "",
-        recommand_list:[
+        recommand_list:['快提些问题吧'
         ],
         semanticAnswer: []
     },
@@ -27,17 +27,23 @@ const question = {
     },
     actions:{
         getAnswer: async ({commit}, data)=>{
-            await semanticSearchAPI(data).then(res => {
-                getAnswerAPI(res.content.smartQA).then(res1 => {
-                    console.log(res1)
-                    commit('set_answer', res1.content)
-                }).catch(err => console.log(err))
-                console.log(res.data)
-            }).catch(err => console.log(err))
-            // getAnswerAPI(data).then(res1 => {
-            //     console.log(res1)
-            //     commit('set_answer', res1.content)
+            // await semanticSearchAPI(data).then(res => {
+            //     console.log('seman', res)
+            //     getAnswerAPI(res.content.smartQA).then(res1 => {
+            //         console.log('answer', res1)
+            //         commit('set_answer', res1.message)
+            //     }).catch(err => console.log(err))
             // }).catch(err => console.log(err))
+            await getAnswerAPI(data).then(res => {
+                // console.log(res)
+                if(res.content){
+                    commit('set_answer', res.content)
+                }
+                else{
+                    commit('set_answer', res.message)
+                }
+                
+            }).catch(err => console.log(err))
         },
         getSemantics: async({commit}, data)=>{
             await semanticSearchAPI(data).then(res => {

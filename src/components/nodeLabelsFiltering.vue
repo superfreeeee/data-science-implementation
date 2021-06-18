@@ -14,7 +14,7 @@
     <div class="tips">请点击选择节点的标签来过滤（可多选）</div>
     <div
       class="labels"
-      v-for="item in graphDetailsList.nodeLabels"
+      v-for="item in graphLabelsList"
       :key="item"
       @click="selectItem(item)"
       v-bind:class="{ active: arrIndex.indexOf(item) > -1 }"
@@ -44,14 +44,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["filterByNodeLabelsVisible", "graphDetailsList"]),
+    ...mapGetters(["filterByNodeLabelsVisible", "graphLabelsList","currentIndex"]),
   },
   methods: {
     ...mapMutations(["set_filterByNodeLabelsVisible"]),
-    ...mapActions(["getGraphDetailsList","filterByNodeLabels"]),
+    ...mapActions(["filterByNodeLabels"]),
     onClose() {
       this.set_filterByNodeLabelsVisible(false);
-      console.log(this.graphDetailsList);
     },
     handleInfiniteOnload() {},
     selectItem(item) {
@@ -86,7 +85,7 @@ export default {
       // this.set_filterByNodeLabelsVisible(false);
       this.spinning=true;
       console.log(this.spinning)
-      await filterByNodeLabelsAPI(nodeLabels)
+      await filterByNodeLabelsAPI({id:this.$store.getters.currentIndex,labels:nodeLabels})
       .then((res)=>{
         // console.log(res)
         graph = res.content
