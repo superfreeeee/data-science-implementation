@@ -94,7 +94,7 @@ export default {
   mounted() {
     this.$myCy = cytoscape({
       container: document.getElementById("picture"),
-      userZoomingEnabled: false, // 是否允许用户事件(例如鼠标滚轮,捏合缩放)缩放图形.对此缩放的编程更改不受此选项的影响.
+      userZoomingEnabled: true, // 是否允许用户事件(例如鼠标滚轮,捏合缩放)缩放图形.对此缩放的编程更改不受此选项的影响.
       boxSelectionEnabled: false,
     });
     this.$myCy
