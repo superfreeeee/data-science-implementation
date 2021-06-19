@@ -2,7 +2,9 @@
 <template>
   <a-layout id="components-layout-demo-side" style="min-height: 100vh">
     <a-layout-sider v-model="collapsed" collapsible width="350">
-      <div class="logo" />
+      <div class="logo">
+      <img src="../assets/TClogo.png" width='60px'/>
+      </div>
       <a-menu theme="dark" :default-selected-keys="['1']" mode="inline">
         <!-- 主页面 -->
         <a-menu-item key="1" @click="menuChange('Home')">
@@ -14,15 +16,18 @@
           <a-icon type="desktop" />
           <span>语义搜索</span>
         </a-menu-item>
-        <!-- 子图展示页面 -->
+        <a-menu-item key="5" @click="menuChange('automaticBuilding')">
+          <a-icon type="build" />
+          <span>自动构建</span>
+        </a-menu-item>
         <a-sub-menu>
-          <span slot="title"><a-icon type="user" /><span>所有节点</span></span>
+          <span slot="title"><a-icon type="global"/><span>所有节点</span></span>
           <a-sub-menu  v-for='(value, key) in nodeList' :key="key"  >
-            <span slot="title"><a-icon type="user" /><span>{{key}}</span></span>
+            <span slot="title"><a-icon type="plus-circle" /><span>{{key}}</span></span>
             <a-sub-menu  v-for='(value1, key1) in value[0]' :key="key+key1"  >
-              <span slot="title"><a-icon type="user" /><span>{{key1}}</span></span>
+              <span slot="title"><a-icon type="plus-circle" /><span>{{key1}}</span></span>
               <a-sub-menu  v-for='(value2, key2) in value1' :key="key+key1+key2"  >
-              <span slot="title"><a-icon type="user" /><span>{{key2}}</span></span>
+              <span slot="title"><a-icon type="check-circle" /><span>{{key2}}</span></span>
                 <a-menu-item v-for='item in value2' :key="item.identity" @click="addGraph(item.identity)">
                   {{item.properties.name}}
                 </a-menu-item>
@@ -30,43 +35,35 @@
             </a-sub-menu>
           </a-sub-menu>
         </a-sub-menu>
-        <a-menu key="4" @click="newDrawer">
-          <span slot="title"><a-icon type="team" /><span>Team</span></span>
-        </a-menu>
-        <!-- 自动构建页面 -->
-        <a-menu-item key="5" @click="menuChange('automaticBuilding')">
-          <a-icon type="build" />
-          <span>自动构建</span>
-        </a-menu-item>
       </a-menu>
     </a-layout-sider>
     <a-layout>
       <!-- 主页面 -->
-      <a-layout-content v-if="isHome">
-        <!-- 搜索框 -->
+      <a-layout-content v-show="isHome" key="home">
         <div
           style="
             padding: 16px 24px;
             height: 70px;
             background-color: white;
             border-bottom: 1px groove;
-          "
-        >
-          <a-select
-            style="width: 60%; margin-left: 5.5%"
-            show-search
-            placeholder="Select a node"
-            option-filter-prop="children"
-            :filter-option="filterOption"
-            @focus="handleFocus"
-            @blur="handleBlur"
-            @change="handleChangeS"
-          >
-            <a-select-option v-for="(value, key) in searchNodeList" :key="value">
-              {{key}}
-            </a-select-option>
-          </a-select>
-          <a-icon type="radar-chart" />
+          ">
+          <div style="font-size: 16px; font-weight: 600; margin-left: 5.5%"> 
+            搜索节点：
+            <a-select
+              style="width: 60%;"
+              show-search
+              placeholder="Select a node"
+              option-filter-prop="children"
+              :filter-option="filterOption"
+              @focus="handleFocus"
+              @blur="handleBlur"
+              @change="handleChangeS">
+              <a-select-option v-for="(value, key) in searchNodeList" :key="value">
+                {{key}}
+              </a-select-option>
+            </a-select>
+            <a-icon style="margin-left:20px" type="radar-chart" />
+          </div>
         </div>
 
         <div :style="{ padding: '24px', minHeight: '360px' }">
@@ -103,11 +100,13 @@
                 <MySearch @listenToMySearch="getSearchResult"></MySearch>
                 <a-col :md="2" :sm="2" :lg="0"></a-col>
                 <a-col :md="6" :sm="6" :lg="6">
-                  <div style="display: flex; align-items: center;   font-family: 'Microsoft YaHei';">
+                  <div style="display: flex; align-items: center; ">
                     <a-button
                       @click="filterByNodeLabels()"
                       style="
                         font-size: 16px;
+                        font-family: 'Microsoft YaHei'; 
+                        font-weigth: 400;
                         color: black;
                         background-color: transparent;
                         border: 0px;
@@ -119,7 +118,7 @@
                       <a
                         class="ant-dropdown-link"
                         @click="(e) => e.preventDefault()"
-                        style="font-size: 16px; color: black"
+                        style="font: 16px 'Microsoft YaHei'; color: black"
                       >
                         调整布局 <a-icon type="down" />
                       </a>
@@ -255,6 +254,7 @@
             <div class="propertyDisplay">
               <span id="labels"></span>
               <pre id="properties"> click on the node or edge to display more infomation!</pre>
+              <div class="scrollbar"></div>
             </div>
             <!-- 设置 -->
             <Setting @listenToSet="getSetting"></Setting>
@@ -268,15 +268,15 @@
         </div>
       </a-layout-content>
       <!-- 语义搜索页面 -->
-      <a-layout-content v-if="isSemantics" style="text-align: center">
+      <a-layout-content v-show="isSemantics" key="semantics" >
         <semanticsS></semanticsS>
       </a-layout-content>
       <!-- 自动构建页面 -->
-      <a-layout-content v-if="isAutomaticBuild">
+      <a-layout-content v-show="isAutomaticBuild" key="AutomaticBuild">
         <AutomaticBuilding></AutomaticBuilding>
       </a-layout-content>
       <a-layout-footer style="text-align: center">
-        Ant Design ©2018 Created by Ant UED
+       Created by Trillion Coin
       </a-layout-footer>
     </a-layout>
   </a-layout>
@@ -541,9 +541,10 @@ export default {
         this.collapsed = true;
       }
     },
-    // 添加新图
     async addGraph(item) {
-      this.isHome = true
+      this.isHome = true;
+      this.isSemantics = false;
+      this.isAutomaticBuild = false;
       await this.getNewGraph(item)
       this.arrIndex=[]
       this.arrIndex.push(this.$store.getters.currentIndex)

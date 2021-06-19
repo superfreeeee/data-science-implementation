@@ -1,10 +1,30 @@
+<style scoped>
+ .answerPart{
+   margin: 60px 40px;
+ }
+
+</style>
+
 <template>
+  <div>
+    <div
+    style="
+      padding: 16px 24px;
+      height: 70px;
+      background-color: white;
+      border-bottom: 1px groove;
+    ">
+      <div style="font-size: 20px; font-weight: 600; margin-left: 5.5%; margin-bottom: 10px">
+        语义搜索
+        <div style="font-size: 14px; color: #8B9098; font-family: 'Microsoft YaHei'; font-weight: 600" >输入你想了解的信息，试试看吧！</div>
+      </div>
+    </div>
     <div :style="{ padding: '24px', minHeight: '360px'}" style="text-align: center;">
       <div style="margin-top: 50px; height: 100%; width: 80%;display:inline-block">
-        <a-input-search placeholder="input search text" size="large"  style="border: 1px solid; border-radius:5px" @search="semanticS" />
+        <a-input-search placeholder="input search text" size="large"  style="margin-top: 20px;border: 1px solid; border-radius:5px" @search="semanticS" />
         <div class = "answerPart" v-if="semanticAnswer.length != 0">
           <a-list item-layout="vertical" size="large" :data-source="semanticAnswer" style="text-align: center; ">
-            <div slot="footer"><b>语义搜索</b></div>
+            <div slot="footer"><b>Created by Trillion Coin</b></div>
             <a-list-item slot="renderItem" key="item.name" slot-scope="item, index">
               <img
                 referrer="no-referrer|origin|unsafe-url"
@@ -27,6 +47,7 @@
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -62,10 +83,3 @@
     }
   }
 </script>
-
-<style scoped>
- .answerPart{
-   margin: 60px 40px;
- }
-
-</style>

@@ -35,7 +35,7 @@ const question = {
             //     }).catch(err => console.log(err))
             // }).catch(err => console.log(err))
             await getAnswerAPI(data).then(res => {
-                // console.log(res)
+                console.log("as", res)
                 if(res.content){
                     commit('set_answer', res.content)
                 }
