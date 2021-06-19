@@ -4,14 +4,17 @@
     <a-layout-sider v-model="collapsed" collapsible width="350">
       <div class="logo" />
       <a-menu theme="dark" :default-selected-keys="['1']" mode="inline">
+        <!-- 主页面 -->
         <a-menu-item key="1" @click="menuChange('Home')">
           <a-icon type="pie-chart" />
           <span>主页</span>
         </a-menu-item>
+        <!-- 语义搜索页面 -->
         <a-menu-item key="2" @click="menuChange('semanticSearch')">
           <a-icon type="desktop" />
           <span>语义搜索</span>
         </a-menu-item>
+        <!-- 子图展示页面 -->
         <a-sub-menu>
           <span slot="title"><a-icon type="user" /><span>所有节点</span></span>
           <a-sub-menu  v-for='(value, key) in nodeList' :key="key"  >
@@ -30,6 +33,7 @@
         <a-menu key="4" @click="newDrawer">
           <span slot="title"><a-icon type="team" /><span>Team</span></span>
         </a-menu>
+        <!-- 自动构建页面 -->
         <a-menu-item key="5" @click="menuChange('automaticBuilding')">
           <a-icon type="build" />
           <span>自动构建</span>
@@ -39,6 +43,7 @@
     <a-layout>
       <!-- 主页面 -->
       <a-layout-content v-if="isHome">
+        <!-- 搜索框 -->
         <div
           style="
             padding: 16px 24px;
@@ -66,7 +71,6 @@
 
         <div :style="{ padding: '24px', minHeight: '360px' }">
           <div style="height: 100%; width: 100%">
-            <!-- 画布 -->
             <!-- tab -->
             <div class="outer-container" style="overflow: auto; margin-left: 5.5%; width:80%; margin-top: 20px">
               <div class="inner-container" style="white-space: nowrap">
@@ -92,6 +96,7 @@
               </div>
             </div>
             <a-divider style="margin: 0 0 0 5.5%; width:80%;; padding: 0;" />
+            <!-- 画布上方导航栏 -->
             <div class="navigatorAboveDrawer">
               <a-row :gutter="24">
                 <a-col :md="0" :sm="0" :lg="1"></a-col>
@@ -251,6 +256,7 @@
               <span id="labels"></span>
               <pre id="properties"> click on the node or edge to display more infomation!</pre>
             </div>
+            <!-- 设置 -->
             <Setting @listenToSet="getSetting"></Setting>
             <GraphDetails></GraphDetails>
             <History></History>
@@ -298,15 +304,6 @@ export default {
       isAutomaticBuild: false,
       isSemantics: false,
       form: this.$form.createForm(this, { name: "coordinated" }),
-      // searchParams: {
-      //   type_id: undefined,
-      // },
-      // searchValue: "",
-      // // 高级搜索 展开/关闭
-      // advanced: false,
-      // searchType: "",
-      // // 查询参数
-      // queryParam: {},
       nodeList:{},
       searchNodeList:[],
       // graphIndexList:[0,1],
@@ -544,12 +541,14 @@ export default {
         this.collapsed = true;
       }
     },
-    addGraph(item) {
-      this.isHome = true;
-      this.getNewGraph(item)
+    // 添加新图
+    async addGraph(item) {
+      this.isHome = true
+      await this.getNewGraph(item)
       this.arrIndex=[]
-      this.arrIndex.push(this.$store.getters.currentIndex);
-      this.$refs.ref_CJS.getGraphList();
+      this.arrIndex.push(this.$store.getters.currentIndex)
+      console.log(this.arrIndex)
+      this.$refs.ref_CJS.getGraphList()
     },
     handleChangeS(value) {
       this.addGraph(value)
@@ -567,6 +566,7 @@ export default {
           .indexOf(input.toLowerCase()) >= 0
       );
     },
+    // 页面切换
     menuChange(item) {
       if (item == "Home") {
         this.isHome = true;
@@ -597,11 +597,10 @@ export default {
     },
     // 删除图
     async closeGraph(item) {
+      await this.removeGraph(item)
       var list = this.$store.getters.graphIndexList;
-      // console.log("len", list.length);
       if (list.length == 1) {
         // 只有一张图不能删除
-        // console.log(this.document);
         alert("can't be delete!There is only one graph");
       } else {
         // 将Index从graphIndexList中删除
@@ -618,29 +617,23 @@ export default {
         this.set_currentIndex(currentIndex);
         this.arrIndex=[]
         this.arrIndex.push(currentIndex)
-        // console.log("arr",this.arrIndex)
-        // console.log(this.$store.getters.graphIndexList)
+        // 展示前一张图
         this.$refs.ref_CJS.getGraphList();
-        // 图数量减一
+        // 图的数量减一
         var num = this.$store.getters.graphNumber;
         num = num - 1;
         this.set_graphNumber(num);
-        
-        // 从allGraphList,isInitList中删除
+        // 将这张图从allGraphList中删除，是否初始化从isInitList中删除
         var allGraphs=this.$store.getters.allGraphList
         delete allGraphs.item
         var isInitList=this.$store.getters.isInitList
         delete isInitList.item
         this.set_allGraphList(allGraphs)
         this.set_isInitList(isInitList)
-        // console.log("item", item)
-        // var id = item
-        await this.removeGraph(item)
       }
     },
     // 切换图
     changeGraph(item) {
-      // console.log("item", item);
       let arrIndex = this.arrIndex.indexOf(item);
       if (arrIndex <= -1) {
         // 未选中,点击选中
@@ -648,12 +641,6 @@ export default {
         this.arrIndex.push(item);
       }
       this.set_currentIndex(item);
-      this.$refs.ref_CJS.getGraphList();
-    },
-    async myAddGraph() {
-      await this.getNewGraph();
-      this.arrIndex=[]
-      this.arrIndex.push(this.$store.getters.currentIndex);
       this.$refs.ref_CJS.getGraphList();
     },
     // 模糊搜索结果高亮

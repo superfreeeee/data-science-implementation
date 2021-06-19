@@ -468,15 +468,10 @@ export default {
       await this.getGraph()
       var graphIndex=this.$store.getters.currentIndex
       var allGraphs=this.$store.getters.allGraphList
-      // console.log("graphIndex",graphIndex)
-      // console.log("allgraphs",allGraphs)
       var graph=allGraphs[graphIndex]
-      // console.log(graphIndex)
-      // this.$cy.elements().remove()
-      console.log(graph)
+      // console.log(graph)
       this.$cy.elements().remove()
       this.addEles(graph)
-      console.log(this.$store.getters.isInitList)
       if(!(this.$store.getters.isInitList[graphIndex])){
         this.$cy.layout({name: 'cose',randomize: false,animate: true,padding:0,componentSpacing: 30,nodeOverlap:4
       }).run()

@@ -7,23 +7,14 @@ import {
 
 const graph = {
     state: {
-        // graphList: [],
-        // isInit: true,
         currentIndex: 0,
         graphNumber: 0,
         getGraphByNodeId:0,
         graphIndexList:[],
         allGraphList:[],
         isInitList: false
-
     },
     mutations: {
-        // set_graphList: function (state, data) {
-        //     state.graphList = data
-        // },
-        // set_isInit: function (state, data) {
-        //     state.isInit = data
-        // },
         set_currentIndex: function (state, data) {
             state.currentIndex = data
         },
@@ -182,8 +173,6 @@ const graph = {
                     graph = res.content
                 })
                 .catch((err) => console.log(err));
-            console.log('api', graph)
-            // 图数量加一，index存入graphIndexList，currentIndex修改，存入totalgraphList,isinit存入
             var graphList = []
             var nodes = graph.nodes
             var edges = graph.edges
@@ -213,7 +202,6 @@ const graph = {
                     }
                 } else {
                     isInit = false
-                    // isInitList[index] = false
                 }
                 graphList.push(toBeAdded)
             }
@@ -238,14 +226,6 @@ const graph = {
                 }
                 graphList.push(toBeAdded)
             }
-            // var index=30
-            // var graphList=[{group:"nodes",data:{
-            //     id:53571,
-            //     "name": "外循环及血液处理设备",
-            //     "x": "880.8942372569195",
-            //     "y": "994.440155759884",
-            // }}]
-            // var isInit=true
 
             // 将新图添加到allGraphList
             var allGraphs=this.getters.allGraphList
