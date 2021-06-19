@@ -43,8 +43,8 @@ const getters={
   // 自动构建图谱
   preConstructGraph:state=>state.graphConstruction.preConstructGraph,
   latestConstructGraph:state=>state.graphConstruction.latestConstructGraph,
-  elesToBeAdded:state=>state.graphConstruction.elesToBeAdded,
-  graphConstructId:state=>state.graphConstruction.graphConstructId,//用于getGraphById
+  nodeElesToBeAdded:state=>state.graphConstruction.nodeElesToBeAdded,
+  edgeElesToBeAdded:state=>state.graphConstruction.edgeElesToBeAdded,
   pageNum:state=>state.graphConstruction.pageNum, // 爬取页面数
   // 根据节点id获取新的图(getGraphByNodeId)
   getGraphByNodeId:state=>state.graph.getGraphByNodeId,

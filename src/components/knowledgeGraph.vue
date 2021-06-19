@@ -473,7 +473,7 @@ export default {
       this.$cy.elements().remove()
       this.addEles(graph)
       if(!(this.$store.getters.isInitList[graphIndex])){
-        this.$cy.layout({name: 'cose',randomize: false,animate: true,padding:0,componentSpacing: 30,nodeOverlap:4
+        this.$cy.layout({name: 'cose',randomize: false,animate: false,padding:0,componentSpacing: 30,nodeOverlap:4
       }).run()
       this.resize()
       }else{

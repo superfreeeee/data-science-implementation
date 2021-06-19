@@ -13,6 +13,6 @@ export function getConstructionDetailAPI(){
 export function stopConstructionAPI(){
     return http.get(`${api.constructionPre}/stopConstruction`)
 }
-export function getGraphByIdAPI(params){
-    return http.get(`${api.constructionPre}/getConstructionGraph`,params)
+export function getGraphByIdAPI(){
+    return http.get(`${api.constructionPre}/getConstructionGraph`)
 }

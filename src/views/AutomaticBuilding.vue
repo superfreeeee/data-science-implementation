@@ -42,12 +42,12 @@
       
       <a-form layout="inline" :form="form" @submit="constructGraph">
         <div style="display: flex; align-items: center">
-          <a-form-item label="url" style="margin-left: 5.5%">
+          <a-form-item label="url" style="margin-left: 5.5%;">
             <a-input
               style="width: 500px"
               v-decorator="[
                 'searchUrl',
-                { rules: [{ required: true, message: '请输入搜索url' }] },
+                { rules: [{ required: false, message: '请输入搜索url' }] },
               ]"
               placeholder="请输入url"
             />
@@ -57,7 +57,7 @@
               style="width: 100px"
               v-decorator="[
                 'searchNum',
-                { rules: [{ required: true, message: '请输入搜索页面数量' }] },
+                { rules: [{ required: false, message: '请输入搜索页面数量' }] },
               ]"
               placeholder="请输入数字"
             />
@@ -105,7 +105,8 @@ export default {
       searchUrl: "",
       searchNum: "",
       queryParam: {},
-      num:0
+      num:0,
+      id1:0
     };
   },
   mounted() {
@@ -175,14 +176,16 @@ export default {
       this.getConstructionDetail()
   },
   computed: {
-    ...mapGetters(["elesToBeAdded", "latestConstructGraph","pageNum"]),
+    ...mapGetters(["latestConstructGraph","pageNum","nodeElesToBeAdded","edgeElesToBeAdded"]),
   },
   methods: {
     ...mapMutations([
       "set_preConstructGraph",
       "set_latestConstructGraph",
-      "set_elesToBeAdded",
-      "set_graphConstructId",
+      "set_edgeElesToBeAdded",
+      "set_nodeElesToBeAdded"
+      // "set_elesToBeAdded",
+      // "set_graphConstructId",
     ]),
     ...mapActions(["getGraphById", "getConstructionDetail"]),
     // 添加元素
@@ -222,40 +225,44 @@ export default {
           };
         }
       });
-      var cnt = 1;
-      var graphConstructId;
+      // var cnt = 1;
+      // var graphConstructId;
       //  获得图的id
       await constructGraphAPI(this.queryParam)
         .then((res) => {
-          console.log(res.content);
-          graphConstructId = "" + res.content;
-          this.set_graphConstructId(graphConstructId);
+          console.log(res)
         })
         .catch((err) => console.log(err));
       // 然后每隔5秒getGraphById,将新增元素添加到图中
       // 当新增元素为空时停止循环
-      var eles = [];
-      var id1 = setInterval(async () => {
+      
+      this.id1 = setInterval(async () => {
         this.getGraphById();
-        eles = this.$store.getters.elesToBeAdded;
-        console.log("eles", eles);
-        var preConstructGraph = this.$store.getters.preConstructGraph;
-        if (eles.length == 0 && preConstructGraph.length > 0) {
-          clearInterval(id1);
-          // console.log("id1")
-          this.set_preConstructGraph([]);
-          this.set_latestConstructGraph([]);
-          this.set_elesToBeAdded([]);
-          this.form.resetFields();
+        var nodeEles = this.$store.getters.nodeElesToBeAdded;
+        var edgeEles=this.$store.getters.edgeElesToBeAdded;
+        console.log("nodeeles", nodeEles);
+        console.log("edgeeles",edgeEles)
+        // var preConstructGraph = this.$store.getters.preConstructGraph;
+        // if (eles.length == 0 && preConstructGraph.length > 0) {
+        //   clearInterval(id1);
+        //   // console.log("id1")
+        //   this.set_preConstructGraph([]);
+        //   this.set_latestConstructGraph([]);
+        //   this.set_elesToBeAdded([]);
+        //   this.form.resetFields();
+        // }
+        for (var key in nodeEles) {
+          this.addEles(nodeEles[key]);
         }
-        for (var key in eles) {
-          this.addEles(eles[key]);
+        for(var key1 in edgeEles){
+          this.addEles(edgeEles[key1])
         }
         this.getConstructionDetail();
         this.set_preConstructGraph(this.$store.getters.latestConstructGraph);
         this.set_latestConstructGraph([]);
-        this.set_elesToBeAdded([]);
-      }, 3000);
+        this.set_nodeElesToBeAdded([]);
+        this.set_edgeElesToBeAdded([]);
+      }, 5000);
       // var id1=setInterval(() => {
       //   // alert("dahuaidanljb")
       //   this.addEles({group:'nodes',data:{id:""+cnt}})
@@ -273,6 +280,7 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+      clearInterval(this.id1)
     },
   },
 };
