@@ -7,7 +7,8 @@ const graphConstruction = {
     state: {
         preConstructGraph: [],
         latestConstructGraph: [],
-        elesToBeAdded:[]
+        elesToBeAdded:[],
+        pageNum:0
     },
     mutations: {
         set_preConstructGraph(state, data) {
@@ -21,6 +22,9 @@ const graphConstruction = {
         },
         set_graphConstructId(state,data){
             state.graphConstructId=data
+        },
+        set_pageNum(state,data){
+            state.pageNum=data
         }
     },
     actions: {
@@ -107,12 +111,16 @@ const graphConstruction = {
             commit('set_elesToBeAdded',eles)
         },
         async getConstructionDetail(){
+            var num=0
             await getConstructionDetailAPI()
             .then((res) => {
                 console.log("res",res)
+                num=res
             })
             .catch((err) => { console.log(err) })
+            commit('set_pageNum',num)
         }
+
     }
 
 }

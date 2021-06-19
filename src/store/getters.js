@@ -44,8 +44,10 @@ const getters={
   latestConstructGraph:state=>state.graphConstruction.latestConstructGraph,
   elesToBeAdded:state=>state.graphConstruction.elesToBeAdded,
   graphConstructId:state=>state.graphConstruction.graphConstructId,//用于getGraphById
+  pageNum:state=>state.graphConstruction.pageNum, // 爬取页面数
   // 根据节点id获取新的图(getGraphByNodeId)
-  getGraphByNodeId:state=>state.graph.getGraphByNodeId
+  getGraphByNodeId:state=>state.graph.getGraphByNodeId,
+  
 }
 
 export default getters

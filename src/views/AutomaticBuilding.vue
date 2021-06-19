@@ -56,7 +56,7 @@
       </a-form>
     </div>
     <div class="constructionProcess">
-      当前爬取页面数：<span id="pageNum"></span>
+      当前爬取页面数：<span id="pageNum">{{pageNum}}</span>
     </div>
 
     <div>
@@ -158,9 +158,10 @@ export default {
       .style({ "background-color": "#48D1CC" })
       .selector(".6")
       .style({ "background-color": "#B0E0E6" });
+      this.getConstructionDetail()
   },
   computed: {
-    ...mapGetters(["elesToBeAdded", "latestConstructGraph"]),
+    ...mapGetters(["elesToBeAdded", "latestConstructGraph","pageNum"]),
   },
   methods: {
     ...mapMutations([
@@ -236,15 +237,7 @@ export default {
         for (var key in eles) {
           this.addEles(eles[key]);
         }
-        // this.getConstructionDetail();
-        
-        // await getConstructionDetailAPI()
-        //     .then((res) => {
-        //         console.log("num",res)
-        //         this.num=res
-        //     })
-        //     .catch((err) => { console.log(err) })
-        // window.document.getElementById("pageNum").innerHTML=this.num+"页"
+        this.getConstructionDetail();
         this.set_preConstructGraph(this.$store.getters.latestConstructGraph);
         this.set_latestConstructGraph([]);
         this.set_elesToBeAdded([]);
