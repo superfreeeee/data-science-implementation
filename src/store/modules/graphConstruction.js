@@ -7,7 +7,8 @@ const graphConstruction = {
     state: {
         preConstructGraph: [],
         latestConstructGraph: [],
-        elesToBeAdded:[],
+        edgeElesToBeAdded:[],
+        nodeElesToBeAdded:[],
         pageNum:0
     },
     mutations: {
@@ -17,11 +18,11 @@ const graphConstruction = {
         set_latestConstructGraph(state, data) {
             state.latestConstructGraph = data
         },
-        set_elesToBeAdded(state,data){
-            state.elesToBeAdded=data
+        set_nodeElesToBeAdded(state,data){
+            state.nodeElesToBeAdded=data
         },
-        set_graphConstructId(state,data){
-            state.graphConstructId=data
+        set_edgeElesToBeAdded(state,data){
+            state.edgeElesToBeAdded=data
         },
         set_pageNum(state,data){
             state.pageNum=data
@@ -29,12 +30,10 @@ const graphConstruction = {
     },
     actions: {
         async getGraphById({commit}) {
-            var graphId=this.getters.graphConstructId
-            console.log("getGraphById")
             var graph = {}
-            await getGraphByIdAPI({ id: graphId })
+            await getGraphByIdAPI()
                 .then((res) => {
-                    console.log("res",res)
+                    // console.log("res",res)
                     graph = res.content
                 })
                 .catch((err) => { console.log(err) })
@@ -52,7 +51,8 @@ const graphConstruction = {
                 } else {
                     data.name = ''
                 }
-
+                data.id = ""+node.identity
+                data.labels = node.labels
                 const toBeAdded = {
                     group: 'nodes',
                     data,
@@ -80,7 +80,7 @@ const graphConstruction = {
                         }
                     }
                 }
-                data.id = edge.identity
+                data.id = ""+edge.identity
                 data.source = edge.start
                 data.target = edge.end
                 data.name = edge.type
@@ -93,29 +93,36 @@ const graphConstruction = {
             console.log("graphList",graphList)
             // graphList放入latestConstructGraph
             // 获得preConstructGraph,比较，不一样的放入elesToBeAdded
-            var eles=[]
+            var nodeEles=[]
+            var edgeEles=[]
             commit('set_latestConstructGraph',graphList)
             var preGraph=this.getters.preConstructGraph
             console.log(preGraph)
             for(var item in graphList){
-                var newGraphId=graphList[item].data.UUID
+                var newGraphId=graphList[item].data.id
                 var idList=[]
                 for(var item1 in preGraph){
-                    idList.push(preGraph[item1].data.UUID)
+                    idList.push(preGraph[item1].data.id)
                 }
                 if(idList.indexOf(newGraphId)<=-1){
-                    eles.push(graphList[item])
+                    if(graphList[item].group=="nodes"){
+                        nodeEles.push(graphList[item])
+                    }else{
+                        edgeEles.push(graphList[item])
+                    }
                 }
             }
-            console.log(eles)
-            commit('set_elesToBeAdded',eles)
+            console.log(nodeEles)
+            console.log(edgeEles)
+            commit('set_nodeElesToBeAdded',nodeEles)
+            commit('set_edgeElesToBeAdded',edgeEles)
         },
-        async getConstructionDetail(){
+        async getConstructionDetail({commit}){
             var num=0
             await getConstructionDetailAPI()
             .then((res) => {
                 console.log("res",res)
-                num=res
+                num=res.content
             })
             .catch((err) => { console.log(err) })
             commit('set_pageNum',num)

@@ -551,8 +551,12 @@ export default {
       console.log(this.arrIndex)
       this.$refs.ref_CJS.getGraphList()
     },
-    handleChangeS(value) {
-      this.addGraph(value)
+    async handleChangeS(value) {
+      await this.getNewGraph(value)
+      this.arrIndex=[]
+      this.arrIndex.push(this.$store.getters.currentIndex)
+      console.log(this.arrIndex)
+      this.$refs.ref_CJS.getGraphList()
     },
     handleBlur() {
       // console.log("blur");
