@@ -2,6 +2,7 @@
  .answerPart{
    margin: 60px 40px;
  }
+ .clear{clear:both; height: 0; line-height: 0; font-size: 0}
 
 </style>
 
@@ -22,9 +23,10 @@
     <div :style="{ padding: '24px', minHeight: '360px'}" style="text-align: center;">
       <div style="margin-top: 50px; height: 100%; width: 80%;display:inline-block">
         <a-input-search placeholder="input search text" size="large"  style="margin-top: 20px;border: 1px solid; border-radius:5px" @search="semanticS" />
-        <div class = "answerPart" v-if="semanticAnswer.length != 0">
-          <a-list item-layout="vertical" size="large" :data-source="semanticAnswer" style="text-align: center; ">
-            <div slot="footer"><b>Created by Trillion Coin</b></div>
+        <div class = "answerPart" v-if="semanticAnswer.length != 0" style=" width: 95%;">
+          <div v-if="this.Answer.length != 0" style="font-size:14px; font-weight: 200;  margin-top: 20px; float:left;"> {{this.Answer}} </div>
+          <div class="clear"></div>
+          <a-list item-layout="vertical" size="large" :data-source="semanticAnswer" style="text-align: center; margin-top: 20px">
             <a-list-item slot="renderItem" key="item.name" slot-scope="item, index">
               <img
                 referrer="no-referrer|origin|unsafe-url"
@@ -35,7 +37,7 @@
                 :src= "item.pic"
               />
               <a-list-item-meta style="padding: 20px" :description="item.summary">
-                <a slot="title" style='font-size:20px' :href="item.url">{{ item.name }}</a>
+                <a slot="title" style='font-size:20px; font-weight:600;text-decoration' :href="item.url">{{ item.name }}</a>
               </a-list-item-meta>
               <a-collapse v-model="activeKey" size="small" style="margin-top: 50px" :bordered="false">
                 <a-collapse-panel v-for="(key, value) in item.property" :key="value" :header="value">
@@ -57,7 +59,8 @@
     name: "semanticsS",
     data(){
       return{
-        listData:[]
+        listData:[],
+        activeKey:[]
       }
     },
     async mounted(){
@@ -66,7 +69,8 @@
     },
     computed:{
       ...mapGetters([
-        'semanticAnswer'
+        'semanticAnswer',
+        'Answer'
         ])
     },
     methods:{

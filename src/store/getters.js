@@ -39,6 +39,7 @@ const getters={
   answer: state=>state.question.answer,
   recommand_list: state=>state.question.recommand_list,
   semanticAnswer:state=>state.question.semanticAnswer,
+  Answer:state=>state.question.Answer,
   // 自动构建图谱
   preConstructGraph:state=>state.graphConstruction.preConstructGraph,
   latestConstructGraph:state=>state.graphConstruction.latestConstructGraph,

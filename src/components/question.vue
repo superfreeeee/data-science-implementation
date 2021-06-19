@@ -119,7 +119,7 @@
                       </a-list-item>
                     </a-list>
                   </template>
-                  <a-button>推蝝问题</a-button>
+                  <a-button>推荐问题</a-button>
                 </a-popover>
                 <a-input-search class="post_question"  allow-clear @search="onSearch" />
               </div>

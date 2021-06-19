@@ -9,7 +9,8 @@ const question = {
         answer: "",
         recommand_list:['快提些问题吧'
         ],
-        semanticAnswer: []
+        semanticAnswer: [],
+        Answer: ""
     },
     mutations: {
         // set_questionVisible: function (state, data) {
@@ -23,6 +24,9 @@ const question = {
         },
         set_semanticSearchAnswer: function(state, data){
             state.semanticAnswer = data
+        },
+        set_semanticAnswer: function(state, data){
+            state.Answer = data
         }
     },
     actions:{
@@ -35,7 +39,7 @@ const question = {
             //     }).catch(err => console.log(err))
             // }).catch(err => console.log(err))
             await getAnswerAPI(data).then(res => {
-                console.log("as", res)
+                // console.log(res)
                 if(res.content){
                     commit('set_answer', res.content)
                 }
@@ -46,6 +50,7 @@ const question = {
             }).catch(err => console.log(err))
         },
         getSemantics: async({commit}, data)=>{
+            commit('set_semanticAnswer', "")
             await semanticSearchAPI(data).then(res => {
                 console.log(res)
                 var list_of_value = []
@@ -74,6 +79,11 @@ const question = {
                 }
                 console.log(list_of_value)
                 commit('set_semanticSearchAnswer', list_of_value)
+                var content = "很抱歉，这个问题没有回答"
+                if(res.content.queryResults[0].answers[0].content) {
+                    content = res.content.queryResults[0].answers[0].content
+                }
+                commit('set_semanticAnswer', content)
             }).catch(err=>console.log(err))
             // await commit('set_semanticSearchAnswer', listData)
         },
