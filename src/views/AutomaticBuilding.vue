@@ -15,17 +15,31 @@
 .constructionProcess {
   width: 80%;
   height: 30px;
-  background-color: white;
+  padding: 20px;
   /* margin: 10px; */
   margin-left: 5.5%;
+  margin-bottom: 20px;
 }
 </style>
 <template>
   <div>
     <div
+      style="
+        padding: 16px 24px;
+        height: 70px;
+        background-color: white;
+        border-bottom: 1px groove;
+      ">
+      <div style="font-size: 20px; font-weight: 600; margin-left: 5.5%; margin-bottom: 10px"> 
+        自动构建
+        <div style="font-size: 14px; color: #8B9098; font-family: 'Microsoft YaHei'; font-weight: 600" >输入你想要爬虫的链接，就可以获得爬取的知识图谱，快来试试吧！</div>
+      </div>
+    </div>
+    <div
       :style="{ padding: '24px', minHeight: '80px' }"
-      style="text-align: center"
+      style="text-align: center; margin-top:40px"
     >
+      
       <a-form layout="inline" :form="form" @submit="constructGraph">
         <div style="display: flex; align-items: center">
           <a-form-item label="url" style="margin-left: 5.5%">

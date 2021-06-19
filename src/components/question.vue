@@ -119,9 +119,9 @@
                       </a-list-item>
                     </a-list>
                   </template>
-                  <a-button>推荐问题</a-button>
+                  <a-button>推蝝问题</a-button>
                 </a-popover>
-                <a-input-search placeholder="input search text" class="post_question" @search="onSearch" />
+                <a-input-search class="post_question"  allow-clear @search="onSearch" />
               </div>
                
             </div>
@@ -211,6 +211,8 @@ export default {
     },
     async onSearch(value) {
       await Promise.all([this.getAnswer(value), this.getRecommand(value)])
+      this.value=''
+      
       this.chatList.push({
         IsAnswer:false,
         Text:value
