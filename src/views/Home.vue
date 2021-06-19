@@ -67,43 +67,38 @@
         <div :style="{ padding: '24px', minHeight: '360px' }">
           <div style="height: 100%; width: 100%">
             <!-- 画布 -->
-            <div class="navigatorAboveDrawer">
-              <!-- tab -->
-              <div class="outer-container" style="overflow: auto">
-                <div class="inner-container" style="white-space: nowrap">
-                  <div
-                    class="mytab"
-                    v-for="item in graphIndexList"
-                    :key="item"
-                    @click="changeGraph(item)"
-                    v-bind:class="{ active1: arrIndex.indexOf(item) > -1 }"
+            <!-- tab -->
+            <div class="outer-container" style="overflow: auto; margin-left: 5.5%; width:80%; margin-top: 20px">
+              <div class="inner-container" style="white-space: nowrap">
+                <div
+                  class="mytab"
+                  v-for="item in graphIndexList"
+                  :key="item"
+                  @click="changeGraph(item)"
+                  v-bind:class="{ active1: arrIndex.indexOf(item) > -1 }" style="align-items: center"
+                >
+                  <span
+                    class="tabTitle"
+                    v-bind:class="{ active2: arrIndex.indexOf(item) > -1 }" style="padding:5px"
+                    >graph {{ graphIndexList.indexOf(item) }}</span
                   >
-                    <span
-                      class="tabTitle"
-                      v-bind:class="{ active2: arrIndex.indexOf(item) > -1 }"
-                      >graph {{ graphIndexList.indexOf(item) }}</span
-                    >
-                    <a-icon
-                      type="close"
-                      v-bind:class="{ active3: arrIndex.indexOf(item) > -1 }"
-                      @click="closeGraph(item)"
-                    />
-                  </div>
                   <a-icon
-                    type="plus-square"
-                    style="font-size: 20px; margin: 0px"
-                    @click="myAddGraph"
+                    class="closeIcon"
+                    type="close"
+                    v-bind:class="{ active3: arrIndex.indexOf(item) > -1 }"
+                    @click="closeGraph(item)"
                   />
                 </div>
               </div>
-
-              <a-divider style="margin: 0; padding: 0" />
+            </div>
+            <a-divider style="margin: 0 0 0 5.5%; width:80%;; padding: 0;" />
+            <div class="navigatorAboveDrawer">
               <a-row :gutter="24">
                 <a-col :md="0" :sm="0" :lg="1"></a-col>
                 <MySearch @listenToMySearch="getSearchResult"></MySearch>
                 <a-col :md="2" :sm="2" :lg="0"></a-col>
                 <a-col :md="6" :sm="6" :lg="6">
-                  <div style="display: flex; align-items: center">
+                  <div style="display: flex; align-items: center;   font-family: 'Microsoft YaHei';">
                     <a-button
                       @click="filterByNodeLabels()"
                       style="

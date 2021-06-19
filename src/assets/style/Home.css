@@ -5,7 +5,9 @@
     /* box-shadow: 0px 1px 2px rgb(247, 235, 228), 0px 1px 5px rgba(110, 106, 100, 0.7); */
 /* } */
 
-
+*{
+  font-family: "Microsoft YaHei";
+}
 #components-layout-demo-side .logo {
   height: 32px;
   background:#1F2F49;
@@ -73,26 +75,47 @@
     border: 1px;
     border-radius:5px 5px 0px 0px;
     border-style: groove groove none groove;
-    margin-top: 20px;
     margin-bottom: 0;
     padding: 0;
   }
   .mytab{
     margin:0;
-    padding:0;
-    height:30px;
-    width: 80px;
+    margin-right: 10px;
+    padding:10px;
+    height:40px;
+    width: 100px;
     display: inline-block;
     border: 1px solid;
+    border-bottom: 0px;
+    border-color: #D8DADE;
+    background-color: #F1F1F1;
     border-radius: 5px 5px 0px 0px;
     /* margin-right: 2px; */
   }
+  .inner-container{
+    transition: transform .3s ease-in-out, box-shadow .3s cubic-bezier(.47, 0, .745, .715), border .3s linear .1s;
+  }
+  .inner-container :hover{
+    -webkit-transform: translateY(-3px);
+    -ms-transform: translateY(-3px);
+    transform: translateY(-3px);
+    -webkit-transition: all .5s ease-out;
+    transition: all .5s ease-out;
+  }
+  .closeIcon :hover{
+    -webkit-transform: 0;
+    -ms-transform: 0;
+    transform: 0;
+  }
+  .tabTitle :hover{
+    transition: transform .3s ease-in-out, box-shadow .3s cubic-bezier(.47, 0, .745, .715), border .3s linear .1s;
+  }
   .active1{
-    background-color: #161616;
+    background-color: #7D91B2;
     border: 0px solid;
   }
   .tabTitle{
-    font-family:Serif;
+    font-family: "Microsoft YaHei";
     font-weight: bold;
   }
   .active2{
