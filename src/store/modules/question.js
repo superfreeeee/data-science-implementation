@@ -52,10 +52,16 @@ const question = {
                     var context = res.content.semanticStatement[0][item]
                     if(context && "polysemantNamedEntities" in context && context.polysemantNamedEntities){
                         if(context.polysemantNamedEntities.length != 0){
+                            var imgPic = ""
+                            if(context.polysemantNamedEntities[0].picSrc) {
+                                if(context.polysemantNamedEntities[0].picSrc[0]=="H" || context.polysemantNamedEntities[0].picSrc[0]=="h"){
+                                    imgPic = context.polysemantNamedEntities[0].picSrc
+                                }
+                            }
                             list_of_value.push({
                                 'name': context.name,
                                 'url': context.polysemantNamedEntities[0].entityUrl ? context.polysemantNamedEntities[0].entityUrl : '',
-                                'pic': context.polysemantNamedEntities[0].picSrc ? context.polysemantNamedEntities[0].picSrc : 'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
+                                'pic': imgPic!="" ? context.polysemantNamedEntities[0].picSrc : 'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
                                 'summary': context.polysemantNamedEntities[0].lemmaSummary,
                                 'property': context.polysemantNamedEntities[0].dataProperties
                             })
