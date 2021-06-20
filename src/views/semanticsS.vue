@@ -23,9 +23,9 @@
     <div :style="{ padding: '24px', minHeight: '360px'}" style="text-align: center;">
       <div style="margin-top: 50px; height: 100%; width: 80%;display:inline-block">
         <a-input-search placeholder="input search text" size="large"  style="margin-top: 20px;border: 1px solid; border-radius:5px" @search="semanticS" />
+        <div v-if="this.Answer.length != 0" style="font-size:14px; font-weight: 200;  margin-top: 20px; float:left;"> {{this.Answer}} </div>
+        <div class="clear"></div>
         <div class = "answerPart" v-if="semanticAnswer.length != 0" style=" width: 95%;">
-          <div v-if="this.Answer.length != 0" style="font-size:14px; font-weight: 200;  margin-top: 20px; float:left;"> {{this.Answer}} </div>
-          <div class="clear"></div>
           <a-list item-layout="vertical" size="large" :data-source="semanticAnswer" style="text-align: center; margin-top: 20px">
             <a-list-item slot="renderItem" key="item.name" slot-scope="item, index">
               <img

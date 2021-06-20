@@ -24,7 +24,7 @@
           <span slot="title"><a-icon type="global"/><span>所有节点</span></span>
           <a-sub-menu  v-for='(value, key) in nodeList' :key="key"  >
             <span slot="title"><a-icon type="plus-circle" /><span>{{key}}</span></span>
-            <a-sub-menu  v-for='(value1, key1) in value[0]' :key="key+key1"  >
+            <a-sub-menu  v-for='(value1, key1) in value' :key="key+key1"  >
               <span slot="title"><a-icon type="plus-circle" /><span>{{key1}}</span></span>
               <a-sub-menu  v-for='(value2, key2) in value1' :key="key+key1+key2"  >
               <span slot="title"><a-icon type="check-circle" /><span>{{key2}}</span></span>
