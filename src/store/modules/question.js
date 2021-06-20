@@ -7,7 +7,7 @@ import {
 const question = {
     state: {
         answer: "",
-        recommand_list:['快提些问题吧'
+        recommand_list:['新冠，整体预防措施', '手足口病'
         ],
         semanticAnswer: [],
         Answer: ""
@@ -40,13 +40,7 @@ const question = {
             // }).catch(err => console.log(err))
             await getAnswerAPI(data).then(res => {
                 // console.log(res)
-                if(res.content){
-                    commit('set_answer', res.content.replace('\\n', '\n'))
-                }
-                else{
-                    commit('set_answer', res.message.replace('\\n', '\n'))
-                }
-                
+                commit('set_answer', res.content.replace('\\n', '\n'))                
             }).catch(err => console.log(err))
         },
         getSemantics: async({commit}, data)=>{
