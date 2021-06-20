@@ -7,7 +7,7 @@ export function getListAPI (params) {
 }
 
 export function AddNodeAPI (params) {
-  return http.post(`${request}/node/addNode`, params)
+  return http.post(`${request}/node/addNode?graphId=${params.id}`, params.node)
 }
 
 export function DeleteNodeAPI (params) {
@@ -15,28 +15,44 @@ export function DeleteNodeAPI (params) {
 }
 
 export function UpdataNodeAPI (params) {
-  return http.post(`${request}/node/updateNode`, params)
+  return http.post(`${request}/node/updateNode?graphId=${params.id}`, params.node)
 }
 
 export function DownloadXmlAPI (params) {
   return http.get(`${request}/graph/exportXml`, params)
 }
 export function DeleteEdgeAPI (params) {
-  return http.get(`${request}/relation/deleteRelation`, params)
+  return http.get(`${request}/relation/deleteRelation`,params)
 }
 export function updateEdgeAPI (params) {
-  return http.post(`${request}/relation/updateRelation`, params)
+  return http.post(`${request}/relation/updateRelation?graphId=${params.id}`, params.edge)
 }
 export function AddEdgeAPI (params) {
-  return http.post(`${request}/relation/addRelation`, params)
+  return http.post(`${request}/relation/addRelation?graphId=${params.id}`, params.edge)
 }
-export function getGraphAPI () {
-  return http.get(`${request}/graph/getGraph`)
+export function getGraphListAPI () {
+  return http.get(`${request}/graph/getGraphList`)
 }
 export function filterByNodeLabelsAPI(params){
-  return http.post(`${request}/graph/filterByNodeLabels`,params)
+  return http.post(`${request}/graph/filterByNodeLabels?graphId=${params.id}`,params.labels)
 }
 
 export function uploadFileAPI(params){
   return http.post(`${request}/graph/uploadFile`,params)
+}
+
+export function getNodesListAPI(){
+  return http.get(`${request}/node/getNodesList`)
+}
+
+export function removeGraphAPI(params){
+  return http.get(`${request}/graph/removeGraph`,params)
+}
+
+export function getSearchNodeListAPI(){
+  return http.get(`${request}/node/getSearchNodes`)
+}
+
+export function getGraphByNodeAPI(params){
+  return http.get(`${request}/graph/getGraphByNode`,params)
 }

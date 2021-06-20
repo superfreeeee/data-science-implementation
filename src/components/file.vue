@@ -1,24 +1,21 @@
 <template>
   <div class="upload_form">
-    <a-modal
-      title="上传文件" :footer="null" :visible="uploadFormVisible" :confirmLoading="confirmLoading" @cancel="cancelUpload">
-      <a-upload-dragger name="file" ref="majorUpload" :multiple="true" action="http://localhost:9999/api/file/upload" :remove="handleRemove"
-                        :headers="majorHeaders" :before-upload="beforeUpload" @change="handleChange" :file-list="fileList">
-        <p class="ant-upload-drag-icon">
-          <a-icon style="color:#437FFF;font-size: 32px " type="vertical-align-top" />
-        </p>
-        <p class="ant-upload-text">
-          点击或将文件拖拽到这里上传
-        </p>
-        <p class="ant-upload-hint">
-          支持扩展名：.csv .json
-        </p>
-      </a-upload-dragger>
-      <!--      <a-upload-->
-      <!--        :fileList="fileList" :remove="handleRemove" show-upload-list="true" :beforeUpload="beforeUpload">-->
-      <!--      <a-button><a-icon type="upload" />选择文件</a-button>-->
-      <!--      </a-upload>-->
-    </a-modal>
+        <a-modal
+          title="上传文件" :footer="null" :visible="uploadFormVisible" :confirmLoading="confirmLoading" @cancel="cancelUpload">
+          <a-upload-dragger name="mFile" :multiple="false" :showUploadList="true" action="http://localhost:9090/api/graph/uploadFile" :remove="handleRemove"
+                            :before-upload="beforeUpload" @change="handleChange" :file-list="fileList">
+            <p class="ant-upload-drag-icon">
+              <a-icon style="color:#437FFF;font-size: 32px " type="vertical-align-top" />
+            </p>
+            <p class="ant-upload-text">
+              点击或将文件拖拽到这里上传
+            </p>
+            <p class="ant-upload-hint">
+              支持扩展名：.json
+            </p>
+          </a-upload-dragger>
+          <a-button @click="handleSure" type="primary" style="margin: 20px 0px 10px 400px">确认</a-button>
+        </a-modal>
   </div>
 </template>
 
@@ -28,26 +25,22 @@ export default {
   name: "file",
   data(){
     return{
-      fileList: [],
-      confirmLoading: false
+      confirmLoading: false,
+      fileList:[]
     }
   },
   computed:{
     ...mapGetters([
       'uploadFormVisible',
-      'fileList'
     ])
   },
   methods:{
     ...mapMutations([
-      'set_historyVisible'
-    ]),
-    ...mapActions([
-      'getHistoryList'
+      "set_uploadFormVisible"
     ]),
     // 点击取消上传
     cancelUpload () {
-      this.uploadFormVisible = false
+      this.set_uploadFormVisible(false)
     },
     // 删除上传文件
     handleRemove (file) {
@@ -72,7 +65,7 @@ export default {
       return true
     },
     handleChange (info) {
-      console.log('239==', info)
+      // console.log('239==', info)
       const file = info.file
       const name = file.name
       const suffix = name.substr(name.lastIndexOf('.'))
@@ -112,7 +105,6 @@ export default {
           const parent = suc[0].parentNode
           parent.style.display = 'flex'
           parent.style.marginTop = '16px'
-          // console.log('278==parent==',parent)
           const sp = document.createElement('span')
           sp.innerText = '上传成功'
           sp.style.color = '#437FFF'
@@ -120,7 +112,11 @@ export default {
         }
       }
       this.all_property = []
-    }
+    },
+    handleSure () {
+      // this.uploadFormVisible = false
+      this.set_uploadFormVisible(false)
+    },
   }
 }
 </script>

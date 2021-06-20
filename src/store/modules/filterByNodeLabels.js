@@ -1,10 +1,11 @@
 import {
-  getGraphDetailsAPI
+  getLabelsByGraphIdAPI
 } from "../../api/graphDetails";
 
 const filterByNodeLabels = {
     state: {
         filterByNodeLabelsVisible: false,
+        graphLabelsList:[]
     },
     mutations: {
       set_filterByNodeLabelsVisible: function (state, data) {
@@ -12,17 +13,18 @@ const filterByNodeLabels = {
         state.filterByNodeLabelsVisible = data
         console.log(state.filterByNodeLabelsVisible)
       },
-    //   set_graphDetailsList:function (state,data) {
-    //    state.graphDetailsList=data
-    //   }
+      set_graphLabelsList:function (state,data) {
+       state.graphLabelsList=data
+      }
     },
     actions:{
-    //     getGraphDetailsList:async ({commit})=>{
-    //     const res=await getGraphDetailsAPI()
-    //     if(res){
-    //       commit('set_graphDetailsList',res.content)
-    //     }
-    //   }
+       async getLabelsByGraphId({commit}){
+        const res=await getLabelsByGraphIdAPI({graphId:this.getters.currentIndex})
+        if(res){
+          commit('set_graphLabelsList',res.content)
+          console.log("labels",res.content)
+        }
+       }
     
     }
   }

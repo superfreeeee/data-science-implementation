@@ -56,7 +56,7 @@ h3{
 <template>
   <a-drawer
     title="Graph Details"
-    placement="left"
+    placement="right"
     :closable="true"
     :visible="graphDetailsVisible"
     @close="onClose"
@@ -126,7 +126,7 @@ export default {
     await this.getGraphDetailsList();
   },
   computed: {
-    ...mapGetters(["graphDetailsVisible", "graphDetailsList", "nodeLabels"]),
+    ...mapGetters(["graphDetailsVisible", "graphDetailsList"]),
   },
   methods: {
     ...mapMutations(["set_graphDetailsVisible"]),

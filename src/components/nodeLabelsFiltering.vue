@@ -1,64 +1,6 @@
-<style scoped>
-.labels {
-  display: inline-block;
-  height: 23px;
-  line-height: 23px;
-  padding: 0 0.16rem;
-  font-size: 10px;
-  color: #97979f;
-  border-radius: 20px;
-  border: 1px solid #97979f;
-  margin-right: 10px;
-  margin-top: 10px;
-  font-style: normal;
-  background-color: antiquewhite;
-}
-.active {
-  border: 1px solid orange;
-  color: white;
-  background-color: rgb(248, 182, 138);
-  box-shadow: 0px 1px 2px rgb(253, 146, 84), 0px 1px 2px rgba(0, 0, 0, 0.7);
-}
-.tips{
-  font-family: FZYaoti;
-  font-size: 15px;
-}
-.typeFilter{
-  padding: 20px;
-  margin-left: 80%;
-  
-}
-#button1{
-  color: rgb(63, 59, 53);
-  background-color:rgb(250, 212, 169);
-  box-shadow: 0px 1px 2px rgb(250, 212, 169),0px 1px 2px rgba(0, 0, 0, 0.7);
-  /* background-color:rgb(42, 50, 54); */
-  border: white;
-  font-family: LiSu;
-  height: 25px;
-  margin-right: 10px;
-}
-#button1:hover{
-  background-color:rgb(250, 198, 140);
-  color: rgb(252, 252, 252);
-}
-#button2{
-  color: rgb(63, 59, 53);
-  background-color:rgb(250, 212, 169);
-  box-shadow: 0px 1px 2px rgb(250, 212, 169),0px 1px 2px rgba(0, 0, 0, 0.7);
-  /* background-color:rgb(42, 50, 54); */
-  border: white;
-  font-family: LiSu;
-  height: 25px;
-}
-#button2:hover{
-  background-color:rgb(250, 198, 140);
-  color: rgb(252, 252, 252);
-}
-.loadTip{
-  margin-left: 45%;
-}
+<style src="../assets/style/nodeFiltering.css">
 </style>
+
 
 <template>
   <a-drawer
@@ -72,7 +14,7 @@
     <div class="tips">请点击选择节点的标签来过滤（可多选）</div>
     <div
       class="labels"
-      v-for="item in graphDetailsList.nodeLabels"
+      v-for="item in graphLabelsList"
       :key="item"
       @click="selectItem(item)"
       v-bind:class="{ active: arrIndex.indexOf(item) > -1 }"
@@ -102,14 +44,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["filterByNodeLabelsVisible", "graphDetailsList"]),
+    ...mapGetters(["filterByNodeLabelsVisible", "graphLabelsList","currentIndex"]),
   },
   methods: {
     ...mapMutations(["set_filterByNodeLabelsVisible"]),
-    ...mapActions(["getGraphDetailsList","filterByNodeLabels"]),
+    ...mapActions(["filterByNodeLabels"]),
     onClose() {
       this.set_filterByNodeLabelsVisible(false);
-      console.log(this.graphDetailsList);
     },
     handleInfiniteOnload() {},
     selectItem(item) {
@@ -144,7 +85,7 @@ export default {
       // this.set_filterByNodeLabelsVisible(false);
       this.spinning=true;
       console.log(this.spinning)
-      await filterByNodeLabelsAPI(nodeLabels)
+      await filterByNodeLabelsAPI({id:this.$store.getters.currentIndex,labels:nodeLabels})
       .then((res)=>{
         // console.log(res)
         graph = res.content
@@ -163,7 +104,7 @@ export default {
       this.sendData({},true)
       this.set_filterByNodeLabelsVisible(false);
       this.spinning=false
-    }
+    },
   },
 };
 </script>
