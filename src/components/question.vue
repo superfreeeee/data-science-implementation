@@ -34,6 +34,7 @@
   font-size: 14px;
   background: #A3C3F6;
   position: relative;
+  white-space: pre-line;
   margin-top: 8px;
   overflow-wrap: break-word;
 }
@@ -128,7 +129,7 @@
           </template>
           <img src="../assets/question/IQ.svg" style="max-height: 100%">
         </a-popover>
-        <a-menu slot="overlay">
+        <a-menu slot="overlay" :data-source="recommand_list">
           <a-menu-item v-for="(Mitem, Mindex) in recommand_list" :key="Mindex" @click="set_talkVisible(Mindex)">
             {{Mitem}}
           </a-menu-item>
@@ -212,6 +213,7 @@ export default {
     async onSearch(value) {
       await Promise.all([this.getAnswer(value), this.getRecommand(value)])
       this.value=''
+      console.log("recommand", this.recommand_list)
       
       this.chatList.push({
         IsAnswer:false,

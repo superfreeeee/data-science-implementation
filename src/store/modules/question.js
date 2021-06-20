@@ -41,10 +41,10 @@ const question = {
             await getAnswerAPI(data).then(res => {
                 // console.log(res)
                 if(res.content){
-                    commit('set_answer', res.content)
+                    commit('set_answer', res.content.replace('\\n', '\n'))
                 }
                 else{
-                    commit('set_answer', res.message)
+                    commit('set_answer', res.message.replace('\\n', '\n'))
                 }
                 
             }).catch(err => console.log(err))
