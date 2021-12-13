@@ -1,9 +1,9 @@
-import http from '@/utils/http'
+import http from '@/utils/http';
 
-const api={
-  historyPre:'/api/history'
-}
+const api = {
+  historyPre: '/api/history',
+};
 
 export function getHistoryAPI(params) {
-  return http.get(`${api.historyPre}/getHistory`,params)
+  return http.get(`${api.historyPre}/getHistory`, params);
 }

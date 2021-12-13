@@ -1,12 +1,12 @@
-import http from '@/utils/http'
+import http from '@/utils/http';
 
-const api={
-  historyPre:'/api/graph'
-}
+const api = {
+  historyPre: '/api/graph',
+};
 
 export function getGraphDetailsAPI(params) {
-  return http.get(`${api.historyPre}/getStatistics`,params)
+  return http.get(`${api.historyPre}/getStatistics`, params);
 }
-export function getLabelsByGraphIdAPI(params){
-  return http.get(`${api.historyPre}/getLabelsByGraphId`,params)
+export function getLabelsByGraphIdAPI(params) {
+  return http.get(`${api.historyPre}/getLabelsByGraphId`, params);
 }
