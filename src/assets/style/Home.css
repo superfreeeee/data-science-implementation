@@ -1,153 +1,157 @@
 /* .topNavigator{ */
-    /* height: 40px; */
-    /* background: linear-gradient(to bottom right,rgb(240, 195, 165),rgb(247, 235, 228)); */
-    /* background: rgb(240, 195, 165); */
-    /* box-shadow: 0px 1px 2px rgb(247, 235, 228), 0px 1px 5px rgba(110, 106, 100, 0.7); */
+/* height: 40px; */
+/* background: linear-gradient(to bottom right,rgb(240, 195, 165),rgb(247, 235, 228)); */
+/* background: rgb(240, 195, 165); */
+/* box-shadow: 0px 1px 2px rgb(247, 235, 228), 0px 1px 5px rgba(110, 106, 100, 0.7); */
 /* } */
 
-*{
-  font-family: "Microsoft YaHei";
+* {
+  font-family: 'Microsoft YaHei';
 }
 #components-layout-demo-side .logo {
   height: 60px;
   margin: 20px 10px;
+  border-radius: 50%;
+  overflow: hidden;
 }
 
 .cytoolbar_id {
-    list-style-type: none;
-    /* margin-bottom: 10px; */
-    margin-top: 50px;
-    margin-right: 20px;
-    top: 70px;
-    right: 30px;
-    padding: 0;
-    width: 4%;
-    height: 310px;
-    background-color: white;
-    box-shadow: 0px 1px 2px rgb(247, 235, 228), 0px 1px 2px rgba(0, 0, 0, .7);
-    position: fixed;
-    /* overflow: auto; */
-    z-index: 2;
-    border: 1px;
-    border-radius: 5px;
-  }
-  .center-center {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    align-content: center;
-    justify-items: center;
-    justify-content: center;
-    margin: 5px;
-  }
-  a {
-    text-decoration: none;
-  }
-  .propertyDisplay {
-    height: 100px;
-    width:80%;
-    margin-left: 5.5%;
-    /* margin-right: 20%; */
-    margin-top: 10px;
-    padding: 10px;
-    background-color: white;
-    overflow: hidden;
-    overflow-y: scroll;
-  }
-  .propertyDisplay::-webkit-scrollbar {
-    /*滚动条整体样式*/
-    width : 10px;  /*高宽分别对应横竖滚动条的尺寸*/
-    height: 1px;
-  }
-  .propertyDisplay::-webkit-scrollbar-thumb {
+  list-style-type: none;
+  /* margin-bottom: 10px; */
+  margin-top: 50px;
+  margin-right: 20px;
+  top: 70px;
+  right: 30px;
+  padding: 0;
+  width: 4%;
+  height: 310px;
+  background-color: white;
+  box-shadow: 0px 1px 2px rgb(247, 235, 228), 0px 1px 2px rgba(0, 0, 0, 0.7);
+  position: fixed;
+  /* overflow: auto; */
+  z-index: 2;
+  border: 1px;
+  border-radius: 5px;
+}
+.center-center {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-items: center;
+  justify-content: center;
+  margin: 5px;
+}
+a {
+  text-decoration: none;
+}
+.propertyDisplay {
+  height: 100px;
+  width: 80%;
+  margin-left: 5.5%;
+  /* margin-right: 20%; */
+  margin-top: 10px;
+  padding: 10px;
+  background-color: white;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+.propertyDisplay::-webkit-scrollbar {
+  /*滚动条整体样式*/
+  width: 10px; /*高宽分别对应横竖滚动条的尺寸*/
+  height: 1px;
+}
+.propertyDisplay::-webkit-scrollbar-thumb {
   /*滚动条里面小方块*/
-  border-radius   : 10px;
+  border-radius: 10px;
   background-color: skyblue;
   background-image: -webkit-linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.2) 25%,
-      transparent 25%,
-      transparent 50%,
-      rgba(255, 255, 255, 0.2) 50%,
-      rgba(255, 255, 255, 0.2) 75%,
-      transparent 75%,
-      transparent
+    45deg,
+    rgba(255, 255, 255, 0.2) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.2) 75%,
+    transparent 75%,
+    transparent
   );
-  }
-  .propertyDisplay::-webkit-scrollbar-track {
+}
+.propertyDisplay::-webkit-scrollbar-track {
   /*滚动条里面轨道*/
-  box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
-  background   : #ededed;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: #ededed;
   border-radius: 10px;
-  }
-  #labels {
-    background-color: rgb(248, 182, 138);
-    border-radius: 10px;
-    box-shadow: 0px 1px 2px rgb(253, 146, 84), 0px 1px 2px rgba(0, 0, 0, 0.7);
-    font-weight: bold;
-  }
-  .Int_question {
-    position: fixed;
-    bottom: 130px;
-    right: 50px;
-  }
-  .navigatorAboveDrawer{
-    background-color: white;
-    /* background-color: #8C99AC; */
-    margin-left: 5.5%;
-    width:80%;
-    border: 1px;
-    border-radius:5px 5px 0px 0px;
-    border-style: groove groove none groove;
-    margin-bottom: 0;
-    padding: 0;
-  }
-  .mytab{
-    margin:0;
-    margin-right: 10px;
-    padding:10px;
-    height:40px;
-    width: 100px;
-    display: inline-block;
-    border: 1px solid;
-    border-bottom: 0px;
-    border-color: #D8DADE;
-    background-color: #F1F1F1;
-    border-radius: 5px 5px 0px 0px;
-    /* margin-right: 2px; */
-  }
-  .inner-container{
-    transition: transform .3s ease-in-out, box-shadow .3s cubic-bezier(.47, 0, .745, .715), border .3s linear .1s;
-  }
-  .inner-container :hover{
-    -webkit-transform: translateY(-3px);
-    -ms-transform: translateY(-3px);
-    transform: translateY(-3px);
-    -webkit-transition: all .5s ease-out;
-    transition: all .5s ease-out;
-  }
-  .closeIcon :hover{
-    -webkit-transform: 0;
-    -ms-transform: 0;
-    transform: 0;
-  }
-  .tabTitle :hover{
-    transition: transform .3s ease-in-out, box-shadow .3s cubic-bezier(.47, 0, .745, .715), border .3s linear .1s;
-  }
-  .active1{
-    background-color: #7D91B2;
-    border: 0px solid;
-  }
-  .tabTitle{
-    font-family: "Microsoft YaHei";
-    font-weight: bold;
-  }
-  .active2{
-    color: white;
-  }
-  .active3{
-    color: white;
-  }
-  .outer-container::-webkit-scrollbar {
-    display: none;
+}
+#labels {
+  background-color: rgb(248, 182, 138);
+  border-radius: 10px;
+  box-shadow: 0px 1px 2px rgb(253, 146, 84), 0px 1px 2px rgba(0, 0, 0, 0.7);
+  font-weight: bold;
+}
+.Int_question {
+  position: fixed;
+  bottom: 130px;
+  right: 50px;
+}
+.navigatorAboveDrawer {
+  background-color: white;
+  /* background-color: #8C99AC; */
+  margin-left: 5.5%;
+  width: 80%;
+  border: 1px;
+  border-radius: 5px 5px 0px 0px;
+  border-style: groove groove none groove;
+  margin-bottom: 0;
+  padding: 0;
+}
+.mytab {
+  margin: 0;
+  margin-right: 10px;
+  padding: 10px;
+  height: 40px;
+  width: 100px;
+  display: inline-block;
+  border: 1px solid;
+  border-bottom: 0px;
+  border-color: #d8dade;
+  background-color: #f1f1f1;
+  border-radius: 5px 5px 0px 0px;
+  /* margin-right: 2px; */
+}
+.inner-container {
+  transition: transform 0.3s ease-in-out,
+    box-shadow 0.3s cubic-bezier(0.47, 0, 0.745, 0.715), border 0.3s linear 0.1s;
+}
+.inner-container :hover {
+  -webkit-transform: translateY(-3px);
+  -ms-transform: translateY(-3px);
+  transform: translateY(-3px);
+  -webkit-transition: all 0.5s ease-out;
+  transition: all 0.5s ease-out;
+}
+.closeIcon :hover {
+  -webkit-transform: 0;
+  -ms-transform: 0;
+  transform: 0;
+}
+.tabTitle :hover {
+  transition: transform 0.3s ease-in-out,
+    box-shadow 0.3s cubic-bezier(0.47, 0, 0.745, 0.715), border 0.3s linear 0.1s;
+}
+.active1 {
+  background-color: #7d91b2;
+  border: 0px solid;
+}
+.tabTitle {
+  font-family: 'Microsoft YaHei';
+  font-weight: bold;
+}
+.active2 {
+  color: white;
+}
+.active3 {
+  color: white;
+}
+.outer-container::-webkit-scrollbar {
+  display: none;
 }

@@ -1,41 +1,48 @@
-import request from './request'
+import request from './request';
 
 const http = {
-
-  get (url, params) {
+  get(url, params) {
     const config = {
       method: 'get',
-      url: url
+      url: url,
+    };
+    if (params) {
+      config.params = params;
     }
-    if (params) config.params = params
-    return request(config)
+    return request(config);
   },
 
-  post (url, params) {
+  post(url, data) {
     const config = {
       method: 'post',
-      url: url
+      url: url,
+    };
+    if (data) {
+      config.data = data;
     }
-    if (params) config.data = params
-    return request(config)
+    return request(config);
   },
 
-  put (url, params) {
+  put(url, params) {
     const config = {
       method: 'put',
-      url: url
+      url: url,
+    };
+    if (params) {
+      config.params = params;
     }
-    if (params) config.params = params
-    return request(config)
+    return request(config);
   },
-  delete (url, params) {
+  delete(url, params) {
     const config = {
       method: 'delete',
-      url: url
+      url: url,
+    };
+    if (params) {
+      config.params = params;
     }
-    if (params) config.params = params
-    return request(config)
-  }
-}
+    return request(config);
+  },
+};
 
-export default http
+export default http;

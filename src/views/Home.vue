@@ -3,84 +3,74 @@
   <a-layout id="components-layout-demo-side" style="min-height: 100vh">
     <a-layout-sider v-model="collapsed" collapsible width="350">
       <div class="logo">
-      <img src="../assets/TClogo.png" width='60px'/>
+        <img src="../assets/Logo.jpg" width="60px" />
       </div>
-      <a-menu theme="dark" :default-selected-keys="['1']" mode="inline">
-        <!-- 主页面 -->
-        <a-menu-item key="1" @click="menuChange('Home')">
-          <a-icon type="pie-chart" />
-          <span>主页</span>
-        </a-menu-item>
-        <!-- 语义搜索页面 -->
-        <a-menu-item key="2" @click="menuChange('semanticSearch')">
-          <a-icon type="desktop" />
-          <span>语义搜索</span>
-        </a-menu-item>
-        <a-menu-item key="5" @click="menuChange('automaticBuilding')">
-          <a-icon type="build" />
-          <span>自动构建</span>
-        </a-menu-item>
-        <a-sub-menu>
-          <span slot="title"><a-icon type="global"/><span>所有节点</span></span>
-          <a-sub-menu  v-for='(value, key) in nodeList' :key="key"  >
-            <span slot="title"><a-icon type="plus-circle" /><span>{{key}}</span></span>
-            <a-sub-menu  v-for='(value1, key1) in value' :key="key+key1"  >
-              <span slot="title"><a-icon type="plus-circle" /><span>{{key1}}</span></span>
-              <a-sub-menu  v-for='(value2, key2) in value1' :key="key+key1+key2"  >
-              <span slot="title"><a-icon type="check-circle" /><span>{{key2}}</span></span>
-                <a-menu-item v-for='item in value2' :key="item.identity" @click="addGraph(item.identity)">
-                  {{item.properties.name}}
-                </a-menu-item>
-              </a-sub-menu>
-            </a-sub-menu>
-          </a-sub-menu>
-        </a-sub-menu>
-      </a-menu>
+      <HomeMenu
+        :nodeList="nodeList"
+        :menuChange="menuChange"
+        :addGraph="addGraph"
+      />
     </a-layout-sider>
     <a-layout>
       <!-- 主页面 -->
-      <a-layout-content v-show="isHome" key="home">
+      <a-layout-content v-show="isHome">
+        <!-- Header -->
         <div
           style="
             padding: 16px 24px;
             height: 70px;
             background-color: white;
             border-bottom: 1px groove;
-          ">
-          <div style="font-size: 16px; font-weight: 600; margin-left: 5.5%"> 
+          "
+        >
+          <div style="font-size: 16px; font-weight: 600; margin-left: 5.5%">
             搜索节点：
             <a-select
-              style="width: 60%;"
+              style="width: 60%"
               show-search
               placeholder="Select a node"
               option-filter-prop="children"
               :filter-option="filterOption"
               @focus="handleFocus"
               @blur="handleBlur"
-              @change="handleChangeS">
-              <a-select-option v-for="(value, key) in searchNodeList" :key="value">
-                {{key}}
+              @change="handleChangeS"
+            >
+              <a-select-option
+                v-for="(value, key) in searchNodeList"
+                :key="value"
+              >
+                {{ key }}
               </a-select-option>
             </a-select>
-            <a-icon style="margin-left:20px" type="radar-chart" />
+            <a-icon style="margin-left: 20px" type="radar-chart" />
           </div>
         </div>
-
+        <!-- Main -->
         <div :style="{ padding: '24px', minHeight: '360px' }">
           <div style="height: 100%; width: 100%">
             <!-- tab -->
-            <div class="outer-container" style="overflow: auto; margin-left: 5.5%; width:80%; margin-top: 20px">
+            <div
+              class="outer-container"
+              style="
+                overflow: auto;
+                margin-left: 5.5%;
+                width: 80%;
+                margin-top: 20px;
+              "
+            >
               <div class="inner-container" style="white-space: nowrap">
                 <div
                   class="mytab"
                   v-for="item in graphIndexList"
                   :key="item"
                   @click="changeGraph(item)"
-                  v-bind:class="{ active1: arrIndex.indexOf(item) > -1 }" style="align-items: center"
+                  v-bind:class="{ active1: arrIndex.indexOf(item) > -1 }"
+                  style="align-items: center"
                 >
                   <span
                     class="tabTitle"
-                    v-bind:class="{ active2: arrIndex.indexOf(item) > -1 }" style="padding:5px"
+                    v-bind:class="{ active2: arrIndex.indexOf(item) > -1 }"
+                    style="padding: 5px"
                     >graph {{ graphIndexList.indexOf(item) }}</span
                   >
                   <a-icon
@@ -92,7 +82,7 @@
                 </div>
               </div>
             </div>
-            <a-divider style="margin: 0 0 0 5.5%; width:80%;; padding: 0;" />
+            <a-divider style="margin: 0 0 0 5.5%; width: 80%; padding: 0" />
             <!-- 画布上方导航栏 -->
             <div class="navigatorAboveDrawer">
               <a-row :gutter="24">
@@ -100,12 +90,12 @@
                 <MySearch @listenToMySearch="getSearchResult"></MySearch>
                 <a-col :md="2" :sm="2" :lg="0"></a-col>
                 <a-col :md="6" :sm="6" :lg="6">
-                  <div style="display: flex; align-items: center; ">
+                  <div style="display: flex; align-items: center">
                     <a-button
                       @click="filterByNodeLabels()"
                       style="
                         font-size: 16px;
-                        font-family: 'Microsoft YaHei'; 
+                        font-family: 'Microsoft YaHei';
                         font-weigth: 400;
                         color: black;
                         background-color: transparent;
@@ -253,7 +243,9 @@
             <Question class="Int_question"></Question>
             <div class="propertyDisplay">
               <span id="labels"></span>
-              <pre id="properties"> click on the node or edge to display more infomation!</pre>
+              <pre id="properties">
+                click on the node or edge to display more infomation!
+              </pre>
               <div class="scrollbar"></div>
             </div>
             <!-- 设置 -->
@@ -268,55 +260,43 @@
         </div>
       </a-layout-content>
       <!-- 语义搜索页面 -->
-      <a-layout-content v-show="isSemantics" key="semantics" >
-        <semanticsS></semanticsS>
+      <a-layout-content v-show="isQA">
+        <!-- <semanticsS></semanticsS> -->
+        <QAService />
       </a-layout-content>
       <!-- 自动构建页面 -->
-      <a-layout-content v-show="isAutomaticBuild" key="AutomaticBuild">
-        <AutomaticBuilding></AutomaticBuilding>
+      <a-layout-content v-show="isRecommend">
+        <RecommendService />
+        <!-- <AutomaticBuilding></AutomaticBuilding> -->
       </a-layout-content>
       <a-layout-footer style="text-align: center">
-       Created by Trillion Coin
+        Created by Trillion Coin
       </a-layout-footer>
     </a-layout>
   </a-layout>
 </template>
 
 <script>
-import Drawer from "../components/knowledgeGraph"
-import Setting from "../components/setting"
-import semanticsS from "../views/semanticsS"
-import GraphDetails from "../components/graphDetails"
-import History from "../components/history"
-import FilterByNodeLabels from "../components/nodeLabelsFiltering"
-import Question from '../components/question'
-import MySearch from '../components/mySearch'
-import UploadFile from "../components/file";
-import AutomaticBuilding from "./AutomaticBuilding";
-import {getNodesListAPI, getSearchNodeListAPI} from "../api/api"
-import { mapActions, mapGetters, mapMutations } from "vuex";
+import { mapActions, mapGetters, mapMutations } from 'vuex';
+
+import Drawer from '../components/knowledgeGraph';
+import Setting from '../components/setting';
+import SemanticsS from '../views/SemanticsS';
+import GraphDetails from '../components/graphDetails';
+import History from '../components/history';
+import FilterByNodeLabels from '../components/nodeLabelsFiltering';
+import Question from '../components/Question';
+import MySearch from '../components/mySearch';
+import UploadFile from '../components/file';
+import AutomaticBuilding from './AutomaticBuilding';
+import { getNodesListAPI, getSearchNodeListAPI } from '../api/api';
+
+import HomeMenu from '@/components/HomeMenu';
+import QAService from '@/views/QAService';
+import RecommendService from '@/views/RecommendService';
+import { MenuItemKeys } from '@/common/config';
+
 export default {
-  data() {
-    return {
-      isHome: true,
-      collapsed: true,
-      formLayout: "horizontal",
-      isAutomaticBuild: false,
-      isSemantics: false,
-      form: this.$form.createForm(this, { name: "coordinated" }),
-      nodeList:{},
-      searchNodeList:[],
-      // graphIndexList:[0,1],
-      arrIndex: [0],
-    };
-  },
-  async mounted(){
-    await  Promise.all(this.getNodeList(), this.getSearchNodeList())
-  },
-  async beforeMount() {
-    await this.getGraph();
-    // console.log('list', this.graphIndexList)
-  },
   components: {
     Drawer,
     Setting,
@@ -324,44 +304,73 @@ export default {
     History,
     FilterByNodeLabels,
     Question,
-    semanticsS,
+    SemanticsS,
     MySearch,
     UploadFile,
     AutomaticBuilding,
+    // new
+    HomeMenu,
+    QAService,
+    RecommendService,
+  },
+  data() {
+    return {
+      // constant
+      MenuItemKeys,
+      formLayout: 'horizontal',
+      // tab value
+      isHome: true,
+      isQA: false,
+      isRecommend: false,
+      // variable data
+      collapsed: true,
+      form: this.$form.createForm(this, { name: 'coordinated' }),
+      nodeList: [],
+      searchNodeList: [],
+      // graphIndexList:[0,1],
+      arrIndex: [0],
+    };
+  },
+  async mounted() {
+    await Promise.all([this.getNodeList(), this.getSearchNodeList()]);
+  },
+  async beforeMount() {
+    await this.getGraph();
+    // console.log('list', this.graphIndexList)
   },
   computed: {
     ...mapGetters([
-      "settingVisible",
-      "settingList",
-      "historyVisible",
-      "isInitList",
-      "allGraphList",
-      "graphIndexList",
-      "currentIndex"
+      'settingVisible',
+      'settingList',
+      'historyVisible',
+      'isInitList',
+      'allGraphList',
+      'graphIndexList',
+      'currentIndex',
     ]),
   },
   methods: {
     ...mapMutations([
-      "set_settingVisible",
-      "set_graphDetailsVisible",
-      "set_historyVisible",
-      "set_filterByNodeLabelsVisible",
-      "set_isInit",
-      "set_currentIndex",
-      "set_graphIndexList",
-      "set_graphNumber",
-      "set_uploadFormVisible",
-      "set_isInitList",
-      "set_allGraphList",
+      'set_settingVisible',
+      'set_graphDetailsVisible',
+      'set_historyVisible',
+      'set_filterByNodeLabelsVisible',
+      'set_isInit',
+      'set_currentIndex',
+      'set_graphIndexList',
+      'set_graphNumber',
+      'set_uploadFormVisible',
+      'set_isInitList',
+      'set_allGraphList',
     ]),
     ...mapActions([
-      "getGraphDetailsList",
-      "getHistoryList",
-      "updateNodePos",
-      "getGraph",
-      "getNewGraph",
-      "getLabelsByGraphId",
-      'removeGraph'
+      'getGraphDetailsList',
+      'getHistoryList',
+      'updateNodePos',
+      'getGraph',
+      'getNewGraph',
+      'getLabelsByGraphId',
+      'removeGraph',
     ]),
     // 放大
     magnifying() {
@@ -400,36 +409,36 @@ export default {
       // console.log(settingData);
       this.$refs.ref_CJS.$cy
         .style()
-        .selector("node")
+        .selector('node')
         .style({
-          "font-size": settingData.textSize + "pt",
-          width: settingData.nodeSize + settingData.widthE + "pt",
-          height: settingData.nodeSize + "pt",
+          'font-size': settingData.textSize + 'pt',
+          width: settingData.nodeSize + settingData.widthE + 'pt',
+          height: settingData.nodeSize + 'pt',
           shape: settingData.shape,
         })
         .update();
-      var edgeFont = "10px";
+      var edgeFont = '10px';
       if (!settingData.lableVisible) {
-        edgeFont = "0px";
+        edgeFont = '0px';
       }
       this.$refs.ref_CJS.$cy
         .style()
-        .selector("edge")
+        .selector('edge')
         .style({
-          "font-size": edgeFont,
+          'font-size': edgeFont,
         })
         .update();
       this.$refs.ref_CJS.$cy
         .style()
-        .selector(".eh-handle")
+        .selector('.eh-handle')
         .style({
-          "background-color": "#fce9cc",
+          'background-color': '#fce9cc',
           width: 10,
           height: 10,
-          shape: "ellipse",
-          "overlay-opacity": 0,
-          "border-width": 12, // makes the handle easier to hit
-          "border-opacity": 0,
+          shape: 'ellipse',
+          'overlay-opacity': 0,
+          'border-width': 12, // makes the handle easier to hit
+          'border-opacity': 0,
         })
         .update();
       // this.$cy.endBatch();
@@ -473,13 +482,13 @@ export default {
               data[key] = node.properties[key];
             }
           } else {
-            data.name = "";
+            data.name = '';
           }
           data.id = node.identity;
           // console.log(data);
           this.$refs.ref_CJS.addEles([
             {
-              group: "nodes",
+              group: 'nodes',
               data,
               //  position: {
               //   x: parseFloat(node.properties.x),
@@ -495,7 +504,7 @@ export default {
           const data = {};
           if (edge.properties) {
             for (var keyE in edge.properties) {
-              if (keyE !== "type") {
+              if (keyE !== 'type') {
                 data[keyE] = edge.properties[keyE];
               }
             }
@@ -506,14 +515,14 @@ export default {
           data.name = edge.type;
           this.$refs.ref_CJS.addEles([
             {
-              group: "edges",
+              group: 'edges',
               data,
             },
           ]);
         }
         this.$refs.ref_CJS.$cy
           .layout({
-            name: "cose",
+            name: 'cose',
             randomize: false,
             animate: true,
           })
@@ -525,10 +534,10 @@ export default {
     },
     // 保存位置信息
     saveGraph() {
-      var idx=this.$store.getters.currentIndex
-      var isInit=this.$store.getters.isInitList
-      isInit[idx]=true
-      this.set_isInitList(isInit)
+      var idx = this.$store.getters.currentIndex;
+      var isInit = this.$store.getters.isInitList;
+      isInit[idx] = true;
+      this.set_isInitList(isInit);
       var nodesCollection = this.$refs.ref_CJS.$cy.filter(function (e, i) {
         return e.isNode();
       });
@@ -543,20 +552,20 @@ export default {
     },
     async addGraph(item) {
       this.isHome = true;
-      this.isSemantics = false;
-      this.isAutomaticBuild = false;
-      await this.getNewGraph(item)
-      this.arrIndex=[]
-      this.arrIndex.push(this.$store.getters.currentIndex)
-      console.log(this.arrIndex)
-      this.$refs.ref_CJS.getGraphList()
+      this.isQA = false;
+      this.isRecommend = false;
+      await this.getNewGraph(item);
+      this.arrIndex = [];
+      this.arrIndex.push(this.$store.getters.currentIndex);
+      console.log(this.arrIndex);
+      this.$refs.ref_CJS.getGraphList();
     },
     async handleChangeS(value) {
-      await this.getNewGraph(value)
-      this.arrIndex=[]
-      this.arrIndex.push(this.$store.getters.currentIndex)
-      console.log(this.arrIndex)
-      this.$refs.ref_CJS.getGraphList()
+      await this.getNewGraph(value);
+      this.arrIndex = [];
+      this.arrIndex.push(this.$store.getters.currentIndex);
+      console.log(this.arrIndex);
+      this.$refs.ref_CJS.getGraphList();
     },
     handleBlur() {
       // console.log("blur");
@@ -573,36 +582,31 @@ export default {
     },
     // 页面切换
     menuChange(item) {
-      if (item == "Home") {
-        this.isHome = true;
-        this.isAutomaticBuild = false;
-        this.isSemantics = false;
-      }
-      if (item == "semanticSearch") {
-        this.isHome = false;
-        this.isAutomaticBuild = false;
-        this.isSemantics = true;
-      }
-      if (item == "automaticBuilding") {
-        this.isHome = false;
-        this.isAutomaticBuild = true;
-        this.isSemantics = false;
-      }
+      this.isHome = item === MenuItemKeys.HOME;
+      this.isQA = item === MenuItemKeys.QA;
+      this.isRecommend = item === MenuItemKeys.RECOMMEND;
+      console.log(
+        `[menuChange] ${this.isHome} ${this.isQA} ${this.isRecommend} `
+      );
     },
-    async getNodeList(){
-      await getNodesListAPI().then(res=>{
-        this.nodeList = res.content
-        // console.log("nodelist", this.nodeList)
-      }).catch(err => console.log(err))
+    async getNodeList() {
+      await getNodesListAPI()
+        .then((res) => {
+          this.nodeList = res.content;
+          // console.log("nodelist", this.nodeList)
+        })
+        .catch((err) => console.log(err));
     },
-    async getSearchNodeList(){
-      await getSearchNodeListAPI().then(res=>{
-        this.searchNodeList = res.content
-      }).catch(err=>console.log(err))
+    async getSearchNodeList() {
+      await getSearchNodeListAPI()
+        .then((res) => {
+          this.searchNodeList = res.content;
+        })
+        .catch((err) => console.log(err));
     },
     // 删除图
     async closeGraph(item) {
-      await this.removeGraph(item)
+      await this.removeGraph(item);
       var list = this.$store.getters.graphIndexList;
       if (list.length == 1) {
         // 只有一张图不能删除
@@ -620,8 +624,8 @@ export default {
         }
         var currentIndex = list[index];
         this.set_currentIndex(currentIndex);
-        this.arrIndex=[]
-        this.arrIndex.push(currentIndex)
+        this.arrIndex = [];
+        this.arrIndex.push(currentIndex);
         // 展示前一张图
         this.$refs.ref_CJS.getGraphList();
         // 图的数量减一
@@ -629,12 +633,12 @@ export default {
         num = num - 1;
         this.set_graphNumber(num);
         // 将这张图从allGraphList中删除，是否初始化从isInitList中删除
-        var allGraphs=this.$store.getters.allGraphList
-        delete allGraphs.item
-        var isInitList=this.$store.getters.isInitList
-        delete isInitList.item
-        this.set_allGraphList(allGraphs)
-        this.set_isInitList(isInitList)
+        var allGraphs = this.$store.getters.allGraphList;
+        delete allGraphs.item;
+        var isInitList = this.$store.getters.isInitList;
+        delete isInitList.item;
+        this.set_allGraphList(allGraphs);
+        this.set_isInitList(isInitList);
       }
     },
     // 切换图
@@ -650,7 +654,7 @@ export default {
     },
     // 模糊搜索结果高亮
     getSearchResult(idList) {
-      this.$refs.ref_CJS.$cy.elements().addClass("light-off");
+      this.$refs.ref_CJS.$cy.elements().addClass('light-off');
       for (var key in idList) {
         var id = idList[key];
         this.$refs.ref_CJS.$cy.startBatch();
@@ -663,12 +667,12 @@ export default {
             ? id
             : [id];
           elements.forEach((__) => {
-            this.$refs.ref_CJS.$cy.getElementById(__).removeClass("light-off");
+            this.$refs.ref_CJS.$cy.getElementById(__).removeClass('light-off');
             //   this.$cy.getElementById(__).neighborhood().removeClass('light-off')
           });
         });
-        this.$refs.ref_CJS.$cy.once("click", () =>
-          this.$refs.ref_CJS.$cy.elements().removeClass("light-off")
+        this.$refs.ref_CJS.$cy.once('click', () =>
+          this.$refs.ref_CJS.$cy.elements().removeClass('light-off')
         );
         this.$refs.ref_CJS.$cy.endBatch();
       }

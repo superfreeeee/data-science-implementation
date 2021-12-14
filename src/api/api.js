@@ -21,9 +21,11 @@ export function UpdataNodeAPI(params) {
   );
 }
 
-export function DownloadXmlAPI(params) {
-  return http.get(`${request}/graph/exportXml`, params);
+// no params
+export function DownloadXmlAPI() {
+  return http.get(`${request}/graph/exportXml`);
 }
+
 export function DeleteEdgeAPI(params) {
   return http.get(`${request}/relation/deleteRelation`, params);
 }
@@ -42,6 +44,9 @@ export function AddEdgeAPI(params) {
 export function getGraphListAPI() {
   return http.get(`${request}/graph/getGraphList`);
 }
+
+// query: graphId: number
+// data: labels
 export function filterByNodeLabelsAPI(params) {
   return http.post(
     `${request}/graph/filterByNodeLabels?graphId=${params.id}`,
