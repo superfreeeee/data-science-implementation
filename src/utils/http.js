@@ -12,7 +12,7 @@ const http = {
     return request(config);
   },
 
-  post(url, data) {
+  post(url, data, headers = {}) {
     const config = {
       method: 'post',
       url: url,
@@ -20,6 +20,7 @@ const http = {
     if (data) {
       config.data = data;
     }
+    config.headers = headers;
     return request(config);
   },
 

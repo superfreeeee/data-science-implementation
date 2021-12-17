@@ -9,9 +9,10 @@
   font-family: 'Microsoft YaHei';
 }
 #components-layout-demo-side .logo {
+  width: 60px;
   height: 60px;
   margin: 20px 10px;
-  border-radius: 50%;
+  border-radius: 30px;
   overflow: hidden;
 }
 
@@ -104,6 +105,11 @@ a {
   margin-bottom: 0;
   padding: 0;
 }
+.upload-btn {
+  height: 40px;
+  margin-right: 24px;
+  /* border-top-left-radius: 30px; */
+}
 .mytab {
   margin: 0;
   margin-right: 10px;
@@ -116,6 +122,7 @@ a {
   border-color: #d8dade;
   background-color: #f1f1f1;
   border-radius: 5px 5px 0px 0px;
+  cursor: pointer;
   /* margin-right: 2px; */
 }
 .inner-container {
@@ -137,6 +144,9 @@ a {
 .tabTitle :hover {
   transition: transform 0.3s ease-in-out,
     box-shadow 0.3s cubic-bezier(0.47, 0, 0.745, 0.715), border 0.3s linear 0.1s;
+}
+.upload-btn:hover {
+  transform: unset;
 }
 .active1 {
   background-color: #7d91b2;

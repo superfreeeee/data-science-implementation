@@ -8,25 +8,27 @@
     <!-- options -->
     <div class="options">
       <!-- to graph -->
-      <a-tooltip placement="right">
-        <template slot="title">构建图谱</template>
-        <div class="graph" @click="buildGraph({ ...fileData })">
-          <a-icon type="branches" />
-        </div>
-      </a-tooltip>
+      <IconWithTooltip
+        title="构建图谱"
+        iconType="branches"
+        className="graph"
+        :action="() => buildGraph({ ...fileData })"
+      />
       <!-- dowload -->
-      <a-tooltip placement="right">
-        <template slot="title">下载案例</template>
-        <div class="download" @click="downloadRecommend({ ...fileData })">
-          <a-icon type="download" />
-        </div>
-      </a-tooltip>
+      <IconWithTooltip
+        title="下载案例"
+        iconType="download"
+        className="download"
+        :action="() => downloadRecommend({ ...fileData })"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import IconWithTooltip from './IconWithTooltip.vue';
 export default {
+  components: { IconWithTooltip },
   name: 'RecommendItem',
   props: ['fileData', 'buildGraph', 'downloadRecommend'],
 };

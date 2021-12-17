@@ -16,7 +16,7 @@
       <span>推荐服务</span>
     </a-menu-item>
     <!-- 生成关联图谱 -->
-    <!-- <a-sub-menu>
+    <a-sub-menu>
       <span slot="title">
         <a-icon type="global" />
         <span>所有节点</span>
@@ -46,7 +46,7 @@
           </a-sub-menu>
         </a-sub-menu>
       </a-sub-menu>
-    </a-sub-menu> -->
+    </a-sub-menu>
   </a-menu>
 </template>
 
@@ -57,7 +57,7 @@ export default {
   name: 'HomeMenu',
   props: {
     nodeList: {
-      type: Array,
+      type: Object,
     },
     menuChange: {
       type: Function,

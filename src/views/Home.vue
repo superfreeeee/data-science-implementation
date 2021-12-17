@@ -59,6 +59,20 @@
               "
             >
               <div class="inner-container" style="white-space: nowrap">
+                <!-- upload button -->
+                <a-upload
+                  accept=".doc,.docx,text/plain"
+                  :customRequest="() => {}"
+                  :show-upload-list="false"
+                  @change="uploadFileToGraph"
+                  style="display: inline-block"
+                >
+                  <a-button type="primary" class="upload-btn">
+                    <a-icon type="upload" />
+                    上传案例
+                  </a-button>
+                </a-upload>
+                <!-- tabs -->
                 <div
                   class="mytab"
                   v-for="item in graphIndexList"
@@ -267,7 +281,9 @@
       <!-- 自动构建页面 -->
       <a-layout-content v-show="isRecommend">
         <RecommendService />
-        <!-- <AutomaticBuilding></AutomaticBuilding> -->
+      </a-layout-content>
+      <a-layout-content v-show="isAutomaticBuilding">
+        <AutomaticBuilding></AutomaticBuilding>
       </a-layout-content>
       <a-layout-footer style="text-align: center">
         Created by Trillion Coin
@@ -322,10 +338,11 @@ export default {
       isHome: true,
       isQA: false,
       isRecommend: false,
+      isAutomaticBuilding: false,
       // variable data
       collapsed: true,
       form: this.$form.createForm(this, { name: 'coordinated' }),
-      nodeList: [],
+      nodeList: {},
       searchNodeList: [],
       // graphIndexList:[0,1],
       arrIndex: [0],
@@ -371,6 +388,7 @@ export default {
       'getNewGraph',
       'getLabelsByGraphId',
       'removeGraph',
+      'getNewGraphByFile',
     ]),
     // 放大
     magnifying() {
@@ -554,11 +572,22 @@ export default {
       this.isHome = true;
       this.isQA = false;
       this.isRecommend = false;
+      this.isAutomaticBuilding = false;
       await this.getNewGraph(item);
       this.arrIndex = [];
       this.arrIndex.push(this.$store.getters.currentIndex);
       console.log(this.arrIndex);
       this.$refs.ref_CJS.getGraphList();
+    },
+    async uploadFileToGraph(e) {
+      console.log('[uploadFileToGraph] e =', e);
+      const file = e.file.originFileObj;
+      if (file) {
+        await this.getNewGraphByFile(file);
+        this.arrIndex = [];
+        this.arrIndex.push(this.$store.getters.currentIndex);
+        // this.$refs.ref_CJS.getGraphList();
+      }
     },
     async handleChangeS(value) {
       await this.getNewGraph(value);
@@ -585,15 +614,14 @@ export default {
       this.isHome = item === MenuItemKeys.HOME;
       this.isQA = item === MenuItemKeys.QA;
       this.isRecommend = item === MenuItemKeys.RECOMMEND;
-      console.log(
-        `[menuChange] ${this.isHome} ${this.isQA} ${this.isRecommend} `
-      );
+      this.isAutomaticBuilding = item === MenuItemKeys.AUTO_BUILDING;
+      console.log(`[menuChange] switch to ${item}`);
     },
     async getNodeList() {
       await getNodesListAPI()
         .then((res) => {
-          this.nodeList = res.content;
-          // console.log("nodelist", this.nodeList)
+          console.log('nodelist', res.content);
+          this.nodeList = { ...res.content };
         })
         .catch((err) => console.log(err));
     },

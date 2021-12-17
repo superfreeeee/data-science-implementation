@@ -12,10 +12,7 @@
 <script>
 export default {
   name: 'HomeHeader',
-  props: {
-    title: String,
-    subtitle: String,
-  },
+  props: ['title', 'subtitle'],
 };
 </script>
 

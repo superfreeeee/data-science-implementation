@@ -44,17 +44,39 @@
           </div>
           <a-divider type="vertical" style="height: unset"></a-divider>
           <div class="recommend-list">
-            <span class="subtitle">推荐案例</span>
-            <div class="file-list">
-              <RecommendItem
+            <a-table
+              class="file-table"
+              :pagination="{ pageSize: 5 }"
+              :columns="columns"
+              :data-source="answer.recommendList"
+            >
+              <a slot="name" slot-scope="filename">{{ filename }}</a>
+              <div class="file-table-actions" slot="action" slot-scope="file">
+                <IconWithTooltip
+                  title="构建图谱"
+                  iconType="branches"
+                  className="graph"
+                  placement="top"
+                  :action="() => buildGraph({ ...file })"
+                />
+                <!-- dowload -->
+                <IconWithTooltip
+                  title="下载案例"
+                  iconType="download"
+                  className="download"
+                  placement="top"
+                  :action="() => downloadRecommend({ ...file })"
+                />
+              </div>
+            </a-table>
+            <!-- <RecommendItem
                 v-for="(recommend, i) in answer.recommendList"
                 :key="i"
                 :fileData="recommend"
                 :buildGraph="buildGraph"
                 :downloadRecommend="downloadRecommend"
-              />
-              <!-- {{ recommend.filename }} -->
-            </div>
+              /> -->
+            <!-- {{ recommend.filename }} -->
           </div>
         </div>
       </div>
@@ -65,17 +87,34 @@
 <script>
 import HomeHeader from '@/components/HomeHeader.vue';
 import RecommendItem from '@/components/RecommendItem.vue';
+import IconWithTooltip from '../components/IconWithTooltip.vue';
+
+const columns = [
+  {
+    title: '推荐案例',
+    dataIndex: 'filename',
+    key: 'filename',
+    scopedSlots: { customRender: 'name' },
+  },
+  {
+    title: 'Action',
+    key: 'action',
+    scopedSlots: { customRender: 'action' },
+  },
+];
 
 export default {
   components: {
     HomeHeader,
     RecommendItem,
+    IconWithTooltip,
   },
   name: 'RecommendService',
   data() {
     return {
       inputText: '',
       answers: [],
+      columns,
     };
   },
   methods: {
@@ -87,34 +126,42 @@ export default {
         },
         recommendList: [
           {
+            key: 0,
             filename: 'file1.doc',
             file: '1111111111',
           },
           {
+            key: 1,
             filename: 'file2.doc',
             file: '2222222222222',
           },
           {
+            key: 2,
             filename: 'file3.doc',
             file: '33333333333333',
           },
           {
+            key: 3,
             filename: 'file4.doc',
             file: '44444444444',
           },
           {
+            key: 4,
             filename: 'file1.doc',
             file: '1111111111',
           },
           {
+            key: 5,
             filename: 'file2.doc',
             file: '2222222222222',
           },
           {
+            key: 6,
             filename: 'file3.doc',
             file: '33333333333333',
           },
           {
+            key: 7,
             filename: 'file4.doc',
             file: '44444444444',
           },
@@ -163,6 +210,7 @@ export default {
 
 .answers {
   flex: 1;
+  margin-top: 24px;
   overflow: auto;
 }
 
@@ -174,12 +222,17 @@ export default {
   margin-top: 32px;
 }
 
-.answer-row .input {
+.answer-row .recommend-list {
+  width: 70%;
+  max-height: 400px;
+  overflow: hidden;
 }
 
-.answer-row .recommend-list .file-list {
+.answer-row .file-table {
+  width: 100%;
+}
+.answer-row .file-table-actions {
   display: flex;
-  flex-wrap: wrap;
 }
 
 .subtitle {

@@ -1,0 +1,2653 @@
+{
+  "success": true,
+  "message": null,
+  "content": {
+    "nodes": [
+      {
+        "identity": 7261,
+        "labels": ["object"],
+        "properties": {
+          "name": "160元"
+        },
+        "cls": "1"
+      },
+      {
+        "identity": 840,
+        "labels": ["裁判文书"],
+        "properties": {
+          "name": "(2008)南民初字第4091号-民事裁定书（准许或不准许撤"
+        },
+        "cls": "2"
+      },
+      {
+        "identity": 841,
+        "labels": ["object"],
+        "properties": {
+          "name": "原告"
+        },
+        "cls": "1"
+      },
+      {
+        "identity": 2039,
+        "labels": ["object"],
+        "properties": {
+          "name": "损失费",
+          "att6": "1800元"
+        },
+        "cls": "1"
+      },
+      {
+        "identity": 20809,
+        "labels": ["人物"],
+        "properties": {
+          "name": "杨珺",
+          "att1": "被告"
+        },
+        "cls": "3"
+      },
+      {
+        "identity": 1099,
+        "labels": ["object"],
+        "properties": {
+          "name": "交通费"
+        },
+        "cls": "1"
+      },
+      {
+        "identity": 983,
+        "labels": ["object"],
+        "properties": {
+          "name": "损失"
+        },
+        "cls": "1"
+      },
+      {
+        "identity": 1272,
+        "labels": ["object"],
+        "properties": {
+          "name": "护理费"
+        },
+        "cls": "1"
+      },
+      {
+        "identity": 985,
+        "labels": ["object"],
+        "properties": {
+          "name": "鉴定费"
+        },
+        "cls": "1"
+      },
+      {
+        "identity": 812,
+        "labels": ["object"],
+        "properties": {
+          "name": "当事人"
+        },
+        "cls": "1"
+      },
+      {
+        "identity": 2481,
+        "labels": ["object"],
+        "properties": {
+          "name": "挂号费"
+        },
+        "cls": "1"
+      },
+      {
+        "identity": 1138,
+        "labels": ["object"],
+        "properties": {
+          "att48": "该",
+          "name": "医疗费"
+        },
+        "cls": "1"
+      },
+      {
+        "identity": 24936,
+        "labels": ["裁判文书"],
+        "properties": {
+          "name": "(2013)二中民三终字第0069号-民事判决书（二审维持原"
+        },
+        "cls": "2"
+      },
+      {
+        "identity": 845,
+        "labels": ["object"],
+        "properties": {
+          "name": "处分",
+          "att1": "自行"
+        },
+        "cls": "1"
+      },
+      {
+        "identity": 18209,
+        "labels": ["人物"],
+        "properties": {
+          "name": "张光华"
+        },
+        "cls": "3"
+      },
+      {
+        "identity": 1081,
+        "labels": ["object"],
+        "properties": {
+          "name": "误工费",
+          "att41": "人员"
+        },
+        "cls": "1"
+      },
+      {
+        "identity": 20808,
+        "labels": ["人物"],
+        "properties": {
+          "name": "马晴晴"
+        },
+        "cls": "3"
+      },
+      {
+        "identity": 4383,
+        "labels": ["object"],
+        "properties": {
+          "name": "阳光财产保险股份有限公司天津市分公司",
+          "att2": "被告"
+        },
+        "cls": "1"
+      },
+      {
+        "identity": 790,
+        "labels": ["object"],
+        "properties": {
+          "name": "本院"
+        },
+        "cls": "1"
+      },
+      {
+        "identity": 837,
+        "labels": ["object"],
+        "properties": {
+          "name": "规定",
+          "att4": "第五项"
+        },
+        "cls": "1"
+      },
+      {
+        "identity": 828,
+        "labels": ["人物"],
+        "properties": {
+          "name": "崔冬茜",
+          "att1": "被告"
+        },
+        "cls": "3"
+      },
+      {
+        "identity": 827,
+        "labels": ["object"],
+        "properties": {
+          "name": "号",
+          "att1": "身份证"
+        },
+        "cls": "1"
+      },
+      {
+        "identity": 1039,
+        "labels": ["object"],
+        "properties": {
+          "name": "补助费",
+          "att7": "住院伙食"
+        },
+        "cls": "1"
+      },
+      {
+        "identity": 17790,
+        "labels": ["人物"],
+        "properties": {
+          "att6": "被上诉人",
+          "name": "李芝"
+        },
+        "cls": "3"
+      },
+      {
+        "identity": 848,
+        "labels": ["object"],
+        "properties": {
+          "name": "受理费",
+          "att1": "案件"
+        },
+        "cls": "1"
+      },
+      {
+        "identity": 21012,
+        "labels": ["裁判文书"],
+        "properties": {
+          "name": "(2013)东民初字第2545号-民事判决书（一审民事案件用"
+        },
+        "cls": "2"
+      },
+      {
+        "identity": 2126,
+        "labels": ["object"],
+        "properties": {
+          "name": "车费"
+        },
+        "cls": "1"
+      },
+      {
+        "identity": 829,
+        "labels": ["object"],
+        "properties": {
+          "名字": "韦利民",
+          "name": "关系",
+          "att2": "朋友"
+        },
+        "cls": "1"
+      },
+      {
+        "identity": 18207,
+        "labels": ["人物"],
+        "properties": {
+          "name": "张永生",
+          "att1": "被告"
+        },
+        "cls": "3"
+      },
+      {
+        "identity": 2277,
+        "labels": ["机构"],
+        "properties": {
+          "name": "中国太平洋财产保险股份有限公司天津分公司",
+          "att3": "以下"
+        },
+        "cls": "4"
+      }
+    ],
+    "edges": [
+      {
+        "identity": 72995,
+        "start": 848,
+        "end": 2277,
+        "type": "relation",
+        "properties": {
+          "name": "由"
+        }
+      },
+      {
+        "identity": 141993,
+        "start": 20809,
+        "end": 20808,
+        "type": "relation",
+        "properties": {
+          "name": "同"
+        }
+      },
+      {
+        "identity": 124284,
+        "start": 2126,
+        "end": 848,
+        "type": "relation",
+        "properties": {
+          "name": "100元",
+          "att13": "原告"
+        }
+      },
+      {
+        "identity": 81958,
+        "start": 841,
+        "end": 2277,
+        "type": "relation",
+        "properties": {
+          "name": "由"
+        }
+      },
+      {
+        "identity": 142041,
+        "start": 4383,
+        "end": 848,
+        "type": "relation",
+        "properties": {
+          "name": "给付",
+          "att5": "之"
+        }
+      },
+      {
+        "identity": 29207,
+        "start": 2039,
+        "end": 790,
+        "type": "relation",
+        "properties": {
+          "name": "2000元"
+        }
+      },
+      {
+        "identity": 33074,
+        "start": 790,
+        "end": 1039,
+        "type": "relation",
+        "properties": {
+          "name": "确认",
+          "att4": "为"
+        }
+      },
+      {
+        "identity": 126389,
+        "start": 2039,
+        "end": 1081,
+        "type": "relation",
+        "properties": {
+          "name": "赔偿"
+        }
+      },
+      {
+        "identity": 10853,
+        "start": 1039,
+        "end": 1099,
+        "type": "relation",
+        "properties": {
+          "name": "850元"
+        }
+      },
+      {
+        "identity": 16843,
+        "start": 2277,
+        "end": 841,
+        "type": "relation",
+        "properties": {
+          "name": "给付",
+          "att5": "十五日内"
+        }
+      },
+      {
+        "identity": 59193,
+        "start": 827,
+        "end": 827,
+        "type": "relation",
+        "properties": {
+          "name": "为"
+        }
+      },
+      {
+        "identity": 39480,
+        "start": 1138,
+        "end": 1039,
+        "type": "relation",
+        "properties": {
+          "name": "对"
+        }
+      },
+      {
+        "identity": 17598,
+        "start": 1272,
+        "end": 1081,
+        "type": "relation",
+        "properties": {
+          "name": "赔偿",
+          "att3": "日前"
+        }
+      },
+      {
+        "identity": 777,
+        "start": 845,
+        "end": 840,
+        "type": "relation",
+        "properties": {
+          "name": "不当",
+          "att3": "并无"
+        }
+      },
+      {
+        "identity": 38230,
+        "start": 841,
+        "end": 827,
+        "type": "relation",
+        "properties": {
+          "name": "高俊"
+        }
+      },
+      {
+        "identity": 56829,
+        "start": 848,
+        "end": 985,
+        "type": "relation",
+        "properties": {
+          "name": "2321元"
+        }
+      },
+      {
+        "identity": 124277,
+        "start": 2277,
+        "end": 848,
+        "type": "relation",
+        "properties": {
+          "name": "至",
+          "att7": "于"
+        }
+      },
+      {
+        "identity": 174803,
+        "start": 24936,
+        "end": 848,
+        "type": "relation",
+        "properties": {
+          "name": "免收"
+        }
+      },
+      {
+        "identity": 852,
+        "start": 848,
+        "end": 841,
+        "type": "relation",
+        "properties": {
+          "name": "退还"
+        }
+      },
+      {
+        "identity": 150069,
+        "start": 985,
+        "end": 1039,
+        "type": "relation",
+        "properties": {
+          "name": "3100元"
+        }
+      },
+      {
+        "identity": 21805,
+        "start": 985,
+        "end": 1138,
+        "type": "relation",
+        "properties": {
+          "name": "要求"
+        }
+      },
+      {
+        "identity": 6534,
+        "start": 1081,
+        "end": 1138,
+        "type": "relation",
+        "properties": {
+          "name": "因"
+        }
+      },
+      {
+        "identity": 45101,
+        "start": 790,
+        "end": 2277,
+        "type": "relation",
+        "properties": {
+          "name": "由"
+        }
+      },
+      {
+        "identity": 43206,
+        "start": 4383,
+        "end": 790,
+        "type": "relation",
+        "properties": {
+          "name": "经"
+        }
+      },
+      {
+        "identity": 746,
+        "start": 828,
+        "end": 827,
+        "type": "relation",
+        "properties": {
+          "name": "住"
+        }
+      },
+      {
+        "identity": 124279,
+        "start": 1272,
+        "end": 848,
+        "type": "relation",
+        "properties": {
+          "name": "2600元"
+        }
+      },
+      {
+        "identity": 46396,
+        "start": 983,
+        "end": 985,
+        "type": "relation",
+        "properties": {
+          "name": "产生"
+        }
+      },
+      {
+        "identity": 17635,
+        "start": 1272,
+        "end": 841,
+        "type": "relation",
+        "properties": {
+          "name": "承担"
+        }
+      },
+      {
+        "identity": 8806,
+        "start": 2126,
+        "end": 1099,
+        "type": "relation",
+        "properties": {
+          "name": "200元"
+        }
+      },
+      {
+        "identity": 65707,
+        "start": 2277,
+        "end": 2039,
+        "type": "relation",
+        "properties": {
+          "name": "赔偿",
+          "att5": "限额",
+          "att3": "之"
+        }
+      },
+      {
+        "identity": 6329,
+        "start": 1039,
+        "end": 1081,
+        "type": "relation",
+        "properties": {
+          "name": "9100元"
+        }
+      },
+      {
+        "identity": 123299,
+        "start": 837,
+        "end": 841,
+        "type": "relation",
+        "properties": {
+          "name": "对于"
+        }
+      },
+      {
+        "identity": 14008,
+        "start": 790,
+        "end": 829,
+        "type": "relation",
+        "properties": {
+          "name": "委托",
+          "att2": "依"
+        }
+      },
+      {
+        "identity": 124222,
+        "start": 18207,
+        "end": 827,
+        "type": "relation",
+        "properties": {
+          "name": "男"
+        }
+      },
+      {
+        "identity": 6999,
+        "start": 1138,
+        "end": 841,
+        "type": "relation",
+        "properties": {
+          "name": "应由"
+        }
+      },
+      {
+        "identity": 1540,
+        "start": 983,
+        "end": 1138,
+        "type": "relation",
+        "properties": {
+          "name": "赔偿",
+          "att8": "按"
+        }
+      },
+      {
+        "identity": 124243,
+        "start": 841,
+        "end": 18207,
+        "type": "relation",
+        "properties": {
+          "name": "起诉",
+          "att2": "5月"
+        }
+      },
+      {
+        "identity": 1120,
+        "start": 841,
+        "end": 837,
+        "type": "relation",
+        "properties": {
+          "name": "符合"
+        }
+      },
+      {
+        "identity": 1246,
+        "start": 1081,
+        "end": 985,
+        "type": "relation",
+        "properties": {
+          "att37": "7",
+          "name": "请假",
+          "att41": "8天"
+        }
+      },
+      {
+        "identity": 6409,
+        "start": 1272,
+        "end": 1099,
+        "type": "relation",
+        "properties": {
+          "name": "7200元"
+        }
+      },
+      {
+        "identity": 25414,
+        "start": 2126,
+        "end": 2126,
+        "type": "relation",
+        "properties": {
+          "name": "存",
+          "att9": "原告"
+        }
+      },
+      {
+        "identity": 7384,
+        "start": 841,
+        "end": 1039,
+        "type": "relation",
+        "properties": {
+          "name": "主张"
+        }
+      },
+      {
+        "identity": 135496,
+        "start": 983,
+        "end": 2039,
+        "type": "relation",
+        "properties": {
+          "name": "为"
+        }
+      },
+      {
+        "identity": 10663,
+        "start": 985,
+        "end": 983,
+        "type": "relation",
+        "properties": {
+          "name": "就"
+        }
+      },
+      {
+        "identity": 10936,
+        "start": 983,
+        "end": 983,
+        "type": "relation",
+        "properties": {
+          "name": "同意",
+          "att6": "在"
+        }
+      },
+      {
+        "identity": 3107,
+        "start": 841,
+        "end": 829,
+        "type": "relation",
+        "properties": {
+          "name": "主张"
+        }
+      },
+      {
+        "identity": 9119,
+        "start": 983,
+        "end": 1081,
+        "type": "relation",
+        "properties": {
+          "name": "同意",
+          "att6": "在"
+        }
+      },
+      {
+        "identity": 95274,
+        "start": 841,
+        "end": 4383,
+        "type": "relation",
+        "properties": {
+          "name": "诉",
+          "att10": "此次"
+        }
+      },
+      {
+        "identity": 143442,
+        "start": 1138,
+        "end": 21012,
+        "type": "relation",
+        "properties": {
+          "name": "5000元",
+          "att5": "十日内"
+        }
+      },
+      {
+        "identity": 46353,
+        "start": 2277,
+        "end": 1099,
+        "type": "relation",
+        "properties": {
+          "name": "发表",
+          "att1": "针对"
+        }
+      },
+      {
+        "identity": 8919,
+        "start": 1272,
+        "end": 2039,
+        "type": "relation",
+        "properties": {
+          "name": "10133.53元"
+        }
+      },
+      {
+        "identity": 6696,
+        "start": 1138,
+        "end": 2481,
+        "type": "relation",
+        "properties": {
+          "name": "支付",
+          "att5": "门诊"
+        }
+      },
+      {
+        "identity": 22179,
+        "start": 837,
+        "end": 837,
+        "type": "relation",
+        "properties": {
+          "name": "根据"
+        }
+      },
+      {
+        "identity": 2806,
+        "start": 841,
+        "end": 983,
+        "type": "relation",
+        "properties": {
+          "name": "证明"
+        }
+      },
+      {
+        "identity": 13250,
+        "start": 1138,
+        "end": 1099,
+        "type": "relation",
+        "properties": {
+          "name": "1635.10元",
+          "att6": "十日内"
+        }
+      },
+      {
+        "identity": 76022,
+        "start": 848,
+        "end": 4383,
+        "type": "relation",
+        "properties": {
+          "name": "由"
+        }
+      },
+      {
+        "identity": 782,
+        "start": 848,
+        "end": 840,
+        "type": "relation",
+        "properties": {
+          "name": "789元"
+        }
+      },
+      {
+        "identity": 14224,
+        "start": 2126,
+        "end": 1272,
+        "type": "relation",
+        "properties": {
+          "name": "至"
+        }
+      },
+      {
+        "identity": 1254,
+        "start": 790,
+        "end": 790,
+        "type": "relation",
+        "properties": {
+          "name": "予以"
+        }
+      },
+      {
+        "identity": 128911,
+        "start": 1039,
+        "end": 2039,
+        "type": "relation",
+        "properties": {
+          "name": "2650元"
+        }
+      },
+      {
+        "identity": 158573,
+        "start": 1039,
+        "end": 1039,
+        "type": "relation",
+        "properties": {
+          "name": "予以",
+          "att2": "根据",
+          "att5": "参照"
+        }
+      },
+      {
+        "identity": 54083,
+        "start": 2277,
+        "end": 983,
+        "type": "relation",
+        "properties": {
+          "name": "对"
+        }
+      },
+      {
+        "identity": 62586,
+        "start": 829,
+        "end": 790,
+        "type": "relation",
+        "properties": {
+          "name": "成立",
+          "att6": "不能"
+        }
+      },
+      {
+        "identity": 142046,
+        "start": 985,
+        "end": 848,
+        "type": "relation",
+        "properties": {
+          "name": "120元"
+        }
+      },
+      {
+        "identity": 2397,
+        "start": 790,
+        "end": 1081,
+        "type": "relation",
+        "properties": {
+          "name": "确定",
+          "att25": "根据"
+        }
+      },
+      {
+        "identity": 149960,
+        "start": 829,
+        "end": 841,
+        "type": "relation",
+        "properties": {
+          "name": "属于"
+        }
+      },
+      {
+        "identity": 16670,
+        "start": 1039,
+        "end": 841,
+        "type": "relation",
+        "properties": {
+          "name": "6750元",
+          "att14": "因"
+        }
+      },
+      {
+        "identity": 3786,
+        "start": 1039,
+        "end": 1272,
+        "type": "relation",
+        "properties": {
+          "name": "为"
+        }
+      },
+      {
+        "identity": 17984,
+        "start": 1099,
+        "end": 837,
+        "type": "relation",
+        "properties": {
+          "name": "根据"
+        }
+      },
+      {
+        "identity": 9659,
+        "start": 983,
+        "end": 841,
+        "type": "relation",
+        "properties": {
+          "name": "赔付",
+          "att2": "之",
+          "att3": "在"
+        }
+      },
+      {
+        "identity": 28002,
+        "start": 1039,
+        "end": 837,
+        "type": "relation",
+        "properties": {
+          "name": "符合",
+          "att1": "关于"
+        }
+      },
+      {
+        "identity": 8987,
+        "start": 1099,
+        "end": 2039,
+        "type": "relation",
+        "properties": {
+          "name": "650.5元"
+        }
+      },
+      {
+        "identity": 165736,
+        "start": 841,
+        "end": 845,
+        "type": "relation",
+        "properties": {
+          "name": "是"
+        }
+      },
+      {
+        "identity": 3684,
+        "start": 790,
+        "end": 837,
+        "type": "relation",
+        "properties": {
+          "name": "依据"
+        }
+      },
+      {
+        "identity": 143353,
+        "start": 827,
+        "end": 21012,
+        "type": "relation",
+        "properties": {
+          "name": "120103197409144856"
+        }
+      },
+      {
+        "identity": 22954,
+        "start": 848,
+        "end": 1272,
+        "type": "relation",
+        "properties": {
+          "name": "赔偿",
+          "att2": "之",
+          "att3": "一次性"
+        }
+      },
+      {
+        "identity": 155601,
+        "start": 4383,
+        "end": 2039,
+        "type": "relation",
+        "properties": {
+          "name": "赔偿",
+          "att9": "故"
+        }
+      },
+      {
+        "identity": 14226,
+        "start": 2126,
+        "end": 1039,
+        "type": "relation",
+        "properties": {
+          "name": "至"
+        }
+      },
+      {
+        "identity": 60334,
+        "start": 812,
+        "end": 1039,
+        "type": "relation",
+        "properties": {
+          "name": "认可"
+        }
+      },
+      {
+        "identity": 31271,
+        "start": 4383,
+        "end": 1138,
+        "type": "relation",
+        "properties": {
+          "name": "赔偿",
+          "att2": "之",
+          "att3": "在"
+        }
+      },
+      {
+        "identity": 9789,
+        "start": 827,
+        "end": 841,
+        "type": "relation",
+        "properties": {
+          "name": "与"
+        }
+      },
+      {
+        "identity": 9298,
+        "start": 983,
+        "end": 837,
+        "type": "relation",
+        "properties": {
+          "name": "符合"
+        }
+      },
+      {
+        "identity": 115778,
+        "start": 812,
+        "end": 1138,
+        "type": "relation",
+        "properties": {
+          "name": "就"
+        }
+      },
+      {
+        "identity": 6779,
+        "start": 1081,
+        "end": 837,
+        "type": "relation",
+        "properties": {
+          "name": "符合"
+        }
+      },
+      {
+        "identity": 124283,
+        "start": 18209,
+        "end": 848,
+        "type": "relation",
+        "properties": {
+          "name": "存"
+        }
+      },
+      {
+        "identity": 142045,
+        "start": 1138,
+        "end": 848,
+        "type": "relation",
+        "properties": {
+          "name": "9672.12元"
+        }
+      },
+      {
+        "identity": 10565,
+        "start": 2126,
+        "end": 1138,
+        "type": "relation",
+        "properties": {
+          "name": "垫付",
+          "att10": "已"
+        }
+      },
+      {
+        "identity": 8051,
+        "start": 841,
+        "end": 1099,
+        "type": "relation",
+        "properties": {
+          "name": "主张"
+        }
+      },
+      {
+        "identity": 7620,
+        "start": 790,
+        "end": 841,
+        "type": "relation",
+        "properties": {
+          "name": "认为",
+          "att11": "分析"
+        }
+      },
+      {
+        "identity": 45738,
+        "start": 1272,
+        "end": 837,
+        "type": "relation",
+        "properties": {
+          "name": "按照"
+        }
+      },
+      {
+        "identity": 143427,
+        "start": 841,
+        "end": 21012,
+        "type": "relation",
+        "properties": {
+          "name": "提供"
+        }
+      },
+      {
+        "identity": 86524,
+        "start": 1272,
+        "end": 812,
+        "type": "relation",
+        "properties": {
+          "name": "173064元"
+        }
+      },
+      {
+        "identity": 10308,
+        "start": 2126,
+        "end": 790,
+        "type": "relation",
+        "properties": {
+          "name": "600元"
+        }
+      },
+      {
+        "identity": 59113,
+        "start": 1099,
+        "end": 2277,
+        "type": "relation",
+        "properties": {
+          "name": "由"
+        }
+      },
+      {
+        "identity": 8924,
+        "start": 2039,
+        "end": 2126,
+        "type": "relation",
+        "properties": {
+          "name": "存"
+        }
+      },
+      {
+        "identity": 9581,
+        "start": 812,
+        "end": 790,
+        "type": "relation",
+        "properties": {
+          "name": "看",
+          "att1": "庭审"
+        }
+      },
+      {
+        "identity": 6697,
+        "start": 1138,
+        "end": 1081,
+        "type": "relation",
+        "properties": {
+          "name": "为"
+        }
+      },
+      {
+        "identity": 10320,
+        "start": 1272,
+        "end": 2126,
+        "type": "relation",
+        "properties": {
+          "name": "10868元"
+        }
+      },
+      {
+        "identity": 83297,
+        "start": 2277,
+        "end": 2126,
+        "type": "relation",
+        "properties": {
+          "名字": "刘高科",
+          "name": "损失",
+          "att16": "二",
+          "att21": "内在",
+          "att24": "车辆"
+        }
+      },
+      {
+        "identity": 29746,
+        "start": 985,
+        "end": 837,
+        "type": "relation",
+        "properties": {
+          "name": "按"
+        }
+      },
+      {
+        "identity": 82665,
+        "start": 848,
+        "end": 848,
+        "type": "relation",
+        "properties": {
+          "name": "563元"
+        }
+      },
+      {
+        "identity": 40756,
+        "start": 841,
+        "end": 812,
+        "type": "relation",
+        "properties": {
+          "name": "存在"
+        }
+      },
+      {
+        "identity": 781,
+        "start": 840,
+        "end": 848,
+        "type": "relation",
+        "properties": {}
+      },
+      {
+        "identity": 40082,
+        "start": 1081,
+        "end": 1039,
+        "type": "relation",
+        "properties": {
+          "name": "因"
+        }
+      },
+      {
+        "identity": 5603,
+        "start": 983,
+        "end": 2126,
+        "type": "relation",
+        "properties": {
+          "name": "为"
+        }
+      },
+      {
+        "identity": 50592,
+        "start": 1138,
+        "end": 2126,
+        "type": "relation",
+        "properties": {
+          "name": "2825.60元"
+        }
+      },
+      {
+        "identity": 11810,
+        "start": 1138,
+        "end": 983,
+        "type": "relation",
+        "properties": {
+          "name": "171970.4元"
+        }
+      },
+      {
+        "identity": 9540,
+        "start": 812,
+        "end": 812,
+        "type": "relation",
+        "properties": {
+          "name": "同意",
+          "att5": "是否"
+        }
+      },
+      {
+        "identity": 14389,
+        "start": 790,
+        "end": 983,
+        "type": "relation",
+        "properties": {
+          "name": "扩大",
+          "att8": "不"
+        }
+      },
+      {
+        "identity": 2488,
+        "start": 790,
+        "end": 1099,
+        "type": "relation",
+        "properties": {
+          "name": "计算",
+          "att8": "凭据",
+          "att7": "按照"
+        }
+      },
+      {
+        "identity": 1718,
+        "start": 790,
+        "end": 812,
+        "type": "relation",
+        "properties": {
+          "name": "依"
+        }
+      },
+      {
+        "identity": 142052,
+        "start": 983,
+        "end": 848,
+        "type": "relation",
+        "properties": {
+          "att40": "向",
+          "name": "主张"
+        }
+      },
+      {
+        "identity": 169005,
+        "start": 1081,
+        "end": 2277,
+        "type": "relation",
+        "properties": {
+          "name": "由"
+        }
+      },
+      {
+        "identity": 8764,
+        "start": 1081,
+        "end": 1272,
+        "type": "relation",
+        "properties": {
+          "name": "12000元"
+        }
+      },
+      {
+        "identity": 7479,
+        "start": 1081,
+        "end": 1099,
+        "type": "relation",
+        "properties": {
+          "name": "25854元"
+        }
+      },
+      {
+        "identity": 52356,
+        "start": 2277,
+        "end": 1272,
+        "type": "relation",
+        "properties": {
+          "name": "赔偿",
+          "att82": "2181.25元"
+        }
+      },
+      {
+        "identity": 26493,
+        "start": 1039,
+        "end": 790,
+        "type": "relation",
+        "properties": {
+          "name": "750元"
+        }
+      },
+      {
+        "identity": 61975,
+        "start": 841,
+        "end": 2481,
+        "type": "relation",
+        "properties": {
+          "name": "提交"
+        }
+      },
+      {
+        "identity": 126101,
+        "start": 2126,
+        "end": 2039,
+        "type": "relation",
+        "properties": {
+          "name": "46.10元"
+        }
+      },
+      {
+        "identity": 10319,
+        "start": 1081,
+        "end": 2126,
+        "type": "relation",
+        "properties": {
+          "name": "6600元"
+        }
+      },
+      {
+        "identity": 778,
+        "start": 840,
+        "end": 837,
+        "type": "relation",
+        "properties": {
+          "name": "依照"
+        }
+      },
+      {
+        "identity": 72934,
+        "start": 983,
+        "end": 2277,
+        "type": "relation",
+        "properties": {
+          "name": "由"
+        }
+      },
+      {
+        "identity": 22062,
+        "start": 985,
+        "end": 829,
+        "type": "relation",
+        "properties": {
+          "name": "3000元"
+        }
+      },
+      {
+        "identity": 40282,
+        "start": 4383,
+        "end": 983,
+        "type": "relation",
+        "properties": {
+          "name": "赔偿",
+          "att3": "日前"
+        }
+      },
+      {
+        "identity": 124285,
+        "start": 7261,
+        "end": 848,
+        "type": "relation",
+        "properties": {
+          "att19": "已",
+          "name": "给付"
+        }
+      },
+      {
+        "identity": 142044,
+        "start": 20809,
+        "end": 848,
+        "type": "relation",
+        "properties": {
+          "name": "给付",
+          "att17": "之"
+        }
+      },
+      {
+        "identity": 16364,
+        "start": 812,
+        "end": 845,
+        "type": "relation",
+        "properties": {
+          "name": "属"
+        }
+      },
+      {
+        "identity": 62239,
+        "start": 1039,
+        "end": 2126,
+        "type": "relation",
+        "properties": {
+          "name": "7550元"
+        }
+      },
+      {
+        "identity": 49419,
+        "start": 2481,
+        "end": 1138,
+        "type": "relation",
+        "properties": {
+          "name": "支出"
+        }
+      },
+      {
+        "identity": 10321,
+        "start": 1099,
+        "end": 2126,
+        "type": "relation",
+        "properties": {
+          "name": "28元"
+        }
+      },
+      {
+        "identity": 762,
+        "start": 840,
+        "end": 841,
+        "type": "relation",
+        "properties": {}
+      },
+      {
+        "identity": 4512,
+        "start": 841,
+        "end": 1272,
+        "type": "relation",
+        "properties": {
+          "name": "赔偿",
+          "att2": "在",
+          "att1": "关于"
+        }
+      },
+      {
+        "identity": 58582,
+        "start": 1138,
+        "end": 4383,
+        "type": "relation",
+        "properties": {
+          "name": "29967.26元",
+          "att4": "十日内"
+        }
+      },
+      {
+        "identity": 159311,
+        "start": 812,
+        "end": 2126,
+        "type": "relation",
+        "properties": {
+          "name": "对于"
+        }
+      },
+      {
+        "identity": 142050,
+        "start": 841,
+        "end": 848,
+        "type": "relation",
+        "properties": {
+          "name": "放弃"
+        }
+      },
+      {
+        "identity": 25411,
+        "start": 2126,
+        "end": 983,
+        "type": "relation",
+        "properties": {
+          "name": "造成",
+          "att3": "因"
+        }
+      },
+      {
+        "identity": 8570,
+        "start": 1272,
+        "end": 790,
+        "type": "relation",
+        "properties": {
+          "name": "为"
+        }
+      },
+      {
+        "identity": 9197,
+        "start": 985,
+        "end": 790,
+        "type": "relation",
+        "properties": {
+          "name": "1400元",
+          "att1": "其中"
+        }
+      },
+      {
+        "identity": 58584,
+        "start": 985,
+        "end": 4383,
+        "type": "relation",
+        "properties": {
+          "name": "3550元"
+        }
+      },
+      {
+        "identity": 4504,
+        "start": 841,
+        "end": 2039,
+        "type": "relation",
+        "properties": {
+          "name": "赔偿",
+          "att2": "在"
+        }
+      },
+      {
+        "identity": 157773,
+        "start": 827,
+        "end": 837,
+        "type": "relation",
+        "properties": {
+          "name": "按"
+        }
+      },
+      {
+        "identity": 124280,
+        "start": 1099,
+        "end": 848,
+        "type": "relation",
+        "properties": {
+          "name": "302.4元"
+        }
+      },
+      {
+        "identity": 100346,
+        "start": 983,
+        "end": 1272,
+        "type": "relation",
+        "properties": {
+          "name": "认定",
+          "att4": "如下"
+        }
+      },
+      {
+        "identity": 95298,
+        "start": 1099,
+        "end": 1039,
+        "type": "relation",
+        "properties": {
+          "name": "200元"
+        }
+      },
+      {
+        "identity": 2181,
+        "start": 1099,
+        "end": 841,
+        "type": "relation",
+        "properties": {
+          "name": "限于",
+          "att3": "只"
+        }
+      },
+      {
+        "identity": 18138,
+        "start": 1138,
+        "end": 1138,
+        "type": "relation",
+        "properties": {
+          "name": "赔付",
+          "att7": "由"
+        }
+      },
+      {
+        "identity": 33249,
+        "start": 790,
+        "end": 2126,
+        "type": "relation",
+        "properties": {
+          "name": "确认",
+          "att14": "为"
+        }
+      },
+      {
+        "identity": 1028,
+        "start": 985,
+        "end": 841,
+        "type": "relation",
+        "properties": {
+          "name": "关于"
+        }
+      },
+      {
+        "identity": 124983,
+        "start": 837,
+        "end": 790,
+        "type": "relation",
+        "properties": {
+          "name": "造成"
+        }
+      },
+      {
+        "identity": 3787,
+        "start": 1272,
+        "end": 1272,
+        "type": "relation",
+        "properties": {
+          "name": "2400元"
+        }
+      },
+      {
+        "identity": 143431,
+        "start": 1081,
+        "end": 21012,
+        "type": "relation",
+        "properties": {
+          "name": "为",
+          "att7": "应"
+        }
+      },
+      {
+        "identity": 73135,
+        "start": 983,
+        "end": 4383,
+        "type": "relation",
+        "properties": {
+          "name": "由"
+        }
+      },
+      {
+        "identity": 8922,
+        "start": 985,
+        "end": 2039,
+        "type": "relation",
+        "properties": {
+          "name": "2200元"
+        }
+      },
+      {
+        "identity": 11077,
+        "start": 1272,
+        "end": 1138,
+        "type": "relation",
+        "properties": {
+          "name": "赔偿",
+          "att4": "十日内"
+        }
+      },
+      {
+        "identity": 142042,
+        "start": 20808,
+        "end": 848,
+        "type": "relation",
+        "properties": {
+          "name": "到"
+        }
+      },
+      {
+        "identity": 8918,
+        "start": 1081,
+        "end": 2039,
+        "type": "relation",
+        "properties": {
+          "name": "10800元"
+        }
+      },
+      {
+        "identity": 9432,
+        "start": 2481,
+        "end": 1099,
+        "type": "relation",
+        "properties": {
+          "name": "赔偿",
+          "att7": "在"
+        }
+      },
+      {
+        "identity": 143448,
+        "start": 21012,
+        "end": 848,
+        "type": "relation",
+        "properties": {
+          "name": "收取",
+          "att2": "465元"
+        }
+      },
+      {
+        "identity": 43373,
+        "start": 4383,
+        "end": 1272,
+        "type": "relation",
+        "properties": {
+          "name": "赔偿",
+          "att14": "10182元",
+          "att11": "在",
+          "att2": "依照",
+          "att1": "关于"
+        }
+      },
+      {
+        "identity": 48740,
+        "start": 790,
+        "end": 7261,
+        "type": "relation",
+        "properties": {
+          "name": "支持",
+          "att8": "按照"
+        }
+      },
+      {
+        "identity": 127727,
+        "start": 2039,
+        "end": 1138,
+        "type": "relation",
+        "properties": {
+          "name": "投保",
+          "att4": "处"
+        }
+      },
+      {
+        "identity": 8573,
+        "start": 841,
+        "end": 2126,
+        "type": "relation",
+        "properties": {
+          "name": "存"
+        }
+      },
+      {
+        "identity": 54305,
+        "start": 1272,
+        "end": 7261,
+        "type": "relation",
+        "properties": {
+          "name": "为",
+          "att6": "应",
+          "att5": "故"
+        }
+      },
+      {
+        "identity": 1402,
+        "start": 1138,
+        "end": 837,
+        "type": "relation",
+        "properties": {
+          "name": "按照"
+        }
+      },
+      {
+        "identity": 11811,
+        "start": 1039,
+        "end": 983,
+        "type": "relation",
+        "properties": {
+          "name": "5450元"
+        }
+      },
+      {
+        "identity": 54545,
+        "start": 985,
+        "end": 2277,
+        "type": "relation",
+        "properties": {
+          "name": "由"
+        }
+      },
+      {
+        "identity": 14637,
+        "start": 2481,
+        "end": 841,
+        "type": "relation",
+        "properties": {
+          "name": "以"
+        }
+      },
+      {
+        "identity": 3074,
+        "start": 841,
+        "end": 1081,
+        "type": "relation",
+        "properties": {
+          "name": "主张"
+        }
+      },
+      {
+        "identity": 776,
+        "start": 840,
+        "end": 845,
+        "type": "relation",
+        "properties": {}
+      },
+      {
+        "identity": 3831,
+        "start": 1081,
+        "end": 983,
+        "type": "relation",
+        "properties": {
+          "name": "属"
+        }
+      },
+      {
+        "identity": 18645,
+        "start": 2039,
+        "end": 841,
+        "type": "relation",
+        "properties": {
+          "name": "8465元"
+        }
+      },
+      {
+        "identity": 3791,
+        "start": 1138,
+        "end": 1272,
+        "type": "relation",
+        "properties": {
+          "name": "7086.28元",
+          "att11": "十五日内"
+        }
+      },
+      {
+        "identity": 114963,
+        "start": 2039,
+        "end": 1099,
+        "type": "relation",
+        "properties": {
+          "name": "10670.24元"
+        }
+      },
+      {
+        "identity": 83289,
+        "start": 2039,
+        "end": 2277,
+        "type": "relation",
+        "properties": {
+          "name": "由"
+        }
+      },
+      {
+        "identity": 142043,
+        "start": 1039,
+        "end": 848,
+        "type": "relation",
+        "properties": {
+          "name": "1750元"
+        }
+      },
+      {
+        "identity": 45740,
+        "start": 2277,
+        "end": 790,
+        "type": "relation",
+        "properties": {
+          "name": "向"
+        }
+      },
+      {
+        "identity": 84461,
+        "start": 2481,
+        "end": 2481,
+        "type": "relation",
+        "properties": {
+          "name": "3元"
+        }
+      },
+      {
+        "identity": 10564,
+        "start": 2126,
+        "end": 841,
+        "type": "relation",
+        "properties": {
+          "name": "150元"
+        }
+      },
+      {
+        "identity": 124271,
+        "start": 18207,
+        "end": 841,
+        "type": "relation",
+        "properties": {
+          "name": "驾驶"
+        }
+      },
+      {
+        "identity": 40636,
+        "start": 790,
+        "end": 2039,
+        "type": "relation",
+        "properties": {
+          "name": "关于"
+        }
+      },
+      {
+        "identity": 86529,
+        "start": 812,
+        "end": 837,
+        "type": "relation",
+        "properties": {
+          "name": "依照"
+        }
+      },
+      {
+        "identity": 124287,
+        "start": 848,
+        "end": 18207,
+        "type": "relation",
+        "properties": {
+          "name": "由"
+        }
+      },
+      {
+        "identity": 8459,
+        "start": 1081,
+        "end": 790,
+        "type": "relation",
+        "properties": {
+          "name": "4800元"
+        }
+      },
+      {
+        "identity": 8664,
+        "start": 790,
+        "end": 1138,
+        "type": "relation",
+        "properties": {
+          "name": "赔偿"
+        }
+      },
+      {
+        "identity": 5510,
+        "start": 983,
+        "end": 1099,
+        "type": "relation",
+        "properties": {
+          "name": "判决",
+          "att1": "根据"
+        }
+      },
+      {
+        "identity": 124276,
+        "start": 790,
+        "end": 848,
+        "type": "relation",
+        "properties": {
+          "name": "1777.9元",
+          "att3": "以"
+        }
+      },
+      {
+        "identity": 20496,
+        "start": 2126,
+        "end": 985,
+        "type": "relation",
+        "properties": {
+          "name": "160元"
+        }
+      },
+      {
+        "identity": 174748,
+        "start": 1099,
+        "end": 24936,
+        "type": "relation",
+        "properties": {
+          "name": "30000元"
+        }
+      },
+      {
+        "identity": 143389,
+        "start": 21012,
+        "end": 983,
+        "type": "relation",
+        "properties": {
+          "name": "就"
+        }
+      },
+      {
+        "identity": 116403,
+        "start": 829,
+        "end": 812,
+        "type": "relation",
+        "properties": {
+          "name": "成立",
+          "att10": "依法"
+        }
+      },
+      {
+        "identity": 1412,
+        "start": 1081,
+        "end": 1081,
+        "type": "relation",
+        "properties": {
+          "name": "指"
+        }
+      },
+      {
+        "identity": 763,
+        "start": 841,
+        "end": 840,
+        "type": "relation",
+        "properties": {
+          "name": "安慧敏"
+        }
+      },
+      {
+        "identity": 30969,
+        "start": 2126,
+        "end": 1081,
+        "type": "relation",
+        "properties": {
+          "name": "130745元"
+        }
+      },
+      {
+        "identity": 143432,
+        "start": 1272,
+        "end": 21012,
+        "type": "relation",
+        "properties": {
+          "name": "9000元"
+        }
+      },
+      {
+        "identity": 142040,
+        "start": 812,
+        "end": 848,
+        "type": "relation",
+        "properties": {
+          "name": "自愿"
+        }
+      },
+      {
+        "identity": 7888,
+        "start": 1099,
+        "end": 985,
+        "type": "relation",
+        "properties": {
+          "name": "500元"
+        }
+      },
+      {
+        "identity": 5650,
+        "start": 812,
+        "end": 983,
+        "type": "relation",
+        "properties": {
+          "name": "对",
+          "att2": "依法"
+        }
+      },
+      {
+        "identity": 124278,
+        "start": 1081,
+        "end": 848,
+        "type": "relation",
+        "properties": {
+          "name": "9099元"
+        }
+      },
+      {
+        "identity": 114964,
+        "start": 2039,
+        "end": 4383,
+        "type": "relation",
+        "properties": {
+          "name": "由"
+        }
+      },
+      {
+        "identity": 174422,
+        "start": 790,
+        "end": 24936,
+        "type": "relation",
+        "properties": {
+          "name": "传唤",
+          "att4": "依法"
+        }
+      },
+      {
+        "identity": 142047,
+        "start": 2039,
+        "end": 848,
+        "type": "relation",
+        "properties": {
+          "name": "500元"
+        }
+      },
+      {
+        "identity": 115747,
+        "start": 2277,
+        "end": 1081,
+        "type": "relation",
+        "properties": {
+          "att37": "在",
+          "name": "赔偿",
+          "att36": "10日内",
+          "att1": "依照"
+        }
+      },
+      {
+        "identity": 9186,
+        "start": 1081,
+        "end": 841,
+        "type": "relation",
+        "properties": {
+          "name": "计算",
+          "att6": "至",
+          "att5": "且"
+        }
+      },
+      {
+        "identity": 108189,
+        "start": 1099,
+        "end": 4383,
+        "type": "relation",
+        "properties": {
+          "name": "由"
+        }
+      },
+      {
+        "identity": 6580,
+        "start": 1099,
+        "end": 1099,
+        "type": "relation",
+        "properties": {
+          "name": "对"
+        }
+      },
+      {
+        "identity": 2368,
+        "start": 841,
+        "end": 1138,
+        "type": "relation",
+        "properties": {
+          "att6": "根据",
+          "name": "确定",
+          "att9": "结合"
+        }
+      },
+      {
+        "identity": 86525,
+        "start": 1099,
+        "end": 812,
+        "type": "relation",
+        "properties": {
+          "name": "2188元",
+          "att35": "3000元",
+          "att34": "费"
+        }
+      },
+      {
+        "identity": 121398,
+        "start": 17790,
+        "end": 848,
+        "type": "relation",
+        "properties": {
+          "name": "收取",
+          "att9": "减半"
+        }
+      },
+      {
+        "identity": 142120,
+        "start": 20809,
+        "end": 837,
+        "type": "relation",
+        "properties": {
+          "name": "违反"
+        }
+      },
+      {
+        "identity": 174546,
+        "start": 24936,
+        "end": 837,
+        "type": "relation",
+        "properties": {
+          "name": "根据"
+        }
+      },
+      {
+        "identity": 10968,
+        "start": 2039,
+        "end": 837,
+        "type": "relation",
+        "properties": {
+          "name": "依据"
+        }
+      },
+      {
+        "identity": 89650,
+        "start": 985,
+        "end": 1272,
+        "type": "relation",
+        "properties": {
+          "name": "1400元"
+        }
+      },
+      {
+        "identity": 13661,
+        "start": 985,
+        "end": 1081,
+        "type": "relation",
+        "properties": {
+          "name": "900元"
+        }
+      },
+      {
+        "identity": 2638,
+        "start": 985,
+        "end": 985,
+        "type": "relation",
+        "properties": {
+          "name": "含"
+        }
+      },
+      {
+        "identity": 5683,
+        "start": 1099,
+        "end": 790,
+        "type": "relation",
+        "properties": {
+          "name": "至"
+        }
+      },
+      {
+        "identity": 50594,
+        "start": 985,
+        "end": 2126,
+        "type": "relation",
+        "properties": {
+          "name": "980元"
+        }
+      },
+      {
+        "identity": 9347,
+        "start": 1099,
+        "end": 1081,
+        "type": "relation",
+        "properties": {
+          "name": "赔偿"
+        }
+      },
+      {
+        "identity": 40615,
+        "start": 2039,
+        "end": 2039,
+        "type": "relation",
+        "properties": {
+          "name": "460元"
+        }
+      },
+      {
+        "identity": 7594,
+        "start": 1099,
+        "end": 1272,
+        "type": "relation",
+        "properties": {
+          "name": "500元"
+        }
+      },
+      {
+        "identity": 773,
+        "start": 841,
+        "end": 790,
+        "type": "relation",
+        "properties": {
+          "name": "向"
+        }
+      },
+      {
+        "identity": 125958,
+        "start": 1138,
+        "end": 2039,
+        "type": "relation",
+        "properties": {
+          "name": "876元",
+          "att6": "于",
+          "att7": "原告",
+          "att1": "在"
+        }
+      },
+      {
+        "identity": 8382,
+        "start": 790,
+        "end": 1272,
+        "type": "relation",
+        "properties": {
+          "name": "对"
+        }
+      },
+      {
+        "identity": 2182,
+        "start": 841,
+        "end": 841,
+        "type": "relation",
+        "properties": {
+          "name": "花费",
+          "att4": "因"
+        }
+      },
+      {
+        "identity": 86523,
+        "start": 1081,
+        "end": 812,
+        "type": "relation",
+        "properties": {
+          "name": "18900元"
+        }
+      },
+      {
+        "identity": 9178,
+        "start": 1138,
+        "end": 790,
+        "type": "relation",
+        "properties": {
+          "name": "24156.16元",
+          "att8": "故"
+        }
+      },
+      {
+        "identity": 7889,
+        "start": 1272,
+        "end": 985,
+        "type": "relation",
+        "properties": {
+          "name": "8640元"
+        }
+      },
+      {
+        "identity": 12031,
+        "start": 1138,
+        "end": 985,
+        "type": "relation",
+        "properties": {
+          "name": "167420.40元"
+        }
+      },
+      {
+        "identity": 27701,
+        "start": 2039,
+        "end": 983,
+        "type": "relation",
+        "properties": {
+          "name": "8100元"
+        }
+      },
+      {
+        "identity": 11737,
+        "start": 1272,
+        "end": 983,
+        "type": "relation",
+        "properties": {
+          "name": "34531.68元"
+        }
+      },
+      {
+        "identity": 7346,
+        "start": 1039,
+        "end": 985,
+        "type": "relation",
+        "properties": {
+          "name": "1750元"
+        }
+      },
+      {
+        "identity": 11812,
+        "start": 1099,
+        "end": 983,
+        "type": "relation",
+        "properties": {
+          "name": "200元"
+        }
+      },
+      {
+        "identity": 767,
+        "start": 828,
+        "end": 840,
+        "type": "relation",
+        "properties": {
+          "name": "女"
+        }
+      },
+      {
+        "identity": 45737,
+        "start": 1272,
+        "end": 1039,
+        "type": "relation",
+        "properties": {
+          "name": "赔偿",
+          "att20": "按照"
+        }
+      },
+      {
+        "identity": 4508,
+        "start": 841,
+        "end": 985,
+        "type": "relation",
+        "properties": {
+          "name": "赔偿",
+          "att3": "在"
+        }
+      },
+      {
+        "identity": 154791,
+        "start": 985,
+        "end": 7261,
+        "type": "relation",
+        "properties": {
+          "name": "计"
+        }
+      },
+      {
+        "identity": 768,
+        "start": 829,
+        "end": 840,
+        "type": "relation",
+        "properties": {
+          "name": "男"
+        }
+      },
+      {
+        "identity": 146070,
+        "start": 983,
+        "end": 1039,
+        "type": "relation",
+        "properties": {
+          "name": "为"
+        }
+      },
+      {
+        "identity": 30785,
+        "start": 1039,
+        "end": 1138,
+        "type": "relation",
+        "properties": {
+          "name": "除"
+        }
+      },
+      {
+        "identity": 3668,
+        "start": 983,
+        "end": 790,
+        "type": "relation",
+        "properties": {
+          "name": "提起诉讼",
+          "att1": "现",
+          "att4": "再次"
+        }
+      },
+      {
+        "identity": 9500,
+        "start": 812,
+        "end": 841,
+        "type": "relation",
+        "properties": {
+          "name": "有权"
+        }
+      },
+      {
+        "identity": 108181,
+        "start": 1039,
+        "end": 4383,
+        "type": "relation",
+        "properties": {
+          "name": "由"
+        }
+      },
+      {
+        "identity": 124321,
+        "start": 2277,
+        "end": 837,
+        "type": "relation",
+        "properties": {
+          "name": "按照"
+        }
+      },
+      {
+        "identity": 33101,
+        "start": 790,
+        "end": 985,
+        "type": "relation",
+        "properties": {
+          "name": "确认"
+        }
+      },
+      {
+        "identity": 124282,
+        "start": 18207,
+        "end": 848,
+        "type": "relation",
+        "properties": {
+          "name": "赔偿"
+        }
+      },
+      {
+        "identity": 766,
+        "start": 827,
+        "end": 840,
+        "type": "relation",
+        "properties": {
+          "name": "130703195103030341"
+        }
+      },
+      {
+        "identity": 59110,
+        "start": 1272,
+        "end": 2277,
+        "type": "relation",
+        "properties": {
+          "name": "由"
+        }
+      },
+      {
+        "identity": 143357,
+        "start": 790,
+        "end": 21012,
+        "type": "relation",
+        "properties": {
+          "att6": "依法",
+          "name": "适用",
+          "att5": "受理"
+        }
+      },
+      {
+        "identity": 46354,
+        "start": 985,
+        "end": 1099,
+        "type": "relation",
+        "properties": {
+          "name": "发表",
+          "att8": "不在",
+          "att11": "不",
+          "att12": "对"
+        }
+      },
+      {
+        "identity": 142048,
+        "start": 2481,
+        "end": 848,
+        "type": "relation",
+        "properties": {
+          "name": "6元"
+        }
+      },
+      {
+        "identity": 8461,
+        "start": 848,
+        "end": 790,
+        "type": "relation",
+        "properties": {
+          "name": "135元"
+        }
+      },
+      {
+        "identity": 40205,
+        "start": 2277,
+        "end": 1138,
+        "type": "relation",
+        "properties": {
+          "name": "赔偿",
+          "att5": "内向"
+        }
+      },
+      {
+        "identity": 12027,
+        "start": 1099,
+        "end": 1138,
+        "type": "relation",
+        "properties": {
+          "name": "赔偿",
+          "att2": "在"
+        }
+      },
+      {
+        "identity": 44462,
+        "start": 4383,
+        "end": 1099,
+        "type": "relation",
+        "properties": {
+          "name": "赔偿",
+          "att8": "在"
+        }
+      },
+      {
+        "identity": 44463,
+        "start": 4383,
+        "end": 841,
+        "type": "relation",
+        "properties": {
+          "name": "判决"
+        }
+      }
+    ],
+    "id": 2
+  }
+}

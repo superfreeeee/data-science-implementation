@@ -32,7 +32,12 @@
         </template>
         <a-button>推荐问题</a-button>
       </a-popover>
-      <a-input-search class="post_question" allow-clear @search="onSearch" />
+      <a-input-search
+        class="post_question"
+        allow-clear
+        v-model="input"
+        @search="onSearch"
+      />
     </div>
   </div>
 </template>
@@ -60,6 +65,7 @@ export default {
       ],
       show: false,
       show_l: false,
+      input: '',
     };
   },
   computed: {

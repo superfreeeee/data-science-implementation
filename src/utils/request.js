@@ -1,10 +1,11 @@
 import axios from 'axios';
+import { DEV_SERVER_HOST, PROD_SERVER_HOST } from '../common/config';
+
+const baseURL =
+  process.env.NODE_ENV === 'production' ? PROD_SERVER_HOST : DEV_SERVER_HOST;
 
 const request = axios.create({
-  baseURL:
-    process.env.NODE_ENV === 'production'
-      ? 'http://42.192.9.211:9090/coin'
-      : 'http://42.192.9.211:9090/coin',
+  baseURL,
   withCredentials: true,
   timeout: 30 * 1000, // 30s
 });
