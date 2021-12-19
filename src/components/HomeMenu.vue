@@ -1,17 +1,23 @@
 <template>
-  <a-menu theme="dark" :default-selected-keys="['1']" mode="inline">
+  <a-menu theme="dark" mode="inline" v-model="selectedKeys">
     <!-- 主页面 -->
-    <a-menu-item key="1" @click="menuChange(MenuItemKeys.HOME)">
+    <a-menu-item
+      :key="MenuItemKeys.HOME"
+      @click="menuChange(MenuItemKeys.HOME)"
+    >
       <a-icon type="pie-chart" />
       <span>主页</span>
     </a-menu-item>
     <!-- 语义搜索页面 -->
-    <a-menu-item key="2" @click="menuChange(MenuItemKeys.QA)">
+    <a-menu-item :key="MenuItemKeys.QA" @click="menuChange(MenuItemKeys.QA)">
       <a-icon type="bell" />
       <span>问答服务</span>
     </a-menu-item>
     <!-- 自动构建 -->
-    <a-menu-item key="5" @click="menuChange(MenuItemKeys.RECOMMEND)">
+    <a-menu-item
+      :key="MenuItemKeys.RECOMMEND"
+      @click="menuChange(MenuItemKeys.RECOMMEND)"
+    >
       <a-icon type="like" />
       <span>推荐服务</span>
     </a-menu-item>
@@ -69,7 +75,18 @@ export default {
   data() {
     return {
       MenuItemKeys,
+      selectedKeys: [MenuItemKeys.HOME],
     };
+  },
+  methods: {
+    switchMenuKey(item) {
+      this.selectedKeys = [item];
+    },
+  },
+  watch: {
+    selectedKeys() {
+      console.log('[HomeMenu] selectedKeys', this.selectedKeys);
+    },
   },
 };
 </script>

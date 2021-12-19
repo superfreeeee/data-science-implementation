@@ -3,7 +3,7 @@
     <!-- img -->
     <div class="img">
       <img src="../assets/word.png" alt="" />
-      <div class="title">{{ fileData.filename }}</div>
+      <div class="title">{{ fileData.name }}</div>
     </div>
     <!-- options -->
     <div class="options">
@@ -12,14 +12,14 @@
         title="构建图谱"
         iconType="branches"
         className="graph"
-        :action="() => buildGraph({ ...fileData })"
+        :action="() => buildGraph(fileData)"
       />
       <!-- dowload -->
       <IconWithTooltip
         title="下载案例"
         iconType="download"
         className="download"
-        :action="() => downloadRecommend({ ...fileData })"
+        :action="() => downloadRecommend(fileData)"
       />
     </div>
   </div>

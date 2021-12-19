@@ -24,21 +24,23 @@
             :auto-size="{ minRows: 6, maxRows: 6 }"
           ></a-textarea>
           <div style="text-align: right">
-            <!-- // TODO clear fake -->
-            <a-button @click="addFakeRec">addFake</a-button>
             <a-button @click="uploadText">上传</a-button>
           </div>
         </div>
       </div>
       <!-- 推荐列表 -->
-      <div class="answers">
-        <div class="answer-row" v-for="(answer, index) in answers" :key="index">
+      <div class="answers" ref="answers_ref">
+        <div
+          class="answer-row"
+          v-for="(answer, index) in recommendGraphs"
+          :key="index"
+        >
           <div class="input">
             <span class="subtitle">上传案例</span>
             <RecommendItem
               :fileData="answer.input"
-              :buildGraph="buildGraph"
-              :downloadRecommend="downloadRecommend"
+              :buildGraph="buildInputGraph"
+              :downloadRecommend="downloadInput"
             />
             <!-- {{ answer.input.filename }} -->
           </div>
@@ -50,7 +52,16 @@
               :columns="columns"
               :data-source="answer.recommendList"
             >
-              <a slot="name" slot-scope="filename">{{ filename }}</a>
+              <a slot="name" slot-scope="name">{{ name }}</a>
+              <div
+                class="file-table-keywords"
+                slot="keywords"
+                slot-scope="keywords"
+              >
+                <a-tag v-for="keyword in keywords" :key="keyword" color="red">
+                  {{ keyword }}
+                </a-tag>
+              </div>
               <div class="file-table-actions" slot="action" slot-scope="file">
                 <IconWithTooltip
                   title="构建图谱"
@@ -85,16 +96,28 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 import HomeHeader from '@/components/HomeHeader.vue';
 import RecommendItem from '@/components/RecommendItem.vue';
 import IconWithTooltip from '../components/IconWithTooltip.vue';
+import { autoScrollDown } from '@/utils/dom.js';
+import { downloadFile, downloadText } from '@/utils/download.js';
 
 const columns = [
   {
     title: '推荐案例',
-    dataIndex: 'filename',
-    key: 'filename',
+    dataIndex: 'name',
+    key: 'name',
     scopedSlots: { customRender: 'name' },
+    width: '50%',
+  },
+  {
+    title: '关键字',
+    dataIndex: 'keywords',
+    key: 'keywords',
+    scopedSlots: { customRender: 'keywords' },
+    width: '40%',
   },
   {
     title: 'Action',
@@ -110,6 +133,7 @@ export default {
     IconWithTooltip,
   },
   name: 'RecommendService',
+  props: ['createGraphFromFile', 'checkNewGraph'],
   data() {
     return {
       inputText: '',
@@ -117,74 +141,48 @@ export default {
       columns,
     };
   },
+  computed: {
+    ...mapGetters(['recommendGraphs']),
+  },
   methods: {
-    addFakeRec() {
-      this.answers.push({
-        input: {
-          filename: 'file.1234567890qwertyuioasdfghjkl',
-          file: '0000000000',
-        },
-        recommendList: [
-          {
-            key: 0,
-            filename: 'file1.doc',
-            file: '1111111111',
-          },
-          {
-            key: 1,
-            filename: 'file2.doc',
-            file: '2222222222222',
-          },
-          {
-            key: 2,
-            filename: 'file3.doc',
-            file: '33333333333333',
-          },
-          {
-            key: 3,
-            filename: 'file4.doc',
-            file: '44444444444',
-          },
-          {
-            key: 4,
-            filename: 'file1.doc',
-            file: '1111111111',
-          },
-          {
-            key: 5,
-            filename: 'file2.doc',
-            file: '2222222222222',
-          },
-          {
-            key: 6,
-            filename: 'file3.doc',
-            file: '33333333333333',
-          },
-          {
-            key: 7,
-            filename: 'file4.doc',
-            file: '44444444444',
-          },
-        ],
-      });
-    },
+    ...mapActions(['getRecommendFIles', 'getGraphByName']),
     beforeUpload(e) {
       console.log('[beforeUpload]', e);
       return true;
     },
-    uploadFile(e) {
-      const file = e.file;
-      console.log('[uploadFile]', file);
+    async uploadFile(e) {
+      const file = e.file.originFileObj;
+      console.log('[uploadFile] file', file);
+
+      await this.getRecommendFIles(file);
+
+      console.log('[uploadFile] recommendGraphs', this.recommendGraphs);
+
+      this.$nextTick(() => {
+        // console.log('[uploadFile] answers_ref', this.$refs.answers_ref);
+        autoScrollDown(this.$refs.answers_ref);
+      });
     },
     uploadText() {
       console.log(`[uploadText] text = ${this.inputText}`);
       this.inputText = '';
     },
-    buildGraph(fileData) {
+    buildInputGraph(fileData) {
+      console.log('[buildInputGraph]', fileData);
+      this.createGraphFromFile(fileData);
+    },
+    downloadInput(fileData) {
+      console.log('[downloadInput]', fileData);
+      downloadFile(fileData);
+    },
+    async buildGraph(fileData) {
       console.log('[buildGraph]', fileData);
+      await this.getGraphByName(fileData.name);
+      this.checkNewGraph();
     },
     downloadRecommend(fileData) {
       console.log('[downloadRecommend]', fileData);
+      downloadText(fileData.name, fileData.text);
     },
   },
 };
@@ -223,7 +221,7 @@ export default {
 }
 
 .answer-row .recommend-list {
-  width: 70%;
+  width: 80%;
   max-height: 400px;
   overflow: hidden;
 }
@@ -233,6 +231,12 @@ export default {
 }
 .answer-row .file-table-actions {
   display: flex;
+}
+
+.answer-row .file-table-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 12px;
 }
 
 .subtitle {

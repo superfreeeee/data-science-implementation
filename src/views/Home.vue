@@ -6,6 +6,7 @@
         <img src="../assets/Logo.jpg" width="60px" />
       </div>
       <HomeMenu
+        ref="home_menu_ref"
         :nodeList="nodeList"
         :menuChange="menuChange"
         :addGraph="addGraph"
@@ -58,7 +59,7 @@
                 margin-top: 20px;
               "
             >
-              <div class="inner-container" style="white-space: nowrap">
+              <div class="inner-container">
                 <!-- upload button -->
                 <a-upload
                   accept=".doc,.docx,text/plain"
@@ -73,26 +74,28 @@
                   </a-button>
                 </a-upload>
                 <!-- tabs -->
-                <div
-                  class="mytab"
-                  v-for="item in graphIndexList"
-                  :key="item"
-                  @click="changeGraph(item)"
-                  v-bind:class="{ active1: arrIndex.indexOf(item) > -1 }"
-                  style="align-items: center"
-                >
-                  <span
-                    class="tabTitle"
-                    v-bind:class="{ active2: arrIndex.indexOf(item) > -1 }"
-                    style="padding: 5px"
-                    >graph {{ graphIndexList.indexOf(item) }}</span
+                <div class="tabs" ref="home_main_tabs">
+                  <div
+                    class="mytab"
+                    v-for="item in graphIndexList"
+                    :key="item"
+                    @click="changeGraph(item)"
+                    :class="{ active1: isTabActive(item) }"
+                    style="align-items: center"
                   >
-                  <a-icon
-                    class="closeIcon"
-                    type="close"
-                    v-bind:class="{ active3: arrIndex.indexOf(item) > -1 }"
-                    @click="closeGraph(item)"
-                  />
+                    <span
+                      class="tabTitle"
+                      v-bind:class="{ active2: isTabActive(item) }"
+                      style="padding: 5px"
+                      >graph {{ graphIndexList.indexOf(item) }}</span
+                    >
+                    <a-icon
+                      class="closeIcon"
+                      type="close"
+                      v-bind:class="{ active3: isTabActive(item) }"
+                      @click="closeGraph(item)"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -280,7 +283,10 @@
       </a-layout-content>
       <!-- 自动构建页面 -->
       <a-layout-content v-show="isRecommend">
-        <RecommendService />
+        <RecommendService
+          :createGraphFromFile="createGraphFromFile"
+          :checkNewGraph="checkNewGraph"
+        />
       </a-layout-content>
       <a-layout-content v-show="isAutomaticBuilding">
         <AutomaticBuilding></AutomaticBuilding>
@@ -311,6 +317,7 @@ import HomeMenu from '@/components/HomeMenu';
 import QAService from '@/views/QAService';
 import RecommendService from '@/views/RecommendService';
 import { MenuItemKeys } from '@/common/config';
+import { autoScrollDown } from '@/utils/dom.js';
 
 export default {
   components: {
@@ -569,31 +576,36 @@ export default {
       }
     },
     async addGraph(item) {
-      this.isHome = true;
-      this.isQA = false;
-      this.isRecommend = false;
-      this.isAutomaticBuilding = false;
+      this.menuChange(MenuItemKeys.HOME);
       await this.getNewGraph(item);
-      this.arrIndex = [];
-      this.arrIndex.push(this.$store.getters.currentIndex);
-      console.log(this.arrIndex);
+      this.switchTab(this.$store.getters.currentIndex);
+      console.log('[addGraph] arrIndex', this.arrIndex);
       this.$refs.ref_CJS.getGraphList();
     },
-    async uploadFileToGraph(e) {
+    // 上传文件并创建图谱
+    uploadFileToGraph(e) {
       console.log('[uploadFileToGraph] e =', e);
       const file = e.file.originFileObj;
+      this.createGraphFromFile(file);
+    },
+    // 从文件创建新图谱
+    async createGraphFromFile(file) {
       if (file) {
+        if (!this.isHome) {
+          this.menuChange(MenuItemKeys.HOME);
+        }
         await this.getNewGraphByFile(file);
-        this.arrIndex = [];
-        this.arrIndex.push(this.$store.getters.currentIndex);
-        // this.$refs.ref_CJS.getGraphList();
+        this.switchTab(this.$store.getters.currentIndex);
+        this.$nextTick(() => {
+          autoScrollDown(this.$refs.home_main_tabs, true);
+        });
+        this.$refs.ref_CJS.getGraphList();
       }
     },
     async handleChangeS(value) {
       await this.getNewGraph(value);
-      this.arrIndex = [];
-      this.arrIndex.push(this.$store.getters.currentIndex);
-      console.log(this.arrIndex);
+      this.switchTab(this.$store.getters.currentIndex);
+      console.log('[handleChangeS] arrIndex', this.arrIndex);
       this.$refs.ref_CJS.getGraphList();
     },
     handleBlur() {
@@ -611,11 +623,22 @@ export default {
     },
     // 页面切换
     menuChange(item) {
+      console.log(`[menuChange] switch to ${item}`);
       this.isHome = item === MenuItemKeys.HOME;
       this.isQA = item === MenuItemKeys.QA;
       this.isRecommend = item === MenuItemKeys.RECOMMEND;
       this.isAutomaticBuilding = item === MenuItemKeys.AUTO_BUILDING;
-      console.log(`[menuChange] switch to ${item}`);
+      this.$refs.home_menu_ref.switchMenuKey(item);
+    },
+    checkNewGraph() {
+      this.menuChange(MenuItemKeys.HOME);
+      this.switchTab(this.$store.getters.currentIndex);
+      this.$nextTick(() => {
+        autoScrollDown(this.$refs.home_main_tabs, true);
+      });
+    },
+    switchTab(index) {
+      this.arrIndex = [index];
     },
     async getNodeList() {
       await getNodesListAPI()
@@ -652,8 +675,7 @@ export default {
         }
         var currentIndex = list[index];
         this.set_currentIndex(currentIndex);
-        this.arrIndex = [];
-        this.arrIndex.push(currentIndex);
+        this.switchTab(currentIndex);
         // 展示前一张图
         this.$refs.ref_CJS.getGraphList();
         // 图的数量减一
@@ -707,6 +729,9 @@ export default {
     },
     uploadFile() {
       this.set_uploadFormVisible(true);
+    },
+    isTabActive(item) {
+      return this.arrIndex.indexOf(item) > -1;
     },
   },
 };

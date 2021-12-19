@@ -4,7 +4,11 @@ import {
   removeGraphAPI,
   getGraphByNodeAPI,
 } from '../../api/api';
-import { fileToGraphAPI } from '../../api/graph';
+import {
+  fileToGraphAPI,
+  getGraphByNameAPI,
+  recommendFromFileAPI,
+} from '../../api/graph';
 import { transformGraphData } from '../../utils/transformer';
 
 const graph = {
@@ -15,6 +19,7 @@ const graph = {
     graphIndexList: [],
     allGraphList: [],
     isInitList: false,
+    recommendGraphs: [],
   },
   mutations: {
     set_currentIndex: function (state, data) {
@@ -34,6 +39,9 @@ const graph = {
     },
     set_getGraphByNodeId: function (state, data) {
       state.getGraphByNodeId = data;
+    },
+    set_recommendGraphs(state, newGraphs) {
+      state.recommendGraphs = [...state.recommendGraphs, newGraphs];
     },
   },
   actions: {
@@ -193,35 +201,80 @@ const graph = {
       isInitList[index] = isInit;
       commit('set_isInitList', isInitList);
     },
+    // 根据上传文件构建图谱
     async getNewGraphByFile({ commit }, file) {
-      let graph = {};
-      await fileToGraphAPI(file)
-        .then((res) => {
-          graph = res.content;
-        })
-        .catch((err) => {
-          console.log(`[getNewGraphByFile] fail`, err);
-        });
-      console.log('[getNewGraphByFile] get graph', graph);
+      try {
+        const { content: graph } = await fileToGraphAPI(file);
+        console.log('[getNewGraphByFile] get graph', graph);
 
-      const { graphList, isInit, index } = transformGraphData(graph);
+        const { graphList, isInit, index } = transformGraphData(graph);
 
-      console.log('[getNewGraphByFile] graphList =', graphList);
+        console.log('[getNewGraphByFile] graphList =', graphList);
 
-      const { allGraphList, graphNumber, graphIndexList, isInitList } =
-        this.getters;
-      // 将新图添加到allGraphList
-      allGraphList[index] = graphList;
-      commit('set_allGraphList', allGraphList);
-      // 图总数加一
-      commit('set_graphNumber', graphNumber + 1);
-      // 图的index添加到graphIndexList
-      commit('set_graphIndexList', [...graphIndexList, index]);
-      // 当前展示图的index为新图的index
-      commit('set_currentIndex', index);
-      // 把是否保存布局的存入isInitList
-      isInitList[index] = isInit;
-      commit('set_isInitList', isInitList);
+        const { allGraphList, graphNumber, graphIndexList, isInitList } =
+          this.getters;
+        // 将新图添加到allGraphList
+        allGraphList[index] = graphList;
+        commit('set_allGraphList', allGraphList);
+        // 图总数加一
+        commit('set_graphNumber', graphNumber + 1);
+        // 图的index添加到graphIndexList
+        commit('set_graphIndexList', [...graphIndexList, index]);
+        // 当前展示图的index为新图的index
+        commit('set_currentIndex', index);
+        // 把是否保存布局的存入isInitList
+        isInitList[index] = isInit;
+        commit('set_isInitList', isInitList);
+      } catch (e) {
+        console.log(`[getNewGraphByFile] fail`, e);
+      }
+    },
+    // 获取上传文件推荐案例
+    async getRecommendFIles({ commit }, file) {
+      try {
+        const res = await recommendFromFileAPI(file);
+        console.log('[getRecommendFIles] res', res);
+        if (!res.success) {
+          throw new Error(res);
+        }
+
+        const newGraphs = {
+          input: file,
+          recommendList: [...res.content],
+        };
+
+        commit('set_recommendGraphs', newGraphs);
+      } catch (e) {
+        console.log('[getRecommendFIles] fail', e);
+      }
+    },
+    // 根据推荐案例文件名构建图谱
+    async getGraphByName({ commit }, graphName) {
+      try {
+        const { content: graph } = await getGraphByNameAPI(graphName);
+        console.log('[getGraphByName] get graph', graph);
+
+        const { graphList, isInit, index } = transformGraphData(graph);
+
+        console.log('[getGraphByName] graphList =', graphList);
+
+        const { allGraphList, graphNumber, graphIndexList, isInitList } =
+          this.getters;
+        // 将新图添加到allGraphList
+        allGraphList[index] = graphList;
+        commit('set_allGraphList', allGraphList);
+        // 图总数加一
+        commit('set_graphNumber', graphNumber + 1);
+        // 图的index添加到graphIndexList
+        commit('set_graphIndexList', [...graphIndexList, index]);
+        // 当前展示图的index为新图的index
+        commit('set_currentIndex', index);
+        // 把是否保存布局的存入isInitList
+        isInitList[index] = isInit;
+        commit('set_isInitList', isInitList);
+      } catch (e) {
+        console.log(`[getGraphByName] fail`, e);
+      }
     },
   },
 };

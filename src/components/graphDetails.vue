@@ -82,7 +82,10 @@ export default {
     ...mapActions(['getGraphDetailsList']),
     onClose() {
       this.set_graphDetailsVisible(false);
-      console.log(this.graphDetailsList);
+      console.log(
+        '[GraphDetails.onClose] graphDetailsList',
+        this.graphDetailsList
+      );
     },
     handleInfiniteOnload() {},
   },

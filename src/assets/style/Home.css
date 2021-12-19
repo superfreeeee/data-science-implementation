@@ -126,8 +126,18 @@ a {
   /* margin-right: 2px; */
 }
 .inner-container {
+  display: flex;
+  width: 100%;
+  white-space: nowrap;
   transition: transform 0.3s ease-in-out,
     box-shadow 0.3s cubic-bezier(0.47, 0, 0.745, 0.715), border 0.3s linear 0.1s;
+}
+.inner-container .tabs {
+  flex: 1;
+  overflow-x: auto;
+}
+.inner-container .tabs::-webkit-scrollbar {
+  display: none;
 }
 .inner-container :hover {
   -webkit-transform: translateY(-3px);
@@ -144,9 +154,6 @@ a {
 .tabTitle :hover {
   transition: transform 0.3s ease-in-out,
     box-shadow 0.3s cubic-bezier(0.47, 0, 0.745, 0.715), border 0.3s linear 0.1s;
-}
-.upload-btn:hover {
-  transform: unset;
 }
 .active1 {
   background-color: #7d91b2;
