@@ -4,20 +4,35 @@
     <div class="main">
       <!-- 上传列表 -->
       <div class="input-bar">
+        <!-- 列表为空 -->
+        <a-upload-dragger
+          v-if="recommendGraphs.length === 0"
+          accept=".doc,.docx,text/plain"
+          class="upload-file-container"
+          :customRequest="() => {}"
+          :show-upload-list="false"
+          @change="uploadFile"
+        >
+          <div class="upload-file">
+            <a-icon type="plus" />
+            <div class="ant-upload-text">上传案例</div>
+          </div>
+        </a-upload-dragger>
+        <!-- 列表不为空 -->
         <a-upload
-          class="avatar-uploader"
+          v-else
           accept=".doc,.docx,text/plain"
           :customRequest="() => {}"
-          :before-upload="beforeUpload"
           :show-upload-list="false"
           @change="uploadFile"
         >
           <a-button>
             <a-icon type="upload" />
-            上传案例
+            上传其他案例
           </a-button>
         </a-upload>
-        <div class="input-textarea">
+        <!-- // TODO no input textarea type -->
+        <div class="input-textarea" style="display: none">
           <a-textarea
             v-model="inputText"
             placeholder="输入司法案例内容"
@@ -48,7 +63,7 @@
           <div class="recommend-list">
             <a-table
               class="file-table"
-              :pagination="{ pageSize: 5 }"
+              :pagination="{ pageSize: 3 }"
               :columns="columns"
               :data-source="answer.recommendList"
             >
@@ -146,10 +161,6 @@ export default {
   },
   methods: {
     ...mapActions(['getRecommendFIles', 'getGraphByName']),
-    beforeUpload(e) {
-      console.log('[beforeUpload]', e);
-      return true;
-    },
     async uploadFile(e) {
       const file = e.file.originFileObj;
       console.log('[uploadFile] file', file);
@@ -222,7 +233,6 @@ export default {
 
 .answer-row .recommend-list {
   width: 80%;
-  max-height: 400px;
   overflow: hidden;
 }
 
